@@ -1,0 +1,365 @@
+{
+  "generatedAt": "2026-05-21T09:25:07Z",
+  "sourceImpactGeneratedAt": "2026-05-21T09:25:07Z",
+  "summary": {
+    "affectedTopics": 0,
+    "affectedFacts": 0,
+    "affectedWorknets": 0
+  },
+  "topics": [
+    {
+      "key": "ardi",
+      "label": "Ardi",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "awp-skill",
+      "label": "AWP RootNet Skill",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "benchmark-testnet",
+      "label": "Benchmark Testnet",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "blog",
+      "label": "AWP Official Guides",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "community",
+      "label": "Community",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "dao",
+      "label": "AWP DAO",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "gov",
+      "label": "GovNet",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "kya",
+      "label": "KYA",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "mine",
+      "label": "Mine WorkNet",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "predict",
+      "label": "Predict WorkNet",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "protocol-core",
+      "label": "AWP Protocol Core",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "staking",
+      "label": "AWP Staking",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "tmr",
+      "label": "TMR",
+      "bucket": "topic",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    }
+  ],
+  "facts": [
+    {
+      "key": "ardi-skill-facts",
+      "label": "Ardi",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "awp-skill-ops",
+      "label": "AWP RootNet Skill",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "blog-facts",
+      "label": "Official Guides",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "community",
+      "label": "Community",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "dao-facts",
+      "label": "DAO Governance",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "gov-skill-facts",
+      "label": "GovNet",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "kya-skill-facts",
+      "label": "KYA",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "live-worknet-canonical",
+      "label": "Live WorkNet Canonical IDs",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "mine-aip",
+      "label": "Mine WorkNet",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "predict-aip",
+      "label": "Predict WorkNet",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "predict-skill-facts",
+      "label": "Predict Runtime",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "protocol-core",
+      "label": "Protocol Core",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "staking-facts",
+      "label": "Staking and AWP Power",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "testnet-facts",
+      "label": "Benchmark Testnet",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "tmr",
+      "label": "TMR",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    }
+  ],
+  "worknets": [
+    {
+      "key": "ardi",
+      "label": "Ardi",
+      "bucket": "worknet",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "community",
+      "label": "Community",
+      "bucket": "worknet",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "gov",
+      "label": "GovNet",
+      "bucket": "worknet",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "kya",
+      "label": "KYA",
+      "bucket": "worknet",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "mine",
+      "label": "Mine WorkNet",
+      "bucket": "worknet",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "predict",
+      "label": "Predict WorkNet",
+      "bucket": "worknet",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "tmr",
+      "label": "TMR",
+      "bucket": "worknet",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    }
+  ]
+}

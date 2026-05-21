@@ -1,0 +1,328 @@
+{
+  "generatedAt": "2026-05-21T10:13:39Z",
+  "officialWebSources": [
+    {
+      "key": "awp-home",
+      "name": "AWP home",
+      "url": "https://awp.pro/",
+      "kind": "protocol",
+      "trustTier": 1,
+      "summary": "Protocol entry point and quickstart."
+    },
+    {
+      "key": "awp-worknets",
+      "name": "AWP worknet directory",
+      "url": "https://awp.pro/worknet",
+      "kind": "directory",
+      "trustTier": 1,
+      "summary": "Public worknet list and high-level worknet descriptions."
+    },
+    {
+      "key": "awp-aip",
+      "name": "AWP AIP registry",
+      "url": "https://awp.pro/aip",
+      "kind": "directory",
+      "trustTier": 1,
+      "summary": "Public proposal index for worknet specs."
+    },
+    {
+      "key": "awp-whitepaper",
+      "name": "AWP whitepaper",
+      "url": "https://awp.pro/awp-whitepaper.pdf",
+      "kind": "paper",
+      "trustTier": 1,
+      "summary": "Canonical protocol paper for RootNet, WorkNet, emission, staking, and DAO mechanics."
+    },
+    {
+      "key": "awp-skill",
+      "name": "awp-core/awp-skill",
+      "url": "https://github.com/awp-core/awp-skill",
+      "kind": "skill",
+      "trustTier": 1,
+      "summary": "Protocol-official RootNet skill and JSON-RPC reference."
+    },
+    {
+      "key": "awp-skill-readme-raw",
+      "name": "awp-skill README raw",
+      "url": "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md",
+      "kind": "skill-doc",
+      "trustTier": 1,
+      "summary": "Raw upstream README suitable for workstation diffing and future refresh."
+    },
+    {
+      "key": "aip-001-raw",
+      "name": "AIP-001 Mine raw",
+      "url": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-001.md",
+      "kind": "aip",
+      "trustTier": 1,
+      "worknetKey": "mine",
+      "summary": "Mine WorkNet primary spec."
+    },
+    {
+      "key": "aip-002-raw",
+      "name": "AIP-002 Predict raw",
+      "url": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-002.md",
+      "kind": "aip",
+      "trustTier": 1,
+      "worknetKey": "predict",
+      "summary": "Predict WorkNet primary spec."
+    },
+    {
+      "key": "awp-live-query",
+      "name": "AWP live JSON-RPC",
+      "url": "https://api.awp.sh/v2",
+      "kind": "live-api",
+      "trustTier": 1,
+      "summary": "Official live JSON-RPC used to resolve current worknet IDs, skills URIs, and statuses."
+    },
+    {
+      "key": "minework-home",
+      "name": "Mine home",
+      "url": "https://minework.net/",
+      "kind": "worknet",
+      "trustTier": 1,
+      "worknetKey": "mine",
+      "summary": "Official Mine operator surface and dataset/economic summary."
+    },
+    {
+      "key": "mine-skill-raw",
+      "name": "Mine skill raw",
+      "url": "https://raw.githubusercontent.com/awp-worknet/mine-skill/main/SKILL.md",
+      "kind": "skill-doc",
+      "trustTier": 1,
+      "worknetKey": "mine",
+      "summary": "Raw official Mine skill spec."
+    },
+    {
+      "key": "agentpredict-home",
+      "name": "Predict home",
+      "url": "https://agentpredict.work/",
+      "kind": "worknet",
+      "trustTier": 1,
+      "worknetKey": "predict",
+      "summary": "Official Predict operator surface."
+    },
+    {
+      "key": "predict-skill-raw",
+      "name": "Predict skill raw",
+      "url": "https://raw.githubusercontent.com/awp-worknet/prediction-skill/main/SKILL.md",
+      "kind": "skill-doc",
+      "trustTier": 1,
+      "worknetKey": "predict",
+      "summary": "Raw official Predict skill spec."
+    },
+    {
+      "key": "awp-staking",
+      "name": "AWP staking",
+      "url": "https://awp.pro/staking",
+      "kind": "protocol-surface",
+      "trustTier": 1,
+      "summary": "Official staking surface for veAWP and AWP Power."
+    },
+    {
+      "key": "awp-dao",
+      "name": "AWP DAO",
+      "url": "https://awp.pro/dao",
+      "kind": "protocol-surface",
+      "trustTier": 1,
+      "summary": "Official governance surface for proposals and veAWP voting."
+    },
+    {
+      "key": "awp-testnet",
+      "name": "AWP testnet benchmark",
+      "url": "https://awp.pro/testnet",
+      "kind": "worknet-surface",
+      "trustTier": 1,
+      "summary": "Official Benchmark testnet onboarding and activity checker."
+    },
+    {
+      "key": "awp-blog",
+      "name": "AWP blog",
+      "url": "https://awp.pro/blog",
+      "kind": "docs",
+      "trustTier": 1,
+      "summary": "Official updates, guides, and conceptual deep dives."
+    },
+    {
+      "key": "gov-works",
+      "name": "GovNet",
+      "url": "https://gov.works/",
+      "kind": "worknet",
+      "trustTier": 1,
+      "worknetKey": "gov",
+      "summary": "Official governance market page and gov skill reference."
+    },
+    {
+      "key": "gov-markets-api",
+      "name": "Gov markets API",
+      "url": "https://api.gov.works/v1/markets",
+      "kind": "live-api",
+      "trustTier": 1,
+      "worknetKey": "gov",
+      "summary": "Official live GovNet market feed listing current worknet share symbols and market phases."
+    },
+    {
+      "key": "gov-skill-raw",
+      "name": "Gov skill raw",
+      "url": "https://raw.githubusercontent.com/awp-worknet/gov-skill/main/SKILL.md",
+      "kind": "skill-doc",
+      "trustTier": 1,
+      "worknetKey": "gov",
+      "summary": "Raw official Gov skill spec."
+    },
+    {
+      "key": "ardinals-agents",
+      "name": "Ardi operator page",
+      "url": "https://www.ardinals.com/agents",
+      "kind": "worknet",
+      "trustTier": 1,
+      "worknetKey": "ardi",
+      "summary": "Official Ardi agent onboarding page."
+    },
+    {
+      "key": "ardi-skill-raw",
+      "name": "Ardi skill raw",
+      "url": "https://raw.githubusercontent.com/awp-worknet/ardi-skill/main/SKILL.md",
+      "kind": "skill-doc",
+      "trustTier": 1,
+      "worknetKey": "ardi",
+      "summary": "Raw official Ardi skill spec."
+    },
+    {
+      "key": "kya-human",
+      "name": "KYA verify human",
+      "url": "https://kya.link/verify/human",
+      "kind": "service",
+      "trustTier": 1,
+      "worknetKey": "kya",
+      "summary": "Official KYA human verification and kya-skill reference."
+    },
+    {
+      "key": "kya-skill-raw",
+      "name": "KYA skill raw",
+      "url": "https://raw.githubusercontent.com/awp-worknet/kya-skill/main/SKILL.md",
+      "kind": "skill-doc",
+      "trustTier": 1,
+      "worknetKey": "kya",
+      "summary": "Raw official KYA skill spec."
+    },
+    {
+      "key": "tmr-skill",
+      "name": "TMR skill URI",
+      "url": "https://github.com/awp-worknet/tmr-skill",
+      "kind": "skill",
+      "trustTier": 1,
+      "worknetKey": "tmr",
+      "summary": "Official live skill URI currently returned for the TMR worknet."
+    },
+    {
+      "key": "community-skill",
+      "name": "Community skill URI",
+      "url": "https://github.com/awp-worknet/com-skill",
+      "kind": "skill",
+      "trustTier": 1,
+      "worknetKey": "community",
+      "summary": "Official live skill URI currently returned for the Community worknet."
+    }
+  ],
+  "localSources": [
+    {
+      "key": "awp-wallet",
+      "name": "awp-wallet",
+      "path": "/root/.nanobot/workspace/awp-wallet",
+      "upstream": "https://github.com/awp-core/awp-wallet",
+      "summary": "Local AWP wallet CLI clone.",
+      "important_files": [
+        "SKILL.md",
+        "README.md",
+        "docs/CLAUDE-WEB3-GUIDE.md",
+        "scripts/wallet-cli.js"
+      ],
+      "available": true,
+      "present_files": [
+        "/root/.nanobot/workspace/awp-wallet/SKILL.md",
+        "/root/.nanobot/workspace/awp-wallet/README.md",
+        "/root/.nanobot/workspace/awp-wallet/docs/CLAUDE-WEB3-GUIDE.md",
+        "/root/.nanobot/workspace/awp-wallet/scripts/wallet-cli.js"
+      ]
+    },
+    {
+      "key": "mine",
+      "name": "mine",
+      "path": "/root/.nanobot/workspace/mine",
+      "upstream": "https://minework.net/",
+      "summary": "Local Mine runtime and skill.",
+      "important_files": [
+        "SKILL.md",
+        "README.md",
+        "references/protocol-miner.md",
+        "scripts/run_tool.py"
+      ],
+      "available": true,
+      "present_files": [
+        "/root/.nanobot/workspace/mine/SKILL.md",
+        "/root/.nanobot/workspace/mine/README.md",
+        "/root/.nanobot/workspace/mine/references/protocol-miner.md",
+        "/root/.nanobot/workspace/mine/scripts/run_tool.py"
+      ]
+    },
+    {
+      "key": "kya",
+      "name": "kya-skill",
+      "path": "/root/.nanobot/workspace/kya-skill",
+      "upstream": "https://github.com/awp-worknet/kya-skill",
+      "summary": "Local KYA skill clone.",
+      "important_files": [
+        "SKILL.md",
+        "README.md",
+        "scripts/kya_lib.py",
+        "scripts/relay-set-recipient.py"
+      ],
+      "available": true,
+      "present_files": [
+        "/root/.nanobot/workspace/kya-skill/SKILL.md",
+        "/root/.nanobot/workspace/kya-skill/README.md",
+        "/root/.nanobot/workspace/kya-skill/scripts/kya_lib.py",
+        "/root/.nanobot/workspace/kya-skill/scripts/relay-set-recipient.py"
+      ]
+    },
+    {
+      "key": "awp-data",
+      "name": "awp-data",
+      "path": "/root/.nanobot/workspace/awp-data",
+      "upstream": "https://git.basevec.com/sp-demand/awp-data.git",
+      "summary": "Local AWP data workspace with limited docs.",
+      "important_files": [
+        "README.md"
+      ],
+      "available": true,
+      "present_files": [
+        "/root/.nanobot/workspace/awp-data/README.md"
+      ]
+    }
+  ],
+  "localSourceKeys": [
+    "awp-wallet",
+    "mine",
+    "kya",
+    "awp-data"
+  ],
+  "missingLocalSources": [],
+  "sourceCoverage": {
+    "officialSourceCount": 26,
+    "localSourceCount": 4,
+    "worknetProfiles": [
+      "mine",
+      "predict",
+      "kya",
+      "ardi",
+      "gov",
+      "tmr",
+      "community"
+    ]
+  },
+  "knownGaps": [
+    "Some official worknet skills are installed locally but currently only expose license or metadata files: TMR, Community.",
+    "Some official worknet skills are discoverable via live API but still sparse as public operator docs or raw SKILL snapshots."
+  ]
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "AWP Workstation"
+  short_description: "Run AWP from one plain-language control surface."
+  default_prompt: "Use $awp-workstation to preflight, scan, and run the best AWP work for me, or answer “开始 AWP” in plain language."
+
+policy:
+  allow_implicit_invocation: true

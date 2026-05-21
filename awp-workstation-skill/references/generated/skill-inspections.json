@@ -1,0 +1,1560 @@
+{
+  "generatedAt": "2026-05-21T10:13:57Z",
+  "inspections": [
+    {
+      "skillKey": "ardi",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/ardi",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 54,
+      "repositoryFilesSample": [
+        ".github/workflows/release.yml",
+        ".gitignore",
+        "Cargo.toml",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "install.sh",
+        "scripts/bootstrap.sh",
+        "scripts/smoke_test.sh",
+        "src/auth.rs",
+        "src/awp_register.rs",
+        "src/awp_rpc.rs",
+        "src/chain.rs",
+        "src/client.rs",
+        "src/cmd/auto_mine.rs",
+        "src/cmd/buy_and_stake.rs",
+        "src/cmd/claim.rs",
+        "src/cmd/commit.rs",
+        "src/cmd/commits.rs",
+        "src/cmd/context.rs"
+      ],
+      "substantiveFileCount": 52,
+      "scripts": [
+        "scripts/bootstrap.sh",
+        "scripts/smoke_test.sh"
+      ],
+      "scriptCount": 2,
+      "commandHints": [],
+      "manifestSummary": "Official Ardi runtime that owns preflight, stake guidance, context, commit/reveal/inscribe flow, and the Linux auto-mine bootstrap.",
+      "runtimeName": "ardi-agent",
+      "requiredBins": [
+        "ardi-agent",
+        "awp-wallet"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "ardi-agent": true,
+          "awp-wallet": true
+        },
+        "optional": {}
+      },
+      "env": [
+        "ARDI_COORDINATOR_URL",
+        "ARDI_BASE_RPC",
+        "AWP_WALLET_BIN",
+        "ARDI_DEBUG"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "bootstrap ardi-agent runtime",
+          "cwd": "/root/.awp-workstation/skills/checkouts/ardi",
+          "argv": [
+            "bash",
+            "./scripts/bootstrap.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "ardi status",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "ardi gas check",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "gas"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "ardi preflight",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "preflight"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        },
+        {
+          "label": "ardi stake guidance",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "stake"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "ardi status",
+          "argv": [
+            "ardi-agent",
+            "status"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "status": "ok",
+            "message": "Agent address     : 0x518fdf57793e54254817c7d49618675d4fa774c2\nBasescan          : https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2\nAWP registered    : yes\nBase ETH balance  : 0.000000 ETH\nCoordinator       : reachable\nStake state       : {\"agent\":\"0x518fdf57793e54254817c7d49618675d4fa774c2\",\"mintCount\":0,\"mints\":[],\"remainingMintCap\":5}",
+            "data": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "address_url": "https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "agent_state": {
+                "agent": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "mintCount": 0,
+                "mints": [],
+                "remainingMintCap": 5
+              },
+              "balance_eth": 0.0,
+              "coord_reachable": true,
+              "registered": true
+            },
+            "_internal": {
+              "next_action": "review",
+              "next_command": "ardi-agent preflight"
+            }
+          },
+          "text": "{\n  \"status\": \"ok\",\n  \"message\": \"Agent address     : 0x518fdf57793e54254817c7d49618675d4fa774c2\\nBasescan          : https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2\\nAWP registered    : yes\\nBase ETH balance  : 0.000000 ETH\\nCoordinator       : reachable\\nStake state       : {\\\"agent\\\":\\\"0x518fdf57793e54254817c7d49618675d4fa774c2\\\",\\\"mintCount\\\":0,\\\"mints\\\":[],\\\"remainingMintCap\\\":5}\",\n  \"data\": {\n    \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"address_url\": \"https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"agent_state\": {\n      \"agent\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n      \"mintCount\": 0,\n      \"mints\": [],\n      \"remainingMintCap\": 5\n    },\n    \"balance_eth\": 0.0,\n    \"coord_reachable\": true,\n    \"registered\": true\n  },\n  \"_internal\": {\n    \"next_action\": \"review\",\n    \"next_command\": \"ardi-agent preflight\"\n  }\n}\n[info]  status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2"
+        },
+        {
+          "label": "ardi gas check",
+          "argv": [
+            "ardi-agent",
+            "gas"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "status": "error",
+            "message": "Wallet:        0x518fdf57793e54254817c7d49618675d4fa774c2\nBase ETH:      0.000000 ETH\nFloor:         0.003000 ETH (commits refused below)\nRefill at:     0.010000 ETH\nRecommended:   0.0500 ETH initial fund\n\nPer-epoch worst case: ~0.0017 ETH (full 5 commits + 5 reveals + 5 mints @ 1 gwei)\nPer-epoch typical:    ~0.0003 ETH (1-2 commits, occasional mint)\n0.05 ETH typically lasts 5-10 days at 6min epochs (gas scales with the 5-commit cap, not riddle count).",
+            "data": {
+              "retryable": true,
+              "suggestion": "Send at least 0.0500 ETH to 0x518fdf57793e54254817c7d49618675d4fa774c2 on Base mainnet, then re-run `ardi-agent gas`."
+            },
+            "_internal": {
+              "next_action": "fund_gas",
+              "next_command": "Send 0.0500 ETH on Base mainnet to 0x518fdf57793e54254817c7d49618675d4fa774c2"
+            },
+            "error_code": "INSUFFICIENT_GAS",
+            "error_kind": "balance"
+          },
+          "text": "{\n  \"status\": \"error\",\n  \"message\": \"Wallet:        0x518fdf57793e54254817c7d49618675d4fa774c2\\nBase ETH:      0.000000 ETH\\nFloor:         0.003000 ETH (commits refused below)\\nRefill at:     0.010000 ETH\\nRecommended:   0.0500 ETH initial fund\\n\\nPer-epoch worst case: ~0.0017 ETH (full 5 commits + 5 reveals + 5 mints @ 1 gwei)\\nPer-epoch typical:    ~0.0003 ETH (1-2 commits, occasional mint)\\n0.05 ETH typically lasts 5-10 days at 6min epochs (gas scales with the 5-commit cap, not riddle count).\",\n  \"data\": {\n    \"retryable\": true,\n    \"suggestion\": \"Send at least 0.0500 ETH to 0x518fdf57793e54254817c7d49618675d4fa774c2 on Base mainnet, then re-run `ardi-agent gas`.\"\n  },\n  \"_internal\": {\n    \"next_action\": \"fund_gas\",\n    \"next_command\": \"Send 0.0500 ETH on Base mainnet to 0x518fdf57793e54254817c7d49618675d4fa774c2\"\n  },\n  \"error_code\": \"INSUFFICIENT_GAS\",\n  \"error_kind\": \"balance\"\n}"
+        },
+        {
+          "label": "ardi stake guidance",
+          "argv": [
+            "ardi-agent",
+            "stake"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "status": "error",
+            "message": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2\nThreshold (each path):  10000 AWP (source: chain)\nNo allocations found across known stakers.\nStatus:                 NOT ELIGIBLE\n\nPick a path (in order of recommendation):\n\n[A] \ud83d\udfe2 KYA delegated stake \u2014 easiest, no AWP needed\n    https://kya.link/\n    Tweet your agent address, KYA verifies on Twitter and sponsors\n    10000 AWP into worknet 845300000012. Wait 1-24h.\n\n[B] \ud83d\udfe2 One-click buy + auto-stake \u2014 for users with ETH\n    Recommended: top up ~0.01 ETH (\u2248 $30-40) to your agent, then run:\n        ardi-agent buy-and-stake\n    Skill quotes ETH\u2192USDC\u2192AWP on-chain (Uniswap V3 + Aerodrome),\n    then auto-locks into veAWP and allocates to your agent.\n    Your agent address: 0x518fdf57793e54254817c7d49618675d4fa774c2\n\n[C] \u26aa Manual self-stake \u2014 if you already hold AWP\n    https://awp.pro/staking\n    Connect wallet, lock >= 10000 AWP, allocate to:\n      agent: 0x518fdf57793e54254817c7d49618675d4fa774c2\n      worknetId: 845300000014 (Ardi)\n\nAfter staking, wait ~10s, then re-run: ardi-agent stake",
+            "data": {
+              "retryable": false,
+              "suggestion": "Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run."
+            },
+            "_internal": {
+              "next_action": "stake_required",
+              "next_command": "ardi-agent stake"
+            },
+            "error_code": "NOT_STAKED",
+            "error_kind": "stake",
+            "debug": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "all_allocations": [],
+              "ardi_worknet_id": "845300000014",
+              "awp_allocator_contract": "0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA",
+              "eligible": false,
+              "kya_worknet_id": "845300000012",
+              "min_stake_awp": 10000.0,
+              "ve_awp_contract": "0x0000b534C63D78212f1BDCc315165852793A00A8",
+              "via": null
+            }
+          },
+          "text": "{\n  \"status\": \"error\",\n  \"message\": \"Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2\\nThreshold (each path):  10000 AWP (source: chain)\\nNo allocations found across known stakers.\\nStatus:                 NOT ELIGIBLE\\n\\nPick a path (in order of recommendation):\\n\\n[A] \ud83d\udfe2 KYA delegated stake \u2014 easiest, no AWP needed\\n    https://kya.link/\\n    Tweet your agent address, KYA verifies on Twitter and sponsors\\n    10000 AWP into worknet 845300000012. Wait 1-24h.\\n\\n[B] \ud83d\udfe2 One-click buy + auto-stake \u2014 for users with ETH\\n    Recommended: top up ~0.01 ETH (\u2248 $30-40) to your agent, then run:\\n        ardi-agent buy-and-stake\\n    Skill quotes ETH\u2192USDC\u2192AWP on-chain (Uniswap V3 + Aerodrome),\\n    then auto-locks into veAWP and allocates to your agent.\\n    Your agent address: 0x518fdf57793e54254817c7d49618675d4fa774c2\\n\\n[C] \u26aa Manual self-stake \u2014 if you already hold AWP\\n    https://awp.pro/staking\\n    Connect wallet, lock >= 10000 AWP, allocate to:\\n      agent: 0x518fdf57793e54254817c7d49618675d4fa774c2\\n      worknetId: 845300000014 (Ardi)\\n\\nAfter staking, wait ~10s, then re-run: ardi-agent stake\",\n  \"data\": {\n    \"retryable\": false,\n    \"suggestion\": \"Reach the 10000 ...(truncated)"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "awp-skill",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/awp-skill",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 52,
+      "repositoryFilesSample": [
+        ".gitignore",
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "assets/banner.png",
+        "references/api-reference.md",
+        "references/commands-governance.md",
+        "references/commands-staking.md",
+        "references/commands-worknet.md",
+        "references/protocol.md",
+        "references/worknet-developer.md",
+        "scripts/__pycache__/awp_lib.cpython-39.pyc",
+        "scripts/awp-daemon.py",
+        "scripts/awp_lib.py",
+        "scripts/onchain-add-position.py",
+        "scripts/onchain-allocate.py",
+        "scripts/onchain-batch-withdraw.py",
+        "scripts/onchain-bind.py",
+        "scripts/onchain-claim.py"
+      ],
+      "substantiveFileCount": 50,
+      "scripts": [
+        "scripts/__pycache__/awp_lib.cpython-39.pyc",
+        "scripts/awp-daemon.py",
+        "scripts/awp_lib.py",
+        "scripts/onchain-add-position.py",
+        "scripts/onchain-allocate.py",
+        "scripts/onchain-batch-withdraw.py",
+        "scripts/onchain-bind.py",
+        "scripts/onchain-claim.py",
+        "scripts/onchain-deallocate-all.py",
+        "scripts/onchain-deallocate.py",
+        "scripts/onchain-deposit.py",
+        "scripts/onchain-onboard.py",
+        "scripts/onchain-partial-withdraw.py",
+        "scripts/onchain-propose.py",
+        "scripts/onchain-reallocate.py",
+        "scripts/onchain-register.py",
+        "scripts/onchain-stake.py",
+        "scripts/onchain-switch-worknet.py",
+        "scripts/onchain-unstake.py",
+        "scripts/onchain-vote.py",
+        "scripts/onchain-withdraw.py",
+        "scripts/onchain-worknet-lifecycle.py",
+        "scripts/onchain-worknet-metadata.py",
+        "scripts/onchain-worknet-update.py",
+        "scripts/preflight.py",
+        "scripts/query-dao.py",
+        "scripts/query-status.py",
+        "scripts/query-worknet.py",
+        "scripts/relay-allocate.py",
+        "scripts/relay-delegate.py",
+        "scripts/relay-onboard.py",
+        "scripts/relay-propose.py",
+        "scripts/relay-register-worknet.py",
+        "scripts/relay-signal-propose.py",
+        "scripts/relay-stake.py",
+        "scripts/relay-start.py",
+        "scripts/relay-unbind.py",
+        "scripts/relay-vote.py",
+        "scripts/wallet-raw-call.mjs"
+      ],
+      "scriptCount": 39,
+      "commandHints": [
+        "python3 scripts/awp-daemon.py --interval 300",
+        "python3 scripts/preflight.py",
+        "python3 scripts/query-status.py --address 0x1234...",
+        "python3 scripts/query-status.py --token $TOKEN",
+        "python3 scripts/query-worknet.py --worknet 1",
+        "python3 scripts/relay-onboard.py --token $TOKEN",
+        "python3 scripts/relay-onboard.py --token $TOKEN --amount 5000 --lock-days 90 --worknet 1",
+        "python3 scripts/relay-onboard.py --token $TOKEN --target <owner_address>",
+        "python3 scripts/onchain-onboard.py --token $TOKEN --amount 5000 --lock-days 90 --worknet 1",
+        "python3 scripts/relay-start.py --token $TOKEN --mode principal",
+        "python3 scripts/relay-start.py --token $TOKEN --mode agent --target <root_address>",
+        "python3 scripts/onchain-bind.py --token $TOKEN --unbind",
+        "python3 scripts/onchain-bind.py --token $TOKEN --target <root_address>",
+        "python3 scripts/relay-stake.py --token $TOKEN --amount 5000 --lock-days 90",
+        "python3 scripts/relay-stake.py --token $TOKEN --amount 5000 --lock-days 90 --agent <addr> --worknet 1",
+        "python3 scripts/onchain-stake.py --token $TOKEN --amount 5000 --lock-days 90 --agent <addr> --worknet 1",
+        "python3 scripts/onchain-deposit.py --token $TOKEN --amount 5000 --lock-days 90",
+        "python3 scripts/onchain-add-position.py --token $TOKEN --position 1 --amount 1000 --extend-days 30",
+        "python3 scripts/onchain-withdraw.py --token $TOKEN --position 1",
+        "python3 scripts/onchain-unstake.py --token $TOKEN"
+      ],
+      "manifestSummary": "Official RootNet runtime for registration, status, staking, allocation, and worknet queries.",
+      "runtimeName": "awp-skill python scripts",
+      "requiredBins": [
+        "python3",
+        "awp-wallet"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "python3": true,
+          "awp-wallet": true
+        },
+        "optional": {}
+      },
+      "env": [
+        "EVM_CHAIN"
+      ],
+      "bootstrapCommands": [],
+      "inspectionCommands": [
+        {
+          "label": "awp-skill preflight",
+          "cwd": "/root/.awp-workstation/skills/checkouts/awp-skill",
+          "argv": [
+            "python3",
+            "scripts/preflight.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "awp-skill query worknet 2",
+          "cwd": "/root/.awp-workstation/skills/checkouts/awp-skill",
+          "argv": [
+            "python3",
+            "scripts/query-worknet.py",
+            "--worknet",
+            "2"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "awp-skill preflight",
+          "argv": [
+            "python3",
+            "scripts/preflight.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/awp-skill",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "state": {
+              "walletInstalled": true,
+              "walletInitialized": true,
+              "walletUnlocked": true,
+              "walletAddress": "0x518FDf57793e54254817c7D49618675d4Fa774c2",
+              "registered": true,
+              "boundTo": null,
+              "recipient": null,
+              "hasStake": false,
+              "totalStaked": "0",
+              "hasAllocations": false,
+              "totalAllocated": "0",
+              "freeWorknetsAvailable": 6
+            },
+            "progress": "2/4",
+            "nextAction": "pick_worknet",
+            "nextCommand": "python3 scripts/query-worknet.py --worknet <WORKNET_ID>",
+            "message": "Registered. 6 free worknet(s) available \u2014 no staking needed to join.",
+            "freeWorknets": [
+              {
+                "worknetId": null,
+                "name": "AWP ARDI Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "AWP TMR Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "AWP KYA Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "AWP Community Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "Predict WorkNet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "Mine Worknet",
+                "hasSkill": true
+              }
+            ]
+          },
+          "text": "{\n  \"state\": {\n    \"walletInstalled\": true,\n    \"walletInitialized\": true,\n    \"walletUnlocked\": true,\n    \"walletAddress\": \"0x518FDf57793e54254817c7D49618675d4Fa774c2\",\n    \"registered\": true,\n    \"boundTo\": null,\n    \"recipient\": null,\n    \"hasStake\": false,\n    \"totalStaked\": \"0\",\n    \"hasAllocations\": false,\n    \"totalAllocated\": \"0\",\n    \"freeWorknetsAvailable\": 6\n  },\n  \"progress\": \"2/4\",\n  \"nextAction\": \"pick_worknet\",\n  \"nextCommand\": \"python3 scripts/query-worknet.py --worknet <WORKNET_ID>\",\n  \"message\": \"Registered. 6 free worknet(s) available \\u2014 no staking needed to join.\",\n  \"freeWorknets\": [\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP ARDI Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP TMR Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP KYA Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP Community Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"Predict WorkNet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"Mine Worknet\",\n      \"hasSkill\": true\n    }\n  ]\n}"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "awp-wallet",
+      "status": "ready",
+      "origin": "local-source",
+      "root": "/root/.nanobot/workspace/awp-wallet",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 16430,
+      "repositoryFilesSample": [
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "assets/banner.png",
+        "assets/default-chains.json",
+        "awp-wallet.skill",
+        "docs/CLAUDE-WEB3-GUIDE.md",
+        "install.sh",
+        "node_modules/.package-lock.json",
+        "node_modules/@adraffy/ens-normalize/LICENSE",
+        "node_modules/@adraffy/ens-normalize/README.md",
+        "node_modules/@adraffy/ens-normalize/dist/all.js",
+        "node_modules/@adraffy/ens-normalize/dist/all.min.js",
+        "node_modules/@adraffy/ens-normalize/dist/index-xnf.cjs",
+        "node_modules/@adraffy/ens-normalize/dist/index-xnf.min.js",
+        "node_modules/@adraffy/ens-normalize/dist/index-xnf.mjs",
+        "node_modules/@adraffy/ens-normalize/dist/index.cjs",
+        "node_modules/@adraffy/ens-normalize/dist/index.d.ts",
+        "node_modules/@adraffy/ens-normalize/dist/index.min.js"
+      ],
+      "substantiveFileCount": 16400,
+      "scripts": [
+        "scripts/lib/balance.js",
+        "scripts/lib/bundler.js",
+        "scripts/lib/chains.js",
+        "scripts/lib/direct-tx.js",
+        "scripts/lib/eip7702.js",
+        "scripts/lib/gasless-tx.js",
+        "scripts/lib/keystore.js",
+        "scripts/lib/paths.js",
+        "scripts/lib/paymaster.js",
+        "scripts/lib/session.js",
+        "scripts/lib/signing.js",
+        "scripts/lib/tx-logger.js",
+        "scripts/lib/tx-router.js",
+        "scripts/lib/tx-validator.js",
+        "scripts/wallet-cli.js"
+      ],
+      "scriptCount": 15,
+      "commandHints": [],
+      "manifestSummary": null,
+      "runtimeName": null,
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "community",
+      "status": "empty-official-repo",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/community",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 1,
+      "repositoryFilesSample": [
+        "LICENSE"
+      ],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "scriptCount": 0,
+      "commandHints": [],
+      "manifestSummary": "Official live Community skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+      "runtimeName": "com-skill",
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [
+        "The official checkout currently only contains license or metadata files, so there is no upstream runtime to bootstrap yet."
+      ],
+      "remediationCommands": [],
+      "warnings": [
+        "SKILL.md missing",
+        "managed skill has no script files",
+        "managed checkout currently only contains license or metadata files"
+      ]
+    },
+    {
+      "skillKey": "gov",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/gov",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 7200,
+      "repositoryFilesSample": [
+        ".gitignore",
+        ".venv/bin/Activate.ps1",
+        ".venv/bin/activate",
+        ".venv/bin/activate.csh",
+        ".venv/bin/activate.fish",
+        ".venv/bin/pip",
+        ".venv/bin/pip3",
+        ".venv/bin/pip3.9",
+        ".venv/bin/py.test",
+        ".venv/bin/pygmentize",
+        ".venv/bin/pytest",
+        ".venv/bin/python",
+        ".venv/bin/python3",
+        ".venv/bin/python3.9",
+        ".venv/bin/websockets",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/AES.py",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/AES.pyi",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/ARC2.py",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/ARC2.pyi",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/ARC4.py"
+      ],
+      "substantiveFileCount": 7144,
+      "scripts": [
+        "scripts/content/endorse.py",
+        "scripts/content/post-comment.py",
+        "scripts/content/post-report.py",
+        "scripts/helpers/countdown.py",
+        "scripts/helpers/show-receipt.py",
+        "scripts/helpers/what-can-i-do.py",
+        "scripts/lib/__init__.py",
+        "scripts/lib/__pycache__/__init__.cpython-39.pyc",
+        "scripts/lib/__pycache__/canonical.cpython-39.pyc",
+        "scripts/lib/__pycache__/govnet_lib.cpython-39.pyc",
+        "scripts/lib/__pycache__/nonce.cpython-39.pyc",
+        "scripts/lib/__pycache__/sign.cpython-39.pyc",
+        "scripts/lib/canonical.py",
+        "scripts/lib/govnet_lib.py",
+        "scripts/lib/nonce.py",
+        "scripts/lib/sign.py",
+        "scripts/lib/ws.py",
+        "scripts/positions/merge.py",
+        "scripts/positions/split.py",
+        "scripts/private/fills-list.py",
+        "scripts/private/managers.py",
+        "scripts/private/orders-get.py",
+        "scripts/private/orders-list.py",
+        "scripts/private/power.py",
+        "scripts/private/recipient.py",
+        "scripts/private/state.py",
+        "scripts/private/votes-mine.py",
+        "scripts/public/auth-info.py",
+        "scripts/public/auth-time.py",
+        "scripts/public/book.py",
+        "scripts/public/epochs.py",
+        "scripts/public/klines.py",
+        "scripts/public/leaderboard.py",
+        "scripts/public/markets.py",
+        "scripts/public/worknets.py",
+        "scripts/stream/watch-book.py",
+        "scripts/stream/watch-klines.py",
+        "scripts/stream/watch-phase.py",
+        "scripts/stream/watch-private.py",
+        "scripts/trade/cancel-all.py",
+        "scripts/trade/cancel-batch.py",
+        "scripts/trade/cancel-order.py",
+        "scripts/trade/submit-order.py",
+        "scripts/trade/synthesize.py",
+        "scripts/vote/submit-vote.py",
+        "scripts/vote/verify-proof.py"
+      ],
+      "scriptCount": 46,
+      "commandHints": [
+        "python3 scripts/public/markets.py",
+        "python3 scripts/public/book.py --market 6 --worknet 11",
+        "python3 scripts/private/state.py",
+        "python3 scripts/trade/submit-order.py --market 6 --worknet 11",
+        "python3 scripts/helpers/what-can-i-do.py"
+      ],
+      "manifestSummary": "Official GovNet runtime with public readers, signed reads, order entry, voting, and phase-aware helpers.",
+      "runtimeName": "gov-skill python scripts",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [
+        "awp-wallet"
+      ],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {
+          "awp-wallet": true
+        }
+      },
+      "env": [
+        "GOVNET_NONCE_DIR",
+        "GOVNET_API_BASE",
+        "GOVNET_WS_URL",
+        "GOVNET_VOTE_TYPED_DATA_VARIANT"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "create gov skill venv",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "python3",
+            "-m",
+            "venv",
+            ".venv"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        },
+        {
+          "label": "install gov skill deps",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            ".venv/bin/pip",
+            "install",
+            "eth-hash",
+            "eth-account",
+            "websockets",
+            "pytest"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "gov public markets",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/public/markets.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "gov phase-aware helper",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/helpers/what-can-i-do.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "gov private state",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/private/state.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "gov public markets",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/public/markets.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "items": [
+              {
+                "id": 2,
+                "name": "Pending Allocation \u00b7 2026-W20",
+                "description": "Next-week allocation, awaiting open.",
+                "voting_open_at": "2026-05-15T12:00:00Z",
+                "voting_close_at": "2026-05-18T12:00:00Z",
+                "trading_close_at": "2026-05-22T11:00:00Z",
+                "settled_at": null,
+                "status": "trading_only",
+                "total_gov_emission": "1000000.000000000000000000",
+                "epistemic_prior_strategy": "most_recent_market",
+                "created_by_principal": "0x0000000000000000000000000000000000000001",
+                "created_at": "2026-05-04T10:53:57.186602Z",
+                "worknets": [
+                  {
+                    "worknet_id": 0,
+                    "initial_price": "0.200000000000000000",
+                    "govnet": true,
+                    "position": 0
+                  },
+                  {
+                    "worknet_id": 1,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 1
+                  },
+                  {
+                    "worknet_id": 2,
+                    "initial_price": "0.400000000000000000",
+                    "govnet": false,
+                    "position": 2
+                  },
+                  {
+                    "worknet_id": 3,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 3
+                  },
+                  {
+                    "worknet_id": 4,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 4
+                  },
+                  {
+                    "worknet_id": 5,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 5
+                  },
+                  {
+                    "worknet_id": 6,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 6
+                  }
+                ]
+              },
+              {
+                "id": 1,
+                "name": "Genesis Allocation \u00b7 2026-W19",
+                "description": "First production allocation. Six worknets bid for the Gov-Token emission share.",
+                "voting_open_at": "2026-05-08T12:00:00Z",
+                "voting_close_at": "2026-05-10T12:00:00Z",
+                "trading_close_at": "2026-05-15T11:00:00Z",
+                "settled_at": "2026-05-18T05:00:50.182749Z",
+                "status": "completed",
+                "total_gov_emission": "1000000.000000000000000000",
+                "epistemic_prior_strategy": "per_market_clean_slate",
+                "created_by_principal": "0x0000000000000000000000000000000000000001",
+                "created_at": "2026-05-04T10:53:57.186602Z",
+                "worknets": [
+                  {
+                    "worknet_id": 0,
+                    "initial_price": "0.200000000000000000",
+                    "govnet": true,
+                    "position": 0
+                  },
+                  {
+                    "worknet_id": 1,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 1
+                  },
+                  {
+                    "worknet_id": 2,
+                    "initial_price": "0.400000000000000000",
+                    "govnet": false,
+                    "position": 2
+                  },
+                  {
+                    "worknet_id": 3,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 3
+                  },
+                  {
+                    "worknet_id": 4,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 4
+                  },
+                  {
+                    "worknet_id": 5,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 5
+                  },
+                  {
+                    "worknet_id": 6,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 6
+                  }
+                ]
+              }
+            ]
+          },
+          "text": "{\n  \"items\": [\n    {\n      \"id\": 2,\n      \"name\": \"Pending Allocation \\u00b7 2026-W20\",\n      \"description\": \"Next-week allocation, awaiting open.\",\n      \"voting_open_at\": \"2026-05-15T12:00:00Z\",\n      \"voting_close_at\": \"2026-05-18T12:00:00Z\",\n      \"trading_close_at\": \"2026-05-22T11:00:00Z\",\n      \"settled_at\": null,\n      \"status\": \"trading_only\",\n      \"total_gov_emission\": \"1000000.000000000000000000\",\n      \"epistemic_prior_strategy\": \"most_recent_market\",\n      \"created_by_principal\": \"0x0000000000000000000000000000000000000001\",\n      \"created_at\": \"2026-05-04T10:53:57.186602Z\",\n      \"worknets\": [\n        {\n          \"worknet_id\": 0,\n          \"initial_price\": \"0.200000000000000000\",\n          \"govnet\": true,\n          \"position\": 0\n        },\n        {\n          \"worknet_id\": 1,\n          \"initial_price\": \"0.100000000000000000\",\n          \"govnet\": false,\n          \"position\": 1\n        },\n        {\n          \"worknet_id\": 2,\n          \"initial_price\": \"0.400000000000000000\",\n          \"govnet\": false,\n          \"position\": 2\n        },\n        {\n          \"worknet_id\": 3,\n          \"initial_price\": \"0.100000000000000000\",\n          \"govnet\": false,\n          \"position\":...(truncated)"
+        },
+        {
+          "label": "gov phase-aware helper",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/helpers/what-can-i-do.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "epoch_id": 2,
+            "phase": "trading_only",
+            "next_transition_at": null,
+            "available": [
+              {
+                "op": "list-markets",
+                "script": "scripts/public/markets.py"
+              },
+              {
+                "op": "list-worknets",
+                "script": "scripts/public/worknets.py"
+              },
+              {
+                "op": "read-book",
+                "script": "scripts/public/book.py"
+              },
+              {
+                "op": "read-klines",
+                "script": "scripts/public/klines.py"
+              },
+              {
+                "op": "read-private-state",
+                "script": "scripts/private/state.py"
+              },
+              {
+                "op": "submit-order",
+                "script": "scripts/trade/submit-order.py"
+              },
+              {
+                "op": "cancel-order",
+                "script": "scripts/trade/cancel-order.py"
+              },
+              {
+                "op": "split-position",
+                "script": "scripts/positions/split.py"
+              },
+              {
+                "op": "merge-position",
+                "script": "scripts/positions/merge.py"
+              },
+              {
+                "op": "post-comment",
+                "script": "scripts/content/post-comment.py"
+              },
+              {
+                "op": "post-report",
+                "script": "scripts/content/post-report.py"
+              },
+              {
+                "op": "endorse-comment",
+                "script": "scripts/content/endorse.py"
+              }
+            ],
+            "blocked": [
+              {
+                "op": "submit-vote",
+                "script": "scripts/vote/submit-vote.py",
+                "reason": "current phase is 'trading_only'"
+              },
+              {
+                "op": "read-settlement",
+                "script": "scripts/public/epochs.py results --id <ID>",
+                "reason": "current phase is 'trading_only'"
+              }
+            ]
+          },
+          "text": "{\n  \"epoch_id\": 2,\n  \"phase\": \"trading_only\",\n  \"next_transition_at\": null,\n  \"available\": [\n    {\n      \"op\": \"list-markets\",\n      \"script\": \"scripts/public/markets.py\"\n    },\n    {\n      \"op\": \"list-worknets\",\n      \"script\": \"scripts/public/worknets.py\"\n    },\n    {\n      \"op\": \"read-book\",\n      \"script\": \"scripts/public/book.py\"\n    },\n    {\n      \"op\": \"read-klines\",\n      \"script\": \"scripts/public/klines.py\"\n    },\n    {\n      \"op\": \"read-private-state\",\n      \"script\": \"scripts/private/state.py\"\n    },\n    {\n      \"op\": \"submit-order\",\n      \"script\": \"scripts/trade/submit-order.py\"\n    },\n    {\n      \"op\": \"cancel-order\",\n      \"script\": \"scripts/trade/cancel-order.py\"\n    },\n    {\n      \"op\": \"split-position\",\n      \"script\": \"scripts/positions/split.py\"\n    },\n    {\n      \"op\": \"merge-position\",\n      \"script\": \"scripts/positions/merge.py\"\n    },\n    {\n      \"op\": \"post-comment\",\n      \"script\": \"scripts/content/post-comment.py\"\n    },\n    {\n      \"op\": \"post-report\",\n      \"script\": \"scripts/content/post-report.py\"\n    },\n    {\n      \"op\": \"endorse-comment\",\n      \"script\": \"scripts/content/endorse.py\"\n    }\n  ],\n  \"blocked\": [\n    {\n      \"op\": \"submit-vote\",\n      \"s...(truncated)"
+        },
+        {
+          "label": "gov private state",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/private/state.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "ok": false,
+          "code": 1,
+          "result": {
+            "error": "STATE_PRINCIPAL_NOT_IN_EPOCH",
+            "title": "Principal has no AWP Power this epoch",
+            "detail": "principal 0x518fdf57793e54254817c7d49618675d4fa774c2 has no AWP Power in epoch 2",
+            "status": 404
+          },
+          "text": "{\"error\": \"STATE_PRINCIPAL_NOT_IN_EPOCH\", \"title\": \"Principal has no AWP Power this epoch\", \"detail\": \"principal 0x518fdf57793e54254817c7d49618675d4fa774c2 has no AWP Power in epoch 2\", \"status\": 404}"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "auto inspection probe hit protocol state blockers: gov private state"
+      ]
+    },
+    {
+      "skillKey": "kya",
+      "status": "ready",
+      "origin": "local-source",
+      "root": "/root/.nanobot/workspace/kya-skill",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 16,
+      "repositoryFilesSample": [
+        ".gitattributes",
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "scripts/__pycache__/kya_lib.cpython-39.pyc",
+        "scripts/kya_lib.py",
+        "scripts/relay-grant-delegate.py",
+        "scripts/relay-set-recipient.py",
+        "scripts/sign-action.py",
+        "scripts/sign-claim.py",
+        "scripts/sign-email.py",
+        "scripts/sign-kyc.py",
+        "scripts/sign.py",
+        "scripts/test_kya_lib.py",
+        "scripts/test_sign_action.py"
+      ],
+      "substantiveFileCount": 13,
+      "scripts": [
+        "scripts/__pycache__/kya_lib.cpython-39.pyc",
+        "scripts/kya_lib.py",
+        "scripts/relay-grant-delegate.py",
+        "scripts/relay-set-recipient.py",
+        "scripts/sign-action.py",
+        "scripts/sign-claim.py",
+        "scripts/sign-email.py",
+        "scripts/sign-kyc.py",
+        "scripts/sign.py",
+        "scripts/test_kya_lib.py",
+        "scripts/test_sign_action.py"
+      ],
+      "scriptCount": 11,
+      "commandHints": [
+        "python3 scripts/sign-claim.py",
+        "python3 scripts/sign-kyc.py --owner 0xowner...",
+        "python3 scripts/sign-action.py",
+        "python3 scripts/sign.py --from-file typed.json",
+        "python3 scripts/sign.py --from-clipboard",
+        "python3 scripts/sign.py",
+        "python3 scripts/relay-set-recipient.py --worknet 845300000012",
+        "python3 scripts/relay-set-recipient.py --recipient 0xdeposit... --no-poll",
+        "python3 scripts/relay-set-recipient.py --worknet 845300000012 --amount 1000",
+        "python3 scripts/relay-grant-delegate.py",
+        "python3 scripts/sign-email.py",
+        "python3 scripts/sign-email.py --email me"
+      ],
+      "manifestSummary": "KYA identity and matchmaking runtime for claim, KYC, set-recipient, and grant-delegate signing flows.",
+      "runtimeName": "kya signing scripts",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [
+        "awp-wallet"
+      ],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {
+          "awp-wallet": true
+        }
+      },
+      "env": [
+        "KYA_API_BASE",
+        "KYA_KYC_BASE",
+        "KYA_CHAIN_ID",
+        "AWP_RELAY_BASE",
+        "BASE_RPC_URL"
+      ],
+      "bootstrapCommands": [],
+      "inspectionCommands": [
+        {
+          "label": "kya sign claim help",
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "argv": [
+            "python3",
+            "scripts/sign-claim.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "kya relay recipient help",
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "argv": [
+            "python3",
+            "scripts/relay-set-recipient.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "kya kyc help",
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "argv": [
+            "python3",
+            "scripts/sign-kyc.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "kya sign claim help",
+          "argv": [
+            "python3",
+            "scripts/sign-claim.py",
+            "--help"
+          ],
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "ok": true,
+          "code": 0,
+          "result": null,
+          "text": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID]\n                     [--api-base API_BASE] [--web-base WEB_BASE]\n                     [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll]\n                     [--poll-timeout POLL_TIMEOUT]\n\nRun the KYA Twitter claim machine half and hand the user a web link to publish\nthe tweet from.\n\noptional arguments:\n  -h, --help            show this help message and exit\n  --token TOKEN         awp-wallet session token. Optional: newer awp-wallet\n                        versions don't need it, and for older/locked wallets\n                        this skill will call `awp-wallet unlock`\n                        automatically. Set AWP_WALLET_TOKEN env var to reuse a\n                        token.\n  --chain-id CHAIN_ID   EVM chain id used in EIP-712 domain (default: 8453)\n  --api-base API_BASE   KYA API base URL (overrides env KYA_API_BASE)\n  --web-base WEB_BASE   KYA web base URL used to build the human-handoff link\n                        printed at the end of the flow (overrides env\n                        KYA_WEB_BASE; defaults to https://kya.link)\n  --agent AGENT         Override the agent address (default: read from awp-\n       ...(truncated)"
+        },
+        {
+          "label": "kya relay recipient help",
+          "argv": [
+            "python3",
+            "scripts/relay-set-recipient.py",
+            "--help"
+          ],
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "ok": true,
+          "code": 0,
+          "result": null,
+          "text": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID]\n                              [--api-base API_BASE] [--web-base WEB_BASE]\n                              [--agent AGENT] [--recipient RECIPIENT]\n                              [--worknet WORKNET] [--amount AMOUNT]\n                              [--deadline-seconds DEADLINE_SECONDS]\n                              [--no-poll] [--no-poll-staking]\n                              [--staking-poll-timeout STAKING_POLL_TIMEOUT]\n\nAWPRegistry.setRecipient \u2014 gasless relay flow + KYA delegated-staking request.\nTwo-stage flow for KYA's economic / delegated-staking pipeline: Stage 1 \u2014\npoint AWP rewards at the KYA deposit address (gasless via AWP relayer): 1.\nRead agent EOA from awp-wallet (or --agent override). 2. (optional) GET\n/v1/agents/:address/deposit-address to pick the recipient. 3. Read\nAWPRegistry.nonces(agent), build SetRecipient typed-data, sign. 4. POST\nsignature to AWP_RELAY_BASE/api/relay/set-recipient. 5. Poll relay status\nuntil confirmed (skippable with --no-poll). Stage 2 \u2014 tell KYA \"I want N AWP\nbacking my agent\" (only with --amount): 6. Sign KYA\nAction(delegated_staking_request). 7. POST /v1/services/staking/re...(truncated)"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "mine",
+      "status": "ready",
+      "origin": "local-source",
+      "root": "/root/.nanobot/workspace/mine",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 24118,
+      "repositoryFilesSample": [
+        ".env.example",
+        ".github/workflows/sync-to-release.yml",
+        ".gitignore",
+        ".skillignore",
+        ".venv/bin/Activate.ps1",
+        ".venv/bin/activate",
+        ".venv/bin/activate.csh",
+        ".venv/bin/activate.fish",
+        ".venv/bin/alphashape",
+        ".venv/bin/camoufox",
+        ".venv/bin/chardetect",
+        ".venv/bin/crawl4ai-doctor",
+        ".venv/bin/crawl4ai-download-models",
+        ".venv/bin/crawl4ai-migrate",
+        ".venv/bin/crawl4ai-setup",
+        ".venv/bin/crwl",
+        ".venv/bin/distro",
+        ".venv/bin/dotenv",
+        ".venv/bin/f2py",
+        ".venv/bin/hf"
+      ],
+      "substantiveFileCount": 23981,
+      "scripts": [
+        "scripts/__pycache__/agent_runtime.cpython-311.pyc",
+        "scripts/__pycache__/auth_orchestrator.cpython-311.pyc",
+        "scripts/__pycache__/background_worker.cpython-311.pyc",
+        "scripts/__pycache__/canonicalize.cpython-311.pyc",
+        "scripts/__pycache__/common.cpython-311.pyc",
+        "scripts/__pycache__/common.cpython-39.pyc",
+        "scripts/__pycache__/crawl_mode_planner.cpython-311.pyc",
+        "scripts/__pycache__/eip712_primitives.cpython-311.pyc",
+        "scripts/__pycache__/host_diagnostics.cpython-311.pyc",
+        "scripts/__pycache__/install_guidance.cpython-311.pyc",
+        "scripts/__pycache__/install_guidance.cpython-39.pyc",
+        "scripts/__pycache__/mine_gateway.cpython-311.pyc",
+        "scripts/__pycache__/pow_solver.cpython-311.pyc",
+        "scripts/__pycache__/run_artifacts.cpython-311.pyc",
+        "scripts/__pycache__/run_models.cpython-311.pyc",
+        "scripts/__pycache__/secret_refs.cpython-311.pyc",
+        "scripts/__pycache__/secret_refs.cpython-39.pyc",
+        "scripts/__pycache__/signer.cpython-311.pyc",
+        "scripts/__pycache__/skill_runtime.cpython-311.pyc",
+        "scripts/__pycache__/task_sources.cpython-311.pyc",
+        "scripts/__pycache__/worker_state.cpython-311.pyc",
+        "scripts/__pycache__/ws_client.cpython-311.pyc",
+        "scripts/agent_handoff_runner.py",
+        "scripts/agent_runtime.py",
+        "scripts/auth_orchestrator.py",
+        "scripts/background_worker.py",
+        "scripts/bootstrap.cmd",
+        "scripts/bootstrap.ps1",
+        "scripts/bootstrap.sh",
+        "scripts/canonicalize.py",
+        "scripts/common.py",
+        "scripts/crawl_mode_planner.py",
+        "scripts/eip712_primitives.py",
+        "scripts/evaluation_engine.py",
+        "scripts/host_diagnostics.py",
+        "scripts/init_agent.py",
+        "scripts/install_guidance.py",
+        "scripts/mine_gateway.py",
+        "scripts/mine_setup.py",
+        "scripts/openclaw_llm.py",
+        "scripts/pk_signer.py",
+        "scripts/post_install_check.py",
+        "scripts/pow_solver.py",
+        "scripts/run_artifacts.py",
+        "scripts/run_models.py",
+        "scripts/run_platform_matrix.py",
+        "scripts/run_tool.py",
+        "scripts/schema_tools.py",
+        "scripts/secret_refs.py",
+        "scripts/signer.py",
+        "scripts/skill_runtime.py",
+        "scripts/smoke_test.py",
+        "scripts/task_sources.py",
+        "scripts/validator_runtime.py",
+        "scripts/validator_worker.py",
+        "scripts/verify_env.py",
+        "scripts/worker_state.py",
+        "scripts/ws_client.py"
+      ],
+      "scriptCount": 58,
+      "commandHints": [],
+      "manifestSummary": "Local Mine runtime with worker status, control, and platform-mediated autonomous crawl/submit loops.",
+      "runtimeName": "mine run_tool runtime",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [
+        {
+          "label": "bootstrap mine runtime",
+          "cwd": "/root/.nanobot/workspace/mine",
+          "argv": [
+            "bash",
+            "./scripts/bootstrap.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "mine agent status",
+          "cwd": "/root/.nanobot/workspace/mine",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "mine control status",
+          "cwd": "/root/.nanobot/workspace/mine",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-control",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "mine agent status",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-status"
+          ],
+          "cwd": "/root/.nanobot/workspace/mine",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ready": true,
+            "state": "ready",
+            "user_message": "Mining environment is ready. You can start mining now.",
+            "user_actions": [
+              "Start mining",
+              "Check status"
+            ],
+            "_internal": {
+              "next_command": "python scripts/run_tool.py agent-start",
+              "action_map": {
+                "Start mining": "python scripts/run_tool.py agent-start",
+                "Check status": "python scripts/run_tool.py agent-control status"
+              }
+            }
+          },
+          "text": "{\n  \"ready\": true,\n  \"state\": \"ready\",\n  \"user_message\": \"Mining environment is ready. You can start mining now.\",\n  \"user_actions\": [\n    \"Start mining\",\n    \"Check status\"\n  ],\n  \"_internal\": {\n    \"next_command\": \"python scripts/run_tool.py agent-start\",\n    \"action_map\": {\n      \"Start mining\": \"python scripts/run_tool.py agent-start\",\n      \"Check status\": \"python scripts/run_tool.py agent-control status\"\n    }\n  }\n}"
+        },
+        {
+          "label": "mine control status",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-control",
+            "status"
+          ],
+          "cwd": "/root/.nanobot/workspace/mine",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "state": "idle",
+            "user_message": "No active mining session. Start a new session to begin earning.",
+            "user_actions": [
+              "Start mining"
+            ],
+            "_internal": {
+              "action_map": {
+                "Start mining": "python scripts/run_tool.py agent-start"
+              }
+            }
+          },
+          "text": "{\n  \"state\": \"idle\",\n  \"user_message\": \"No active mining session. Start a new session to begin earning.\",\n  \"user_actions\": [\n    \"Start mining\"\n  ],\n  \"_internal\": {\n    \"action_map\": {\n      \"Start mining\": \"python scripts/run_tool.py agent-start\"\n    }\n  }\n}"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "predict",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/predict",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 28,
+      "repositoryFilesSample": [
+        ".github/workflows/release.yml",
+        ".gitignore",
+        "Cargo.lock",
+        "Cargo.toml",
+        "README.md",
+        "SKILL.md",
+        "install.sh",
+        "src/auth.rs",
+        "src/awp_register.rs",
+        "src/client.rs",
+        "src/cmd/admin_chip_feed.rs",
+        "src/cmd/cancel.rs",
+        "src/cmd/challenge.rs",
+        "src/cmd/context.rs",
+        "src/cmd/history.rs",
+        "src/cmd/loop_worker.rs",
+        "src/cmd/mod.rs",
+        "src/cmd/orders.rs",
+        "src/cmd/preflight.rs",
+        "src/cmd/result.rs"
+      ],
+      "substantiveFileCount": 27,
+      "scripts": [],
+      "scriptCount": 0,
+      "commandHints": [],
+      "manifestSummary": "Official Rust-based Predict runtime that owns preflight, stake checks, context, loop mode, and manual submissions.",
+      "runtimeName": "predict-agent",
+      "requiredBins": [
+        "predict-agent",
+        "awp-wallet"
+      ],
+      "optionalBins": [
+        "openclaw"
+      ],
+      "binStatus": {
+        "required": {
+          "predict-agent": true,
+          "awp-wallet": true
+        },
+        "optional": {
+          "openclaw": true
+        }
+      },
+      "env": [
+        "PREDICT_SERVER_URL"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "install predict-agent binary",
+          "cwd": "/root/.awp-workstation/skills/checkouts/predict",
+          "argv": [
+            "bash",
+            "install.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "predict wallet safety",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "wallet"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "predict status",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "predict preflight",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "preflight"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        },
+        {
+          "label": "predict stake eligibility",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "stake"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "predict wallet safety",
+          "argv": [
+            "predict-agent",
+            "wallet"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ok": true,
+            "user_message": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "data": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "cli_path": "/usr/bin/awp-wallet",
+              "safe_to_init": true,
+              "status": "ready"
+            },
+            "_internal": {
+              "next_action": "ready",
+              "next_command": "predict-agent preflight",
+              "progress": "1/4"
+            }
+          },
+          "text": "{\n  \"ok\": true,\n  \"user_message\": \"Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2\",\n  \"data\": {\n    \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"cli_path\": \"/usr/bin/awp-wallet\",\n    \"safe_to_init\": true,\n    \"status\": \"ready\"\n  },\n  \"_internal\": {\n    \"next_action\": \"ready\",\n    \"next_command\": \"predict-agent preflight\",\n    \"progress\": \"1/4\"\n  }\n}\n[predict-agent] wallet: checking status...\n[predict-agent] wallet: cli=true, dir=false, keystore=false, receive=true, safe_to_init=true"
+        },
+        {
+          "label": "predict status",
+          "argv": [
+            "predict-agent",
+            "status"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ok": true,
+            "user_message": "Agent status: 0 total predictions, 10000.00 chips balance, persona: conservative.",
+            "data": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "balance": "10000",
+              "excess_score": "0",
+              "first_prediction_at": null,
+              "last_feed_at": "2026-05-21T03:31:38.596231Z",
+              "open_orders": [],
+              "pending_orders": 0,
+              "persona": "conservative",
+              "recent_results": [],
+              "timeslot": {
+                "slot_limit": 3,
+                "slot_resets_in_seconds": 64,
+                "submissions_remaining": 3,
+                "submissions_used": 0
+              },
+              "total_fed_today": "10000",
+              "total_predictions": 0
+            },
+            "_internal": {
+              "next_action": "fetch_context",
+              "next_command": "predict-agent context"
+            }
+          },
+          "text": "{\n  \"ok\": true,\n  \"user_message\": \"Agent status: 0 total predictions, 10000.00 chips balance, persona: conservative.\",\n  \"data\": {\n    \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"balance\": \"10000\",\n    \"excess_score\": \"0\",\n    \"first_prediction_at\": null,\n    \"last_feed_at\": \"2026-05-21T03:31:38.596231Z\",\n    \"open_orders\": [],\n    \"pending_orders\": 0,\n    \"persona\": \"conservative\",\n    \"recent_results\": [],\n    \"timeslot\": {\n      \"slot_limit\": 3,\n      \"slot_resets_in_seconds\": 64,\n      \"submissions_remaining\": 3,\n      \"submissions_used\": 0\n    },\n    \"total_fed_today\": \"10000\",\n    \"total_predictions\": 0\n  },\n  \"_internal\": {\n    \"next_action\": \"fetch_context\",\n    \"next_command\": \"predict-agent context\"\n  }\n}\n[predict-agent] status: fetching agent status from https://api.agentpredict.work\n[predict-agent] status: total_predictions=0, balance=10000.00, persona=conservative"
+        },
+        {
+          "label": "predict stake eligibility",
+          "argv": [
+            "predict-agent",
+            "stake"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ok": false,
+            "user_message": "Agent:           0x518fdf57793e54254817c7d49618675d4fa774c2\nCurrent stake:   0.0000 AWP\nRequired:        1000 AWP\nStatus:          \u2717 NOT ELIGIBLE\nGate mode:       enforce\n\nTo become eligible \u2014 pick whichever path fits you:\n\n\u2500\u2500\u2500\u2500 [A] Easiest \u2014 official AWP web UI \u2500\u2500\u2500\u2500\n    https://awp.pro/staking\n    Connect your wallet, lock \u22651000 AWP, and allocate to\n    (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000003).\n    The UI walks you through every step.\n\n\u2500\u2500\u2500\u2500 [B] No-AWP path \u2014 KYA delegated staking \u2500\u2500\u2500\u2500\n    https://kya.link/\n    Complete KYA's verification (KYC / Twitter); KYA sponsors\n    stake to (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000012) on your\n    behalf \u2014 you don't need to hold AWP yourself.\n\n\u2500\u2500\u2500\u2500 [C] Programmatic \u2014 direct contract calls (advanced) \u2500\u2500\u2500\u2500\n    Base mainnet (chainId 8453):\n    1) veAWP.deposit(amount, lockDuration)  contract: 0x0000b534C63D78212f1BDCc315165852793A00A8\n    2) AWPAllocator.allocate(staker=you, agent=this_agent_address, worknetId=845300000003, amount=1000e18)\n       contract: 0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA\n\nAfter staking, wait ~10s, then re-run: predict-agent stake",
+            "error": {
+              "code": "NOT_STAKED",
+              "category": "stake",
+              "retryable": false,
+              "suggestion": "Complete one of the three paths above, then re-run `predict-agent stake`.",
+              "debug": {
+                "accepted_worknet_ids": [
+                  "845300000003",
+                  "845300000012"
+                ],
+                "agent_address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "backers": [],
+                "contracts": {
+                  "allocator": "0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA",
+                  "chain": "Base mainnet (chainId 8453)",
+                  "veawp": "0x0000b534C63D78212f1BDCc315165852793A00A8"
+                },
+                "current_stake_awp": "0.0000",
+                "current_stake_wei": "0",
+                "eligible": false,
+                "gate_mode": "enforce",
+                "lock_min_until": null,
+                "required_stake_awp": "1000",
+                "required_stake_wei": "1000000000000000000000",
+                "stake_paths": {
+                  "advanced": "Direct contract calls \u2014 see suggestion in 403 STAKE_REQUIRED response",
+                  "delegated": "https://kya.link/",
+                  "web_ui": "https://awp.pro/staking"
+                },
+                "synced_at": null
+              }
+            },
+            "_internal": {
+              "next_action": "stake_required",
+              "next_command": "predict-agent stake"
+            }
+          },
+          "text": "{\n  \"ok\": false,\n  \"user_message\": \"Agent:           0x518fdf57793e54254817c7d49618675d4fa774c2\\nCurrent stake:   0.0000 AWP\\nRequired:        1000 AWP\\nStatus:          \u2717 NOT ELIGIBLE\\nGate mode:       enforce\\n\\nTo become eligible \u2014 pick whichever path fits you:\\n\\n\u2500\u2500\u2500\u2500 [A] Easiest \u2014 official AWP web UI \u2500\u2500\u2500\u2500\\n    https://awp.pro/staking\\n    Connect your wallet, lock \u22651000 AWP, and allocate to\\n    (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000003).\\n    The UI walks you through every step.\\n\\n\u2500\u2500\u2500\u2500 [B] No-AWP path \u2014 KYA delegated staking \u2500\u2500\u2500\u2500\\n    https://kya.link/\\n    Complete KYA's verification (KYC / Twitter); KYA sponsors\\n    stake to (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000012) on your\\n    behalf \u2014 you don't need to hold AWP yourself.\\n\\n\u2500\u2500\u2500\u2500 [C] Programmatic \u2014 direct contract calls (advanced) \u2500\u2500\u2500\u2500\\n    Base mainnet (chainId 8453):\\n    1) veAWP.deposit(amount, lockDuration)  contract: 0x0000b534C63D78212f1BDCc315165852793A00A8\\n    2) AWPAllocator.allocate(staker=you, agent=this_agent_address, worknetId=845300000003, amount=1000e18)\\n       contract: 0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA\\n\\nAfter stakin...(truncated)"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "tmr",
+      "status": "empty-official-repo",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/tmr",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 1,
+      "repositoryFilesSample": [
+        "LICENSE"
+      ],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "scriptCount": 0,
+      "commandHints": [],
+      "manifestSummary": "Official live TMR skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+      "runtimeName": "tmr-skill",
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [
+        "The official checkout currently only contains license or metadata files, so there is no upstream runtime to bootstrap yet."
+      ],
+      "remediationCommands": [],
+      "warnings": [
+        "SKILL.md missing",
+        "managed skill has no script files",
+        "managed checkout currently only contains license or metadata files"
+      ]
+    }
+  ]
+}

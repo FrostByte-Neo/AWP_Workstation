@@ -1,0 +1,8 @@
+{
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/awp-workstation-skill/scripts"
+  ],
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/awp-workstation-skill/scripts"
+  ]
+}

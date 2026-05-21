@@ -1,0 +1,101 @@
+[
+  {
+    "key": "awp-skill",
+    "name": "AWP RootNet Skill",
+    "installUri": "https://github.com/awp-core/awp-skill",
+    "official": true,
+    "autoInstallEligible": false,
+    "status": "managed-installed",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/awp-skill",
+    "localPath": null,
+    "reason": "Protocol dependency used for registration, staking, allocation, and network query flows."
+  },
+  {
+    "key": "awp-wallet",
+    "name": "AWP Wallet",
+    "installUri": "https://github.com/awp-core/awp-wallet",
+    "official": true,
+    "autoInstallEligible": false,
+    "status": "external-local",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/awp-wallet",
+    "localPath": "/root/.nanobot/workspace/awp-wallet",
+    "reason": "Local work-wallet CLI used by workstation and child skills."
+  },
+  {
+    "key": "mine",
+    "name": "Mine WorkNet",
+    "installUri": "https://github.com/awp-worknet/mine-skill",
+    "official": true,
+    "autoInstallEligible": true,
+    "status": "external-local",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/mine",
+    "localPath": "/root/.nanobot/workspace/mine",
+    "reason": "Earn by contributing high-quality structured web data."
+  },
+  {
+    "key": "predict",
+    "name": "Predict WorkNet",
+    "installUri": "https://github.com/awp-worknet/prediction-skill",
+    "official": true,
+    "autoInstallEligible": true,
+    "status": "managed-installed",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/predict",
+    "localPath": null,
+    "reason": "Submit original price predictions with disciplined reasoning."
+  },
+  {
+    "key": "kya",
+    "name": "KYA",
+    "installUri": "https://github.com/awp-worknet/kya-skill",
+    "official": true,
+    "autoInstallEligible": true,
+    "status": "external-local",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/kya",
+    "localPath": "/root/.nanobot/workspace/kya-skill",
+    "reason": "Verify or bind the agent identity and delegated staking path."
+  },
+  {
+    "key": "ardi",
+    "name": "Ardi",
+    "installUri": "https://github.com/awp-worknet/ardi-skill",
+    "official": true,
+    "autoInstallEligible": true,
+    "status": "managed-installed",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/ardi",
+    "localPath": null,
+    "reason": "Solve riddles, commit, reveal, and inscribe within the round window."
+  },
+  {
+    "key": "gov",
+    "name": "GovNet",
+    "installUri": "https://github.com/awp-worknet/gov-skill",
+    "official": true,
+    "autoInstallEligible": true,
+    "status": "managed-installed",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/gov",
+    "localPath": null,
+    "reason": "Express weekly worknet value views through stake, allocation, vote, and trade."
+  },
+  {
+    "key": "tmr",
+    "name": "TMR",
+    "installUri": "https://github.com/awp-worknet/tmr-skill",
+    "official": true,
+    "autoInstallEligible": true,
+    "status": "managed-installed",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/tmr",
+    "localPath": null,
+    "reason": "Expose the official TMR worknet without pretending the task loop is fully understood yet."
+  },
+  {
+    "key": "community",
+    "name": "Community",
+    "installUri": "https://github.com/awp-worknet/com-skill",
+    "official": true,
+    "autoInstallEligible": true,
+    "status": "managed-installed",
+    "managedPath": "/root/.awp-workstation/skills/checkouts/community",
+    "localPath": null,
+    "reason": "Expose the official Community worknet while keeping execution conservative until the skill is inspected locally."
+  }
+]

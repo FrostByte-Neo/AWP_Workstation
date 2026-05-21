@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-05-21T09:25:07Z",
+  "schemaVersion": 2,
+  "driftGeneratedAt": "2026-05-21T09:25:07Z",
+  "summary": {
+    "changedSources": 0,
+    "impactedTopics": 0,
+    "impactedFacts": 0,
+    "impactedEvidence": 0,
+    "impactedWorknets": 0,
+    "highestPriority": "low"
+  },
+  "impacts": [],
+  "reviewQueue": {
+    "topicKeys": [],
+    "factKeys": [],
+    "evidenceKeys": [],
+    "worknetKeys": []
+  }
+}

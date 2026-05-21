@@ -1,0 +1,4854 @@
+{
+  "generatedAt": "2026-05-21T07:47:12Z",
+  "schemaVersion": 3,
+  "protocolDefaults": {
+    "stateRoot": "/root/.awp-workstation",
+    "rpcUrl": "https://api.awp.sh/v2",
+    "allowlistedSkillPrefixes": [
+      "https://github.com/awp-worknet/"
+    ]
+  },
+  "userPreferences": {
+    "allowAssetActions": false,
+    "allowThirdPartySkills": false,
+    "autopilotMode": "non-financial-only",
+    "preferredWorknet": "mine",
+    "observeBeforePredictHours": 24,
+    "riskProfile": "conservative",
+    "updatedAt": "2026-05-20T11:50:48Z"
+  },
+  "safetyRules": [
+    {
+      "id": "no-private-keys",
+      "level": "critical",
+      "rule": "Never ask for, receive, print, or store a private key, seed phrase, or personal wallet password."
+    },
+    {
+      "id": "work-wallet-only",
+      "level": "high",
+      "rule": "Default to the agent work wallet and remind the user not to store personal assets in it."
+    },
+    {
+      "id": "confirm-value-actions",
+      "level": "critical",
+      "rule": "All stake, allocate, deallocate, bind, recipient, delegate, claim, order, vote, transfer, and inscribe actions require explicit confirmation."
+    },
+    {
+      "id": "gasless-registration-disclose",
+      "level": "medium",
+      "rule": "Gasless registration may run automatically, but the workstation must explain what happened in plain language."
+    },
+    {
+      "id": "no-handwritten-calldata",
+      "level": "critical",
+      "rule": "Do not handwrite calldata or interact with contracts directly when an official skill or CLI exists."
+    },
+    {
+      "id": "third-party-default-off",
+      "level": "high",
+      "rule": "Third-party skills, non-official APIs, and automated capital strategies stay off until the user approves them."
+    }
+  ],
+  "sources": {
+    "generatedAt": "2026-05-21T07:46:18Z",
+    "officialWebSources": [
+      {
+        "key": "awp-home",
+        "name": "AWP home",
+        "url": "https://awp.pro/",
+        "kind": "protocol",
+        "trustTier": 1,
+        "summary": "Protocol entry point and quickstart."
+      },
+      {
+        "key": "awp-worknets",
+        "name": "AWP worknet directory",
+        "url": "https://awp.pro/worknet",
+        "kind": "directory",
+        "trustTier": 1,
+        "summary": "Public worknet list and high-level worknet descriptions."
+      },
+      {
+        "key": "awp-aip",
+        "name": "AWP AIP registry",
+        "url": "https://awp.pro/aip",
+        "kind": "directory",
+        "trustTier": 1,
+        "summary": "Public proposal index for worknet specs."
+      },
+      {
+        "key": "awp-whitepaper",
+        "name": "AWP whitepaper",
+        "url": "https://awp.pro/awp-whitepaper.pdf",
+        "kind": "paper",
+        "trustTier": 1,
+        "summary": "Canonical protocol paper for RootNet, WorkNet, emission, staking, and DAO mechanics."
+      },
+      {
+        "key": "awp-skill",
+        "name": "awp-core/awp-skill",
+        "url": "https://github.com/awp-core/awp-skill",
+        "kind": "skill",
+        "trustTier": 1,
+        "summary": "Protocol-official RootNet skill and JSON-RPC reference."
+      },
+      {
+        "key": "awp-skill-readme-raw",
+        "name": "awp-skill README raw",
+        "url": "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md",
+        "kind": "skill-doc",
+        "trustTier": 1,
+        "summary": "Raw upstream README suitable for workstation diffing and future refresh."
+      },
+      {
+        "key": "aip-001-raw",
+        "name": "AIP-001 Mine raw",
+        "url": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-001.md",
+        "kind": "aip",
+        "trustTier": 1,
+        "worknetKey": "mine",
+        "summary": "Mine WorkNet primary spec."
+      },
+      {
+        "key": "aip-002-raw",
+        "name": "AIP-002 Predict raw",
+        "url": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-002.md",
+        "kind": "aip",
+        "trustTier": 1,
+        "worknetKey": "predict",
+        "summary": "Predict WorkNet primary spec."
+      },
+      {
+        "key": "awp-live-query",
+        "name": "AWP live JSON-RPC",
+        "url": "https://api.awp.sh/v2",
+        "kind": "live-api",
+        "trustTier": 1,
+        "summary": "Official live JSON-RPC used to resolve current worknet IDs, skills URIs, and statuses."
+      },
+      {
+        "key": "minework-home",
+        "name": "Mine home",
+        "url": "https://minework.net/",
+        "kind": "worknet",
+        "trustTier": 1,
+        "worknetKey": "mine",
+        "summary": "Official Mine operator surface and dataset/economic summary."
+      },
+      {
+        "key": "mine-skill-raw",
+        "name": "Mine skill raw",
+        "url": "https://raw.githubusercontent.com/awp-worknet/mine-skill/main/SKILL.md",
+        "kind": "skill-doc",
+        "trustTier": 1,
+        "worknetKey": "mine",
+        "summary": "Raw official Mine skill spec."
+      },
+      {
+        "key": "agentpredict-home",
+        "name": "Predict home",
+        "url": "https://agentpredict.work/",
+        "kind": "worknet",
+        "trustTier": 1,
+        "worknetKey": "predict",
+        "summary": "Official Predict operator surface."
+      },
+      {
+        "key": "predict-skill-raw",
+        "name": "Predict skill raw",
+        "url": "https://raw.githubusercontent.com/awp-worknet/prediction-skill/main/SKILL.md",
+        "kind": "skill-doc",
+        "trustTier": 1,
+        "worknetKey": "predict",
+        "summary": "Raw official Predict skill spec."
+      },
+      {
+        "key": "awp-staking",
+        "name": "AWP staking",
+        "url": "https://awp.pro/staking",
+        "kind": "protocol-surface",
+        "trustTier": 1,
+        "summary": "Official staking surface for veAWP and AWP Power."
+      },
+      {
+        "key": "awp-dao",
+        "name": "AWP DAO",
+        "url": "https://awp.pro/dao",
+        "kind": "protocol-surface",
+        "trustTier": 1,
+        "summary": "Official governance surface for proposals and veAWP voting."
+      },
+      {
+        "key": "awp-testnet",
+        "name": "AWP testnet benchmark",
+        "url": "https://awp.pro/testnet",
+        "kind": "worknet-surface",
+        "trustTier": 1,
+        "summary": "Official Benchmark testnet onboarding and activity checker."
+      },
+      {
+        "key": "awp-blog",
+        "name": "AWP blog",
+        "url": "https://awp.pro/blog",
+        "kind": "docs",
+        "trustTier": 1,
+        "summary": "Official updates, guides, and conceptual deep dives."
+      },
+      {
+        "key": "gov-works",
+        "name": "GovNet",
+        "url": "https://gov.works/",
+        "kind": "worknet",
+        "trustTier": 1,
+        "worknetKey": "gov",
+        "summary": "Official governance market page and gov skill reference."
+      },
+      {
+        "key": "gov-markets-api",
+        "name": "Gov markets API",
+        "url": "https://api.gov.works/v1/markets",
+        "kind": "live-api",
+        "trustTier": 1,
+        "worknetKey": "gov",
+        "summary": "Official live GovNet market feed listing current worknet share symbols and market phases."
+      },
+      {
+        "key": "gov-skill-raw",
+        "name": "Gov skill raw",
+        "url": "https://raw.githubusercontent.com/awp-worknet/gov-skill/main/SKILL.md",
+        "kind": "skill-doc",
+        "trustTier": 1,
+        "worknetKey": "gov",
+        "summary": "Raw official Gov skill spec."
+      },
+      {
+        "key": "ardinals-agents",
+        "name": "Ardi operator page",
+        "url": "https://www.ardinals.com/agents",
+        "kind": "worknet",
+        "trustTier": 1,
+        "worknetKey": "ardi",
+        "summary": "Official Ardi agent onboarding page."
+      },
+      {
+        "key": "ardi-skill-raw",
+        "name": "Ardi skill raw",
+        "url": "https://raw.githubusercontent.com/awp-worknet/ardi-skill/main/SKILL.md",
+        "kind": "skill-doc",
+        "trustTier": 1,
+        "worknetKey": "ardi",
+        "summary": "Raw official Ardi skill spec."
+      },
+      {
+        "key": "kya-human",
+        "name": "KYA verify human",
+        "url": "https://kya.link/verify/human",
+        "kind": "service",
+        "trustTier": 1,
+        "worknetKey": "kya",
+        "summary": "Official KYA human verification and kya-skill reference."
+      },
+      {
+        "key": "kya-skill-raw",
+        "name": "KYA skill raw",
+        "url": "https://raw.githubusercontent.com/awp-worknet/kya-skill/main/SKILL.md",
+        "kind": "skill-doc",
+        "trustTier": 1,
+        "worknetKey": "kya",
+        "summary": "Raw official KYA skill spec."
+      },
+      {
+        "key": "tmr-skill",
+        "name": "TMR skill URI",
+        "url": "https://github.com/awp-worknet/tmr-skill",
+        "kind": "skill",
+        "trustTier": 1,
+        "worknetKey": "tmr",
+        "summary": "Official live skill URI currently returned for the TMR worknet."
+      },
+      {
+        "key": "community-skill",
+        "name": "Community skill URI",
+        "url": "https://github.com/awp-worknet/com-skill",
+        "kind": "skill",
+        "trustTier": 1,
+        "worknetKey": "community",
+        "summary": "Official live skill URI currently returned for the Community worknet."
+      }
+    ],
+    "localSources": [
+      {
+        "key": "awp-wallet",
+        "name": "awp-wallet",
+        "path": "/root/.nanobot/workspace/awp-wallet",
+        "upstream": "https://github.com/awp-core/awp-wallet",
+        "summary": "Local AWP wallet CLI clone.",
+        "important_files": [
+          "SKILL.md",
+          "README.md",
+          "docs/CLAUDE-WEB3-GUIDE.md",
+          "scripts/wallet-cli.js"
+        ],
+        "available": true,
+        "present_files": [
+          "/root/.nanobot/workspace/awp-wallet/SKILL.md",
+          "/root/.nanobot/workspace/awp-wallet/README.md",
+          "/root/.nanobot/workspace/awp-wallet/docs/CLAUDE-WEB3-GUIDE.md",
+          "/root/.nanobot/workspace/awp-wallet/scripts/wallet-cli.js"
+        ]
+      },
+      {
+        "key": "mine",
+        "name": "mine",
+        "path": "/root/.nanobot/workspace/mine",
+        "upstream": "https://minework.net/",
+        "summary": "Local Mine runtime and skill.",
+        "important_files": [
+          "SKILL.md",
+          "README.md",
+          "references/protocol-miner.md",
+          "scripts/run_tool.py"
+        ],
+        "available": true,
+        "present_files": [
+          "/root/.nanobot/workspace/mine/SKILL.md",
+          "/root/.nanobot/workspace/mine/README.md",
+          "/root/.nanobot/workspace/mine/references/protocol-miner.md",
+          "/root/.nanobot/workspace/mine/scripts/run_tool.py"
+        ]
+      },
+      {
+        "key": "kya",
+        "name": "kya-skill",
+        "path": "/root/.nanobot/workspace/kya-skill",
+        "upstream": "https://github.com/awp-worknet/kya-skill",
+        "summary": "Local KYA skill clone.",
+        "important_files": [
+          "SKILL.md",
+          "README.md",
+          "scripts/kya_lib.py",
+          "scripts/relay-set-recipient.py"
+        ],
+        "available": true,
+        "present_files": [
+          "/root/.nanobot/workspace/kya-skill/SKILL.md",
+          "/root/.nanobot/workspace/kya-skill/README.md",
+          "/root/.nanobot/workspace/kya-skill/scripts/kya_lib.py",
+          "/root/.nanobot/workspace/kya-skill/scripts/relay-set-recipient.py"
+        ]
+      },
+      {
+        "key": "awp-data",
+        "name": "awp-data",
+        "path": "/root/.nanobot/workspace/awp-data",
+        "upstream": "https://git.basevec.com/sp-demand/awp-data.git",
+        "summary": "Local AWP data workspace with limited docs.",
+        "important_files": [
+          "README.md"
+        ],
+        "available": true,
+        "present_files": [
+          "/root/.nanobot/workspace/awp-data/README.md"
+        ]
+      }
+    ],
+    "localSourceKeys": [
+      "awp-wallet",
+      "mine",
+      "kya",
+      "awp-data"
+    ],
+    "missingLocalSources": [],
+    "sourceCoverage": {
+      "officialSourceCount": 26,
+      "localSourceCount": 4,
+      "worknetProfiles": [
+        "mine",
+        "predict",
+        "kya",
+        "ardi",
+        "gov",
+        "tmr",
+        "community"
+      ]
+    },
+    "knownGaps": [
+      "Some official worknet skills are installed locally but currently only expose license or metadata files: TMR, Community.",
+      "Some official worknet skills are discoverable via live API but still sparse as public operator docs or raw SKILL snapshots."
+    ]
+  },
+  "sourceDrift": {
+    "generatedAt": "2026-05-21T07:46:30Z",
+    "baselineGeneratedAt": "2026-05-21T07:39:59Z",
+    "currentGeneratedAt": "2026-05-21T07:46:30Z",
+    "baselineAvailable": true,
+    "summary": {
+      "trackedSources": 26,
+      "changedSources": 3,
+      "contentChanged": 3,
+      "availabilityChanged": 0,
+      "currentlyUnreachable": 0
+    },
+    "items": [
+      {
+        "key": "agentpredict-home",
+        "name": "Predict home",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "8388a03fd5acf9c1c2b9e0f387424e3b9d6958efe65746ae14a9f6e2a2249a2b",
+          "bytes": 991,
+          "fetchedAt": "2026-05-21T07:39:53Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "8388a03fd5acf9c1c2b9e0f387424e3b9d6958efe65746ae14a9f6e2a2249a2b",
+          "bytes": 991,
+          "fetchedAt": "2026-05-21T07:46:23Z"
+        }
+      },
+      {
+        "key": "aip-001-raw",
+        "name": "AIP-001 Mine raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "2b20820ea351f0e9e5e1da35aabd3b9d7157a1ba1ec6f3abd7b5d8dd50532a4f",
+          "bytes": 45828,
+          "fetchedAt": "2026-05-21T07:39:51Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "2b20820ea351f0e9e5e1da35aabd3b9d7157a1ba1ec6f3abd7b5d8dd50532a4f",
+          "bytes": 45828,
+          "fetchedAt": "2026-05-21T07:46:21Z"
+        }
+      },
+      {
+        "key": "aip-002-raw",
+        "name": "AIP-002 Predict raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "e968674b82eb0896418d4c65fdb145df83a18a4de2242ba38360033b1a7d1f0e",
+          "bytes": 22239,
+          "fetchedAt": "2026-05-21T07:39:51Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "e968674b82eb0896418d4c65fdb145df83a18a4de2242ba38360033b1a7d1f0e",
+          "bytes": 22239,
+          "fetchedAt": "2026-05-21T07:46:21Z"
+        }
+      },
+      {
+        "key": "ardi-skill-raw",
+        "name": "Ardi skill raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "15b9822114b2e9ffe596bc595280f1783da4c5cee17d24a7ddd86400a3aa1d90",
+          "bytes": 32636,
+          "fetchedAt": "2026-05-21T07:39:57Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "15b9822114b2e9ffe596bc595280f1783da4c5cee17d24a7ddd86400a3aa1d90",
+          "bytes": 32636,
+          "fetchedAt": "2026-05-21T07:46:27Z"
+        }
+      },
+      {
+        "key": "ardinals-agents",
+        "name": "Ardi operator page",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "fa50575cc506e3e5b6691a1be154cd3a69fa4488f941bb1410b53fe8b9c0a42d",
+          "bytes": 19655,
+          "fetchedAt": "2026-05-21T07:39:57Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "fa50575cc506e3e5b6691a1be154cd3a69fa4488f941bb1410b53fe8b9c0a42d",
+          "bytes": 19655,
+          "fetchedAt": "2026-05-21T07:46:27Z"
+        }
+      },
+      {
+        "key": "awp-aip",
+        "name": "AWP AIP registry",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "0faf72a818bebf57f46354bb24d5d57e0453e73ffd65c86ebd03a08454fe90e0",
+          "bytes": 30175,
+          "fetchedAt": "2026-05-21T07:39:49Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "0faf72a818bebf57f46354bb24d5d57e0453e73ffd65c86ebd03a08454fe90e0",
+          "bytes": 30175,
+          "fetchedAt": "2026-05-21T07:46:19Z"
+        }
+      },
+      {
+        "key": "awp-blog",
+        "name": "AWP blog",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "94ce24f60789e0cbd539e3b535c1a348cb4c55ade4605b371b8e089607ad973b",
+          "bytes": 41622,
+          "fetchedAt": "2026-05-21T07:39:55Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "94ce24f60789e0cbd539e3b535c1a348cb4c55ade4605b371b8e089607ad973b",
+          "bytes": 41622,
+          "fetchedAt": "2026-05-21T07:46:25Z"
+        }
+      },
+      {
+        "key": "awp-dao",
+        "name": "AWP DAO",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "2cf4e8521a85205c5b906dc33ba2bbb794e36f9e29816a6c5bff74423abe779e",
+          "bytes": 25771,
+          "fetchedAt": "2026-05-21T07:39:54Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "2cf4e8521a85205c5b906dc33ba2bbb794e36f9e29816a6c5bff74423abe779e",
+          "bytes": 25771,
+          "fetchedAt": "2026-05-21T07:46:24Z"
+        }
+      },
+      {
+        "key": "awp-home",
+        "name": "AWP home",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "8b385366fdd517ee72705ed15caab796cb1ba80bfb5ae20b2d0423e4b27f1897",
+          "bytes": 58772,
+          "fetchedAt": "2026-05-21T07:39:48Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "8b385366fdd517ee72705ed15caab796cb1ba80bfb5ae20b2d0423e4b27f1897",
+          "bytes": 58772,
+          "fetchedAt": "2026-05-21T07:46:18Z"
+        }
+      },
+      {
+        "key": "awp-live-query",
+        "name": "AWP live JSON-RPC",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "5bf1b87e0da8074dcafcd76774cf0f82ccc0042204e260d663fb512b6bbc35a8",
+          "bytes": 20076,
+          "fetchedAt": "2026-05-21T07:39:51Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "5bf1b87e0da8074dcafcd76774cf0f82ccc0042204e260d663fb512b6bbc35a8",
+          "bytes": 20076,
+          "fetchedAt": "2026-05-21T07:46:21Z"
+        }
+      },
+      {
+        "key": "awp-skill",
+        "name": "awp-core/awp-skill",
+        "status": "content_changed",
+        "changedFields": [
+          "sha256",
+          "bytes"
+        ],
+        "note": "The fetched content hash or size changed since the last snapshot.",
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "1b878ec8503866cefe54e531e37c7770e9b76fb2a4dae3c463e9aa25b655a869",
+          "bytes": 403986,
+          "fetchedAt": "2026-05-21T07:39:50Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "4a9e3d898c9fece63ef3db9ddc06cdccb13889d8f8965f7a49aea217b2f13143",
+          "bytes": 404008,
+          "fetchedAt": "2026-05-21T07:46:20Z"
+        }
+      },
+      {
+        "key": "awp-skill-readme-raw",
+        "name": "awp-skill README raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "ef729b5ebf2e6d8512cedc2d007e34ac264fe6ed40272732275bd01dfb05b2a5",
+          "bytes": 21463,
+          "fetchedAt": "2026-05-21T07:39:51Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "ef729b5ebf2e6d8512cedc2d007e34ac264fe6ed40272732275bd01dfb05b2a5",
+          "bytes": 21463,
+          "fetchedAt": "2026-05-21T07:46:20Z"
+        }
+      },
+      {
+        "key": "awp-staking",
+        "name": "AWP staking",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "a2c2b51f361a36f5e5579120c123ce204d5364159ce37cacb056228946686dee",
+          "bytes": 23745,
+          "fetchedAt": "2026-05-21T07:39:54Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "a2c2b51f361a36f5e5579120c123ce204d5364159ce37cacb056228946686dee",
+          "bytes": 23745,
+          "fetchedAt": "2026-05-21T07:46:24Z"
+        }
+      },
+      {
+        "key": "awp-testnet",
+        "name": "AWP testnet benchmark",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "2cbde529ce83ed94be4b69aa111bb987961c0276d1348845036dbd141e1e07ae",
+          "bytes": 41646,
+          "fetchedAt": "2026-05-21T07:39:54Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "2cbde529ce83ed94be4b69aa111bb987961c0276d1348845036dbd141e1e07ae",
+          "bytes": 41646,
+          "fetchedAt": "2026-05-21T07:46:24Z"
+        }
+      },
+      {
+        "key": "awp-whitepaper",
+        "name": "AWP whitepaper",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "47dc6d6178068f622532baf5f2289ec746bfbc4641a00343db002fde1a0bd94f",
+          "bytes": 526978,
+          "fetchedAt": "2026-05-21T07:39:49Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "47dc6d6178068f622532baf5f2289ec746bfbc4641a00343db002fde1a0bd94f",
+          "bytes": 526978,
+          "fetchedAt": "2026-05-21T07:46:19Z"
+        }
+      },
+      {
+        "key": "awp-worknets",
+        "name": "AWP worknet directory",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "9fc6aa746acb88c9c56620f7d983340c0515917fb9084e3951608bbd9d4671bf",
+          "bytes": 30382,
+          "fetchedAt": "2026-05-21T07:39:48Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "9fc6aa746acb88c9c56620f7d983340c0515917fb9084e3951608bbd9d4671bf",
+          "bytes": 30382,
+          "fetchedAt": "2026-05-21T07:46:18Z"
+        }
+      },
+      {
+        "key": "community-skill",
+        "name": "Community skill URI",
+        "status": "content_changed",
+        "changedFields": [
+          "sha256",
+          "bytes"
+        ],
+        "note": "The fetched content hash or size changed since the last snapshot.",
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "04181c3dfe6f645c17ad46c74b3825c782f7b56b4ebdb1eac8f3f38d05390f2d",
+          "bytes": 231719,
+          "fetchedAt": "2026-05-21T07:39:58Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "57d9d464928405d1f2ff58c4b89ab19854d34f06403f026e105abaaaf9aff446",
+          "bytes": 231718,
+          "fetchedAt": "2026-05-21T07:46:29Z"
+        }
+      },
+      {
+        "key": "gov-markets-api",
+        "name": "Gov markets API",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "b5428de33e32497b18b07448cdf3f1de2e5024607be0e1c0162195d806eb923a",
+          "bytes": 2232,
+          "fetchedAt": "2026-05-21T07:39:56Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "b5428de33e32497b18b07448cdf3f1de2e5024607be0e1c0162195d806eb923a",
+          "bytes": 2232,
+          "fetchedAt": "2026-05-21T07:46:26Z"
+        }
+      },
+      {
+        "key": "gov-skill-raw",
+        "name": "Gov skill raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "b75b8918a2be989a68617bb9600e0eca2659abfd1a314b0f7de04a4e3dcf6bcf",
+          "bytes": 20191,
+          "fetchedAt": "2026-05-21T07:39:57Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "b75b8918a2be989a68617bb9600e0eca2659abfd1a314b0f7de04a4e3dcf6bcf",
+          "bytes": 20191,
+          "fetchedAt": "2026-05-21T07:46:27Z"
+        }
+      },
+      {
+        "key": "gov-works",
+        "name": "GovNet",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "c2cdd2c4d9fd4153074a66202005e8c8ab011f3a0ac31fcdee873d868b79d345",
+          "bytes": 47432,
+          "fetchedAt": "2026-05-21T07:39:55Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "c2cdd2c4d9fd4153074a66202005e8c8ab011f3a0ac31fcdee873d868b79d345",
+          "bytes": 47432,
+          "fetchedAt": "2026-05-21T07:46:25Z"
+        }
+      },
+      {
+        "key": "kya-human",
+        "name": "KYA verify human",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "5d53a6bdcb2739da32924d8cffa35f48eede263626feed84e8e0f6b019988f05",
+          "bytes": 36890,
+          "fetchedAt": "2026-05-21T07:39:57Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "5d53a6bdcb2739da32924d8cffa35f48eede263626feed84e8e0f6b019988f05",
+          "bytes": 36890,
+          "fetchedAt": "2026-05-21T07:46:28Z"
+        }
+      },
+      {
+        "key": "kya-skill-raw",
+        "name": "KYA skill raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "f47c10bae8a8b36b4ef4652854c4ed36c789a5b577b0c209c53ffef2ce40861e",
+          "bytes": 31640,
+          "fetchedAt": "2026-05-21T07:39:57Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "f47c10bae8a8b36b4ef4652854c4ed36c789a5b577b0c209c53ffef2ce40861e",
+          "bytes": 31640,
+          "fetchedAt": "2026-05-21T07:46:28Z"
+        }
+      },
+      {
+        "key": "mine-skill-raw",
+        "name": "Mine skill raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "1922ec0ad3c625ed243199c3ceabb9631593b4e23f25f3a9e36dee7179e3280b",
+          "bytes": 24819,
+          "fetchedAt": "2026-05-21T07:39:53Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "1922ec0ad3c625ed243199c3ceabb9631593b4e23f25f3a9e36dee7179e3280b",
+          "bytes": 24819,
+          "fetchedAt": "2026-05-21T07:46:23Z"
+        }
+      },
+      {
+        "key": "minework-home",
+        "name": "Mine home",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "a466f99f2372b0a44482363ab639cf4177734963da9ee7ed703166505cd52bae",
+          "bytes": 41631,
+          "fetchedAt": "2026-05-21T07:39:52Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "a466f99f2372b0a44482363ab639cf4177734963da9ee7ed703166505cd52bae",
+          "bytes": 41631,
+          "fetchedAt": "2026-05-21T07:46:22Z"
+        }
+      },
+      {
+        "key": "predict-skill-raw",
+        "name": "Predict skill raw",
+        "status": "unchanged",
+        "changedFields": [],
+        "note": null,
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "d37f92eab720e5a4d39840357c2e504577a5e4c0d614db351db80b0bbb1d6c20",
+          "bytes": 23948,
+          "fetchedAt": "2026-05-21T07:39:53Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "d37f92eab720e5a4d39840357c2e504577a5e4c0d614db351db80b0bbb1d6c20",
+          "bytes": 23948,
+          "fetchedAt": "2026-05-21T07:46:23Z"
+        }
+      },
+      {
+        "key": "tmr-skill",
+        "name": "TMR skill URI",
+        "status": "content_changed",
+        "changedFields": [
+          "sha256",
+          "bytes"
+        ],
+        "note": "The fetched content hash or size changed since the last snapshot.",
+        "previous": {
+          "ok": true,
+          "status": 200,
+          "sha256": "798960447d9c4f5691fd22387037427a2bb4fbc6e90da9ff889ee5d5920a338b",
+          "bytes": 231719,
+          "fetchedAt": "2026-05-21T07:39:57Z"
+        },
+        "current": {
+          "ok": true,
+          "status": 200,
+          "sha256": "7bc54797ee7116f2543302d1004af593c062c78ba9e8e0daf750ad2015a08e47",
+          "bytes": 231749,
+          "fetchedAt": "2026-05-21T07:46:28Z"
+        }
+      }
+    ]
+  },
+  "sourceImpact": {
+    "generatedAt": "2026-05-21T07:46:30Z",
+    "schemaVersion": 2,
+    "driftGeneratedAt": "2026-05-21T07:46:30Z",
+    "summary": {
+      "changedSources": 3,
+      "impactedTopics": 4,
+      "impactedFacts": 4,
+      "impactedEvidence": 2,
+      "impactedWorknets": 2,
+      "highestPriority": "high"
+    },
+    "impacts": [
+      {
+        "sourceKey": "awp-skill",
+        "sourceName": "awp-core/awp-skill",
+        "sourceKind": "skill",
+        "driftStatus": "content_changed",
+        "priority": "high",
+        "changedFields": [
+          "sha256",
+          "bytes"
+        ],
+        "note": "The fetched content hash or size changed since the last snapshot.",
+        "impactedTopics": [
+          {
+            "key": "protocol-core",
+            "title": "AWP Protocol Core"
+          },
+          {
+            "key": "awp-skill",
+            "title": "AWP RootNet Skill"
+          }
+        ],
+        "impactedFacts": [
+          {
+            "key": "protocol-core",
+            "topic": "Protocol Core"
+          },
+          {
+            "key": "awp-skill-ops",
+            "topic": "AWP RootNet Skill"
+          }
+        ],
+        "impactedEvidence": [],
+        "impactedWorknets": [],
+        "reviewHint": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "reviewCommands": {
+          "source": "python3 scripts/query-source.py --source-key awp-skill --rebuild",
+          "topics": {
+            "protocol-core": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild",
+            "awp-skill": "python3 scripts/query-knowledge.py --topic awp-skill --rebuild"
+          },
+          "facts": {
+            "protocol-core": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild",
+            "awp-skill-ops": "python3 scripts/query-knowledge.py --topic awp-skill-ops --rebuild"
+          },
+          "worknets": {}
+        }
+      },
+      {
+        "sourceKey": "community-skill",
+        "sourceName": "Community skill URI",
+        "sourceKind": "skill",
+        "driftStatus": "content_changed",
+        "priority": "high",
+        "changedFields": [
+          "sha256",
+          "bytes"
+        ],
+        "note": "The fetched content hash or size changed since the last snapshot.",
+        "impactedTopics": [
+          {
+            "key": "community",
+            "title": "Community"
+          }
+        ],
+        "impactedFacts": [
+          {
+            "key": "community",
+            "topic": "Community"
+          }
+        ],
+        "impactedEvidence": [
+          {
+            "key": "community-live-skill-uri",
+            "topicKey": "community"
+          }
+        ],
+        "impactedWorknets": [
+          "community"
+        ],
+        "reviewHint": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "reviewCommands": {
+          "source": "python3 scripts/query-source.py --source-key community-skill --rebuild",
+          "topics": {
+            "community": "python3 scripts/query-knowledge.py --topic community --rebuild"
+          },
+          "facts": {
+            "community": "python3 scripts/query-knowledge.py --topic community --rebuild"
+          },
+          "worknets": {
+            "community": "python3 scripts/query-knowledge.py --topic community --rebuild"
+          }
+        }
+      },
+      {
+        "sourceKey": "tmr-skill",
+        "sourceName": "TMR skill URI",
+        "sourceKind": "skill",
+        "driftStatus": "content_changed",
+        "priority": "high",
+        "changedFields": [
+          "sha256",
+          "bytes"
+        ],
+        "note": "The fetched content hash or size changed since the last snapshot.",
+        "impactedTopics": [
+          {
+            "key": "tmr",
+            "title": "TMR"
+          }
+        ],
+        "impactedFacts": [
+          {
+            "key": "tmr",
+            "topic": "TMR"
+          }
+        ],
+        "impactedEvidence": [
+          {
+            "key": "tmr-live-skill-uri",
+            "topicKey": "tmr"
+          }
+        ],
+        "impactedWorknets": [
+          "tmr"
+        ],
+        "reviewHint": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "reviewCommands": {
+          "source": "python3 scripts/query-source.py --source-key tmr-skill --rebuild",
+          "topics": {
+            "tmr": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+          },
+          "facts": {
+            "tmr": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+          },
+          "worknets": {
+            "tmr": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+          }
+        }
+      }
+    ],
+    "reviewQueue": {
+      "topicKeys": [
+        "awp-skill",
+        "community",
+        "protocol-core",
+        "tmr"
+      ],
+      "factKeys": [
+        "awp-skill-ops",
+        "community",
+        "protocol-core",
+        "tmr"
+      ],
+      "evidenceKeys": [
+        "community-live-skill-uri",
+        "tmr-live-skill-uri"
+      ],
+      "worknetKeys": [
+        "community",
+        "tmr"
+      ]
+    }
+  },
+  "topicFreshness": {
+    "generatedAt": "2026-05-21T07:11:11Z",
+    "sourceImpactGeneratedAt": "2026-05-21T07:00:16Z",
+    "summary": {
+      "affectedTopics": 5,
+      "affectedFacts": 5,
+      "affectedWorknets": 2
+    },
+    "topics": [
+      {
+        "key": "ardi",
+        "label": "Ardi",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "awp-skill",
+        "label": "AWP RootNet Skill",
+        "bucket": "topic",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "awp-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "awp-skill",
+            "sourceName": "awp-core/awp-skill",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "benchmark-testnet",
+        "label": "Benchmark Testnet",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "blog",
+        "label": "AWP Official Guides",
+        "bucket": "topic",
+        "status": "affected",
+        "highestPriority": "low",
+        "changedSourceKeys": [
+          "awp-blog"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "awp-blog",
+            "sourceName": "AWP blog",
+            "priority": "low",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "community",
+        "label": "Community",
+        "bucket": "topic",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "community-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "community-skill",
+            "sourceName": "Community skill URI",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "dao",
+        "label": "AWP DAO",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "gov",
+        "label": "GovNet",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "kya",
+        "label": "KYA",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "mine",
+        "label": "Mine WorkNet",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "predict",
+        "label": "Predict WorkNet",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "protocol-core",
+        "label": "AWP Protocol Core",
+        "bucket": "topic",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "awp-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "awp-skill",
+            "sourceName": "awp-core/awp-skill",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "staking",
+        "label": "AWP Staking",
+        "bucket": "topic",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "tmr",
+        "label": "TMR",
+        "bucket": "topic",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "tmr-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "tmr-skill",
+            "sourceName": "TMR skill URI",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      }
+    ],
+    "facts": [
+      {
+        "key": "ardi-skill-facts",
+        "label": "Ardi",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "awp-skill-ops",
+        "label": "AWP RootNet Skill",
+        "bucket": "fact",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "awp-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "awp-skill",
+            "sourceName": "awp-core/awp-skill",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "blog-facts",
+        "label": "Official Guides",
+        "bucket": "fact",
+        "status": "affected",
+        "highestPriority": "low",
+        "changedSourceKeys": [
+          "awp-blog"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "awp-blog",
+            "sourceName": "AWP blog",
+            "priority": "low",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "community",
+        "label": "Community",
+        "bucket": "fact",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "community-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "community-skill",
+            "sourceName": "Community skill URI",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "dao-facts",
+        "label": "DAO Governance",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "gov-skill-facts",
+        "label": "GovNet",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "kya-skill-facts",
+        "label": "KYA",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "live-worknet-canonical",
+        "label": "Live WorkNet Canonical IDs",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "mine-aip",
+        "label": "Mine WorkNet",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "predict-aip",
+        "label": "Predict WorkNet",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "predict-skill-facts",
+        "label": "Predict Runtime",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "protocol-core",
+        "label": "Protocol Core",
+        "bucket": "fact",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "awp-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "awp-skill",
+            "sourceName": "awp-core/awp-skill",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "staking-facts",
+        "label": "Staking and AWP Power",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "testnet-facts",
+        "label": "Benchmark Testnet",
+        "bucket": "fact",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "tmr",
+        "label": "TMR",
+        "bucket": "fact",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "tmr-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "tmr-skill",
+            "sourceName": "TMR skill URI",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      }
+    ],
+    "worknets": [
+      {
+        "key": "ardi",
+        "label": "Ardi",
+        "bucket": "worknet",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "community",
+        "label": "Community",
+        "bucket": "worknet",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "community-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "community-skill",
+            "sourceName": "Community skill URI",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      },
+      {
+        "key": "gov",
+        "label": "GovNet",
+        "bucket": "worknet",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "kya",
+        "label": "KYA",
+        "bucket": "worknet",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "mine",
+        "label": "Mine WorkNet",
+        "bucket": "worknet",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "predict",
+        "label": "Predict WorkNet",
+        "bucket": "worknet",
+        "status": "stable",
+        "highestPriority": "low",
+        "changedSourceKeys": [],
+        "impactItems": [],
+        "reviewHints": []
+      },
+      {
+        "key": "tmr",
+        "label": "TMR",
+        "bucket": "worknet",
+        "status": "affected",
+        "highestPriority": "high",
+        "changedSourceKeys": [
+          "tmr-skill"
+        ],
+        "impactItems": [
+          {
+            "sourceKey": "tmr-skill",
+            "sourceName": "TMR skill URI",
+            "priority": "high",
+            "driftStatus": "content_changed"
+          }
+        ],
+        "reviewHints": [
+          "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance."
+        ]
+      }
+    ]
+  },
+  "knowledgeReviewQueue": {
+    "generatedAt": "2026-05-21T07:46:30Z",
+    "schemaVersion": 1,
+    "sourceImpactGeneratedAt": "2026-05-21T07:46:30Z",
+    "summary": {
+      "entries": 15,
+      "sources": 3,
+      "topics": 4,
+      "facts": 4,
+      "evidence": 2,
+      "worknets": 2
+    },
+    "entries": [
+      {
+        "kind": "source",
+        "key": "awp-skill",
+        "label": "awp-core/awp-skill",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-source.py --source-key awp-skill --rebuild"
+      },
+      {
+        "kind": "topic",
+        "key": "protocol-core",
+        "label": "AWP Protocol Core",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild"
+      },
+      {
+        "kind": "topic",
+        "key": "awp-skill",
+        "label": "AWP RootNet Skill",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic awp-skill --rebuild"
+      },
+      {
+        "kind": "fact",
+        "key": "protocol-core",
+        "label": "Protocol Core",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild"
+      },
+      {
+        "kind": "fact",
+        "key": "awp-skill-ops",
+        "label": "AWP RootNet Skill",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic awp-skill-ops --rebuild"
+      },
+      {
+        "kind": "source",
+        "key": "community-skill",
+        "label": "Community skill URI",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-source.py --source-key community-skill --rebuild"
+      },
+      {
+        "kind": "topic",
+        "key": "community",
+        "label": "Community",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
+      },
+      {
+        "kind": "fact",
+        "key": "community",
+        "label": "Community",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
+      },
+      {
+        "kind": "worknet",
+        "key": "community",
+        "label": "Community",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
+      },
+      {
+        "kind": "evidence",
+        "key": "community-live-skill-uri",
+        "label": "community-live-skill-uri",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
+      },
+      {
+        "kind": "source",
+        "key": "tmr-skill",
+        "label": "TMR skill URI",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-source.py --source-key tmr-skill --rebuild"
+      },
+      {
+        "kind": "topic",
+        "key": "tmr",
+        "label": "TMR",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+      },
+      {
+        "kind": "fact",
+        "key": "tmr",
+        "label": "TMR",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+      },
+      {
+        "kind": "worknet",
+        "key": "tmr",
+        "label": "TMR",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+      },
+      {
+        "kind": "evidence",
+        "key": "tmr-live-skill-uri",
+        "label": "tmr-live-skill-uri",
+        "priority": "high",
+        "reason": "Re-read the affected upstream source and re-check the linked topic dossiers, facts, and runtime guidance.",
+        "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+      }
+    ]
+  },
+  "sourceFacts": [
+    {
+      "key": "protocol-core",
+      "topic": "Protocol Core",
+      "sourceKeys": [
+        "awp-home",
+        "awp-whitepaper",
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "facts": [
+        "AWP is a decentralized agent-work protocol with RootNet plus task-specific WorkNets.",
+        "Current mainnet chain set is Base, Ethereum, Arbitrum, and BSC.",
+        "The public protocol endpoints documented by the official RootNet skill are POST https://api.awp.sh/v2, wss://api.awp.sh/ws/live, and GET https://api.awp.sh/api/health.",
+        "Recipient routing matters because agent emissions resolve to the configured recipient address."
+      ]
+    },
+    {
+      "key": "awp-skill-ops",
+      "topic": "AWP RootNet Skill",
+      "sourceKeys": [
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "facts": [
+        "The official RootNet skill is the dependency for registration, staking, allocation, governance, and worknet management.",
+        "Its install guidance explicitly says to install awp-skill, install awp-wallet, make awp-wallet discoverable on PATH, then initialize a fresh agent work wallet.",
+        "The official guidance says not to ask the user for a password, private key, seed phrase, or other secret during wallet initialization."
+      ]
+    },
+    {
+      "key": "mine-aip",
+      "topic": "Mine WorkNet",
+      "sourceKeys": [
+        "aip-001-raw",
+        "minework-home",
+        "mine-skill-raw"
+      ],
+      "facts": [
+        "Mine is the first AWP WorkNet and is a permissionless data collection network for crawling, cleaning, and extracting structured web data.",
+        "Mine uses daily UTC epochs and $aMine on Base with an exponential-decay emission schedule.",
+        "Miners do not need stake, but validators must meet a minimum AWP stake requirement.",
+        "The miner workflow is crawl, clean, extract, submit, then participate in epoch settlement and credit-score gating."
+      ]
+    },
+    {
+      "key": "predict-aip",
+      "topic": "Predict WorkNet",
+      "sourceKeys": [
+        "aip-002-raw",
+        "agentpredict-home",
+        "predict-skill-raw"
+      ],
+      "facts": [
+        "Predict is an AI-native prediction market WorkNet where agents submit predictions together with reasoning on a live CLOB.",
+        "Predict uses virtual chips and a chip feed every four hours, which means agents can participate without acquiring tokens first.",
+        "Predict has daily UTC epochs and a three-way reward split described in its AIP: owner, participation, and alpha.",
+        "The reasoning text is part of the product, so low-duplication and rate-limit discipline are first-class operational concerns."
+      ]
+    },
+    {
+      "key": "predict-skill-facts",
+      "topic": "Predict Runtime",
+      "sourceKeys": [
+        "predict-skill-raw",
+        "awp-live-query"
+      ],
+      "facts": [
+        "As of May 20, 2026, the official live AWP API resolves Predict to Base worknetId 845300000003 with skills URI https://github.com/awp-worknet/prediction-skill.",
+        "The official Predict runtime says every operation should flow through predict-agent commands rather than direct API calls.",
+        "The official Predict runtime documents a 1000 AWP allocation requirement on worknetId 845300000003, with KYA delegated staking as an alternative path."
+      ]
+    },
+    {
+      "key": "gov-skill-facts",
+      "topic": "GovNet",
+      "sourceKeys": [
+        "gov-works",
+        "gov-skill-raw",
+        "gov-markets-api"
+      ],
+      "facts": [
+        "GovNet exposes market listing, order submission, voting, chip split/merge, book watching, and settlement reads.",
+        "Public reads work without a wallet, while signed reads and writes resolve the principal through awp-wallet.",
+        "GovNet documents both REST and WebSocket endpoints under api.gov.works.",
+        "Because signed state changes go through EIP-712 and awp-wallet, trade and vote actions belong in the workstation confirmation queue."
+      ]
+    },
+    {
+      "key": "ardi-skill-facts",
+      "topic": "Ardi",
+      "sourceKeys": [
+        "ardinals-agents",
+        "ardi-skill-raw"
+      ],
+      "facts": [
+        "Ardi is an agent-only Base worknet for reasoning over riddles and inscribing dictionary NFTs.",
+        "All on-chain Ardi actions must go through ardi-agent commands, not direct RPC or handcrafted calldata.",
+        "Operational caps include five commits per agent per epoch, five Ardinals held per agent address, and a total supply cap of 21,000 inscriptions.",
+        "The skill requires following _internal.next_command exactly, which makes Ardi a command-journal-driven worknet."
+      ]
+    },
+    {
+      "key": "kya-skill-facts",
+      "topic": "KYA",
+      "sourceKeys": [
+        "kya-human",
+        "kya-skill-raw"
+      ],
+      "facts": [
+        "KYA is a single-shot identity and delegated-staking tool, not a recurring daemon or cron job.",
+        "Its config defaults target kya.link, api.awp.sh, and Base mainnet RPC for AWP registry reads.",
+        "KYA explicitly says AWP registration is mandatory and that an unregistered agent must hand off to awp-skill for free gasless onboarding before resuming.",
+        "Messaging surfaces must emit handoff URLs as plain text and must not ask the user to type wallet session secrets into chat."
+      ]
+    },
+    {
+      "key": "live-worknet-canonical",
+      "topic": "Live WorkNet Canonical IDs",
+      "sourceKeys": [
+        "awp-live-query"
+      ],
+      "facts": [
+        "As of May 20, 2026, official live read-only queries resolve Base Mine to 845300000002, Predict to 845300000003, Gov to 845300000010, Community to 845300000011, KYA to 845300000012, TMR to 845300000013, and Ardi to 845300000014.",
+        "The same live query surface also exposes pending predecessor entries for Gov, Community, KYA, TMR, and Ardi at 845300000005, 845300000006, 845300000007, 845300000008, and 845300000009 respectively."
+      ]
+    },
+    {
+      "key": "tmr",
+      "topic": "TMR",
+      "sourceKeys": [
+        "awp-live-query",
+        "tmr-skill"
+      ],
+      "facts": [
+        "As of May 20, 2026, official live queries resolve TMR to Base worknetId 845300000013 with skill URI https://github.com/awp-worknet/tmr-skill.",
+        "Compared with Mine, Predict, Gov, Ardi, and KYA, the current official TMR source surface is still thin, so the workstation treats it as discoverable but not yet safe to auto-run."
+      ]
+    },
+    {
+      "key": "community",
+      "topic": "Community",
+      "sourceKeys": [
+        "awp-live-query",
+        "community-skill"
+      ],
+      "facts": [
+        "As of May 20, 2026, official live queries resolve Community to Base worknetId 845300000011 with skill URI https://github.com/awp-worknet/com-skill.",
+        "The current official Community source surface is still thinner than the major worknets, so the workstation keeps it in discover-but-don't-auto-run mode until upstream runtime detail improves."
+      ]
+    },
+    {
+      "key": "staking-facts",
+      "topic": "Staking and AWP Power",
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper"
+      ],
+      "facts": [
+        "Locking AWP mints a veAWP position NFT and yields AWP Power.",
+        "AWP Power scales with both stake size and remaining lock duration.",
+        "Some WorkNets require AWP Power for qualification or assignment priority."
+      ]
+    },
+    {
+      "key": "dao-facts",
+      "topic": "DAO Governance",
+      "sourceKeys": [
+        "awp-dao",
+        "awp-whitepaper"
+      ],
+      "facts": [
+        "veAWP holders propose changes and vote with weight proportional to AWP Power.",
+        "The public governance surface currently shows a 4 percent quorum, 8 hour voting delay, 24 hour voting period, and 200K AWP proposal threshold.",
+        "A new signal proposal path is documented as gasless sentiment polling rather than on-chain action."
+      ]
+    },
+    {
+      "key": "testnet-facts",
+      "topic": "Benchmark Testnet",
+      "sourceKeys": [
+        "awp-testnet"
+      ],
+      "facts": [
+        "The public testnet worknet token is $aBench.",
+        "Joining the Benchmark testnet starts with installing awp-skill, which creates a wallet and registers the agent automatically and gaslessly.",
+        "The testnet surface includes an airdrop checker, agent activity checker, and benchmark leaderboard."
+      ]
+    },
+    {
+      "key": "blog-facts",
+      "topic": "Official Guides",
+      "sourceKeys": [
+        "awp-blog"
+      ],
+      "facts": [
+        "The official blog contains practical onboarding and conceptual WorkNet explanations.",
+        "The published guide sequence includes articles on launching a WorkNet, what AWP is, getting an agent earning quickly, fair launch, and what a WorkNet is."
+      ]
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "key": "protocol-two-layer",
+      "topicKey": "protocol-core",
+      "claim": "AWP uses a two-layer architecture: RootNet coordinates, WorkNets execute task-specific economies.",
+      "sourceKey": "awp-whitepaper",
+      "locator": "whitepaper abstract and definitions",
+      "evidenceType": "normative-overview",
+      "stability": "high",
+      "rationale": "The whitepaper defines RootNet and WorkNet as the protocol's architectural split.",
+      "sourceName": "AWP whitepaper",
+      "sourceUrl": "https://awp.pro/awp-whitepaper.pdf",
+      "trustTier": 1
+    },
+    {
+      "key": "protocol-endpoints",
+      "topicKey": "protocol-core",
+      "claim": "The official RootNet skill documents POST https://api.awp.sh/v2, wss://api.awp.sh/ws/live, and GET https://api.awp.sh/api/health as public protocol endpoints.",
+      "sourceKey": "awp-skill-readme-raw",
+      "locator": "README endpoint section",
+      "evidenceType": "runtime-doc",
+      "stability": "medium",
+      "rationale": "The workstation should use the official skill's published endpoint surface instead of inventing its own.",
+      "sourceName": "awp-skill README raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md",
+      "trustTier": 1
+    },
+    {
+      "key": "awp-skill-install-sequence",
+      "topicKey": "awp-skill",
+      "claim": "Official onboarding says to install awp-skill, install awp-wallet, ensure awp-wallet is on PATH, then initialize a fresh work wallet.",
+      "sourceKey": "awp-skill-readme-raw",
+      "locator": "README installation and quickstart",
+      "evidenceType": "runtime-doc",
+      "stability": "medium",
+      "rationale": "This sequence governs how the workstation should explain onboarding.",
+      "sourceName": "awp-skill README raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md",
+      "trustTier": 1
+    },
+    {
+      "key": "awp-skill-gasless-ops",
+      "topicKey": "awp-skill",
+      "claim": "The official RootNet skill documents gasless Bind, Set Recipient, and Worknet Registration relay flows.",
+      "sourceKey": "awp-skill-readme-raw",
+      "locator": "README gasless support table",
+      "evidenceType": "runtime-doc",
+      "stability": "medium",
+      "rationale": "These are the operations the workstation can plan around without requiring native gas.",
+      "sourceName": "awp-skill README raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md",
+      "trustTier": 1
+    },
+    {
+      "key": "mine-worknet-summary",
+      "topicKey": "mine",
+      "claim": "Mine is the first AWP WorkNet for permissionless web data collection, cleaning, and structured extraction.",
+      "sourceKey": "aip-001-raw",
+      "locator": "AIP-001 abstract and motivation",
+      "evidenceType": "aip",
+      "stability": "high",
+      "rationale": "This is the normative source for the Mine work definition.",
+      "sourceName": "AIP-001 Mine raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-001.md",
+      "trustTier": 1
+    },
+    {
+      "key": "mine-emission-and-stake",
+      "topicKey": "mine",
+      "claim": "Mine runs on Base with $aMine, daily UTC epochs, no miner stake requirement, and validator stake requirement.",
+      "sourceKey": "aip-001-raw",
+      "locator": "AIP-001 terminology, token, and role sections",
+      "evidenceType": "aip",
+      "stability": "high",
+      "rationale": "These details determine whether the workstation can recommend Mine to a new user.",
+      "sourceName": "AIP-001 Mine raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-001.md",
+      "trustTier": 1
+    },
+    {
+      "key": "predict-worknet-summary",
+      "topicKey": "predict",
+      "claim": "Predict is an AI-native prediction market WorkNet where agents submit predictions with reasoning on a CLOB.",
+      "sourceKey": "aip-002-raw",
+      "locator": "AIP-002 abstract and worknet page summary",
+      "evidenceType": "aip",
+      "stability": "high",
+      "rationale": "This explains why reasoning quality is a first-class operational dimension.",
+      "sourceName": "AIP-002 Predict raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-002.md",
+      "trustTier": 1
+    },
+    {
+      "key": "predict-virtual-chips",
+      "topicKey": "predict",
+      "claim": "Predict uses virtual chips and periodic chip feeds, lowering the barrier to starting work without immediately acquiring tokens.",
+      "sourceKey": "aip-002-raw",
+      "locator": "AIP-002 chip economy and participation design",
+      "evidenceType": "aip",
+      "stability": "medium",
+      "rationale": "This informs the workstation default of recommending low-friction entry paths first.",
+      "sourceName": "AIP-002 Predict raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-002.md",
+      "trustTier": 1
+    },
+    {
+      "key": "predict-official-runtime",
+      "topicKey": "predict",
+      "claim": "As of May 20, 2026, the official live AWP API resolves Predict to Base worknetId 845300000003 with skills URI https://github.com/awp-worknet/prediction-skill, and the official skill says to operate through predict-agent commands.",
+      "sourceKey": "predict-skill-raw",
+      "locator": "SKILL.md quick start, stake requirement, and install sections",
+      "evidenceType": "skill-doc",
+      "stability": "medium",
+      "rationale": "This replaces the earlier assumption that Predict lacked a confirmed official runtime.",
+      "sourceName": "Predict skill raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-worknet/prediction-skill/main/SKILL.md",
+      "trustTier": 1
+    },
+    {
+      "key": "live-canonical-base-worknets",
+      "topicKey": "protocol-core",
+      "claim": "As of May 20, 2026, official live read-only queries resolve Base Mine to 845300000002, Predict to 845300000003, Gov to 845300000010, Community to 845300000011, KYA to 845300000012, TMR to 845300000013, and Ardi to 845300000014, with pending predecessor entries at 845300000005 through 845300000009.",
+      "sourceKey": "awp-live-query",
+      "locator": "worknets.get + worknets.getSkills live snapshots captured by workstation on 2026-05-20",
+      "evidenceType": "live-api",
+      "stability": "low",
+      "rationale": "This is the current canonical map that the workstation should use when live list/search metadata drifts.",
+      "sourceName": "AWP live JSON-RPC",
+      "sourceUrl": "https://api.awp.sh/v2",
+      "trustTier": 1
+    },
+    {
+      "key": "gov-public-vs-signed",
+      "topicKey": "gov",
+      "claim": "GovNet public reads work without a wallet, while signed reads and writes resolve the principal through awp-wallet.",
+      "sourceKey": "gov-skill-raw",
+      "locator": "SKILL.md read vs signed section",
+      "evidenceType": "skill-doc",
+      "stability": "medium",
+      "rationale": "This is why the workstation can expose safe inspection before gated signed actions.",
+      "sourceName": "Gov skill raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-worknet/gov-skill/main/SKILL.md",
+      "trustTier": 1
+    },
+    {
+      "key": "gov-auth-discipline",
+      "topicKey": "gov",
+      "claim": "Gov skill standardizes retry and failure handling for domain mismatch, nonce drift, and time skew errors.",
+      "sourceKey": "gov-skill-raw",
+      "locator": "SKILL.md error handling discipline",
+      "evidenceType": "skill-doc",
+      "stability": "medium",
+      "rationale": "The workstation should inherit the idea that these failures are operational states, not user mysteries.",
+      "sourceName": "Gov skill raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-worknet/gov-skill/main/SKILL.md",
+      "trustTier": 1
+    },
+    {
+      "key": "ardi-agent-only",
+      "topicKey": "ardi",
+      "claim": "Ardi requires all chain actions to go through ardi-agent and explicitly discourages ad hoc loop scripting when auto-mine exists.",
+      "sourceKey": "ardi-skill-raw",
+      "locator": "SKILL.md agent-only and auto-mine guidance",
+      "evidenceType": "skill-doc",
+      "stability": "medium",
+      "rationale": "This justifies the workstation rule that Ardi must follow the official next-command journal.",
+      "sourceName": "Ardi skill raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-worknet/ardi-skill/main/SKILL.md",
+      "trustTier": 1
+    },
+    {
+      "key": "ardi-operational-caps",
+      "topicKey": "ardi",
+      "claim": "Ardi documents strict operational caps such as five commits per epoch and a 21,000 total inscription cap.",
+      "sourceKey": "ardi-skill-raw",
+      "locator": "SKILL.md limits and constraints",
+      "evidenceType": "skill-doc",
+      "stability": "medium",
+      "rationale": "These caps affect safe automation planning.",
+      "sourceName": "Ardi skill raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-worknet/ardi-skill/main/SKILL.md",
+      "trustTier": 1
+    },
+    {
+      "key": "kya-registration-handoff",
+      "topicKey": "kya",
+      "claim": "KYA requires prior AWP registration and says unregistered agents must hand off to awp-skill for gasless onboarding before continuing.",
+      "sourceKey": "kya-skill-raw",
+      "locator": "SKILL.md prerequisites and handoff text",
+      "evidenceType": "skill-doc",
+      "stability": "medium",
+      "rationale": "This is why the workstation treats KYA as a service tool, not a bootstrap replacement.",
+      "sourceName": "KYA skill raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-worknet/kya-skill/main/SKILL.md",
+      "trustTier": 1
+    },
+    {
+      "key": "kya-handoff-url-plain-text",
+      "topicKey": "kya",
+      "claim": "KYA magic-link and handoff flows require plain-text URL emission in non-TTY environments.",
+      "sourceKey": "kya-skill-raw",
+      "locator": "SKILL.md messaging and non-TTY guidance",
+      "evidenceType": "skill-doc",
+      "stability": "medium",
+      "rationale": "The workstation must preserve this behavior when translating actions into chat.",
+      "sourceName": "KYA skill raw",
+      "sourceUrl": "https://raw.githubusercontent.com/awp-worknet/kya-skill/main/SKILL.md",
+      "trustTier": 1
+    },
+    {
+      "key": "staking-awp-power",
+      "topicKey": "staking",
+      "claim": "Locking AWP mints veAWP and yields AWP Power that scales with stake size and remaining lock duration.",
+      "sourceKey": "awp-staking",
+      "locator": "staking page main description",
+      "evidenceType": "protocol-surface",
+      "stability": "medium",
+      "rationale": "This is the user-facing summary of staking economics.",
+      "sourceName": "AWP staking",
+      "sourceUrl": "https://awp.pro/staking",
+      "trustTier": 1
+    },
+    {
+      "key": "dao-public-params",
+      "topicKey": "dao",
+      "claim": "The public DAO surface currently shows 4 percent quorum, 8 hour voting delay, 24 hour voting period, and 200K AWP proposal threshold.",
+      "sourceKey": "awp-dao",
+      "locator": "DAO page governance summary line",
+      "evidenceType": "protocol-surface",
+      "stability": "medium",
+      "rationale": "These visible parameters matter when the workstation explains governance timing.",
+      "sourceName": "AWP DAO",
+      "sourceUrl": "https://awp.pro/dao",
+      "trustTier": 1
+    },
+    {
+      "key": "testnet-gasless-start",
+      "topicKey": "benchmark-testnet",
+      "claim": "The public Benchmark testnet says awp-skill creates a wallet and registers automatically and gaslessly before discovering the testnet worknet.",
+      "sourceKey": "awp-testnet",
+      "locator": "testnet join section",
+      "evidenceType": "protocol-surface",
+      "stability": "medium",
+      "rationale": "This offers a public example of the intended agent-first onboarding path.",
+      "sourceName": "AWP testnet benchmark",
+      "sourceUrl": "https://awp.pro/testnet",
+      "trustTier": 1
+    },
+    {
+      "key": "tmr-live-skill-uri",
+      "topicKey": "tmr",
+      "claim": "As of May 20, 2026, the live AWP surface resolves TMR to Base worknetId 845300000013 with official skill URI https://github.com/awp-worknet/tmr-skill, but the public operator surface is still too thin for safe unattended execution.",
+      "sourceKey": "tmr-skill",
+      "locator": "official live skill URI returned by AWP plus repository landing page",
+      "evidenceType": "skill-uri",
+      "stability": "medium",
+      "rationale": "This is the core reason the workstation exposes TMR as discoverable but not auto-runnable.",
+      "sourceName": "TMR skill URI",
+      "sourceUrl": "https://github.com/awp-worknet/tmr-skill",
+      "trustTier": 1
+    },
+    {
+      "key": "community-live-skill-uri",
+      "topicKey": "community",
+      "claim": "As of May 20, 2026, the live AWP surface resolves Community to Base worknetId 845300000011 with official skill URI https://github.com/awp-worknet/com-skill, but the public operator surface is still too thin for safe unattended execution.",
+      "sourceKey": "community-skill",
+      "locator": "official live skill URI returned by AWP plus repository landing page",
+      "evidenceType": "skill-uri",
+      "stability": "medium",
+      "rationale": "This is the core reason the workstation exposes Community as discoverable but not auto-runnable.",
+      "sourceName": "Community skill URI",
+      "sourceUrl": "https://github.com/awp-worknet/com-skill",
+      "trustTier": 1
+    },
+    {
+      "key": "blog-operator-guides",
+      "topicKey": "blog",
+      "claim": "The official blog is part of the documentation surface and currently includes practical onboarding plus WorkNet concept guides.",
+      "sourceKey": "awp-blog",
+      "locator": "blog index visible article list",
+      "evidenceType": "docs-surface",
+      "stability": "low",
+      "rationale": "Useful for explanation tone, but less normative than AIPs and skill docs.",
+      "sourceName": "AWP blog",
+      "sourceUrl": "https://awp.pro/blog",
+      "trustTier": 1
+    }
+  ],
+  "glossary": [
+    {
+      "term": "AWP",
+      "aliases": [
+        "Agent Work Protocol",
+        "$AWP"
+      ],
+      "plainLanguage": "\u8ba9 AI agent \u771f\u6b63\u5de5\u4f5c\u548c\u8d5a\u94b1\u7684\u534f\u8bae\u7f51\u7edc\u3002",
+      "definition": "The reserve asset and protocol layer that coordinates agent work across WorkNets.",
+      "whyItMatters": "It is the root concept behind wallets, staking, governance, and worknet discovery.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "staking",
+        "dao"
+      ],
+      "sourceKeys": [
+        "awp-home",
+        "awp-whitepaper"
+      ]
+    },
+    {
+      "term": "RootNet",
+      "aliases": [
+        "root network"
+      ],
+      "plainLanguage": "\u8d1f\u8d23\u6ce8\u518c\u3001\u5956\u52b1\u8def\u7531\u3001stake\u3001\u6cbb\u7406\u7684\u603b\u63a7\u5c42\u3002",
+      "definition": "The constitutional layer that manages emission, staking, WorkNet lifecycle, and DAO governance.",
+      "whyItMatters": "If the workstation needs registration, recipient routing, or staking, it is operating on RootNet.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "staking",
+        "dao"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-skill-readme-raw"
+      ]
+    },
+    {
+      "term": "WorkNet",
+      "aliases": [
+        "work network"
+      ],
+      "plainLanguage": "\u4e00\u79cd\u5177\u4f53\u7684 agent \u5de5\u4f5c\u5e02\u573a\uff0c\u5404\u81ea\u6709\u4efb\u52a1\u3001\u4ee3\u5e01\u548c\u89c4\u5219\u3002",
+      "definition": "A protocol-defined economic organization where agents perform a specific type of work and earn the WorkNet token.",
+      "whyItMatters": "Choosing a WorkNet determines what work the agent does and how rewards are computed.",
+      "relatedTopics": [
+        "protocol-core",
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "kya",
+        "benchmark-testnet"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-worknets"
+      ]
+    },
+    {
+      "term": "skillURI",
+      "aliases": [
+        "skillsUri",
+        "skill URI",
+        "skillURL"
+      ],
+      "plainLanguage": "\u67d0\u4e2a WorkNet \u53d1\u5e03\u7ed9 agent \u7684\u5b98\u65b9\u6280\u80fd\u8bf4\u660e\u5730\u5740\u3002",
+      "definition": "The published location of a WorkNet's official agent instructions or skill repository.",
+      "whyItMatters": "The workstation uses it to judge whether a skill is official and whether it can be auto-managed.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "gov",
+        "ardi",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "gov-skill-raw",
+        "ardi-skill-raw",
+        "kya-skill-raw"
+      ]
+    },
+    {
+      "term": "epoch",
+      "aliases": [
+        "settlement window",
+        "task window"
+      ],
+      "plainLanguage": "\u4e00\u6bb5\u56fa\u5b9a\u7ed3\u7b97\u5468\u671f\uff0c\u5468\u671f\u7ed3\u675f\u540e\u7edf\u4e00\u7b97\u5206\u548c\u53d1\u5956\u52b1\u3002",
+      "definition": "A settlement period used to batch work evaluation, score updates, and reward accounting.",
+      "whyItMatters": "Most WorkNet loops must align work, review, and claims to epoch timing.",
+      "relatedTopics": [
+        "mine",
+        "predict",
+        "ardi",
+        "gov"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "aip-002-raw",
+        "ardi-skill-raw"
+      ]
+    },
+    {
+      "term": "CLOB",
+      "aliases": [
+        "orderbook",
+        "central limit order book"
+      ],
+      "plainLanguage": "Predict \u91cc\u4e0b\u5355\u548c\u64ae\u5408\u9884\u6d4b\u7684\u8ba2\u5355\u7c3f\u3002",
+      "definition": "The central limit order book used by Predict for market-making and prediction entry.",
+      "whyItMatters": "It changes Predict from a simple yes/no signal feed into an order-driven market workflow.",
+      "relatedTopics": [
+        "predict"
+      ],
+      "sourceKeys": [
+        "aip-002-raw",
+        "agentpredict-home"
+      ]
+    },
+    {
+      "term": "staking",
+      "aliases": [
+        "stake",
+        "veAWP"
+      ],
+      "plainLanguage": "\u628a AWP \u9501\u8d77\u6765\uff0c\u6362\u6210\u6cbb\u7406\u6743\u548c\u67d0\u4e9b WorkNet \u7684\u8d44\u683c/\u4f18\u5148\u7ea7\u3002",
+      "definition": "Locking AWP to mint veAWP and derive AWP Power over time.",
+      "whyItMatters": "Some WorkNets use stake or AWP Power as a gate or priority signal.",
+      "relatedTopics": [
+        "staking",
+        "dao",
+        "protocol-core",
+        "mine",
+        "ardi"
+      ],
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper"
+      ]
+    },
+    {
+      "term": "AWP Power",
+      "aliases": [
+        "power",
+        "ve power"
+      ],
+      "plainLanguage": "\u7531 stake \u89c4\u6a21\u548c\u9501\u4ed3\u65f6\u95f4\u51b3\u5b9a\u7684\u6cbb\u7406/\u4f18\u5148\u7ea7\u6743\u91cd\u3002",
+      "definition": "The governance and qualification weight derived from a veAWP position.",
+      "whyItMatters": "The workstation needs it when explaining governance influence or work qualification.",
+      "relatedTopics": [
+        "staking",
+        "dao",
+        "protocol-core"
+      ],
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper",
+        "awp-dao"
+      ]
+    },
+    {
+      "term": "recipient",
+      "aliases": [
+        "reward recipient",
+        "resolved recipient"
+      ],
+      "plainLanguage": "\u5956\u52b1\u6700\u540e\u8981\u6253\u5230\u7684\u5730\u5740\u3002",
+      "definition": "The address that ultimately receives protocol or WorkNet rewards for an agent.",
+      "whyItMatters": "Wrong recipient routing is one of the easiest ways to lose rewards without noticing.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "kya-skill-raw"
+      ]
+    },
+    {
+      "term": "allocation",
+      "aliases": [
+        "allocate",
+        "delegated staking allocation"
+      ],
+      "plainLanguage": "\u628a stake \u6216\u6743\u91cd\u6307\u5411\u67d0\u4e2a agent / WorkNet\u3002",
+      "definition": "Assigning stake-derived influence or capital toward a target agent or WorkNet.",
+      "whyItMatters": "Allocation actions are value-sensitive and should stay behind confirmation.",
+      "relatedTopics": [
+        "awp-skill",
+        "protocol-core",
+        "kya",
+        "gov"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "kya-skill-raw",
+        "gov-skill-raw"
+      ]
+    },
+    {
+      "term": "principal",
+      "aliases": [
+        "owner account"
+      ],
+      "plainLanguage": "\u771f\u6b63\u6301\u6709\u8d44\u91d1\u548c\u6388\u6743\u7684\u4e3b\u4f53\u8d26\u6237\u3002",
+      "definition": "The account role that holds funds while an agent executes work on its behalf.",
+      "whyItMatters": "Separating principal from agent is part of the protocol's custody model.",
+      "relatedTopics": [
+        "protocol-core",
+        "gov",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "gov-skill-raw"
+      ]
+    },
+    {
+      "term": "agent",
+      "aliases": [
+        "agent account",
+        "worker agent"
+      ],
+      "plainLanguage": "\u8d1f\u8d23\u6267\u884c\u5de5\u4f5c\u7684\u8d26\u53f7\u6216 runtime\u3002",
+      "definition": "The executing work identity that performs tasks, signs payloads, and accumulates work history.",
+      "whyItMatters": "Most workstation flows operate on the agent account, not the user's personal wallet.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-home",
+        "aip-001-raw",
+        "aip-002-raw"
+      ]
+    },
+    {
+      "term": "gasless registration",
+      "aliases": [
+        "free registration",
+        "gasless onboarding"
+      ],
+      "plainLanguage": "\u4e0d\u7528\u5148\u5145 gas \u5c31\u80fd\u5b8c\u6210 agent \u6ce8\u518c\u3002",
+      "definition": "A relay-assisted registration flow that onboards an agent without needing native gas in the wallet first.",
+      "whyItMatters": "It is the intended default entry path for new users and testnet onboarding.",
+      "relatedTopics": [
+        "awp-skill",
+        "benchmark-testnet",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "awp-testnet",
+        "kya-skill-raw"
+      ]
+    }
+  ],
+  "topicDossiers": [
+    {
+      "key": "protocol-core",
+      "kind": "protocol",
+      "title": "AWP Protocol Core",
+      "summary": "Two-layer agent economy with RootNet for coordination and WorkNets for task-specific execution.",
+      "defaultEntrypoint": "awp-skill",
+      "whyItExists": "Gives agents a permissionless place to work, earn, and coordinate across many task networks.",
+      "operatorLoop": [
+        "prepare a dedicated agent work wallet",
+        "register or verify agent readiness on RootNet",
+        "scan live or cached WorkNet opportunities",
+        "pick a safe work loop and route rewards to the resolved recipient"
+      ],
+      "economics": [
+        "AWP is the reserve, staking, and governance asset.",
+        "WorkNets issue their own work tokens and may also distribute AWP.",
+        "AWP Power comes from staking and affects governance and work priority."
+      ],
+      "risks": [
+        "wrong recipient routing can send rewards to the wrong address",
+        "staking or allocation actions move value and require confirmation",
+        "upstream skill drift must not redefine workstation behavior"
+      ],
+      "sourceKeys": [
+        "awp-home",
+        "awp-whitepaper",
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "officialUrls": [
+        "https://awp.pro/",
+        "https://awp.pro/awp-whitepaper.pdf",
+        "https://github.com/awp-core/awp-skill",
+        "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md"
+      ]
+    },
+    {
+      "key": "awp-skill",
+      "kind": "skill",
+      "title": "AWP RootNet Skill",
+      "summary": "The official dependency skill for registration, staking, allocation, governance, and live protocol reads.",
+      "defaultEntrypoint": "awp-skill",
+      "whyItExists": "Lets the workstation delegate protocol-native actions to the official runtime instead of hand-rolling contract calls.",
+      "operatorLoop": [
+        "install awp-skill and awp-wallet",
+        "initialize the agent work wallet without asking for secrets",
+        "use awp-skill for RootNet registration and lifecycle actions"
+      ],
+      "economics": [
+        "bind, set-recipient, and worknet registration support gasless execution through relay endpoints"
+      ],
+      "risks": [
+        "if a child skill asks for a private key to start work, treat it as suspicious",
+        "the workstation should keep awp-skill as a dependency, not a user-facing product surface"
+      ],
+      "sourceKeys": [
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "officialUrls": [
+        "https://github.com/awp-core/awp-skill",
+        "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md"
+      ]
+    },
+    {
+      "key": "mine",
+      "kind": "worknet",
+      "title": "Mine WorkNet",
+      "summary": "Permissionless web-data worknet for crawl, clean, extract, submit, and epoch settlement.",
+      "defaultEntrypoint": "mine skill / run_tool.py",
+      "whyItExists": "Turns agent web-crawling capability into tokenized structured-data production.",
+      "operatorLoop": [
+        "discover URLs and datasets",
+        "crawl raw pages",
+        "clean normalized text",
+        "extract schema-conforming records",
+        "submit and maintain heartbeat until settlement"
+      ],
+      "economics": [
+        "$aMine is on Base and follows the WorkNet emission schedule.",
+        "Miners do not need stake; validators do.",
+        "Mine also distributes AWP alongside $aMine in launch phase."
+      ],
+      "risks": [
+        "quality gates can reject pending submissions at epoch end",
+        "shared-IP decay compresses throughput",
+        "repeat-crawl and validator checks penalize fabricated data"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "minework-home"
+      ],
+      "officialUrls": [
+        "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-001.md",
+        "https://minework.net/"
+      ]
+    },
+    {
+      "key": "predict",
+      "kind": "worknet",
+      "title": "Predict WorkNet",
+      "summary": "AI-native CLOB prediction market where reasoning quality is part of the product.",
+      "defaultEntrypoint": "predict-agent",
+      "whyItExists": "Lets agents compete on directional predictions and monetize differentiated reasoning.",
+      "operatorLoop": [
+        "read market context and candidate windows",
+        "form a direction thesis with original reasoning",
+        "submit prediction or order through the official runtime",
+        "track settlement and alpha quality across epochs"
+      ],
+      "economics": [
+        "Predict uses virtual chips with a four-hour feed cadence.",
+        "Emission is split across owner, participation, and alpha buckets.",
+        "Liquidity is bootstrapped on Base against AWP."
+      ],
+      "risks": [
+        "duplicate reasoning fails the quality gate",
+        "rate-limit discipline matters because markets refresh on short windows",
+        "official local runtime is still missing in this workstation"
+      ],
+      "sourceKeys": [
+        "aip-002-raw",
+        "agentpredict-home",
+        "predict-skill-raw"
+      ],
+      "officialUrls": [
+        "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-002.md",
+        "https://agentpredict.work/",
+        "https://raw.githubusercontent.com/awp-worknet/prediction-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "gov",
+      "kind": "worknet",
+      "title": "GovNet",
+      "summary": "Weekly emission market and governance-style worknet for orders, votes, chips, and settlement.",
+      "defaultEntrypoint": "gov-skill",
+      "whyItExists": "Prices WorkNet value and routes emission expectations through agent action.",
+      "operatorLoop": [
+        "list markets and watch phases",
+        "read principal state and chip balances",
+        "vote or place orders only with confirmation",
+        "monitor fills and settlement outputs"
+      ],
+      "economics": [
+        "chips and worknet shares mediate weekly value expression",
+        "signed reads and writes resolve identity through EMG-SIG-V1"
+      ],
+      "risks": [
+        "market phase timing errors can invalidate the plan",
+        "doc/server drift exists for some endpoints",
+        "all signed writes belong in the confirmation queue"
+      ],
+      "sourceKeys": [
+        "gov-works",
+        "gov-skill-raw"
+      ],
+      "officialUrls": [
+        "https://gov.works/",
+        "https://raw.githubusercontent.com/awp-worknet/gov-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "ardi",
+      "kind": "worknet",
+      "title": "Ardi",
+      "summary": "Agent-only Base worknet for solving riddles, committing answers, revealing, and inscribing dictionary NFTs.",
+      "defaultEntrypoint": "ardi-agent",
+      "whyItExists": "Turns agent reasoning over language riddles into an on-chain inscription game.",
+      "operatorLoop": [
+        "run ardi-agent preflight",
+        "follow _internal.next_command exactly",
+        "commit high-confidence answers",
+        "wait for reveal and inscribe if selected"
+      ],
+      "economics": [
+        "requires Base gas plus either staked AWP on Ardi or the KYA delegated path",
+        "daily ARDI emission accrues to held Ardinals and must be claimed"
+      ],
+      "risks": [
+        "manual shell loops are discouraged when auto-mine exists",
+        "epoch timing and reveal windows are strict",
+        "bond and gas management are operationally important"
+      ],
+      "sourceKeys": [
+        "ardinals-agents",
+        "ardi-skill-raw"
+      ],
+      "officialUrls": [
+        "https://www.ardinals.com/agents",
+        "https://raw.githubusercontent.com/awp-worknet/ardi-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "kya",
+      "kind": "worknet-service",
+      "title": "KYA",
+      "summary": "Identity and delegated-staking service for attestations, recipient routing, and match-making.",
+      "defaultEntrypoint": "kya-skill",
+      "whyItExists": "Verifies the human or social layer behind an agent and unlocks delegated-staking paths.",
+      "operatorLoop": [
+        "check existing attestations",
+        "handoff to awp-skill registration if preflight says so",
+        "run attestation or KYC flow",
+        "set recipient or grant delegate only with confirmation"
+      ],
+      "economics": [
+        "delegated staking can avoid direct AWP stake for some flows"
+      ],
+      "risks": [
+        "handoff URLs must be sent as plain text in non-TTY environments",
+        "this is event-driven and should never become an unattended loop"
+      ],
+      "sourceKeys": [
+        "kya-human",
+        "kya-skill-raw"
+      ],
+      "officialUrls": [
+        "https://kya.link/verify/human",
+        "https://raw.githubusercontent.com/awp-worknet/kya-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "tmr",
+      "kind": "worknet",
+      "title": "TMR",
+      "summary": "Officially active AWP worknet with a live skill URI, but still thin public operator docs in this workstation.",
+      "defaultEntrypoint": "tmr-skill once inspected",
+      "whyItExists": "Represents a live official worknet that should be discoverable even before the workstation has full runtime guidance.",
+      "operatorLoop": [
+        "confirm the live worknet ID and skill URI",
+        "install or inspect the official skill before execution",
+        "treat all task semantics as unknown until the runtime is verified locally"
+      ],
+      "economics": [
+        "live official queries currently show a zero minimum-stake hint"
+      ],
+      "risks": [
+        "public task documentation is still sparse",
+        "the workstation should not auto-run TMR until the skill is inspected locally"
+      ],
+      "sourceKeys": [
+        "awp-live-query",
+        "tmr-skill"
+      ],
+      "officialUrls": [
+        "https://api.awp.sh/v2",
+        "https://github.com/awp-worknet/tmr-skill"
+      ]
+    },
+    {
+      "key": "community",
+      "kind": "worknet",
+      "title": "Community",
+      "summary": "Officially active AWP worknet with a live skill URI, but still thin public operator docs in this workstation.",
+      "defaultEntrypoint": "com-skill once inspected",
+      "whyItExists": "Captures the active community worknet so the workstation can point users at the official skill path without pretending to know the full task loop.",
+      "operatorLoop": [
+        "confirm the live worknet ID and skill URI",
+        "install or inspect the official skill before execution",
+        "treat the work loop as supervised until runtime docs are available locally"
+      ],
+      "economics": [
+        "live official queries currently show a zero minimum-stake hint"
+      ],
+      "risks": [
+        "public task documentation is still sparse",
+        "the workstation should not auto-run Community until the skill is inspected locally"
+      ],
+      "sourceKeys": [
+        "awp-live-query",
+        "community-skill"
+      ],
+      "officialUrls": [
+        "https://api.awp.sh/v2",
+        "https://github.com/awp-worknet/com-skill"
+      ]
+    },
+    {
+      "key": "staking",
+      "kind": "protocol-surface",
+      "title": "AWP Staking",
+      "summary": "Stake AWP to mint veAWP and derive AWP Power for governance and work priority.",
+      "defaultEntrypoint": "awp.pro/staking or awp-skill staking flow",
+      "whyItExists": "Turns locked AWP into governance and qualification weight.",
+      "operatorLoop": [
+        "decide whether a worknet truly needs stake",
+        "estimate lock size and duration",
+        "confirm the staking action before execution",
+        "track veAWP position state and downstream qualification impact"
+      ],
+      "economics": [
+        "AWP Power increases with amount and remaining lock duration",
+        "some WorkNets use AWP Power for qualification or priority"
+      ],
+      "risks": [
+        "locking duration affects liquidity and should not be hidden from the user",
+        "staking is always value-moving and belongs behind confirmation"
+      ],
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper"
+      ],
+      "officialUrls": [
+        "https://awp.pro/staking",
+        "https://awp.pro/awp-whitepaper.pdf"
+      ]
+    },
+    {
+      "key": "dao",
+      "kind": "protocol-surface",
+      "title": "AWP DAO",
+      "summary": "Protocol governance surface for proposals, votes, and signal actions weighted by AWP Power.",
+      "defaultEntrypoint": "awp.pro/dao",
+      "whyItExists": "Lets the network steer protocol parameters and treasury direction through veAWP voting.",
+      "operatorLoop": [
+        "read live proposals and phases",
+        "evaluate whether the action is an on-chain vote or a gasless signal",
+        "confirm every signed governance action"
+      ],
+      "economics": [
+        "proposal threshold is documented as 200K AWP on the public surface",
+        "quorum and timing are protocol-level operator constraints"
+      ],
+      "risks": [
+        "governance actions can affect protocol-wide value flows",
+        "phase timing matters even for non-market actions"
+      ],
+      "sourceKeys": [
+        "awp-dao",
+        "awp-whitepaper"
+      ],
+      "officialUrls": [
+        "https://awp.pro/dao",
+        "https://awp.pro/awp-whitepaper.pdf"
+      ]
+    },
+    {
+      "key": "benchmark-testnet",
+      "kind": "testnet",
+      "title": "Benchmark Testnet",
+      "summary": "Testnet worknet for asking questions, solving problems, and building benchmarks.",
+      "defaultEntrypoint": "awp.pro/testnet",
+      "whyItExists": "Provides a low-stakes public proving ground for agent work and onboarding.",
+      "operatorLoop": [
+        "install awp-skill",
+        "let the agent create a wallet and register gaslessly",
+        "discover the Benchmark worknet and start answering or asking questions"
+      ],
+      "economics": [
+        "the public testnet work token is $aBench"
+      ],
+      "risks": [
+        "testnet activity should not be mistaken for mainnet earnings"
+      ],
+      "sourceKeys": [
+        "awp-testnet"
+      ],
+      "officialUrls": [
+        "https://awp.pro/testnet"
+      ]
+    },
+    {
+      "key": "blog",
+      "kind": "docs",
+      "title": "AWP Official Guides",
+      "summary": "Official practical and conceptual writing that explains WorkNets and onboarding in plain language.",
+      "defaultEntrypoint": "awp.pro/blog",
+      "whyItExists": "Complements specs with product-facing guidance and onboarding narratives.",
+      "operatorLoop": [
+        "use blog posts to translate protocol details into simpler guidance",
+        "sync derived facts when a new official guide materially changes operator assumptions"
+      ],
+      "economics": [
+        "blog posts do not define consensus rules but do influence onboarding defaults"
+      ],
+      "risks": [
+        "editorial guidance can drift faster than normative specs"
+      ],
+      "sourceKeys": [
+        "awp-blog"
+      ],
+      "officialUrls": [
+        "https://awp.pro/blog"
+      ]
+    }
+  ],
+  "coverageAudit": {
+    "generatedAt": "2026-05-21T07:47:12Z",
+    "summary": {
+      "covered": 11,
+      "partial": 0,
+      "missing": 0
+    },
+    "items": [
+      {
+        "key": "trigger-surface",
+        "title": "Skill Trigger Surface",
+        "intent": "The workstation should be discoverable from English and Chinese user prompts.",
+        "status": "covered",
+        "reasons": [
+          "SKILL metadata includes both English and Chinese trigger phrases."
+        ],
+        "evidenceFiles": [
+          "SKILL.md",
+          "agents/openai.yaml"
+        ]
+      },
+      {
+        "key": "protocol-encyclopedia",
+        "title": "Protocol Encyclopedia",
+        "intent": "RootNet, WorkNet, staking, DAO, recipient, and endpoint knowledge should be captured locally.",
+        "status": "covered",
+        "reasons": [
+          "Protocol core, staking, DAO, facts, and evidence are all present locally."
+        ],
+        "evidenceFiles": [
+          "topic-dossiers.json",
+          "source-facts.json",
+          "source-evidence.json",
+          "glossary.json"
+        ]
+      },
+      {
+        "key": "worknet-coverage",
+        "title": "WorkNet Coverage",
+        "intent": "Mine, Predict, KYA, Ardi, Gov, TMR, and Community should all be represented.",
+        "status": "covered",
+        "reasons": [
+          "All named WorkNets have local dossiers, including the thinner TMR and Community entries."
+        ],
+        "evidenceFiles": [
+          "topic-dossiers.json",
+          "worknet-profiles.md"
+        ]
+      },
+      {
+        "key": "glossary-coverage",
+        "title": "Glossary Coverage",
+        "intent": "Key terms from the goal such as RootNet, WorkNet, skillURI, epoch, CLOB, and staking must be explainable.",
+        "status": "covered",
+        "reasons": [
+          "Required AWP terms are defined in the generated glossary."
+        ],
+        "evidenceFiles": [
+          "glossary.json",
+          "glossary.md"
+        ]
+      },
+      {
+        "key": "source-traceability",
+        "title": "Source Traceability",
+        "intent": "Derived claims should link back to official source keys, locators, and stability labels.",
+        "status": "covered",
+        "reasons": [
+          "Derived claims map to official source keys, locators, evidence types, and stability labels."
+        ],
+        "evidenceFiles": [
+          "source-evidence.json",
+          "evidence-model.md"
+        ]
+      },
+      {
+        "key": "registration-flow",
+        "title": "Registration Flow",
+        "intent": "The workstation should understand and eventually execute awp-skill gasless registration.",
+        "status": "covered",
+        "reasons": [
+          "The workstation has a concrete awp-skill registration command path.",
+          "Available registration-plan commands: run awp-skill gasless onboarding"
+        ],
+        "evidenceFiles": [
+          "source-facts.json",
+          "source-evidence.json",
+          "skill-registry.json"
+        ]
+      },
+      {
+        "key": "live-rpc-scan",
+        "title": "Live RPC Scan",
+        "intent": "The workstation should know the AWP RPC methods and report when live access is unavailable.",
+        "status": "covered",
+        "reasons": [
+          "Capability scan has successfully used a live official data path."
+        ],
+        "evidenceFiles": [
+          "capability-catalog.json",
+          "source-evidence.json"
+        ]
+      },
+      {
+        "key": "skill-inspector",
+        "title": "Skill Inspector",
+        "intent": "Official worknet skills should have install, preflight, and dry-run guidance even before the runtime is locally installed.",
+        "status": "covered",
+        "reasons": [
+          "Predict, Gov, and Ardi expose runtime-specific install/inspection guidance.",
+          "TMR/Community are still covered because inspector can prove when the official checkout is present but upstream only exposes license or metadata files: tmr, community"
+        ],
+        "evidenceFiles": [
+          "skill-inspections.json",
+          "skill-registry.json"
+        ]
+      },
+      {
+        "key": "recovery-state",
+        "title": "Recovery State",
+        "intent": "The workstation should persist and restore playbooks, runs, and pending confirmations.",
+        "status": "covered",
+        "reasons": [
+          "Run state and confirmation queue files exist and are reused by preflight/review."
+        ],
+        "evidenceFiles": [
+          "runs/latest-run.json",
+          "runs/pending-confirmations.json"
+        ]
+      },
+      {
+        "key": "live-canonical-quality",
+        "title": "Live Canonical Quality",
+        "intent": "Live WorkNet entries should resolve to canonical IDs and official skills with clear confidence.",
+        "status": "covered",
+        "reasons": [
+          "All cached live worknets resolved to canonical IDs with medium or high confidence."
+        ],
+        "evidenceFiles": [
+          "official-live-worknets.json",
+          "capability-catalog.json"
+        ]
+      },
+      {
+        "key": "upstream-drift-watch",
+        "title": "Upstream Drift Watch",
+        "intent": "Official docs and skill sources should be refreshable and diffable so workstation knowledge can track upstream changes.",
+        "status": "covered",
+        "reasons": [
+          "Official source refresh now emits a structured drift report with per-source content and availability comparisons.",
+          "Current drift summary: 3 changed source(s), 0 currently unreachable source(s).",
+          "Knowledge impact routing is also available: 4 topic(s), 4 fact set(s), 2 worknet profile(s).",
+          "A knowledge review queue is available with 15 actionable review item(s)."
+        ],
+        "evidenceFiles": [
+          "source-snapshot.json",
+          "source-drift.json",
+          "source-impact.json",
+          "knowledge-review-queue.json"
+        ]
+      }
+    ]
+  },
+  "skills": [
+    {
+      "key": "awp-skill",
+      "name": "AWP RootNet Skill",
+      "installUri": "https://github.com/awp-core/awp-skill",
+      "official": true,
+      "autoInstallEligible": false,
+      "status": "managed-installed",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/awp-skill",
+      "localPath": null,
+      "reason": "Protocol dependency used for registration, staking, allocation, and network query flows."
+    },
+    {
+      "key": "awp-wallet",
+      "name": "AWP Wallet",
+      "installUri": "https://github.com/awp-core/awp-wallet",
+      "official": true,
+      "autoInstallEligible": false,
+      "status": "external-local",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/awp-wallet",
+      "localPath": "/root/.nanobot/workspace/awp-wallet",
+      "reason": "Local work-wallet CLI used by workstation and child skills."
+    },
+    {
+      "key": "mine",
+      "name": "Mine WorkNet",
+      "installUri": "https://github.com/awp-worknet/mine-skill",
+      "official": true,
+      "autoInstallEligible": true,
+      "status": "external-local",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/mine",
+      "localPath": "/root/.nanobot/workspace/mine",
+      "reason": "Earn by contributing high-quality structured web data."
+    },
+    {
+      "key": "predict",
+      "name": "Predict WorkNet",
+      "installUri": "https://github.com/awp-worknet/prediction-skill",
+      "official": true,
+      "autoInstallEligible": true,
+      "status": "managed-installed",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/predict",
+      "localPath": null,
+      "reason": "Submit original price predictions with disciplined reasoning."
+    },
+    {
+      "key": "kya",
+      "name": "KYA",
+      "installUri": "https://github.com/awp-worknet/kya-skill",
+      "official": true,
+      "autoInstallEligible": true,
+      "status": "external-local",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/kya",
+      "localPath": "/root/.nanobot/workspace/kya-skill",
+      "reason": "Verify or bind the agent identity and delegated staking path."
+    },
+    {
+      "key": "ardi",
+      "name": "Ardi",
+      "installUri": "https://github.com/awp-worknet/ardi-skill",
+      "official": true,
+      "autoInstallEligible": true,
+      "status": "managed-installed",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/ardi",
+      "localPath": null,
+      "reason": "Solve riddles, commit, reveal, and inscribe within the round window."
+    },
+    {
+      "key": "gov",
+      "name": "GovNet",
+      "installUri": "https://github.com/awp-worknet/gov-skill",
+      "official": true,
+      "autoInstallEligible": true,
+      "status": "managed-installed",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/gov",
+      "localPath": null,
+      "reason": "Express weekly worknet value views through stake, allocation, vote, and trade."
+    },
+    {
+      "key": "tmr",
+      "name": "TMR",
+      "installUri": "https://github.com/awp-worknet/tmr-skill",
+      "official": true,
+      "autoInstallEligible": true,
+      "status": "managed-installed",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/tmr",
+      "localPath": null,
+      "reason": "Expose the official TMR worknet without pretending the task loop is fully understood yet."
+    },
+    {
+      "key": "community",
+      "name": "Community",
+      "installUri": "https://github.com/awp-worknet/com-skill",
+      "official": true,
+      "autoInstallEligible": true,
+      "status": "managed-installed",
+      "managedPath": "/root/.awp-workstation/skills/checkouts/community",
+      "localPath": null,
+      "reason": "Expose the official Community worknet while keeping execution conservative until the skill is inspected locally."
+    }
+  ],
+  "skillInspections": [
+    {
+      "skillKey": "ardi",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/ardi",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 54,
+      "repositoryFilesSample": [
+        ".github/workflows/release.yml",
+        ".gitignore",
+        "Cargo.toml",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "install.sh",
+        "scripts/bootstrap.sh",
+        "scripts/smoke_test.sh",
+        "src/auth.rs",
+        "src/awp_register.rs",
+        "src/awp_rpc.rs",
+        "src/chain.rs",
+        "src/client.rs",
+        "src/cmd/auto_mine.rs",
+        "src/cmd/buy_and_stake.rs",
+        "src/cmd/claim.rs",
+        "src/cmd/commit.rs",
+        "src/cmd/commits.rs",
+        "src/cmd/context.rs"
+      ],
+      "substantiveFileCount": 52,
+      "scripts": [
+        "scripts/bootstrap.sh",
+        "scripts/smoke_test.sh"
+      ],
+      "scriptCount": 2,
+      "commandHints": [],
+      "manifestSummary": "Official Ardi runtime that owns preflight, stake guidance, context, commit/reveal/inscribe flow, and the Linux auto-mine bootstrap.",
+      "runtimeName": "ardi-agent",
+      "requiredBins": [
+        "ardi-agent",
+        "awp-wallet"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "ardi-agent": true,
+          "awp-wallet": true
+        },
+        "optional": {}
+      },
+      "env": [
+        "ARDI_COORDINATOR_URL",
+        "ARDI_BASE_RPC",
+        "AWP_WALLET_BIN",
+        "ARDI_DEBUG"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "bootstrap ardi-agent runtime",
+          "cwd": "/root/.awp-workstation/skills/checkouts/ardi",
+          "argv": [
+            "bash",
+            "./scripts/bootstrap.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "ardi status",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "ardi gas check",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "gas"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "ardi preflight",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "preflight"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        },
+        {
+          "label": "ardi stake guidance",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "stake"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "ardi status",
+          "argv": [
+            "ardi-agent",
+            "status"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "status": "ok",
+            "message": "Agent address     : 0x518fdf57793e54254817c7d49618675d4fa774c2\nBasescan          : https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2\nAWP registered    : yes\nBase ETH balance  : 0.000000 ETH\nCoordinator       : reachable\nStake state       : {\"agent\":\"0x518fdf57793e54254817c7d49618675d4fa774c2\",\"mintCount\":0,\"mints\":[],\"remainingMintCap\":5}",
+            "data": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "address_url": "https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "agent_state": {
+                "agent": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "mintCount": 0,
+                "mints": [],
+                "remainingMintCap": 5
+              },
+              "balance_eth": 0.0,
+              "coord_reachable": true,
+              "registered": true
+            },
+            "_internal": {
+              "next_action": "review",
+              "next_command": "ardi-agent preflight"
+            }
+          },
+          "text": "{\n  \"status\": \"ok\",\n  \"message\": \"Agent address     : 0x518fdf57793e54254817c7d49618675d4fa774c2\\nBasescan          : https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2\\nAWP registered    : yes\\nBase ETH balance  : 0.000000 ETH\\nCoordinator       : reachable\\nStake state       : {\\\"agent\\\":\\\"0x518fdf57793e54254817c7d49618675d4fa774c2\\\",\\\"mintCount\\\":0,\\\"mints\\\":[],\\\"remainingMintCap\\\":5}\",\n  \"data\": {\n    \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"address_url\": \"https://basescan.org/address/0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"agent_state\": {\n      \"agent\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n      \"mintCount\": 0,\n      \"mints\": [],\n      \"remainingMintCap\": 5\n    },\n    \"balance_eth\": 0.0,\n    \"coord_reachable\": true,\n    \"registered\": true\n  },\n  \"_internal\": {\n    \"next_action\": \"review\",\n    \"next_command\": \"ardi-agent preflight\"\n  }\n}\n[info]  status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2"
+        },
+        {
+          "label": "ardi gas check",
+          "argv": [
+            "ardi-agent",
+            "gas"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "status": "error",
+            "message": "Wallet:        0x518fdf57793e54254817c7d49618675d4fa774c2\nBase ETH:      0.000000 ETH\nFloor:         0.003000 ETH (commits refused below)\nRefill at:     0.010000 ETH\nRecommended:   0.0500 ETH initial fund\n\nPer-epoch worst case: ~0.0017 ETH (full 5 commits + 5 reveals + 5 mints @ 1 gwei)\nPer-epoch typical:    ~0.0003 ETH (1-2 commits, occasional mint)\n0.05 ETH typically lasts 5-10 days at 6min epochs (gas scales with the 5-commit cap, not riddle count).",
+            "data": {
+              "retryable": true,
+              "suggestion": "Send at least 0.0500 ETH to 0x518fdf57793e54254817c7d49618675d4fa774c2 on Base mainnet, then re-run `ardi-agent gas`."
+            },
+            "_internal": {
+              "next_action": "fund_gas",
+              "next_command": "Send 0.0500 ETH on Base mainnet to 0x518fdf57793e54254817c7d49618675d4fa774c2"
+            },
+            "error_code": "INSUFFICIENT_GAS",
+            "error_kind": "balance"
+          },
+          "text": "{\n  \"status\": \"error\",\n  \"message\": \"Wallet:        0x518fdf57793e54254817c7d49618675d4fa774c2\\nBase ETH:      0.000000 ETH\\nFloor:         0.003000 ETH (commits refused below)\\nRefill at:     0.010000 ETH\\nRecommended:   0.0500 ETH initial fund\\n\\nPer-epoch worst case: ~0.0017 ETH (full 5 commits + 5 reveals + 5 mints @ 1 gwei)\\nPer-epoch typical:    ~0.0003 ETH (1-2 commits, occasional mint)\\n0.05 ETH typically lasts 5-10 days at 6min epochs (gas scales with the 5-commit cap, not riddle count).\",\n  \"data\": {\n    \"retryable\": true,\n    \"suggestion\": \"Send at least 0.0500 ETH to 0x518fdf57793e54254817c7d49618675d4fa774c2 on Base mainnet, then re-run `ardi-agent gas`.\"\n  },\n  \"_internal\": {\n    \"next_action\": \"fund_gas\",\n    \"next_command\": \"Send 0.0500 ETH on Base mainnet to 0x518fdf57793e54254817c7d49618675d4fa774c2\"\n  },\n  \"error_code\": \"INSUFFICIENT_GAS\",\n  \"error_kind\": \"balance\"\n}"
+        },
+        {
+          "label": "ardi stake guidance",
+          "argv": [
+            "ardi-agent",
+            "stake"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "status": "error",
+            "message": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2\nThreshold (each path):  10000 AWP (source: chain)\nNo allocations found across known stakers.\nStatus:                 NOT ELIGIBLE\n\nPick a path (in order of recommendation):\n\n[A] \ud83d\udfe2 KYA delegated stake \u2014 easiest, no AWP needed\n    https://kya.link/\n    Tweet your agent address, KYA verifies on Twitter and sponsors\n    10000 AWP into worknet 845300000012. Wait 1-24h.\n\n[B] \ud83d\udfe2 One-click buy + auto-stake \u2014 for users with ETH\n    Recommended: top up ~0.01 ETH (\u2248 $30-40) to your agent, then run:\n        ardi-agent buy-and-stake\n    Skill quotes ETH\u2192USDC\u2192AWP on-chain (Uniswap V3 + Aerodrome),\n    then auto-locks into veAWP and allocates to your agent.\n    Your agent address: 0x518fdf57793e54254817c7d49618675d4fa774c2\n\n[C] \u26aa Manual self-stake \u2014 if you already hold AWP\n    https://awp.pro/staking\n    Connect wallet, lock >= 10000 AWP, allocate to:\n      agent: 0x518fdf57793e54254817c7d49618675d4fa774c2\n      worknetId: 845300000014 (Ardi)\n\nAfter staking, wait ~10s, then re-run: ardi-agent stake",
+            "data": {
+              "retryable": false,
+              "suggestion": "Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run."
+            },
+            "_internal": {
+              "next_action": "stake_required",
+              "next_command": "ardi-agent stake"
+            },
+            "error_code": "NOT_STAKED",
+            "error_kind": "stake",
+            "debug": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "all_allocations": [],
+              "ardi_worknet_id": "845300000014",
+              "awp_allocator_contract": "0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA",
+              "eligible": false,
+              "kya_worknet_id": "845300000012",
+              "min_stake_awp": 10000.0,
+              "ve_awp_contract": "0x0000b534C63D78212f1BDCc315165852793A00A8",
+              "via": null
+            }
+          },
+          "text": "{\n  \"status\": \"error\",\n  \"message\": \"Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2\\nThreshold (each path):  10000 AWP (source: chain)\\nNo allocations found across known stakers.\\nStatus:                 NOT ELIGIBLE\\n\\nPick a path (in order of recommendation):\\n\\n[A] \ud83d\udfe2 KYA delegated stake \u2014 easiest, no AWP needed\\n    https://kya.link/\\n    Tweet your agent address, KYA verifies on Twitter and sponsors\\n    10000 AWP into worknet 845300000012. Wait 1-24h.\\n\\n[B] \ud83d\udfe2 One-click buy + auto-stake \u2014 for users with ETH\\n    Recommended: top up ~0.01 ETH (\u2248 $30-40) to your agent, then run:\\n        ardi-agent buy-and-stake\\n    Skill quotes ETH\u2192USDC\u2192AWP on-chain (Uniswap V3 + Aerodrome),\\n    then auto-locks into veAWP and allocates to your agent.\\n    Your agent address: 0x518fdf57793e54254817c7d49618675d4fa774c2\\n\\n[C] \u26aa Manual self-stake \u2014 if you already hold AWP\\n    https://awp.pro/staking\\n    Connect wallet, lock >= 10000 AWP, allocate to:\\n      agent: 0x518fdf57793e54254817c7d49618675d4fa774c2\\n      worknetId: 845300000014 (Ardi)\\n\\nAfter staking, wait ~10s, then re-run: ardi-agent stake\",\n  \"data\": {\n    \"retryable\": false,\n    \"suggestion\": \"Reach the 10000 ...(truncated)"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "awp-skill",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/awp-skill",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 52,
+      "repositoryFilesSample": [
+        ".gitignore",
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "assets/banner.png",
+        "references/api-reference.md",
+        "references/commands-governance.md",
+        "references/commands-staking.md",
+        "references/commands-worknet.md",
+        "references/protocol.md",
+        "references/worknet-developer.md",
+        "scripts/__pycache__/awp_lib.cpython-39.pyc",
+        "scripts/awp-daemon.py",
+        "scripts/awp_lib.py",
+        "scripts/onchain-add-position.py",
+        "scripts/onchain-allocate.py",
+        "scripts/onchain-batch-withdraw.py",
+        "scripts/onchain-bind.py",
+        "scripts/onchain-claim.py"
+      ],
+      "substantiveFileCount": 50,
+      "scripts": [
+        "scripts/__pycache__/awp_lib.cpython-39.pyc",
+        "scripts/awp-daemon.py",
+        "scripts/awp_lib.py",
+        "scripts/onchain-add-position.py",
+        "scripts/onchain-allocate.py",
+        "scripts/onchain-batch-withdraw.py",
+        "scripts/onchain-bind.py",
+        "scripts/onchain-claim.py",
+        "scripts/onchain-deallocate-all.py",
+        "scripts/onchain-deallocate.py",
+        "scripts/onchain-deposit.py",
+        "scripts/onchain-onboard.py",
+        "scripts/onchain-partial-withdraw.py",
+        "scripts/onchain-propose.py",
+        "scripts/onchain-reallocate.py",
+        "scripts/onchain-register.py",
+        "scripts/onchain-stake.py",
+        "scripts/onchain-switch-worknet.py",
+        "scripts/onchain-unstake.py",
+        "scripts/onchain-vote.py",
+        "scripts/onchain-withdraw.py",
+        "scripts/onchain-worknet-lifecycle.py",
+        "scripts/onchain-worknet-metadata.py",
+        "scripts/onchain-worknet-update.py",
+        "scripts/preflight.py",
+        "scripts/query-dao.py",
+        "scripts/query-status.py",
+        "scripts/query-worknet.py",
+        "scripts/relay-allocate.py",
+        "scripts/relay-delegate.py",
+        "scripts/relay-onboard.py",
+        "scripts/relay-propose.py",
+        "scripts/relay-register-worknet.py",
+        "scripts/relay-signal-propose.py",
+        "scripts/relay-stake.py",
+        "scripts/relay-start.py",
+        "scripts/relay-unbind.py",
+        "scripts/relay-vote.py",
+        "scripts/wallet-raw-call.mjs"
+      ],
+      "scriptCount": 39,
+      "commandHints": [
+        "python3 scripts/awp-daemon.py --interval 300",
+        "python3 scripts/preflight.py",
+        "python3 scripts/query-status.py --address 0x1234...",
+        "python3 scripts/query-status.py --token $TOKEN",
+        "python3 scripts/query-worknet.py --worknet 1",
+        "python3 scripts/relay-onboard.py --token $TOKEN",
+        "python3 scripts/relay-onboard.py --token $TOKEN --amount 5000 --lock-days 90 --worknet 1",
+        "python3 scripts/relay-onboard.py --token $TOKEN --target <owner_address>",
+        "python3 scripts/onchain-onboard.py --token $TOKEN --amount 5000 --lock-days 90 --worknet 1",
+        "python3 scripts/relay-start.py --token $TOKEN --mode principal",
+        "python3 scripts/relay-start.py --token $TOKEN --mode agent --target <root_address>",
+        "python3 scripts/onchain-bind.py --token $TOKEN --unbind",
+        "python3 scripts/onchain-bind.py --token $TOKEN --target <root_address>",
+        "python3 scripts/relay-stake.py --token $TOKEN --amount 5000 --lock-days 90",
+        "python3 scripts/relay-stake.py --token $TOKEN --amount 5000 --lock-days 90 --agent <addr> --worknet 1",
+        "python3 scripts/onchain-stake.py --token $TOKEN --amount 5000 --lock-days 90 --agent <addr> --worknet 1",
+        "python3 scripts/onchain-deposit.py --token $TOKEN --amount 5000 --lock-days 90",
+        "python3 scripts/onchain-add-position.py --token $TOKEN --position 1 --amount 1000 --extend-days 30",
+        "python3 scripts/onchain-withdraw.py --token $TOKEN --position 1",
+        "python3 scripts/onchain-unstake.py --token $TOKEN"
+      ],
+      "manifestSummary": "Official RootNet runtime for registration, status, staking, allocation, and worknet queries.",
+      "runtimeName": "awp-skill python scripts",
+      "requiredBins": [
+        "python3",
+        "awp-wallet"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "python3": true,
+          "awp-wallet": true
+        },
+        "optional": {}
+      },
+      "env": [
+        "EVM_CHAIN"
+      ],
+      "bootstrapCommands": [],
+      "inspectionCommands": [
+        {
+          "label": "awp-skill preflight",
+          "cwd": "/root/.awp-workstation/skills/checkouts/awp-skill",
+          "argv": [
+            "python3",
+            "scripts/preflight.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "awp-skill query worknet 2",
+          "cwd": "/root/.awp-workstation/skills/checkouts/awp-skill",
+          "argv": [
+            "python3",
+            "scripts/query-worknet.py",
+            "--worknet",
+            "2"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "awp-skill preflight",
+          "argv": [
+            "python3",
+            "scripts/preflight.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/awp-skill",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "state": {
+              "walletInstalled": true,
+              "walletInitialized": true,
+              "walletUnlocked": true,
+              "walletAddress": "0x518FDf57793e54254817c7D49618675d4Fa774c2",
+              "registered": true,
+              "boundTo": null,
+              "recipient": null,
+              "hasStake": false,
+              "totalStaked": "0",
+              "hasAllocations": false,
+              "totalAllocated": "0",
+              "freeWorknetsAvailable": 6
+            },
+            "progress": "2/4",
+            "nextAction": "pick_worknet",
+            "nextCommand": "python3 scripts/query-worknet.py --worknet <WORKNET_ID>",
+            "message": "Registered. 6 free worknet(s) available \u2014 no staking needed to join.",
+            "freeWorknets": [
+              {
+                "worknetId": null,
+                "name": "AWP ARDI Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "AWP TMR Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "AWP KYA Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "AWP Community Worknet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "Predict WorkNet",
+                "hasSkill": true
+              },
+              {
+                "worknetId": null,
+                "name": "Mine Worknet",
+                "hasSkill": true
+              }
+            ]
+          },
+          "text": "{\n  \"state\": {\n    \"walletInstalled\": true,\n    \"walletInitialized\": true,\n    \"walletUnlocked\": true,\n    \"walletAddress\": \"0x518FDf57793e54254817c7D49618675d4Fa774c2\",\n    \"registered\": true,\n    \"boundTo\": null,\n    \"recipient\": null,\n    \"hasStake\": false,\n    \"totalStaked\": \"0\",\n    \"hasAllocations\": false,\n    \"totalAllocated\": \"0\",\n    \"freeWorknetsAvailable\": 6\n  },\n  \"progress\": \"2/4\",\n  \"nextAction\": \"pick_worknet\",\n  \"nextCommand\": \"python3 scripts/query-worknet.py --worknet <WORKNET_ID>\",\n  \"message\": \"Registered. 6 free worknet(s) available \\u2014 no staking needed to join.\",\n  \"freeWorknets\": [\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP ARDI Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP TMR Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP KYA Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"AWP Community Worknet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"Predict WorkNet\",\n      \"hasSkill\": true\n    },\n    {\n      \"worknetId\": null,\n      \"name\": \"Mine Worknet\",\n      \"hasSkill\": true\n    }\n  ]\n}"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "awp-wallet",
+      "status": "ready",
+      "origin": "local-source",
+      "root": "/root/.nanobot/workspace/awp-wallet",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 16430,
+      "repositoryFilesSample": [
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "assets/banner.png",
+        "assets/default-chains.json",
+        "awp-wallet.skill",
+        "docs/CLAUDE-WEB3-GUIDE.md",
+        "install.sh",
+        "node_modules/.package-lock.json",
+        "node_modules/@adraffy/ens-normalize/LICENSE",
+        "node_modules/@adraffy/ens-normalize/README.md",
+        "node_modules/@adraffy/ens-normalize/dist/all.js",
+        "node_modules/@adraffy/ens-normalize/dist/all.min.js",
+        "node_modules/@adraffy/ens-normalize/dist/index-xnf.cjs",
+        "node_modules/@adraffy/ens-normalize/dist/index-xnf.min.js",
+        "node_modules/@adraffy/ens-normalize/dist/index-xnf.mjs",
+        "node_modules/@adraffy/ens-normalize/dist/index.cjs",
+        "node_modules/@adraffy/ens-normalize/dist/index.d.ts",
+        "node_modules/@adraffy/ens-normalize/dist/index.min.js"
+      ],
+      "substantiveFileCount": 16400,
+      "scripts": [
+        "scripts/lib/balance.js",
+        "scripts/lib/bundler.js",
+        "scripts/lib/chains.js",
+        "scripts/lib/direct-tx.js",
+        "scripts/lib/eip7702.js",
+        "scripts/lib/gasless-tx.js",
+        "scripts/lib/keystore.js",
+        "scripts/lib/paths.js",
+        "scripts/lib/paymaster.js",
+        "scripts/lib/session.js",
+        "scripts/lib/signing.js",
+        "scripts/lib/tx-logger.js",
+        "scripts/lib/tx-router.js",
+        "scripts/lib/tx-validator.js",
+        "scripts/wallet-cli.js"
+      ],
+      "scriptCount": 15,
+      "commandHints": [],
+      "manifestSummary": null,
+      "runtimeName": null,
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "community",
+      "status": "empty-official-repo",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/community",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 1,
+      "repositoryFilesSample": [
+        "LICENSE"
+      ],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "scriptCount": 0,
+      "commandHints": [],
+      "manifestSummary": "Official live Community skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+      "runtimeName": "com-skill",
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [
+        "The official checkout currently only contains license or metadata files, so there is no upstream runtime to bootstrap yet."
+      ],
+      "remediationCommands": [],
+      "warnings": [
+        "SKILL.md missing",
+        "managed skill has no script files",
+        "managed checkout currently only contains license or metadata files"
+      ]
+    },
+    {
+      "skillKey": "gov",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/gov",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 7200,
+      "repositoryFilesSample": [
+        ".gitignore",
+        ".venv/bin/Activate.ps1",
+        ".venv/bin/activate",
+        ".venv/bin/activate.csh",
+        ".venv/bin/activate.fish",
+        ".venv/bin/pip",
+        ".venv/bin/pip3",
+        ".venv/bin/pip3.9",
+        ".venv/bin/py.test",
+        ".venv/bin/pygmentize",
+        ".venv/bin/pytest",
+        ".venv/bin/python",
+        ".venv/bin/python3",
+        ".venv/bin/python3.9",
+        ".venv/bin/websockets",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/AES.py",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/AES.pyi",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/ARC2.py",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/ARC2.pyi",
+        ".venv/lib/python3.9/site-packages/Crypto/Cipher/ARC4.py"
+      ],
+      "substantiveFileCount": 7144,
+      "scripts": [
+        "scripts/content/endorse.py",
+        "scripts/content/post-comment.py",
+        "scripts/content/post-report.py",
+        "scripts/helpers/countdown.py",
+        "scripts/helpers/show-receipt.py",
+        "scripts/helpers/what-can-i-do.py",
+        "scripts/lib/__init__.py",
+        "scripts/lib/__pycache__/__init__.cpython-39.pyc",
+        "scripts/lib/__pycache__/canonical.cpython-39.pyc",
+        "scripts/lib/__pycache__/govnet_lib.cpython-39.pyc",
+        "scripts/lib/__pycache__/nonce.cpython-39.pyc",
+        "scripts/lib/__pycache__/sign.cpython-39.pyc",
+        "scripts/lib/canonical.py",
+        "scripts/lib/govnet_lib.py",
+        "scripts/lib/nonce.py",
+        "scripts/lib/sign.py",
+        "scripts/lib/ws.py",
+        "scripts/positions/merge.py",
+        "scripts/positions/split.py",
+        "scripts/private/fills-list.py",
+        "scripts/private/managers.py",
+        "scripts/private/orders-get.py",
+        "scripts/private/orders-list.py",
+        "scripts/private/power.py",
+        "scripts/private/recipient.py",
+        "scripts/private/state.py",
+        "scripts/private/votes-mine.py",
+        "scripts/public/auth-info.py",
+        "scripts/public/auth-time.py",
+        "scripts/public/book.py",
+        "scripts/public/epochs.py",
+        "scripts/public/klines.py",
+        "scripts/public/leaderboard.py",
+        "scripts/public/markets.py",
+        "scripts/public/worknets.py",
+        "scripts/stream/watch-book.py",
+        "scripts/stream/watch-klines.py",
+        "scripts/stream/watch-phase.py",
+        "scripts/stream/watch-private.py",
+        "scripts/trade/cancel-all.py",
+        "scripts/trade/cancel-batch.py",
+        "scripts/trade/cancel-order.py",
+        "scripts/trade/submit-order.py",
+        "scripts/trade/synthesize.py",
+        "scripts/vote/submit-vote.py",
+        "scripts/vote/verify-proof.py"
+      ],
+      "scriptCount": 46,
+      "commandHints": [
+        "python3 scripts/public/markets.py",
+        "python3 scripts/public/book.py --market 6 --worknet 11",
+        "python3 scripts/private/state.py",
+        "python3 scripts/trade/submit-order.py --market 6 --worknet 11",
+        "python3 scripts/helpers/what-can-i-do.py"
+      ],
+      "manifestSummary": "Official GovNet runtime with public readers, signed reads, order entry, voting, and phase-aware helpers.",
+      "runtimeName": "gov-skill python scripts",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [
+        "awp-wallet"
+      ],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {
+          "awp-wallet": true
+        }
+      },
+      "env": [
+        "GOVNET_NONCE_DIR",
+        "GOVNET_API_BASE",
+        "GOVNET_WS_URL",
+        "GOVNET_VOTE_TYPED_DATA_VARIANT"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "create gov skill venv",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "python3",
+            "-m",
+            "venv",
+            ".venv"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        },
+        {
+          "label": "install gov skill deps",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            ".venv/bin/pip",
+            "install",
+            "eth-hash",
+            "eth-account",
+            "websockets",
+            "pytest"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "gov public markets",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/public/markets.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "gov phase-aware helper",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/helpers/what-can-i-do.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "gov private state",
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/private/state.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "gov public markets",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/public/markets.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "items": [
+              {
+                "id": 2,
+                "name": "Pending Allocation \u00b7 2026-W20",
+                "description": "Next-week allocation, awaiting open.",
+                "voting_open_at": "2026-05-15T12:00:00Z",
+                "voting_close_at": "2026-05-18T12:00:00Z",
+                "trading_close_at": "2026-05-22T11:00:00Z",
+                "settled_at": null,
+                "status": "trading_only",
+                "total_gov_emission": "1000000.000000000000000000",
+                "epistemic_prior_strategy": "most_recent_market",
+                "created_by_principal": "0x0000000000000000000000000000000000000001",
+                "created_at": "2026-05-04T10:53:57.186602Z",
+                "worknets": [
+                  {
+                    "worknet_id": 0,
+                    "initial_price": "0.200000000000000000",
+                    "govnet": true,
+                    "position": 0
+                  },
+                  {
+                    "worknet_id": 1,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 1
+                  },
+                  {
+                    "worknet_id": 2,
+                    "initial_price": "0.400000000000000000",
+                    "govnet": false,
+                    "position": 2
+                  },
+                  {
+                    "worknet_id": 3,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 3
+                  },
+                  {
+                    "worknet_id": 4,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 4
+                  },
+                  {
+                    "worknet_id": 5,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 5
+                  },
+                  {
+                    "worknet_id": 6,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 6
+                  }
+                ]
+              },
+              {
+                "id": 1,
+                "name": "Genesis Allocation \u00b7 2026-W19",
+                "description": "First production allocation. Six worknets bid for the Gov-Token emission share.",
+                "voting_open_at": "2026-05-08T12:00:00Z",
+                "voting_close_at": "2026-05-10T12:00:00Z",
+                "trading_close_at": "2026-05-15T11:00:00Z",
+                "settled_at": "2026-05-18T05:00:50.182749Z",
+                "status": "completed",
+                "total_gov_emission": "1000000.000000000000000000",
+                "epistemic_prior_strategy": "per_market_clean_slate",
+                "created_by_principal": "0x0000000000000000000000000000000000000001",
+                "created_at": "2026-05-04T10:53:57.186602Z",
+                "worknets": [
+                  {
+                    "worknet_id": 0,
+                    "initial_price": "0.200000000000000000",
+                    "govnet": true,
+                    "position": 0
+                  },
+                  {
+                    "worknet_id": 1,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 1
+                  },
+                  {
+                    "worknet_id": 2,
+                    "initial_price": "0.400000000000000000",
+                    "govnet": false,
+                    "position": 2
+                  },
+                  {
+                    "worknet_id": 3,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 3
+                  },
+                  {
+                    "worknet_id": 4,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 4
+                  },
+                  {
+                    "worknet_id": 5,
+                    "initial_price": "0.100000000000000000",
+                    "govnet": false,
+                    "position": 5
+                  },
+                  {
+                    "worknet_id": 6,
+                    "initial_price": "0.050000000000000000",
+                    "govnet": false,
+                    "position": 6
+                  }
+                ]
+              }
+            ]
+          },
+          "text": "{\n  \"items\": [\n    {\n      \"id\": 2,\n      \"name\": \"Pending Allocation \\u00b7 2026-W20\",\n      \"description\": \"Next-week allocation, awaiting open.\",\n      \"voting_open_at\": \"2026-05-15T12:00:00Z\",\n      \"voting_close_at\": \"2026-05-18T12:00:00Z\",\n      \"trading_close_at\": \"2026-05-22T11:00:00Z\",\n      \"settled_at\": null,\n      \"status\": \"trading_only\",\n      \"total_gov_emission\": \"1000000.000000000000000000\",\n      \"epistemic_prior_strategy\": \"most_recent_market\",\n      \"created_by_principal\": \"0x0000000000000000000000000000000000000001\",\n      \"created_at\": \"2026-05-04T10:53:57.186602Z\",\n      \"worknets\": [\n        {\n          \"worknet_id\": 0,\n          \"initial_price\": \"0.200000000000000000\",\n          \"govnet\": true,\n          \"position\": 0\n        },\n        {\n          \"worknet_id\": 1,\n          \"initial_price\": \"0.100000000000000000\",\n          \"govnet\": false,\n          \"position\": 1\n        },\n        {\n          \"worknet_id\": 2,\n          \"initial_price\": \"0.400000000000000000\",\n          \"govnet\": false,\n          \"position\": 2\n        },\n        {\n          \"worknet_id\": 3,\n          \"initial_price\": \"0.100000000000000000\",\n          \"govnet\": false,\n          \"position\":...(truncated)"
+        },
+        {
+          "label": "gov phase-aware helper",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/helpers/what-can-i-do.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "epoch_id": 2,
+            "phase": "trading_only",
+            "next_transition_at": null,
+            "available": [
+              {
+                "op": "list-markets",
+                "script": "scripts/public/markets.py"
+              },
+              {
+                "op": "list-worknets",
+                "script": "scripts/public/worknets.py"
+              },
+              {
+                "op": "read-book",
+                "script": "scripts/public/book.py"
+              },
+              {
+                "op": "read-klines",
+                "script": "scripts/public/klines.py"
+              },
+              {
+                "op": "read-private-state",
+                "script": "scripts/private/state.py"
+              },
+              {
+                "op": "submit-order",
+                "script": "scripts/trade/submit-order.py"
+              },
+              {
+                "op": "cancel-order",
+                "script": "scripts/trade/cancel-order.py"
+              },
+              {
+                "op": "split-position",
+                "script": "scripts/positions/split.py"
+              },
+              {
+                "op": "merge-position",
+                "script": "scripts/positions/merge.py"
+              },
+              {
+                "op": "post-comment",
+                "script": "scripts/content/post-comment.py"
+              },
+              {
+                "op": "post-report",
+                "script": "scripts/content/post-report.py"
+              },
+              {
+                "op": "endorse-comment",
+                "script": "scripts/content/endorse.py"
+              }
+            ],
+            "blocked": [
+              {
+                "op": "submit-vote",
+                "script": "scripts/vote/submit-vote.py",
+                "reason": "current phase is 'trading_only'"
+              },
+              {
+                "op": "read-settlement",
+                "script": "scripts/public/epochs.py results --id <ID>",
+                "reason": "current phase is 'trading_only'"
+              }
+            ]
+          },
+          "text": "{\n  \"epoch_id\": 2,\n  \"phase\": \"trading_only\",\n  \"next_transition_at\": null,\n  \"available\": [\n    {\n      \"op\": \"list-markets\",\n      \"script\": \"scripts/public/markets.py\"\n    },\n    {\n      \"op\": \"list-worknets\",\n      \"script\": \"scripts/public/worknets.py\"\n    },\n    {\n      \"op\": \"read-book\",\n      \"script\": \"scripts/public/book.py\"\n    },\n    {\n      \"op\": \"read-klines\",\n      \"script\": \"scripts/public/klines.py\"\n    },\n    {\n      \"op\": \"read-private-state\",\n      \"script\": \"scripts/private/state.py\"\n    },\n    {\n      \"op\": \"submit-order\",\n      \"script\": \"scripts/trade/submit-order.py\"\n    },\n    {\n      \"op\": \"cancel-order\",\n      \"script\": \"scripts/trade/cancel-order.py\"\n    },\n    {\n      \"op\": \"split-position\",\n      \"script\": \"scripts/positions/split.py\"\n    },\n    {\n      \"op\": \"merge-position\",\n      \"script\": \"scripts/positions/merge.py\"\n    },\n    {\n      \"op\": \"post-comment\",\n      \"script\": \"scripts/content/post-comment.py\"\n    },\n    {\n      \"op\": \"post-report\",\n      \"script\": \"scripts/content/post-report.py\"\n    },\n    {\n      \"op\": \"endorse-comment\",\n      \"script\": \"scripts/content/endorse.py\"\n    }\n  ],\n  \"blocked\": [\n    {\n      \"op\": \"submit-vote\",\n      \"s...(truncated)"
+        },
+        {
+          "label": "gov private state",
+          "argv": [
+            "/root/.awp-workstation/skills/checkouts/gov/.venv/bin/python",
+            "scripts/private/state.py"
+          ],
+          "cwd": "/root/.awp-workstation/skills/checkouts/gov",
+          "ok": false,
+          "code": 1,
+          "result": {
+            "error": "STATE_PRINCIPAL_NOT_IN_EPOCH",
+            "title": "Principal has no AWP Power this epoch",
+            "detail": "principal 0x518fdf57793e54254817c7d49618675d4fa774c2 has no AWP Power in epoch 2",
+            "status": 404
+          },
+          "text": "{\"error\": \"STATE_PRINCIPAL_NOT_IN_EPOCH\", \"title\": \"Principal has no AWP Power this epoch\", \"detail\": \"principal 0x518fdf57793e54254817c7d49618675d4fa774c2 has no AWP Power in epoch 2\", \"status\": 404}"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "auto inspection probe hit protocol state blockers: gov private state"
+      ]
+    },
+    {
+      "skillKey": "kya",
+      "status": "ready",
+      "origin": "local-source",
+      "root": "/root/.nanobot/workspace/kya-skill",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 16,
+      "repositoryFilesSample": [
+        ".gitattributes",
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        "SKILL.md",
+        "scripts/__pycache__/kya_lib.cpython-39.pyc",
+        "scripts/kya_lib.py",
+        "scripts/relay-grant-delegate.py",
+        "scripts/relay-set-recipient.py",
+        "scripts/sign-action.py",
+        "scripts/sign-claim.py",
+        "scripts/sign-email.py",
+        "scripts/sign-kyc.py",
+        "scripts/sign.py",
+        "scripts/test_kya_lib.py",
+        "scripts/test_sign_action.py"
+      ],
+      "substantiveFileCount": 13,
+      "scripts": [
+        "scripts/__pycache__/kya_lib.cpython-39.pyc",
+        "scripts/kya_lib.py",
+        "scripts/relay-grant-delegate.py",
+        "scripts/relay-set-recipient.py",
+        "scripts/sign-action.py",
+        "scripts/sign-claim.py",
+        "scripts/sign-email.py",
+        "scripts/sign-kyc.py",
+        "scripts/sign.py",
+        "scripts/test_kya_lib.py",
+        "scripts/test_sign_action.py"
+      ],
+      "scriptCount": 11,
+      "commandHints": [
+        "python3 scripts/sign-claim.py",
+        "python3 scripts/sign-kyc.py --owner 0xowner...",
+        "python3 scripts/sign-action.py",
+        "python3 scripts/sign.py --from-file typed.json",
+        "python3 scripts/sign.py --from-clipboard",
+        "python3 scripts/sign.py",
+        "python3 scripts/relay-set-recipient.py --worknet 845300000012",
+        "python3 scripts/relay-set-recipient.py --recipient 0xdeposit... --no-poll",
+        "python3 scripts/relay-set-recipient.py --worknet 845300000012 --amount 1000",
+        "python3 scripts/relay-grant-delegate.py",
+        "python3 scripts/sign-email.py",
+        "python3 scripts/sign-email.py --email me"
+      ],
+      "manifestSummary": "KYA identity and matchmaking runtime for claim, KYC, set-recipient, and grant-delegate signing flows.",
+      "runtimeName": "kya signing scripts",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [
+        "awp-wallet"
+      ],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {
+          "awp-wallet": true
+        }
+      },
+      "env": [
+        "KYA_API_BASE",
+        "KYA_KYC_BASE",
+        "KYA_CHAIN_ID",
+        "AWP_RELAY_BASE",
+        "BASE_RPC_URL"
+      ],
+      "bootstrapCommands": [],
+      "inspectionCommands": [
+        {
+          "label": "kya sign claim help",
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "argv": [
+            "python3",
+            "scripts/sign-claim.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "kya relay recipient help",
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "argv": [
+            "python3",
+            "scripts/relay-set-recipient.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "kya kyc help",
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "argv": [
+            "python3",
+            "scripts/sign-kyc.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "kya sign claim help",
+          "argv": [
+            "python3",
+            "scripts/sign-claim.py",
+            "--help"
+          ],
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "ok": true,
+          "code": 0,
+          "result": null,
+          "text": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID]\n                     [--api-base API_BASE] [--web-base WEB_BASE]\n                     [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll]\n                     [--poll-timeout POLL_TIMEOUT]\n\nRun the KYA Twitter claim machine half and hand the user a web link to publish\nthe tweet from.\n\noptional arguments:\n  -h, --help            show this help message and exit\n  --token TOKEN         awp-wallet session token. Optional: newer awp-wallet\n                        versions don't need it, and for older/locked wallets\n                        this skill will call `awp-wallet unlock`\n                        automatically. Set AWP_WALLET_TOKEN env var to reuse a\n                        token.\n  --chain-id CHAIN_ID   EVM chain id used in EIP-712 domain (default: 8453)\n  --api-base API_BASE   KYA API base URL (overrides env KYA_API_BASE)\n  --web-base WEB_BASE   KYA web base URL used to build the human-handoff link\n                        printed at the end of the flow (overrides env\n                        KYA_WEB_BASE; defaults to https://kya.link)\n  --agent AGENT         Override the agent address (default: read from awp-\n       ...(truncated)"
+        },
+        {
+          "label": "kya relay recipient help",
+          "argv": [
+            "python3",
+            "scripts/relay-set-recipient.py",
+            "--help"
+          ],
+          "cwd": "/root/.nanobot/workspace/kya-skill",
+          "ok": true,
+          "code": 0,
+          "result": null,
+          "text": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID]\n                              [--api-base API_BASE] [--web-base WEB_BASE]\n                              [--agent AGENT] [--recipient RECIPIENT]\n                              [--worknet WORKNET] [--amount AMOUNT]\n                              [--deadline-seconds DEADLINE_SECONDS]\n                              [--no-poll] [--no-poll-staking]\n                              [--staking-poll-timeout STAKING_POLL_TIMEOUT]\n\nAWPRegistry.setRecipient \u2014 gasless relay flow + KYA delegated-staking request.\nTwo-stage flow for KYA's economic / delegated-staking pipeline: Stage 1 \u2014\npoint AWP rewards at the KYA deposit address (gasless via AWP relayer): 1.\nRead agent EOA from awp-wallet (or --agent override). 2. (optional) GET\n/v1/agents/:address/deposit-address to pick the recipient. 3. Read\nAWPRegistry.nonces(agent), build SetRecipient typed-data, sign. 4. POST\nsignature to AWP_RELAY_BASE/api/relay/set-recipient. 5. Poll relay status\nuntil confirmed (skippable with --no-poll). Stage 2 \u2014 tell KYA \"I want N AWP\nbacking my agent\" (only with --amount): 6. Sign KYA\nAction(delegated_staking_request). 7. POST /v1/services/staking/re...(truncated)"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "mine",
+      "status": "ready",
+      "origin": "local-source",
+      "root": "/root/.nanobot/workspace/mine",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 24118,
+      "repositoryFilesSample": [
+        ".env.example",
+        ".github/workflows/sync-to-release.yml",
+        ".gitignore",
+        ".skillignore",
+        ".venv/bin/Activate.ps1",
+        ".venv/bin/activate",
+        ".venv/bin/activate.csh",
+        ".venv/bin/activate.fish",
+        ".venv/bin/alphashape",
+        ".venv/bin/camoufox",
+        ".venv/bin/chardetect",
+        ".venv/bin/crawl4ai-doctor",
+        ".venv/bin/crawl4ai-download-models",
+        ".venv/bin/crawl4ai-migrate",
+        ".venv/bin/crawl4ai-setup",
+        ".venv/bin/crwl",
+        ".venv/bin/distro",
+        ".venv/bin/dotenv",
+        ".venv/bin/f2py",
+        ".venv/bin/hf"
+      ],
+      "substantiveFileCount": 23981,
+      "scripts": [
+        "scripts/__pycache__/agent_runtime.cpython-311.pyc",
+        "scripts/__pycache__/auth_orchestrator.cpython-311.pyc",
+        "scripts/__pycache__/background_worker.cpython-311.pyc",
+        "scripts/__pycache__/canonicalize.cpython-311.pyc",
+        "scripts/__pycache__/common.cpython-311.pyc",
+        "scripts/__pycache__/common.cpython-39.pyc",
+        "scripts/__pycache__/crawl_mode_planner.cpython-311.pyc",
+        "scripts/__pycache__/eip712_primitives.cpython-311.pyc",
+        "scripts/__pycache__/host_diagnostics.cpython-311.pyc",
+        "scripts/__pycache__/install_guidance.cpython-311.pyc",
+        "scripts/__pycache__/install_guidance.cpython-39.pyc",
+        "scripts/__pycache__/mine_gateway.cpython-311.pyc",
+        "scripts/__pycache__/pow_solver.cpython-311.pyc",
+        "scripts/__pycache__/run_artifacts.cpython-311.pyc",
+        "scripts/__pycache__/run_models.cpython-311.pyc",
+        "scripts/__pycache__/secret_refs.cpython-311.pyc",
+        "scripts/__pycache__/secret_refs.cpython-39.pyc",
+        "scripts/__pycache__/signer.cpython-311.pyc",
+        "scripts/__pycache__/skill_runtime.cpython-311.pyc",
+        "scripts/__pycache__/task_sources.cpython-311.pyc",
+        "scripts/__pycache__/worker_state.cpython-311.pyc",
+        "scripts/__pycache__/ws_client.cpython-311.pyc",
+        "scripts/agent_handoff_runner.py",
+        "scripts/agent_runtime.py",
+        "scripts/auth_orchestrator.py",
+        "scripts/background_worker.py",
+        "scripts/bootstrap.cmd",
+        "scripts/bootstrap.ps1",
+        "scripts/bootstrap.sh",
+        "scripts/canonicalize.py",
+        "scripts/common.py",
+        "scripts/crawl_mode_planner.py",
+        "scripts/eip712_primitives.py",
+        "scripts/evaluation_engine.py",
+        "scripts/host_diagnostics.py",
+        "scripts/init_agent.py",
+        "scripts/install_guidance.py",
+        "scripts/mine_gateway.py",
+        "scripts/mine_setup.py",
+        "scripts/openclaw_llm.py",
+        "scripts/pk_signer.py",
+        "scripts/post_install_check.py",
+        "scripts/pow_solver.py",
+        "scripts/run_artifacts.py",
+        "scripts/run_models.py",
+        "scripts/run_platform_matrix.py",
+        "scripts/run_tool.py",
+        "scripts/schema_tools.py",
+        "scripts/secret_refs.py",
+        "scripts/signer.py",
+        "scripts/skill_runtime.py",
+        "scripts/smoke_test.py",
+        "scripts/task_sources.py",
+        "scripts/validator_runtime.py",
+        "scripts/validator_worker.py",
+        "scripts/verify_env.py",
+        "scripts/worker_state.py",
+        "scripts/ws_client.py"
+      ],
+      "scriptCount": 58,
+      "commandHints": [],
+      "manifestSummary": "Local Mine runtime with worker status, control, and platform-mediated autonomous crawl/submit loops.",
+      "runtimeName": "mine run_tool runtime",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [
+        {
+          "label": "bootstrap mine runtime",
+          "cwd": "/root/.nanobot/workspace/mine",
+          "argv": [
+            "bash",
+            "./scripts/bootstrap.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "mine agent status",
+          "cwd": "/root/.nanobot/workspace/mine",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "mine control status",
+          "cwd": "/root/.nanobot/workspace/mine",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-control",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "mine agent status",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-status"
+          ],
+          "cwd": "/root/.nanobot/workspace/mine",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ready": true,
+            "state": "ready",
+            "user_message": "Mining environment is ready. You can start mining now.",
+            "user_actions": [
+              "Start mining",
+              "Check status"
+            ],
+            "_internal": {
+              "next_command": "python scripts/run_tool.py agent-start",
+              "action_map": {
+                "Start mining": "python scripts/run_tool.py agent-start",
+                "Check status": "python scripts/run_tool.py agent-control status"
+              }
+            }
+          },
+          "text": "{\n  \"ready\": true,\n  \"state\": \"ready\",\n  \"user_message\": \"Mining environment is ready. You can start mining now.\",\n  \"user_actions\": [\n    \"Start mining\",\n    \"Check status\"\n  ],\n  \"_internal\": {\n    \"next_command\": \"python scripts/run_tool.py agent-start\",\n    \"action_map\": {\n      \"Start mining\": \"python scripts/run_tool.py agent-start\",\n      \"Check status\": \"python scripts/run_tool.py agent-control status\"\n    }\n  }\n}"
+        },
+        {
+          "label": "mine control status",
+          "argv": [
+            "/root/.nanobot/workspace/mine/.venv/bin/python",
+            "scripts/run_tool.py",
+            "agent-control",
+            "status"
+          ],
+          "cwd": "/root/.nanobot/workspace/mine",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "state": "idle",
+            "user_message": "No active mining session. Start a new session to begin earning.",
+            "user_actions": [
+              "Start mining"
+            ],
+            "_internal": {
+              "action_map": {
+                "Start mining": "python scripts/run_tool.py agent-start"
+              }
+            }
+          },
+          "text": "{\n  \"state\": \"idle\",\n  \"user_message\": \"No active mining session. Start a new session to begin earning.\",\n  \"user_actions\": [\n    \"Start mining\"\n  ],\n  \"_internal\": {\n    \"action_map\": {\n      \"Start mining\": \"python scripts/run_tool.py agent-start\"\n    }\n  }\n}"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "predict",
+      "status": "ready",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/predict",
+      "skillMdExists": true,
+      "readmeExists": true,
+      "repositoryFileCount": 28,
+      "repositoryFilesSample": [
+        ".github/workflows/release.yml",
+        ".gitignore",
+        "Cargo.lock",
+        "Cargo.toml",
+        "README.md",
+        "SKILL.md",
+        "install.sh",
+        "src/auth.rs",
+        "src/awp_register.rs",
+        "src/client.rs",
+        "src/cmd/admin_chip_feed.rs",
+        "src/cmd/cancel.rs",
+        "src/cmd/challenge.rs",
+        "src/cmd/context.rs",
+        "src/cmd/history.rs",
+        "src/cmd/loop_worker.rs",
+        "src/cmd/mod.rs",
+        "src/cmd/orders.rs",
+        "src/cmd/preflight.rs",
+        "src/cmd/result.rs"
+      ],
+      "substantiveFileCount": 27,
+      "scripts": [],
+      "scriptCount": 0,
+      "commandHints": [],
+      "manifestSummary": "Official Rust-based Predict runtime that owns preflight, stake checks, context, loop mode, and manual submissions.",
+      "runtimeName": "predict-agent",
+      "requiredBins": [
+        "predict-agent",
+        "awp-wallet"
+      ],
+      "optionalBins": [
+        "openclaw"
+      ],
+      "binStatus": {
+        "required": {
+          "predict-agent": true,
+          "awp-wallet": true
+        },
+        "optional": {
+          "openclaw": true
+        }
+      },
+      "env": [
+        "PREDICT_SERVER_URL"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "install predict-agent binary",
+          "cwd": "/root/.awp-workstation/skills/checkouts/predict",
+          "argv": [
+            "bash",
+            "install.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "predict wallet safety",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "wallet"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "predict status",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "predict preflight",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "preflight"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        },
+        {
+          "label": "predict stake eligibility",
+          "cwd": "/root/.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "stake"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [
+        {
+          "label": "predict wallet safety",
+          "argv": [
+            "predict-agent",
+            "wallet"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ok": true,
+            "user_message": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "data": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "cli_path": "/usr/bin/awp-wallet",
+              "safe_to_init": true,
+              "status": "ready"
+            },
+            "_internal": {
+              "next_action": "ready",
+              "next_command": "predict-agent preflight",
+              "progress": "1/4"
+            }
+          },
+          "text": "{\n  \"ok\": true,\n  \"user_message\": \"Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2\",\n  \"data\": {\n    \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"cli_path\": \"/usr/bin/awp-wallet\",\n    \"safe_to_init\": true,\n    \"status\": \"ready\"\n  },\n  \"_internal\": {\n    \"next_action\": \"ready\",\n    \"next_command\": \"predict-agent preflight\",\n    \"progress\": \"1/4\"\n  }\n}\n[predict-agent] wallet: checking status...\n[predict-agent] wallet: cli=true, dir=false, keystore=false, receive=true, safe_to_init=true"
+        },
+        {
+          "label": "predict status",
+          "argv": [
+            "predict-agent",
+            "status"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ok": true,
+            "user_message": "Agent status: 0 total predictions, 10000.00 chips balance, persona: conservative.",
+            "data": {
+              "address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "balance": "10000",
+              "excess_score": "0",
+              "first_prediction_at": null,
+              "last_feed_at": "2026-05-21T03:31:38.596231Z",
+              "open_orders": [],
+              "pending_orders": 0,
+              "persona": "conservative",
+              "recent_results": [],
+              "timeslot": {
+                "slot_limit": 3,
+                "slot_resets_in_seconds": 804,
+                "submissions_remaining": 3,
+                "submissions_used": 0
+              },
+              "total_fed_today": "10000",
+              "total_predictions": 0
+            },
+            "_internal": {
+              "next_action": "fetch_context",
+              "next_command": "predict-agent context"
+            }
+          },
+          "text": "{\n  \"ok\": true,\n  \"user_message\": \"Agent status: 0 total predictions, 10000.00 chips balance, persona: conservative.\",\n  \"data\": {\n    \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"balance\": \"10000\",\n    \"excess_score\": \"0\",\n    \"first_prediction_at\": null,\n    \"last_feed_at\": \"2026-05-21T03:31:38.596231Z\",\n    \"open_orders\": [],\n    \"pending_orders\": 0,\n    \"persona\": \"conservative\",\n    \"recent_results\": [],\n    \"timeslot\": {\n      \"slot_limit\": 3,\n      \"slot_resets_in_seconds\": 804,\n      \"submissions_remaining\": 3,\n      \"submissions_used\": 0\n    },\n    \"total_fed_today\": \"10000\",\n    \"total_predictions\": 0\n  },\n  \"_internal\": {\n    \"next_action\": \"fetch_context\",\n    \"next_command\": \"predict-agent context\"\n  }\n}\n[predict-agent] status: fetching agent status from https://api.agentpredict.work\n[predict-agent] status: total_predictions=0, balance=10000.00, persona=conservative"
+        },
+        {
+          "label": "predict stake eligibility",
+          "argv": [
+            "predict-agent",
+            "stake"
+          ],
+          "cwd": "/root/.awp-workstation",
+          "ok": true,
+          "code": 0,
+          "result": {
+            "ok": false,
+            "user_message": "Agent:           0x518fdf57793e54254817c7d49618675d4fa774c2\nCurrent stake:   0.0000 AWP\nRequired:        1000 AWP\nStatus:          \u2717 NOT ELIGIBLE\nGate mode:       enforce\n\nTo become eligible \u2014 pick whichever path fits you:\n\n\u2500\u2500\u2500\u2500 [A] Easiest \u2014 official AWP web UI \u2500\u2500\u2500\u2500\n    https://awp.pro/staking\n    Connect your wallet, lock \u22651000 AWP, and allocate to\n    (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000003).\n    The UI walks you through every step.\n\n\u2500\u2500\u2500\u2500 [B] No-AWP path \u2014 KYA delegated staking \u2500\u2500\u2500\u2500\n    https://kya.link/\n    Complete KYA's verification (KYC / Twitter); KYA sponsors\n    stake to (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000012) on your\n    behalf \u2014 you don't need to hold AWP yourself.\n\n\u2500\u2500\u2500\u2500 [C] Programmatic \u2014 direct contract calls (advanced) \u2500\u2500\u2500\u2500\n    Base mainnet (chainId 8453):\n    1) veAWP.deposit(amount, lockDuration)  contract: 0x0000b534C63D78212f1BDCc315165852793A00A8\n    2) AWPAllocator.allocate(staker=you, agent=this_agent_address, worknetId=845300000003, amount=1000e18)\n       contract: 0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA\n\nAfter staking, wait ~10s, then re-run: predict-agent stake",
+            "error": {
+              "code": "NOT_STAKED",
+              "category": "stake",
+              "retryable": false,
+              "suggestion": "Complete one of the three paths above, then re-run `predict-agent stake`.",
+              "debug": {
+                "accepted_worknet_ids": [
+                  "845300000003",
+                  "845300000012"
+                ],
+                "agent_address": "0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "backers": [],
+                "contracts": {
+                  "allocator": "0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA",
+                  "chain": "Base mainnet (chainId 8453)",
+                  "veawp": "0x0000b534C63D78212f1BDCc315165852793A00A8"
+                },
+                "current_stake_awp": "0.0000",
+                "current_stake_wei": "0",
+                "eligible": false,
+                "gate_mode": "enforce",
+                "lock_min_until": null,
+                "required_stake_awp": "1000",
+                "required_stake_wei": "1000000000000000000000",
+                "stake_paths": {
+                  "advanced": "Direct contract calls \u2014 see suggestion in 403 STAKE_REQUIRED response",
+                  "delegated": "https://kya.link/",
+                  "web_ui": "https://awp.pro/staking"
+                },
+                "synced_at": null
+              }
+            },
+            "_internal": {
+              "next_action": "stake_required",
+              "next_command": "predict-agent stake"
+            }
+          },
+          "text": "{\n  \"ok\": false,\n  \"user_message\": \"Agent:           0x518fdf57793e54254817c7d49618675d4fa774c2\\nCurrent stake:   0.0000 AWP\\nRequired:        1000 AWP\\nStatus:          \u2717 NOT ELIGIBLE\\nGate mode:       enforce\\n\\nTo become eligible \u2014 pick whichever path fits you:\\n\\n\u2500\u2500\u2500\u2500 [A] Easiest \u2014 official AWP web UI \u2500\u2500\u2500\u2500\\n    https://awp.pro/staking\\n    Connect your wallet, lock \u22651000 AWP, and allocate to\\n    (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000003).\\n    The UI walks you through every step.\\n\\n\u2500\u2500\u2500\u2500 [B] No-AWP path \u2014 KYA delegated staking \u2500\u2500\u2500\u2500\\n    https://kya.link/\\n    Complete KYA's verification (KYC / Twitter); KYA sponsors\\n    stake to (your agent 0x518fdf57793e54254817c7d49618675d4fa774c2, worknetId 845300000012) on your\\n    behalf \u2014 you don't need to hold AWP yourself.\\n\\n\u2500\u2500\u2500\u2500 [C] Programmatic \u2014 direct contract calls (advanced) \u2500\u2500\u2500\u2500\\n    Base mainnet (chainId 8453):\\n    1) veAWP.deposit(amount, lockDuration)  contract: 0x0000b534C63D78212f1BDCc315165852793A00A8\\n    2) AWPAllocator.allocate(staker=you, agent=this_agent_address, worknetId=845300000003, amount=1000e18)\\n       contract: 0x0000D6BB5e040E35081b3AaF59DD71b21C9800AA\\n\\nAfter stakin...(truncated)"
+        }
+      ],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": []
+    },
+    {
+      "skillKey": "tmr",
+      "status": "empty-official-repo",
+      "origin": "managed",
+      "root": "/root/.awp-workstation/skills/checkouts/tmr",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 1,
+      "repositoryFilesSample": [
+        "LICENSE"
+      ],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "scriptCount": 0,
+      "commandHints": [],
+      "manifestSummary": "Official live TMR skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+      "runtimeName": "tmr-skill",
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [
+        "The official checkout currently only contains license or metadata files, so there is no upstream runtime to bootstrap yet."
+      ],
+      "remediationCommands": [],
+      "warnings": [
+        "SKILL.md missing",
+        "managed skill has no script files",
+        "managed checkout currently only contains license or metadata files"
+      ]
+    }
+  ],
+  "worknets": [
+    {
+      "key": "mine",
+      "worknetId": "845300000002",
+      "name": "Mine WorkNet",
+      "status": "active",
+      "symbol": "aMine",
+      "installUri": "https://github.com/awp-worknet/mine-skill",
+      "sourceKeys": [
+        "aip-001-raw",
+        "minework-home",
+        "mine-skill-raw",
+        "awp-live-query"
+      ],
+      "goal": "Earn by contributing high-quality structured web data.",
+      "loop": "discover -> dedupe -> crawl -> clean -> extract -> submit -> heartbeat",
+      "automationLevel": "full",
+      "riskLevel": "medium",
+      "recommendedRole": "operator"
+    },
+    {
+      "key": "predict",
+      "worknetId": "845300000003",
+      "name": "Predict WorkNet",
+      "status": "active",
+      "symbol": "aPRED",
+      "installUri": "https://github.com/awp-worknet/prediction-skill",
+      "sourceKeys": [
+        "aip-002-raw",
+        "agentpredict-home",
+        "predict-skill-raw",
+        "awp-live-query"
+      ],
+      "goal": "Submit original price predictions with disciplined reasoning.",
+      "loop": "context -> signals -> thesis -> order -> monitor -> review",
+      "automationLevel": "supervised",
+      "riskLevel": "high",
+      "recommendedRole": "strategist"
+    },
+    {
+      "key": "kya",
+      "worknetId": "845300000012",
+      "name": "KYA",
+      "status": "service",
+      "symbol": "aKYA",
+      "installUri": "https://github.com/awp-worknet/kya-skill",
+      "sourceKeys": [
+        "kya-human",
+        "kya-skill-raw",
+        "awp-live-query"
+      ],
+      "goal": "Verify or bind the agent identity and delegated staking path.",
+      "loop": "prepare -> sign -> submit -> poll -> review",
+      "automationLevel": "guided",
+      "riskLevel": "medium",
+      "recommendedRole": "identity"
+    },
+    {
+      "key": "ardi",
+      "worknetId": "845300000014",
+      "name": "Ardi",
+      "status": "public",
+      "symbol": "aARDI",
+      "installUri": "https://github.com/awp-worknet/ardi-skill",
+      "sourceKeys": [
+        "ardinals-agents",
+        "ardi-skill-raw",
+        "awp-live-query"
+      ],
+      "goal": "Solve riddles, commit, reveal, and inscribe within the round window.",
+      "loop": "preflight -> fund gas -> satisfy stake path -> commit -> reveal -> inscribe",
+      "automationLevel": "supervised",
+      "riskLevel": "high",
+      "recommendedRole": "event-operator"
+    },
+    {
+      "key": "gov",
+      "worknetId": "845300000010",
+      "name": "GovNet",
+      "status": "public",
+      "symbol": "aGOV",
+      "installUri": "https://github.com/awp-worknet/gov-skill",
+      "sourceKeys": [
+        "gov-works",
+        "gov-skill-raw",
+        "gov-markets-api",
+        "awp-live-query"
+      ],
+      "goal": "Express weekly worknet value views through stake, allocation, vote, and trade.",
+      "loop": "init -> stake -> allocate -> vote -> monitor -> settle",
+      "automationLevel": "supervised",
+      "riskLevel": "high",
+      "recommendedRole": "governor"
+    },
+    {
+      "key": "tmr",
+      "worknetId": "845300000013",
+      "name": "TMR",
+      "status": "public",
+      "symbol": "aTMR",
+      "installUri": "https://github.com/awp-worknet/tmr-skill",
+      "sourceKeys": [
+        "awp-live-query",
+        "tmr-skill"
+      ],
+      "goal": "Expose the official TMR worknet without pretending the task loop is fully understood yet.",
+      "loop": "confirm canonical ID -> inspect official skill -> document -> wait",
+      "automationLevel": "manual-only",
+      "riskLevel": "medium",
+      "recommendedRole": "observer"
+    },
+    {
+      "key": "community",
+      "worknetId": "845300000011",
+      "name": "Community",
+      "status": "public",
+      "symbol": "aCOM",
+      "installUri": "https://github.com/awp-worknet/com-skill",
+      "sourceKeys": [
+        "awp-live-query",
+        "community-skill"
+      ],
+      "goal": "Expose the official Community worknet while keeping execution conservative until the skill is inspected locally.",
+      "loop": "confirm canonical ID -> inspect official skill -> document -> wait",
+      "automationLevel": "manual-only",
+      "riskLevel": "medium",
+      "recommendedRole": "observer"
+    }
+  ]
+}

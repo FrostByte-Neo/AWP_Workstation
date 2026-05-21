@@ -1,0 +1,204 @@
+{
+  "generatedAt": "2026-05-21T10:00:09Z",
+  "facts": [
+    {
+      "key": "protocol-core",
+      "topic": "Protocol Core",
+      "sourceKeys": [
+        "awp-home",
+        "awp-whitepaper",
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "facts": [
+        "AWP is a decentralized agent-work protocol with RootNet plus task-specific WorkNets.",
+        "Current mainnet chain set is Base, Ethereum, Arbitrum, and BSC.",
+        "The public protocol endpoints documented by the official RootNet skill are POST https://api.awp.sh/v2, wss://api.awp.sh/ws/live, and GET https://api.awp.sh/api/health.",
+        "Recipient routing matters because agent emissions resolve to the configured recipient address."
+      ]
+    },
+    {
+      "key": "awp-skill-ops",
+      "topic": "AWP RootNet Skill",
+      "sourceKeys": [
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "facts": [
+        "The official RootNet skill is the dependency for registration, staking, allocation, governance, and worknet management.",
+        "Its install guidance explicitly says to install awp-skill, install awp-wallet, make awp-wallet discoverable on PATH, then initialize a fresh agent work wallet.",
+        "The official guidance says not to ask the user for a password, private key, seed phrase, or other secret during wallet initialization."
+      ]
+    },
+    {
+      "key": "mine-aip",
+      "topic": "Mine WorkNet",
+      "sourceKeys": [
+        "aip-001-raw",
+        "minework-home",
+        "mine-skill-raw"
+      ],
+      "facts": [
+        "Mine is the first AWP WorkNet and is a permissionless data collection network for crawling, cleaning, and extracting structured web data.",
+        "Mine uses daily UTC epochs and $aMine on Base with an exponential-decay emission schedule.",
+        "Miners do not need stake, but validators must meet a minimum AWP stake requirement.",
+        "The miner workflow is crawl, clean, extract, submit, then participate in epoch settlement and credit-score gating."
+      ]
+    },
+    {
+      "key": "predict-aip",
+      "topic": "Predict WorkNet",
+      "sourceKeys": [
+        "aip-002-raw",
+        "agentpredict-home",
+        "predict-skill-raw"
+      ],
+      "facts": [
+        "Predict is an AI-native prediction market WorkNet where agents submit predictions together with reasoning on a live CLOB.",
+        "Predict uses virtual chips and a chip feed every four hours, which means agents can participate without acquiring tokens first.",
+        "Predict has daily UTC epochs and a three-way reward split described in its AIP: owner, participation, and alpha.",
+        "The reasoning text is part of the product, so low-duplication and rate-limit discipline are first-class operational concerns."
+      ]
+    },
+    {
+      "key": "predict-skill-facts",
+      "topic": "Predict Runtime",
+      "sourceKeys": [
+        "predict-skill-raw",
+        "awp-live-query"
+      ],
+      "facts": [
+        "As of May 20, 2026, the official live AWP API resolves Predict to Base worknetId 845300000003 with skills URI https://github.com/awp-worknet/prediction-skill.",
+        "The official Predict runtime says every operation should flow through predict-agent commands rather than direct API calls.",
+        "The official Predict runtime documents a 1000 AWP allocation requirement on worknetId 845300000003, with KYA delegated staking as an alternative path."
+      ]
+    },
+    {
+      "key": "gov-skill-facts",
+      "topic": "GovNet",
+      "sourceKeys": [
+        "gov-works",
+        "gov-skill-raw",
+        "gov-markets-api"
+      ],
+      "facts": [
+        "GovNet exposes market listing, order submission, voting, chip split/merge, book watching, and settlement reads.",
+        "Public reads work without a wallet, while signed reads and writes resolve the principal through awp-wallet.",
+        "GovNet documents both REST and WebSocket endpoints under api.gov.works.",
+        "Because signed state changes go through EIP-712 and awp-wallet, trade and vote actions belong in the workstation confirmation queue."
+      ]
+    },
+    {
+      "key": "ardi-skill-facts",
+      "topic": "Ardi",
+      "sourceKeys": [
+        "ardinals-agents",
+        "ardi-skill-raw"
+      ],
+      "facts": [
+        "Ardi is an agent-only Base worknet for reasoning over riddles and inscribing dictionary NFTs.",
+        "All on-chain Ardi actions must go through ardi-agent commands, not direct RPC or handcrafted calldata.",
+        "Operational caps include five commits per agent per epoch, five Ardinals held per agent address, and a total supply cap of 21,000 inscriptions.",
+        "The skill requires following _internal.next_command exactly, which makes Ardi a command-journal-driven worknet."
+      ]
+    },
+    {
+      "key": "kya-skill-facts",
+      "topic": "KYA",
+      "sourceKeys": [
+        "kya-human",
+        "kya-skill-raw"
+      ],
+      "facts": [
+        "KYA is a single-shot identity and delegated-staking tool, not a recurring daemon or cron job.",
+        "Its config defaults target kya.link, api.awp.sh, and Base mainnet RPC for AWP registry reads.",
+        "KYA explicitly says AWP registration is mandatory and that an unregistered agent must hand off to awp-skill for free gasless onboarding before resuming.",
+        "Messaging surfaces must emit handoff URLs as plain text and must not ask the user to type wallet session secrets into chat."
+      ]
+    },
+    {
+      "key": "live-worknet-canonical",
+      "topic": "Live WorkNet Canonical IDs",
+      "sourceKeys": [
+        "awp-live-query"
+      ],
+      "facts": [
+        "As of May 20, 2026, official live read-only queries resolve Base Mine to 845300000002, Predict to 845300000003, Gov to 845300000010, Community to 845300000011, KYA to 845300000012, TMR to 845300000013, and Ardi to 845300000014.",
+        "The same live query surface also exposes pending predecessor entries for Gov, Community, KYA, TMR, and Ardi at 845300000005, 845300000006, 845300000007, 845300000008, and 845300000009 respectively."
+      ]
+    },
+    {
+      "key": "tmr",
+      "topic": "TMR",
+      "sourceKeys": [
+        "awp-live-query",
+        "tmr-skill"
+      ],
+      "facts": [
+        "As of May 20, 2026, official live queries resolve TMR to Base worknetId 845300000013 with skill URI https://github.com/awp-worknet/tmr-skill.",
+        "Compared with Mine, Predict, Gov, Ardi, and KYA, the current official TMR source surface is still thin, so the workstation treats it as discoverable but not yet safe to auto-run."
+      ]
+    },
+    {
+      "key": "community",
+      "topic": "Community",
+      "sourceKeys": [
+        "awp-live-query",
+        "community-skill"
+      ],
+      "facts": [
+        "As of May 20, 2026, official live queries resolve Community to Base worknetId 845300000011 with skill URI https://github.com/awp-worknet/com-skill.",
+        "The current official Community source surface is still thinner than the major worknets, so the workstation keeps it in discover-but-don't-auto-run mode until upstream runtime detail improves."
+      ]
+    },
+    {
+      "key": "staking-facts",
+      "topic": "Staking and AWP Power",
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper"
+      ],
+      "facts": [
+        "Locking AWP mints a veAWP position NFT and yields AWP Power.",
+        "AWP Power scales with both stake size and remaining lock duration.",
+        "Some WorkNets require AWP Power for qualification or assignment priority."
+      ]
+    },
+    {
+      "key": "dao-facts",
+      "topic": "DAO Governance",
+      "sourceKeys": [
+        "awp-dao",
+        "awp-whitepaper"
+      ],
+      "facts": [
+        "veAWP holders propose changes and vote with weight proportional to AWP Power.",
+        "The public governance surface currently shows a 4 percent quorum, 8 hour voting delay, 24 hour voting period, and 200K AWP proposal threshold.",
+        "A new signal proposal path is documented as gasless sentiment polling rather than on-chain action."
+      ]
+    },
+    {
+      "key": "testnet-facts",
+      "topic": "Benchmark Testnet",
+      "sourceKeys": [
+        "awp-testnet"
+      ],
+      "facts": [
+        "The public testnet worknet token is $aBench.",
+        "Joining the Benchmark testnet starts with installing awp-skill, which creates a wallet and registers the agent automatically and gaslessly.",
+        "The testnet surface includes an airdrop checker, agent activity checker, and benchmark leaderboard."
+      ]
+    },
+    {
+      "key": "blog-facts",
+      "topic": "Official Guides",
+      "sourceKeys": [
+        "awp-blog"
+      ],
+      "facts": [
+        "The official blog contains practical onboarding and conceptual WorkNet explanations.",
+        "The published guide sequence includes articles on launching a WorkNet, what AWP is, getting an agent earning quickly, fair launch, and what a WorkNet is."
+      ]
+    }
+  ]
+}

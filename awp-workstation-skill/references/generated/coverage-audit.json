@@ -1,0 +1,163 @@
+{
+  "generatedAt": "2026-05-21T10:00:40Z",
+  "summary": {
+    "covered": 11,
+    "partial": 0,
+    "missing": 0
+  },
+  "items": [
+    {
+      "key": "trigger-surface",
+      "title": "Skill Trigger Surface",
+      "intent": "The workstation should be discoverable from English and Chinese user prompts.",
+      "status": "covered",
+      "reasons": [
+        "SKILL metadata includes both English and Chinese trigger phrases."
+      ],
+      "evidenceFiles": [
+        "SKILL.md",
+        "agents/openai.yaml"
+      ]
+    },
+    {
+      "key": "protocol-encyclopedia",
+      "title": "Protocol Encyclopedia",
+      "intent": "RootNet, WorkNet, staking, DAO, recipient, and endpoint knowledge should be captured locally.",
+      "status": "covered",
+      "reasons": [
+        "Protocol core, staking, DAO, facts, and evidence are all present locally."
+      ],
+      "evidenceFiles": [
+        "topic-dossiers.json",
+        "source-facts.json",
+        "source-evidence.json",
+        "glossary.json"
+      ]
+    },
+    {
+      "key": "worknet-coverage",
+      "title": "WorkNet Coverage",
+      "intent": "Mine, Predict, KYA, Ardi, Gov, TMR, and Community should all be represented.",
+      "status": "covered",
+      "reasons": [
+        "All named WorkNets have local dossiers, including the thinner TMR and Community entries."
+      ],
+      "evidenceFiles": [
+        "topic-dossiers.json",
+        "worknet-profiles.md"
+      ]
+    },
+    {
+      "key": "glossary-coverage",
+      "title": "Glossary Coverage",
+      "intent": "Key terms from the goal such as RootNet, WorkNet, skillURI, epoch, CLOB, and staking must be explainable.",
+      "status": "covered",
+      "reasons": [
+        "Required AWP terms are defined in the generated glossary."
+      ],
+      "evidenceFiles": [
+        "glossary.json",
+        "glossary.md"
+      ]
+    },
+    {
+      "key": "source-traceability",
+      "title": "Source Traceability",
+      "intent": "Derived claims should link back to official source keys, locators, and stability labels.",
+      "status": "covered",
+      "reasons": [
+        "Derived claims map to official source keys, locators, evidence types, and stability labels."
+      ],
+      "evidenceFiles": [
+        "source-evidence.json",
+        "evidence-model.md"
+      ]
+    },
+    {
+      "key": "registration-flow",
+      "title": "Registration Flow",
+      "intent": "The workstation should understand and eventually execute awp-skill gasless registration.",
+      "status": "covered",
+      "reasons": [
+        "The workstation has a concrete awp-skill registration command path.",
+        "Available registration-plan commands: run awp-skill gasless onboarding"
+      ],
+      "evidenceFiles": [
+        "source-facts.json",
+        "source-evidence.json",
+        "skill-registry.json"
+      ]
+    },
+    {
+      "key": "live-rpc-scan",
+      "title": "Live RPC Scan",
+      "intent": "The workstation should know the AWP RPC methods and report when live access is unavailable.",
+      "status": "covered",
+      "reasons": [
+        "Capability scan has successfully used a live official data path."
+      ],
+      "evidenceFiles": [
+        "capability-catalog.json",
+        "source-evidence.json"
+      ]
+    },
+    {
+      "key": "skill-inspector",
+      "title": "Skill Inspector",
+      "intent": "Official worknet skills should have install, preflight, and dry-run guidance even before the runtime is locally installed.",
+      "status": "covered",
+      "reasons": [
+        "Predict, Gov, and Ardi expose runtime-specific install/inspection guidance.",
+        "TMR/Community are still covered because inspector can prove when the official checkout is present but upstream only exposes license or metadata files: tmr, community"
+      ],
+      "evidenceFiles": [
+        "skill-inspections.json",
+        "skill-registry.json"
+      ]
+    },
+    {
+      "key": "recovery-state",
+      "title": "Recovery State",
+      "intent": "The workstation should persist and restore playbooks, runs, and pending confirmations.",
+      "status": "covered",
+      "reasons": [
+        "Run state and confirmation queue files exist and are reused by preflight/review."
+      ],
+      "evidenceFiles": [
+        "runs/latest-run.json",
+        "runs/pending-confirmations.json"
+      ]
+    },
+    {
+      "key": "live-canonical-quality",
+      "title": "Live Canonical Quality",
+      "intent": "Live WorkNet entries should resolve to canonical IDs and official skills with clear confidence.",
+      "status": "covered",
+      "reasons": [
+        "All cached live worknets resolved to canonical IDs with medium or high confidence."
+      ],
+      "evidenceFiles": [
+        "official-live-worknets.json",
+        "capability-catalog.json"
+      ]
+    },
+    {
+      "key": "upstream-drift-watch",
+      "title": "Upstream Drift Watch",
+      "intent": "Official docs and skill sources should be refreshable and diffable so workstation knowledge can track upstream changes.",
+      "status": "covered",
+      "reasons": [
+        "Official source refresh now emits a structured drift report with per-source content and availability comparisons.",
+        "Current drift summary: 3 changed source(s), 0 currently unreachable source(s).",
+        "Knowledge impact routing is also available: 4 topic(s), 4 fact set(s), 2 worknet profile(s).",
+        "A knowledge review queue is available with 15 actionable review item(s)."
+      ],
+      "evidenceFiles": [
+        "source-snapshot.json",
+        "source-drift.json",
+        "source-impact.json",
+        "knowledge-review-queue.json"
+      ]
+    }
+  ]
+}

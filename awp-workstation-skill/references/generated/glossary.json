@@ -1,0 +1,272 @@
+{
+  "generatedAt": "2026-05-21T10:00:09Z",
+  "terms": [
+    {
+      "term": "AWP",
+      "aliases": [
+        "Agent Work Protocol",
+        "$AWP"
+      ],
+      "plainLanguage": "\u8ba9 AI agent \u771f\u6b63\u5de5\u4f5c\u548c\u8d5a\u94b1\u7684\u534f\u8bae\u7f51\u7edc\u3002",
+      "definition": "The reserve asset and protocol layer that coordinates agent work across WorkNets.",
+      "whyItMatters": "It is the root concept behind wallets, staking, governance, and worknet discovery.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "staking",
+        "dao"
+      ],
+      "sourceKeys": [
+        "awp-home",
+        "awp-whitepaper"
+      ]
+    },
+    {
+      "term": "RootNet",
+      "aliases": [
+        "root network"
+      ],
+      "plainLanguage": "\u8d1f\u8d23\u6ce8\u518c\u3001\u5956\u52b1\u8def\u7531\u3001stake\u3001\u6cbb\u7406\u7684\u603b\u63a7\u5c42\u3002",
+      "definition": "The constitutional layer that manages emission, staking, WorkNet lifecycle, and DAO governance.",
+      "whyItMatters": "If the workstation needs registration, recipient routing, or staking, it is operating on RootNet.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "staking",
+        "dao"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-skill-readme-raw"
+      ]
+    },
+    {
+      "term": "WorkNet",
+      "aliases": [
+        "work network"
+      ],
+      "plainLanguage": "\u4e00\u79cd\u5177\u4f53\u7684 agent \u5de5\u4f5c\u5e02\u573a\uff0c\u5404\u81ea\u6709\u4efb\u52a1\u3001\u4ee3\u5e01\u548c\u89c4\u5219\u3002",
+      "definition": "A protocol-defined economic organization where agents perform a specific type of work and earn the WorkNet token.",
+      "whyItMatters": "Choosing a WorkNet determines what work the agent does and how rewards are computed.",
+      "relatedTopics": [
+        "protocol-core",
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "kya",
+        "benchmark-testnet"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-worknets"
+      ]
+    },
+    {
+      "term": "skillURI",
+      "aliases": [
+        "skillsUri",
+        "skill URI",
+        "skillURL"
+      ],
+      "plainLanguage": "\u67d0\u4e2a WorkNet \u53d1\u5e03\u7ed9 agent \u7684\u5b98\u65b9\u6280\u80fd\u8bf4\u660e\u5730\u5740\u3002",
+      "definition": "The published location of a WorkNet's official agent instructions or skill repository.",
+      "whyItMatters": "The workstation uses it to judge whether a skill is official and whether it can be auto-managed.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "gov",
+        "ardi",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "gov-skill-raw",
+        "ardi-skill-raw",
+        "kya-skill-raw"
+      ]
+    },
+    {
+      "term": "epoch",
+      "aliases": [
+        "settlement window",
+        "task window"
+      ],
+      "plainLanguage": "\u4e00\u6bb5\u56fa\u5b9a\u7ed3\u7b97\u5468\u671f\uff0c\u5468\u671f\u7ed3\u675f\u540e\u7edf\u4e00\u7b97\u5206\u548c\u53d1\u5956\u52b1\u3002",
+      "definition": "A settlement period used to batch work evaluation, score updates, and reward accounting.",
+      "whyItMatters": "Most WorkNet loops must align work, review, and claims to epoch timing.",
+      "relatedTopics": [
+        "mine",
+        "predict",
+        "ardi",
+        "gov"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "aip-002-raw",
+        "ardi-skill-raw"
+      ]
+    },
+    {
+      "term": "CLOB",
+      "aliases": [
+        "orderbook",
+        "central limit order book"
+      ],
+      "plainLanguage": "Predict \u91cc\u4e0b\u5355\u548c\u64ae\u5408\u9884\u6d4b\u7684\u8ba2\u5355\u7c3f\u3002",
+      "definition": "The central limit order book used by Predict for market-making and prediction entry.",
+      "whyItMatters": "It changes Predict from a simple yes/no signal feed into an order-driven market workflow.",
+      "relatedTopics": [
+        "predict"
+      ],
+      "sourceKeys": [
+        "aip-002-raw",
+        "agentpredict-home"
+      ]
+    },
+    {
+      "term": "staking",
+      "aliases": [
+        "stake",
+        "veAWP"
+      ],
+      "plainLanguage": "\u628a AWP \u9501\u8d77\u6765\uff0c\u6362\u6210\u6cbb\u7406\u6743\u548c\u67d0\u4e9b WorkNet \u7684\u8d44\u683c/\u4f18\u5148\u7ea7\u3002",
+      "definition": "Locking AWP to mint veAWP and derive AWP Power over time.",
+      "whyItMatters": "Some WorkNets use stake or AWP Power as a gate or priority signal.",
+      "relatedTopics": [
+        "staking",
+        "dao",
+        "protocol-core",
+        "mine",
+        "ardi"
+      ],
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper"
+      ]
+    },
+    {
+      "term": "AWP Power",
+      "aliases": [
+        "power",
+        "ve power"
+      ],
+      "plainLanguage": "\u7531 stake \u89c4\u6a21\u548c\u9501\u4ed3\u65f6\u95f4\u51b3\u5b9a\u7684\u6cbb\u7406/\u4f18\u5148\u7ea7\u6743\u91cd\u3002",
+      "definition": "The governance and qualification weight derived from a veAWP position.",
+      "whyItMatters": "The workstation needs it when explaining governance influence or work qualification.",
+      "relatedTopics": [
+        "staking",
+        "dao",
+        "protocol-core"
+      ],
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper",
+        "awp-dao"
+      ]
+    },
+    {
+      "term": "recipient",
+      "aliases": [
+        "reward recipient",
+        "resolved recipient"
+      ],
+      "plainLanguage": "\u5956\u52b1\u6700\u540e\u8981\u6253\u5230\u7684\u5730\u5740\u3002",
+      "definition": "The address that ultimately receives protocol or WorkNet rewards for an agent.",
+      "whyItMatters": "Wrong recipient routing is one of the easiest ways to lose rewards without noticing.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "kya-skill-raw"
+      ]
+    },
+    {
+      "term": "allocation",
+      "aliases": [
+        "allocate",
+        "delegated staking allocation"
+      ],
+      "plainLanguage": "\u628a stake \u6216\u6743\u91cd\u6307\u5411\u67d0\u4e2a agent / WorkNet\u3002",
+      "definition": "Assigning stake-derived influence or capital toward a target agent or WorkNet.",
+      "whyItMatters": "Allocation actions are value-sensitive and should stay behind confirmation.",
+      "relatedTopics": [
+        "awp-skill",
+        "protocol-core",
+        "kya",
+        "gov"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "kya-skill-raw",
+        "gov-skill-raw"
+      ]
+    },
+    {
+      "term": "principal",
+      "aliases": [
+        "owner account"
+      ],
+      "plainLanguage": "\u771f\u6b63\u6301\u6709\u8d44\u91d1\u548c\u6388\u6743\u7684\u4e3b\u4f53\u8d26\u6237\u3002",
+      "definition": "The account role that holds funds while an agent executes work on its behalf.",
+      "whyItMatters": "Separating principal from agent is part of the protocol's custody model.",
+      "relatedTopics": [
+        "protocol-core",
+        "gov",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "gov-skill-raw"
+      ]
+    },
+    {
+      "term": "agent",
+      "aliases": [
+        "agent account",
+        "worker agent"
+      ],
+      "plainLanguage": "\u8d1f\u8d23\u6267\u884c\u5de5\u4f5c\u7684\u8d26\u53f7\u6216 runtime\u3002",
+      "definition": "The executing work identity that performs tasks, signs payloads, and accumulates work history.",
+      "whyItMatters": "Most workstation flows operate on the agent account, not the user's personal wallet.",
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-home",
+        "aip-001-raw",
+        "aip-002-raw"
+      ]
+    },
+    {
+      "term": "gasless registration",
+      "aliases": [
+        "free registration",
+        "gasless onboarding"
+      ],
+      "plainLanguage": "\u4e0d\u7528\u5148\u5145 gas \u5c31\u80fd\u5b8c\u6210 agent \u6ce8\u518c\u3002",
+      "definition": "A relay-assisted registration flow that onboards an agent without needing native gas in the wallet first.",
+      "whyItMatters": "It is the intended default entry path for new users and testnet onboarding.",
+      "relatedTopics": [
+        "awp-skill",
+        "benchmark-testnet",
+        "kya"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "awp-testnet",
+        "kya-skill-raw"
+      ]
+    }
+  ]
+}

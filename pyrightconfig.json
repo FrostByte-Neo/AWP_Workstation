@@ -1,0 +1,4 @@
+{
+  "extraPaths": ["awp-workstation-skill/scripts"],
+  "include": ["awp-workstation-skill/scripts"]
+}

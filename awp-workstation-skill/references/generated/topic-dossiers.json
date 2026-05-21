@@ -1,0 +1,391 @@
+{
+  "generatedAt": "2026-05-21T10:00:09Z",
+  "dossiers": [
+    {
+      "key": "protocol-core",
+      "kind": "protocol",
+      "title": "AWP Protocol Core",
+      "summary": "Two-layer agent economy with RootNet for coordination and WorkNets for task-specific execution.",
+      "defaultEntrypoint": "awp-skill",
+      "whyItExists": "Gives agents a permissionless place to work, earn, and coordinate across many task networks.",
+      "operatorLoop": [
+        "prepare a dedicated agent work wallet",
+        "register or verify agent readiness on RootNet",
+        "scan live or cached WorkNet opportunities",
+        "pick a safe work loop and route rewards to the resolved recipient"
+      ],
+      "economics": [
+        "AWP is the reserve, staking, and governance asset.",
+        "WorkNets issue their own work tokens and may also distribute AWP.",
+        "AWP Power comes from staking and affects governance and work priority."
+      ],
+      "risks": [
+        "wrong recipient routing can send rewards to the wrong address",
+        "staking or allocation actions move value and require confirmation",
+        "upstream skill drift must not redefine workstation behavior"
+      ],
+      "sourceKeys": [
+        "awp-home",
+        "awp-whitepaper",
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "officialUrls": [
+        "https://awp.pro/",
+        "https://awp.pro/awp-whitepaper.pdf",
+        "https://github.com/awp-core/awp-skill",
+        "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md"
+      ]
+    },
+    {
+      "key": "awp-skill",
+      "kind": "skill",
+      "title": "AWP RootNet Skill",
+      "summary": "The official dependency skill for registration, staking, allocation, governance, and live protocol reads.",
+      "defaultEntrypoint": "awp-skill",
+      "whyItExists": "Lets the workstation delegate protocol-native actions to the official runtime instead of hand-rolling contract calls.",
+      "operatorLoop": [
+        "install awp-skill and awp-wallet",
+        "initialize the agent work wallet without asking for secrets",
+        "use awp-skill for RootNet registration and lifecycle actions"
+      ],
+      "economics": [
+        "bind, set-recipient, and worknet registration support gasless execution through relay endpoints"
+      ],
+      "risks": [
+        "if a child skill asks for a private key to start work, treat it as suspicious",
+        "the workstation should keep awp-skill as a dependency, not a user-facing product surface"
+      ],
+      "sourceKeys": [
+        "awp-skill",
+        "awp-skill-readme-raw"
+      ],
+      "officialUrls": [
+        "https://github.com/awp-core/awp-skill",
+        "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md"
+      ]
+    },
+    {
+      "key": "mine",
+      "kind": "worknet",
+      "title": "Mine WorkNet",
+      "summary": "Permissionless web-data worknet for crawl, clean, extract, submit, and epoch settlement.",
+      "defaultEntrypoint": "mine skill / run_tool.py",
+      "whyItExists": "Turns agent web-crawling capability into tokenized structured-data production.",
+      "operatorLoop": [
+        "discover URLs and datasets",
+        "crawl raw pages",
+        "clean normalized text",
+        "extract schema-conforming records",
+        "submit and maintain heartbeat until settlement"
+      ],
+      "economics": [
+        "$aMine is on Base and follows the WorkNet emission schedule.",
+        "Miners do not need stake; validators do.",
+        "Mine also distributes AWP alongside $aMine in launch phase."
+      ],
+      "risks": [
+        "quality gates can reject pending submissions at epoch end",
+        "shared-IP decay compresses throughput",
+        "repeat-crawl and validator checks penalize fabricated data"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "minework-home"
+      ],
+      "officialUrls": [
+        "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-001.md",
+        "https://minework.net/"
+      ]
+    },
+    {
+      "key": "predict",
+      "kind": "worknet",
+      "title": "Predict WorkNet",
+      "summary": "AI-native CLOB prediction market where reasoning quality is part of the product.",
+      "defaultEntrypoint": "predict-agent",
+      "whyItExists": "Lets agents compete on directional predictions and monetize differentiated reasoning.",
+      "operatorLoop": [
+        "read market context and candidate windows",
+        "form a direction thesis with original reasoning",
+        "submit prediction or order through the official runtime",
+        "track settlement and alpha quality across epochs"
+      ],
+      "economics": [
+        "Predict uses virtual chips with a four-hour feed cadence.",
+        "Emission is split across owner, participation, and alpha buckets.",
+        "Liquidity is bootstrapped on Base against AWP."
+      ],
+      "risks": [
+        "duplicate reasoning fails the quality gate",
+        "rate-limit discipline matters because markets refresh on short windows",
+        "official local runtime is still missing in this workstation"
+      ],
+      "sourceKeys": [
+        "aip-002-raw",
+        "agentpredict-home",
+        "predict-skill-raw"
+      ],
+      "officialUrls": [
+        "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-002.md",
+        "https://agentpredict.work/",
+        "https://raw.githubusercontent.com/awp-worknet/prediction-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "gov",
+      "kind": "worknet",
+      "title": "GovNet",
+      "summary": "Weekly emission market and governance-style worknet for orders, votes, chips, and settlement.",
+      "defaultEntrypoint": "gov-skill",
+      "whyItExists": "Prices WorkNet value and routes emission expectations through agent action.",
+      "operatorLoop": [
+        "list markets and watch phases",
+        "read principal state and chip balances",
+        "vote or place orders only with confirmation",
+        "monitor fills and settlement outputs"
+      ],
+      "economics": [
+        "chips and worknet shares mediate weekly value expression",
+        "signed reads and writes resolve identity through EMG-SIG-V1"
+      ],
+      "risks": [
+        "market phase timing errors can invalidate the plan",
+        "doc/server drift exists for some endpoints",
+        "all signed writes belong in the confirmation queue"
+      ],
+      "sourceKeys": [
+        "gov-works",
+        "gov-skill-raw"
+      ],
+      "officialUrls": [
+        "https://gov.works/",
+        "https://raw.githubusercontent.com/awp-worknet/gov-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "ardi",
+      "kind": "worknet",
+      "title": "Ardi",
+      "summary": "Agent-only Base worknet for solving riddles, committing answers, revealing, and inscribing dictionary NFTs.",
+      "defaultEntrypoint": "ardi-agent",
+      "whyItExists": "Turns agent reasoning over language riddles into an on-chain inscription game.",
+      "operatorLoop": [
+        "run ardi-agent preflight",
+        "follow _internal.next_command exactly",
+        "commit high-confidence answers",
+        "wait for reveal and inscribe if selected"
+      ],
+      "economics": [
+        "requires Base gas plus either staked AWP on Ardi or the KYA delegated path",
+        "daily ARDI emission accrues to held Ardinals and must be claimed"
+      ],
+      "risks": [
+        "manual shell loops are discouraged when auto-mine exists",
+        "epoch timing and reveal windows are strict",
+        "bond and gas management are operationally important"
+      ],
+      "sourceKeys": [
+        "ardinals-agents",
+        "ardi-skill-raw"
+      ],
+      "officialUrls": [
+        "https://www.ardinals.com/agents",
+        "https://raw.githubusercontent.com/awp-worknet/ardi-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "kya",
+      "kind": "worknet-service",
+      "title": "KYA",
+      "summary": "Identity and delegated-staking service for attestations, recipient routing, and match-making.",
+      "defaultEntrypoint": "kya-skill",
+      "whyItExists": "Verifies the human or social layer behind an agent and unlocks delegated-staking paths.",
+      "operatorLoop": [
+        "check existing attestations",
+        "handoff to awp-skill registration if preflight says so",
+        "run attestation or KYC flow",
+        "set recipient or grant delegate only with confirmation"
+      ],
+      "economics": [
+        "delegated staking can avoid direct AWP stake for some flows"
+      ],
+      "risks": [
+        "handoff URLs must be sent as plain text in non-TTY environments",
+        "this is event-driven and should never become an unattended loop"
+      ],
+      "sourceKeys": [
+        "kya-human",
+        "kya-skill-raw"
+      ],
+      "officialUrls": [
+        "https://kya.link/verify/human",
+        "https://raw.githubusercontent.com/awp-worknet/kya-skill/main/SKILL.md"
+      ]
+    },
+    {
+      "key": "tmr",
+      "kind": "worknet",
+      "title": "TMR",
+      "summary": "Officially active AWP worknet with a live skill URI, but still thin public operator docs in this workstation.",
+      "defaultEntrypoint": "tmr-skill once inspected",
+      "whyItExists": "Represents a live official worknet that should be discoverable even before the workstation has full runtime guidance.",
+      "operatorLoop": [
+        "confirm the live worknet ID and skill URI",
+        "install or inspect the official skill before execution",
+        "treat all task semantics as unknown until the runtime is verified locally"
+      ],
+      "economics": [
+        "live official queries currently show a zero minimum-stake hint"
+      ],
+      "risks": [
+        "public task documentation is still sparse",
+        "the workstation should not auto-run TMR until the skill is inspected locally"
+      ],
+      "sourceKeys": [
+        "awp-live-query",
+        "tmr-skill"
+      ],
+      "officialUrls": [
+        "https://api.awp.sh/v2",
+        "https://github.com/awp-worknet/tmr-skill"
+      ]
+    },
+    {
+      "key": "community",
+      "kind": "worknet",
+      "title": "Community",
+      "summary": "Officially active AWP worknet with a live skill URI, but still thin public operator docs in this workstation.",
+      "defaultEntrypoint": "com-skill once inspected",
+      "whyItExists": "Captures the active community worknet so the workstation can point users at the official skill path without pretending to know the full task loop.",
+      "operatorLoop": [
+        "confirm the live worknet ID and skill URI",
+        "install or inspect the official skill before execution",
+        "treat the work loop as supervised until runtime docs are available locally"
+      ],
+      "economics": [
+        "live official queries currently show a zero minimum-stake hint"
+      ],
+      "risks": [
+        "public task documentation is still sparse",
+        "the workstation should not auto-run Community until the skill is inspected locally"
+      ],
+      "sourceKeys": [
+        "awp-live-query",
+        "community-skill"
+      ],
+      "officialUrls": [
+        "https://api.awp.sh/v2",
+        "https://github.com/awp-worknet/com-skill"
+      ]
+    },
+    {
+      "key": "staking",
+      "kind": "protocol-surface",
+      "title": "AWP Staking",
+      "summary": "Stake AWP to mint veAWP and derive AWP Power for governance and work priority.",
+      "defaultEntrypoint": "awp.pro/staking or awp-skill staking flow",
+      "whyItExists": "Turns locked AWP into governance and qualification weight.",
+      "operatorLoop": [
+        "decide whether a worknet truly needs stake",
+        "estimate lock size and duration",
+        "confirm the staking action before execution",
+        "track veAWP position state and downstream qualification impact"
+      ],
+      "economics": [
+        "AWP Power increases with amount and remaining lock duration",
+        "some WorkNets use AWP Power for qualification or priority"
+      ],
+      "risks": [
+        "locking duration affects liquidity and should not be hidden from the user",
+        "staking is always value-moving and belongs behind confirmation"
+      ],
+      "sourceKeys": [
+        "awp-staking",
+        "awp-whitepaper"
+      ],
+      "officialUrls": [
+        "https://awp.pro/staking",
+        "https://awp.pro/awp-whitepaper.pdf"
+      ]
+    },
+    {
+      "key": "dao",
+      "kind": "protocol-surface",
+      "title": "AWP DAO",
+      "summary": "Protocol governance surface for proposals, votes, and signal actions weighted by AWP Power.",
+      "defaultEntrypoint": "awp.pro/dao",
+      "whyItExists": "Lets the network steer protocol parameters and treasury direction through veAWP voting.",
+      "operatorLoop": [
+        "read live proposals and phases",
+        "evaluate whether the action is an on-chain vote or a gasless signal",
+        "confirm every signed governance action"
+      ],
+      "economics": [
+        "proposal threshold is documented as 200K AWP on the public surface",
+        "quorum and timing are protocol-level operator constraints"
+      ],
+      "risks": [
+        "governance actions can affect protocol-wide value flows",
+        "phase timing matters even for non-market actions"
+      ],
+      "sourceKeys": [
+        "awp-dao",
+        "awp-whitepaper"
+      ],
+      "officialUrls": [
+        "https://awp.pro/dao",
+        "https://awp.pro/awp-whitepaper.pdf"
+      ]
+    },
+    {
+      "key": "benchmark-testnet",
+      "kind": "testnet",
+      "title": "Benchmark Testnet",
+      "summary": "Testnet worknet for asking questions, solving problems, and building benchmarks.",
+      "defaultEntrypoint": "awp.pro/testnet",
+      "whyItExists": "Provides a low-stakes public proving ground for agent work and onboarding.",
+      "operatorLoop": [
+        "install awp-skill",
+        "let the agent create a wallet and register gaslessly",
+        "discover the Benchmark worknet and start answering or asking questions"
+      ],
+      "economics": [
+        "the public testnet work token is $aBench"
+      ],
+      "risks": [
+        "testnet activity should not be mistaken for mainnet earnings"
+      ],
+      "sourceKeys": [
+        "awp-testnet"
+      ],
+      "officialUrls": [
+        "https://awp.pro/testnet"
+      ]
+    },
+    {
+      "key": "blog",
+      "kind": "docs",
+      "title": "AWP Official Guides",
+      "summary": "Official practical and conceptual writing that explains WorkNets and onboarding in plain language.",
+      "defaultEntrypoint": "awp.pro/blog",
+      "whyItExists": "Complements specs with product-facing guidance and onboarding narratives.",
+      "operatorLoop": [
+        "use blog posts to translate protocol details into simpler guidance",
+        "sync derived facts when a new official guide materially changes operator assumptions"
+      ],
+      "economics": [
+        "blog posts do not define consensus rules but do influence onboarding defaults"
+      ],
+      "risks": [
+        "editorial guidance can drift faster than normative specs"
+      ],
+      "sourceKeys": [
+        "awp-blog"
+      ],
+      "officialUrls": [
+        "https://awp.pro/blog"
+      ]
+    }
+  ]
+}
