@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T16:22:56Z",
+  "generatedAt": "2026-05-22T02:43:22Z",
   "inspections": [
     {
       "skillKey": "ardi",
@@ -128,16 +128,26 @@
           "code": 1,
           "result": null,
           "text": "[info]  status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2\n[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.public.blastapi.io/)",
-          "textDisplay": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request fo\u2026",
+          "textDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
           "resultDisplay": {
             "code": 1,
             "codeDisplay": "\u9000\u51fa\u7801 1",
-            "summary": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.bl\u2026",
+            "summary": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "summaryDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "summaryRaw": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base\u2026",
+            "preview": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "previewDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "previewRaw": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base\u2026",
+            "structuredPreviewDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
             "stdoutDisplay": null,
-            "stderrDisplay": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.bl\u2026"
+            "stderrDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "stderrDisplayRaw": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base\u2026",
+            "stderrDisplayDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002"
           },
-          "resultSummary": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.bl\u2026",
-          "stderrDisplay": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.bl\u2026"
+          "resultSummary": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+          "stderrDisplay": "[info] status: address = 0x518fdf57793e54254817c7d49618675d4fa774c2 [error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base\u2026",
+          "previewDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+          "messageDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002"
         },
         {
           "label": "ardi gas check",
@@ -150,16 +160,26 @@
           "code": 1,
           "result": null,
           "text": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.public.blastapi.io/)",
-          "textDisplay": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.public.blastapi.io/)",
+          "textDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
           "resultDisplay": {
             "code": 1,
             "codeDisplay": "\u9000\u51fa\u7801 1",
-            "summary": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026",
+            "summary": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "summaryDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "summaryRaw": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026",
+            "preview": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "previewDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "previewRaw": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026",
+            "structuredPreviewDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
             "stdoutDisplay": null,
-            "stderrDisplay": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026"
+            "stderrDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+            "stderrDisplayRaw": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026",
+            "stderrDisplayDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002"
           },
-          "resultSummary": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026",
-          "stderrDisplay": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026"
+          "resultSummary": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+          "stderrDisplay": "[error] fatal: all Base RPCs failed (tried 7 hardcoded + 0 from chainlist). Last: https://base-mainnet.public.blastapi.io: send error sending request for url (https://base-mainnet.\u2026",
+          "previewDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002",
+          "messageDisplay": "Ardi \u5f53\u524d\u8fde\u4e0d\u4e0a Base RPC\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u53ef\u7528 RPC\u3002"
         },
         {
           "label": "ardi stake guidance",
@@ -196,19 +216,28 @@
             }
           },
           "text": "{\n  \"status\": \"error\",\n  \"message\": \"Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2\\nThreshold (each path):  10000 AWP (source: fallback-constant)\\nNo allocations found across known stakers.\\nStatus:                 NOT ELIGIBLE\\n\\nPick a path (in order of recommendation):\\n\\n[A] \ud83d\udfe2 KYA delegated stake \u2014 easiest, no AWP needed\\n    https://kya.link/\\n    Tweet your agent address, KYA verifies on Twitter and sponsors\\n    10000 AWP into worknet 845300000012. Wait 1-24h.\\n\\n[B] \ud83d\udfe2 One-click buy + auto-stake \u2014 for users with ETH\\n    Recommended: top up ~0.01 ETH (\u2248 $30-40) to your agent, then run:\\n        ardi-agent buy-and-stake\\n    Skill quotes ETH\u2192USDC\u2192AWP on-chain (Uniswap V3 + Aerodrome),\\n    then auto-locks into veAWP and allocates to your agent.\\n    Your agent address: 0x518fdf57793e54254817c7d49618675d4fa774c2\\n\\n[C] \u26aa Manual self-stake \u2014 if you already hold AWP\\n    https://awp.pro/staking\\n    Connect wallet, lock >= 10000 AWP, allocate to:\\n      agent: 0x518fdf57793e54254817c7d49618675d4fa774c2\\n      worknetId: 845300000014 (Ardi)\\n\\nAfter staking, wait ~10s, then re-run: ardi-agent stake\",\n  \"data\": {\n    \"retryable\": false,\n    \"suggestion\": \"Reac...(truncated)",
-          "textDisplay": "{ \"status\": \"error\", \"message\": \"Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2\\nThreshold (each path): 10000 AWP (source: fallback-constant)\\nNo allocations found across known stakers.\\nStatus: NOT ELIGIBLE\\n\\nPick a\u2026",
+          "textDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
-            "summary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1aReach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
+            "summary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "summaryDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "summaryRaw": "{\"_internal\": {\"next_action\": \"stake_required\", \"next_command\": \"ardi-agent stake\"}, \"data\": {\"retryable\": false, \"suggestion\": \"Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet\u2026",
+            "preview": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "previewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"stake_required\", \"next_command\": \"ardi-agent stake\"}, \"data\": {\"retryable\": false, \"suggestion\": \"Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet\u2026",
+            "structuredPreviewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
             "stdoutDisplay": {
               "kind": "structured",
-              "summary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1aReach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
-              "preview": "{\"_internal\": {\"next_action\": \"stake_required\", \"next_command\": \"ardi-agent stake\"}, \"data\": {\"retryable\": false, \"suggestion\": \"Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet\u2026",
-              "message": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
-              "errorSummary": "Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
+              "summary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "preview": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "previewRaw": "{\"_internal\": {\"next_action\": \"stake_required\", \"next_command\": \"ardi-agent stake\"}, \"data\": {\"retryable\": false, \"suggestion\": \"Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet\u2026",
+              "message": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "messageRaw": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "messageDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "errorSummary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
               "guidance": {
-                "message": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "message": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
                 "userActions": [],
                 "actionMap": {},
                 "nextCommand": [
@@ -217,24 +246,39 @@
                 ],
                 "nextAction": "stake_required",
                 "state": null,
-                "messageDisplay": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-                "nextCommandDisplay": "ardi-agent stake",
+                "messageRaw": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "messageDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+                "nextCommandRaw": "ardi-agent stake",
+                "nextCommandDisplay": "\u68c0\u67e5 Ardi \u8d44\u683c\u8def\u5f84",
                 "userActionDetails": [],
-                "userActionsDisplay": []
+                "userActionsDisplay": [],
+                "preview": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "previewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+                "previewRaw": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2"
               },
-              "nextCommandDisplay": "ardi-agent stake"
+              "nextCommandDisplay": "\u68c0\u67e5 Ardi \u8d44\u683c\u8def\u5f84",
+              "previewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "detail": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "detailDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "errorSummaryRaw": "Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
+              "errorSummaryDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "structuredPreviewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
-          "resultSummary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1aReach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
+          "resultSummary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
           "stdoutDisplay": {
             "kind": "structured",
-            "summary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1aReach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
-            "preview": "{\"_internal\": {\"next_action\": \"stake_required\", \"next_command\": \"ardi-agent stake\"}, \"data\": {\"retryable\": false, \"suggestion\": \"Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet\u2026",
-            "message": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
-            "errorSummary": "Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
+            "summary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "preview": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"stake_required\", \"next_command\": \"ardi-agent stake\"}, \"data\": {\"retryable\": false, \"suggestion\": \"Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet\u2026",
+            "message": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "messageRaw": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "messageDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "errorSummary": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
             "guidance": {
-              "message": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "message": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
               "userActions": [],
               "actionMap": {},
               "nextCommand": [
@@ -243,16 +287,28 @@
               ],
               "nextAction": "stake_required",
               "state": null,
-              "messageDisplay": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-              "nextCommandDisplay": "ardi-agent stake",
+              "messageRaw": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "messageDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "nextCommandRaw": "ardi-agent stake",
+              "nextCommandDisplay": "\u68c0\u67e5 Ardi \u8d44\u683c\u8def\u5f84",
               "userActionDetails": [],
-              "userActionsDisplay": []
+              "userActionsDisplay": [],
+              "preview": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "previewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+              "previewRaw": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2"
             },
-            "nextCommandDisplay": "ardi-agent stake"
+            "nextCommandDisplay": "\u68c0\u67e5 Ardi \u8d44\u683c\u8def\u5f84",
+            "previewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "detail": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "detailDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "errorSummaryRaw": "Reach the 10000 AWP threshold on EITHER Ardi (845300000014) OR KYA (845300000012) worknet, then re-run.",
+            "errorSummaryDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "structuredPreviewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002"
           },
-          "messageDisplay": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2 Threshold (each path): 10000 AWP (source: fallback-constant) No allocations found across known stakers. Status\u2026",
+          "previewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+          "messageDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "message": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
             "userActions": [],
             "actionMap": {},
             "nextCommand": [
@@ -261,12 +317,17 @@
             ],
             "nextAction": "stake_required",
             "state": null,
-            "messageDisplay": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-            "nextCommandDisplay": "ardi-agent stake",
+            "messageRaw": "Agent:                  0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "messageDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "nextCommandRaw": "ardi-agent stake",
+            "nextCommandDisplay": "\u68c0\u67e5 Ardi \u8d44\u683c\u8def\u5f84",
             "userActionDetails": [],
-            "userActionsDisplay": []
+            "userActionsDisplay": [],
+            "preview": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "previewDisplay": "Ardi \u8fd9\u8f6e\u8fd8\u6ca1\u8fdb\u5165\u63d0\u4ea4\u627f\u8bfa\u548c\u63ed\u793a\u9636\u6bb5\uff0c\u56e0\u4e3a\u8d44\u683c\u8def\u5f84\u8fd8\u6ca1\u6ee1\u8db3\uff1a\u5148\u6ee1\u8db3 Ardi \u6216 KYA \u4efb\u4e00\u6761 10000 AWP \u8d44\u683c\u8def\u5f84\uff0c\u518d\u56de\u6765\u91cd\u8dd1\u3002",
+            "previewRaw": "Agent: 0x518fdf57793e54254817c7d49618675d4fa774c2"
           },
-          "nextCommandDisplay": "ardi-agent stake"
+          "nextCommandDisplay": "\u68c0\u67e5 Ardi \u8d44\u683c\u8def\u5f84"
         }
       ],
       "remediationNotes": [],
@@ -449,14 +510,23 @@
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
-            "summary": "{'walletinstalled': true, 'walletinitialized': true, 'walletunlocked': true, 'walletaddress': '0x518fdf57793e54254817c7d49618675d4fa774c2', 'registered': none, 'boundto': none, 'recipient': none, 'hasstake': false, 'totalstaked': '0', 'hasallocations': false, 'totalallocated': '0', 'freeworknetsavailable': 0}\uff1aCould not reach AWP API to check registration. Retry when network is available.",
+            "summary": "Could not reach AWP API to check registration. Retry when network is available.",
+            "summaryDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+            "summaryRaw": "{\"message\": \"Could not reach AWP API to check registration. Retry when network is available.\", \"nextAction\": \"retry_preflight\", \"nextCommand\": \"python3 scripts/preflight.py --address\u2026",
+            "preview": "Could not reach AWP API to check registration. Retry when network is available.",
+            "previewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+            "previewRaw": "{\"message\": \"Could not reach AWP API to check registration. Retry when network is available.\", \"nextAction\": \"retry_preflight\", \"nextCommand\": \"python3 scripts/preflight.py --address\u2026",
+            "structuredPreviewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
             "stdoutDisplay": {
               "kind": "structured",
-              "summary": "{'walletinstalled': true, 'walletinitialized': true, 'walletunlocked': true, 'walletaddress': '0x518fdf57793e54254817c7d49618675d4fa774c2', 'registered': none, 'boundto': none, 'recipient': none, 'hasstake': false, 'totalstaked': '0', 'hasallocations': false, 'totalallocated': '0', 'freeworknetsavailable': 0}\uff1aCould not reach AWP API to check registration. Retry when network is available.",
-              "preview": "{\"message\": \"Could not reach AWP API to check registration. Retry when network is available.\", \"nextAction\": \"retry_preflight\", \"nextCommand\": \"python3 scripts/preflight.py --address 0x518FDf57793e54254817c7D49618675d4Fa\u2026",
+              "summary": "Could not reach AWP API to check registration. Retry when network is available.",
+              "preview": "Could not reach AWP API to check registration. Retry when network is available.",
+              "previewRaw": "{\"message\": \"Could not reach AWP API to check registration. Retry when network is available.\", \"nextAction\": \"retry_preflight\", \"nextCommand\": \"python3 scripts/preflight.py --address\u2026",
               "state": "{'walletInstalled': True, 'walletInitialized': True, 'walletUnlocked': True, 'walletAddress': '0x518FDf57793e54254817c7D49618675d4Fa774c2', 'registered': None, 'boundTo': None, 'recipient': None, 'hasStake': False, 'totalStaked': '0', 'hasAllocations': False, 'totalAllocated': '0', 'freeWorknetsAvailable': 0}",
               "stateDisplay": "{'walletinstalled': true, 'walletinitialized': true, 'walletunlocked': true, 'walletaddress': '0x518fdf57793e54254817c7d49618675d4fa774c2', 'registered': none, 'boundto': none, 'recipient': none, 'hasstake': false, 'totalstaked': '0', 'hasallocations': false, 'totalallocated': '0', 'freeworknetsavailable': 0}",
               "message": "Could not reach AWP API to check registration. Retry when network is available.",
+              "messageRaw": "Could not reach AWP API to check registration. Retry when network is available.",
+              "messageDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
               "guidance": {
                 "message": "Could not reach AWP API to check registration. Retry when network is available.",
                 "userActions": [],
@@ -466,19 +536,32 @@
                 "state": null,
                 "messageDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
                 "userActionDetails": [],
-                "userActionsDisplay": []
-              }
+                "userActionsDisplay": [],
+                "preview": "Could not reach AWP API to check registration. Retry when network is available.",
+                "previewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+                "previewRaw": "Could not reach AWP API to check registration. Retry when network is available."
+              },
+              "previewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+              "detail": "Could not reach AWP API to check registration. Retry when network is available.",
+              "detailDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+              "errorSummary": "Could not reach AWP API to check registration. Retry when network is available.",
+              "errorSummaryDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+              "structuredPreviewDisplay": "Could not reach AWP API to check registration. Retry when network is available."
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
-          "resultSummary": "{'walletinstalled': true, 'walletinitialized': true, 'walletunlocked': true, 'walletaddress': '0x518fdf57793e54254817c7d49618675d4fa774c2', 'registered': none, 'boundto': none, 'recipient': none, 'hasstake': false, 'totalstaked': '0', 'hasallocations': false, 'totalallocated': '0', 'freeworknetsavailable': 0}\uff1aCould not reach AWP API to check registration. Retry when network is available.",
+          "resultSummary": "Could not reach AWP API to check registration. Retry when network is available.",
           "stdoutDisplay": {
             "kind": "structured",
-            "summary": "{'walletinstalled': true, 'walletinitialized': true, 'walletunlocked': true, 'walletaddress': '0x518fdf57793e54254817c7d49618675d4fa774c2', 'registered': none, 'boundto': none, 'recipient': none, 'hasstake': false, 'totalstaked': '0', 'hasallocations': false, 'totalallocated': '0', 'freeworknetsavailable': 0}\uff1aCould not reach AWP API to check registration. Retry when network is available.",
-            "preview": "{\"message\": \"Could not reach AWP API to check registration. Retry when network is available.\", \"nextAction\": \"retry_preflight\", \"nextCommand\": \"python3 scripts/preflight.py --address 0x518FDf57793e54254817c7D49618675d4Fa\u2026",
+            "summary": "Could not reach AWP API to check registration. Retry when network is available.",
+            "preview": "Could not reach AWP API to check registration. Retry when network is available.",
+            "previewRaw": "{\"message\": \"Could not reach AWP API to check registration. Retry when network is available.\", \"nextAction\": \"retry_preflight\", \"nextCommand\": \"python3 scripts/preflight.py --address\u2026",
             "state": "{'walletInstalled': True, 'walletInitialized': True, 'walletUnlocked': True, 'walletAddress': '0x518FDf57793e54254817c7D49618675d4Fa774c2', 'registered': None, 'boundTo': None, 'recipient': None, 'hasStake': False, 'totalStaked': '0', 'hasAllocations': False, 'totalAllocated': '0', 'freeWorknetsAvailable': 0}",
             "stateDisplay": "{'walletinstalled': true, 'walletinitialized': true, 'walletunlocked': true, 'walletaddress': '0x518fdf57793e54254817c7d49618675d4fa774c2', 'registered': none, 'boundto': none, 'recipient': none, 'hasstake': false, 'totalstaked': '0', 'hasallocations': false, 'totalallocated': '0', 'freeworknetsavailable': 0}",
             "message": "Could not reach AWP API to check registration. Retry when network is available.",
+            "messageRaw": "Could not reach AWP API to check registration. Retry when network is available.",
+            "messageDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
             "guidance": {
               "message": "Could not reach AWP API to check registration. Retry when network is available.",
               "userActions": [],
@@ -488,9 +571,19 @@
               "state": null,
               "messageDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
               "userActionDetails": [],
-              "userActionsDisplay": []
-            }
+              "userActionsDisplay": [],
+              "preview": "Could not reach AWP API to check registration. Retry when network is available.",
+              "previewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+              "previewRaw": "Could not reach AWP API to check registration. Retry when network is available."
+            },
+            "previewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+            "detail": "Could not reach AWP API to check registration. Retry when network is available.",
+            "detailDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+            "errorSummary": "Could not reach AWP API to check registration. Retry when network is available.",
+            "errorSummaryDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+            "structuredPreviewDisplay": "Could not reach AWP API to check registration. Retry when network is available."
           },
+          "previewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
           "stateDisplay": "{'walletinstalled': true, 'walletinitialized': true, 'walletunlocked': true, 'walletaddress': '0x518fdf57793e54254817c7d49618675d4fa774c2', 'registered': none, 'boundto': none, 'recipient': none, 'hasstake': false, 'totalstaked': '0', 'hasallocations': false, 'totalallocated': '0', 'freeworknetsavailable': 0}",
           "messageDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
           "runtimeGuidanceDisplay": {
@@ -502,7 +595,10 @@
             "state": null,
             "messageDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
             "userActionDetails": [],
-            "userActionsDisplay": []
+            "userActionsDisplay": [],
+            "preview": "Could not reach AWP API to check registration. Retry when network is available.",
+            "previewDisplay": "Could not reach AWP API to check registration. Retry when network is available.",
+            "previewRaw": "Could not reach AWP API to check registration. Retry when network is available."
           }
         }
       ],
@@ -804,61 +900,100 @@
             "status": 0
           },
           "text": "{\"error\": \"NETWORK_ERROR\", \"title\": \"NETWORK_ERROR\", \"detail\": \"[Errno -2] Name or service not known\", \"status\": 0}",
-          "textDisplay": "{\"error\": \"NETWORK_ERROR\", \"title\": \"NETWORK_ERROR\", \"detail\": \"[Errno -2] Name or service not known\", \"status\": 0}",
+          "textDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
           "resultDisplay": {
             "code": 1,
             "codeDisplay": "\u9000\u51fa\u7801 1",
-            "summary": "[Errno -2] Name or service not known",
+            "summary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "summaryDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "summaryRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+            "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+            "structuredPreviewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
             "stdoutDisplay": {
               "kind": "structured",
-              "summary": "[Errno -2] Name or service not known",
-              "preview": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
-              "message": "[Errno -2] Name or service not known",
-              "detail": "[Errno -2] Name or service not known",
+              "summary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "previewRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+              "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "messageRaw": "[Errno -2] Name or service not known",
+              "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "detail": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "detailRaw": "[Errno -2] Name or service not known",
               "guidance": {
-                "message": "[Errno -2] Name or service not known",
+                "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
                 "userActions": [],
                 "actionMap": {},
                 "nextCommand": null,
                 "nextAction": null,
                 "state": null,
-                "messageDisplay": "[Errno -2] Name or service not known",
+                "messageRaw": "[Errno -2] Name or service not known",
+                "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
                 "userActionDetails": [],
-                "userActionsDisplay": []
-              }
+                "userActionsDisplay": [],
+                "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+                "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+                "previewRaw": "[Errno -2] Name or service not known"
+              },
+              "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "detailDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "errorSummary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "errorSummaryDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "structuredPreviewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
-          "resultSummary": "[Errno -2] Name or service not known",
+          "resultSummary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
           "stdoutDisplay": {
             "kind": "structured",
-            "summary": "[Errno -2] Name or service not known",
-            "preview": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
-            "message": "[Errno -2] Name or service not known",
-            "detail": "[Errno -2] Name or service not known",
+            "summary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+            "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "messageRaw": "[Errno -2] Name or service not known",
+            "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "detail": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "detailRaw": "[Errno -2] Name or service not known",
             "guidance": {
-              "message": "[Errno -2] Name or service not known",
+              "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
               "userActions": [],
               "actionMap": {},
               "nextCommand": null,
               "nextAction": null,
               "state": null,
-              "messageDisplay": "[Errno -2] Name or service not known",
+              "messageRaw": "[Errno -2] Name or service not known",
+              "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
               "userActionDetails": [],
-              "userActionsDisplay": []
-            }
+              "userActionsDisplay": [],
+              "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "previewRaw": "[Errno -2] Name or service not known"
+            },
+            "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "detailDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "errorSummary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "errorSummaryDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "structuredPreviewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002"
           },
+          "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "[Errno -2] Name or service not known",
+            "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
             "userActions": [],
             "actionMap": {},
             "nextCommand": null,
             "nextAction": null,
             "state": null,
-            "messageDisplay": "[Errno -2] Name or service not known",
+            "messageRaw": "[Errno -2] Name or service not known",
+            "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
             "userActionDetails": [],
-            "userActionsDisplay": []
-          }
+            "userActionsDisplay": [],
+            "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewRaw": "[Errno -2] Name or service not known"
+          },
+          "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002"
         },
         {
           "label": "gov phase-aware helper",
@@ -876,61 +1011,100 @@
             "status": 0
           },
           "text": "{\"error\": \"NETWORK_ERROR\", \"title\": \"NETWORK_ERROR\", \"detail\": \"[Errno -2] Name or service not known\", \"status\": 0}",
-          "textDisplay": "{\"error\": \"NETWORK_ERROR\", \"title\": \"NETWORK_ERROR\", \"detail\": \"[Errno -2] Name or service not known\", \"status\": 0}",
+          "textDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
           "resultDisplay": {
             "code": 1,
             "codeDisplay": "\u9000\u51fa\u7801 1",
-            "summary": "[Errno -2] Name or service not known",
+            "summary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "summaryDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "summaryRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+            "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+            "structuredPreviewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
             "stdoutDisplay": {
               "kind": "structured",
-              "summary": "[Errno -2] Name or service not known",
-              "preview": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
-              "message": "[Errno -2] Name or service not known",
-              "detail": "[Errno -2] Name or service not known",
+              "summary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "previewRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+              "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "messageRaw": "[Errno -2] Name or service not known",
+              "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "detail": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "detailRaw": "[Errno -2] Name or service not known",
               "guidance": {
-                "message": "[Errno -2] Name or service not known",
+                "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
                 "userActions": [],
                 "actionMap": {},
                 "nextCommand": null,
                 "nextAction": null,
                 "state": null,
-                "messageDisplay": "[Errno -2] Name or service not known",
+                "messageRaw": "[Errno -2] Name or service not known",
+                "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
                 "userActionDetails": [],
-                "userActionsDisplay": []
-              }
+                "userActionsDisplay": [],
+                "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+                "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+                "previewRaw": "[Errno -2] Name or service not known"
+              },
+              "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "detailDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "errorSummary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "errorSummaryDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "structuredPreviewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
-          "resultSummary": "[Errno -2] Name or service not known",
+          "resultSummary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
           "stdoutDisplay": {
             "kind": "structured",
-            "summary": "[Errno -2] Name or service not known",
-            "preview": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
-            "message": "[Errno -2] Name or service not known",
-            "detail": "[Errno -2] Name or service not known",
+            "summary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewRaw": "{\"detail\": \"[Errno -2] Name or service not known\", \"error\": \"NETWORK_ERROR\", \"status\": 0, \"title\": \"NETWORK_ERROR\"}",
+            "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "messageRaw": "[Errno -2] Name or service not known",
+            "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "detail": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "detailRaw": "[Errno -2] Name or service not known",
             "guidance": {
-              "message": "[Errno -2] Name or service not known",
+              "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
               "userActions": [],
               "actionMap": {},
               "nextCommand": null,
               "nextAction": null,
               "state": null,
-              "messageDisplay": "[Errno -2] Name or service not known",
+              "messageRaw": "[Errno -2] Name or service not known",
+              "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
               "userActionDetails": [],
-              "userActionsDisplay": []
-            }
+              "userActionsDisplay": [],
+              "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+              "previewRaw": "[Errno -2] Name or service not known"
+            },
+            "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "detailDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "errorSummary": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "errorSummaryDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "structuredPreviewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002"
           },
+          "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "[Errno -2] Name or service not known",
+            "message": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
             "userActions": [],
             "actionMap": {},
             "nextCommand": null,
             "nextAction": null,
             "state": null,
-            "messageDisplay": "[Errno -2] Name or service not known",
+            "messageRaw": "[Errno -2] Name or service not known",
+            "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
             "userActionDetails": [],
-            "userActionsDisplay": []
-          }
+            "userActionsDisplay": [],
+            "preview": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002",
+            "previewRaw": "[Errno -2] Name or service not known"
+          },
+          "messageDisplay": "Gov \u5f53\u524d\u8fde\u4e0d\u4e0a\u4e0a\u6e38\u670d\u52a1\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u6216\u57df\u540d\u89e3\u6790\u3002"
         },
         {
           "label": "gov private state",
@@ -943,16 +1117,26 @@
           "code": 1,
           "result": null,
           "text": "Traceback (most recent call last):\n  File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module>\n    sys.exit(main())\n  File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 26, in main\n    data = signed_request(\n  File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/lib/govnet_lib.py\", line 390, in signed_request\n    nonce = nonce_mod.next_nonce(principal)\n  File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/lib/nonce.py\", line 136, in next_nonce\n    with _principal_lock(principal):\n  File \"/usr/lib64/python3.9/contextlib.py\", line 119, in __enter__\n    return next(self.gen)\n  File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/lib/nonce.py\", line 98, in _principal_lock\n    fd = os.open(lock_path, os.O_WRONLY | os.O_CREAT, 0o600)\nOSError: [Errno 30] Read-only file system: '/root/.govnet/nonces/0x518fdf57793e54254817c7d49618675d4fa774c2.lock'",
-          "textDisplay": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/script\u2026",
+          "textDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
           "resultDisplay": {
             "code": 1,
             "codeDisplay": "\u9000\u51fa\u7801 1",
-            "summary": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step-hum\u2026",
+            "summary": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
+            "summaryDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
+            "summaryRaw": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step\u2026",
+            "preview": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
+            "previewDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
+            "previewRaw": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step\u2026",
+            "structuredPreviewDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
             "stdoutDisplay": null,
-            "stderrDisplay": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step-hum\u2026"
+            "stderrDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
+            "stderrDisplayRaw": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step\u2026",
+            "stderrDisplayDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002"
           },
-          "resultSummary": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step-hum\u2026",
-          "stderrDisplay": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step-hum\u2026"
+          "resultSummary": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
+          "stderrDisplay": "Traceback (most recent call last): File \"/tmp/awp-step-humanize-xWAEft/skills/checkouts/gov/scripts/private/state.py\", line 39, in <module> sys.exit(main()) File \"/tmp/awp-step\u2026",
+          "previewDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002",
+          "messageDisplay": "Gov \u79c1\u6709\u72b6\u6001\u811a\u672c\u5f53\u524d\u6ca1\u62ff\u5230\u7a33\u5b9a\u7ed3\u679c\uff0c\u5148\u68c0\u67e5\u7f51\u7edc\u548c\u8fd9\u671f\u7684 AWP Power\u3002"
         }
       ],
       "remediationNotes": [],
@@ -1091,16 +1275,26 @@
           "code": 0,
           "result": null,
           "text": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID]\n                     [--api-base API_BASE] [--web-base WEB_BASE]\n                     [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll]\n                     [--poll-timeout POLL_TIMEOUT]\n\nRun the KYA Twitter claim machine half and hand the user a web link to publish\nthe tweet from.\n\noptional arguments:\n  -h, --help            show this help message and exit\n  --token TOKEN         awp-wallet session token. Optional: newer awp-wallet\n                        versions don't need it, and for older/locked wallets\n                        this skill will call `awp-wallet unlock`\n                        automatically. Set AWP_WALLET_TOKEN env var to reuse a\n                        token.\n  --chain-id CHAIN_ID   EVM chain id used in EIP-712 domain (default: 8453)\n  --api-base API_BASE   KYA API base URL (overrides env KYA_API_BASE)\n  --web-base WEB_BASE   KYA web base URL used to build the human-handoff link\n                        printed at the end of the flow (overrides env\n                        KYA_WEB_BASE; defaults to https://kya.link)\n  --agent AGENT         Override the agent address (default: read from awp-\n       ...(truncated)",
-          "textDisplay": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout POLL_TIMEOUT] Run the KYA Twitter claim mach\u2026",
+          "textDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
-            "summary": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout POLL\u2026",
+            "summary": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
+            "summaryDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
+            "summaryRaw": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout\u2026",
+            "preview": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
+            "previewDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
+            "previewRaw": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout\u2026",
+            "structuredPreviewDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
             "stdoutDisplay": null,
-            "stderrDisplay": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout POLL\u2026"
+            "stderrDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
+            "stderrDisplayRaw": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout\u2026",
+            "stderrDisplayDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002"
           },
-          "resultSummary": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout POLL\u2026",
-          "stderrDisplay": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout POLL\u2026"
+          "resultSummary": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
+          "stderrDisplay": "usage: sign-claim.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--tweet-url TWEET_URL] [--no-poll] [--poll-timeout\u2026",
+          "previewDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002",
+          "messageDisplay": "KYA \u7b7e\u540d\u8ba4\u9886\u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u751f\u6210\u5e26\u4ea4\u63a5\u94fe\u63a5\u7684\u8ba4\u9886\u6d41\u7a0b\u3002"
         },
         {
           "label": "kya relay recipient help",
@@ -1114,16 +1308,26 @@
           "code": 0,
           "result": null,
           "text": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID]\n                              [--api-base API_BASE] [--web-base WEB_BASE]\n                              [--agent AGENT] [--recipient RECIPIENT]\n                              [--worknet WORKNET] [--amount AMOUNT]\n                              [--deadline-seconds DEADLINE_SECONDS]\n                              [--no-poll] [--no-poll-staking]\n                              [--staking-poll-timeout STAKING_POLL_TIMEOUT]\n\nAWPRegistry.setRecipient \u2014 gasless relay flow + KYA delegated-staking request.\nTwo-stage flow for KYA's economic / delegated-staking pipeline: Stage 1 \u2014\npoint AWP rewards at the KYA deposit address (gasless via AWP relayer): 1.\nRead agent EOA from awp-wallet (or --agent override). 2. (optional) GET\n/v1/agents/:address/deposit-address to pick the recipient. 3. Read\nAWPRegistry.nonces(agent), build SetRecipient typed-data, sign. 4. POST\nsignature to AWP_RELAY_BASE/api/relay/set-recipient. 5. Poll relay status\nuntil confirmed (skippable with --no-poll). Stage 2 \u2014 tell KYA \"I want N AWP\nbacking my agent\" (only with --amount): 6. Sign KYA\nAction(delegated_staking_request). 7. POST /v1/services/staking/re...(truncated)",
-          "textDisplay": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [--amount AMOUNT] [--deadline-seconds DEADL\u2026",
+          "textDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
-            "summary": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [--\u2026",
+            "summary": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
+            "summaryDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
+            "summaryRaw": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [-\u2026",
+            "preview": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
+            "previewDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
+            "previewRaw": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [-\u2026",
+            "structuredPreviewDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
             "stdoutDisplay": null,
-            "stderrDisplay": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [--\u2026"
+            "stderrDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
+            "stderrDisplayRaw": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [-\u2026",
+            "stderrDisplayDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002"
           },
-          "resultSummary": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [--\u2026",
-          "stderrDisplay": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [--\u2026"
+          "resultSummary": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
+          "stderrDisplay": "usage: relay-set-recipient.py [-h] [--token TOKEN] [--chain-id CHAIN_ID] [--api-base API_BASE] [--web-base WEB_BASE] [--agent AGENT] [--recipient RECIPIENT] [--worknet WORKNET] [-\u2026",
+          "previewDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002",
+          "messageDisplay": "KYA \u6536\u6b3e\u5730\u5740 relay \u811a\u672c\u5df2\u5c31\u7eea\uff0c\u53ef\u7ee7\u7eed\u8bbe\u7f6e\u6536\u6b3e\u5730\u5740\u5e76\u53d1\u8d77\u59d4\u6258\u8d28\u62bc\u8bf7\u6c42\u3002"
         }
       ],
       "remediationNotes": [],
@@ -1303,20 +1507,29 @@
             }
           },
           "text": "{\n  \"ready\": false,\n  \"state\": \"auth_required\",\n  \"user_message\": \"Wallet session expired or unavailable. Re-initialization needed.\",\n  \"user_actions\": [\n    \"Re-initialize\",\n    \"Run diagnostics\"\n  ],\n  \"_internal\": {\n    \"next_command\": \"./scripts/bootstrap.sh\",\n    \"action_map\": {\n      \"Re-initialize\": \"./scripts/bootstrap.sh\",\n      \"Run diagnostics\": \"python scripts/run_tool.py doctor\"\n    }\n  }\n}",
-          "textDisplay": "{ \"ready\": false, \"state\": \"auth_required\", \"user_message\": \"Wallet session expired or unavailable. Re-initialization needed.\", \"user_actions\": [ \"Re-initialize\", \"Run diagnostics\" ], \"_internal\": { \"next_command\": \"./sc\u2026",
+          "textDisplay": "Mine \u8fd0\u884c\u73af\u5883\u5df2\u7ecf\u5c31\u7eea\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
-            "summary": "\u9700\u8981\u91cd\u65b0\u521d\u59cb\u5316\u94b1\u5305\u4f1a\u8bdd\uff1aWallet session expired or unavailable. Re-initialization needed.",
+            "summary": "Mine \u8fd0\u884c\u73af\u5883\u5df2\u7ecf\u5c31\u7eea\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "summaryDisplay": "Mine \u8fd0\u884c\u73af\u5883\u5df2\u7ecf\u5c31\u7eea\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "summaryRaw": "{\"_internal\": {\"action_map\": {\"Re-initialize\": \"./scripts/bootstrap.sh\", \"Run diagnostics\": \"python scripts/run_tool.py doctor\"}, \"next_command\": \"./scripts/bootstrap.sh\"}, \"ready\": false, \"state\": \"auth_required\"\u2026",
+            "preview": "Mine \u8fd0\u884c\u73af\u5883\u5df2\u7ecf\u5c31\u7eea\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "previewDisplay": "Mine \u8fd0\u884c\u73af\u5883\u5df2\u7ecf\u5c31\u7eea\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "previewRaw": "{\"_internal\": {\"action_map\": {\"Re-initialize\": \"./scripts/bootstrap.sh\", \"Run diagnostics\": \"python scripts/run_tool.py doctor\"}, \"next_command\": \"./scripts/bootstrap.sh\"}, \"ready\": false, \"state\": \"auth_required\"\u2026",
+            "structuredPreviewDisplay": "Mine \u8fd0\u884c\u73af\u5883\u5df2\u7ecf\u5c31\u7eea\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
             "stdoutDisplay": {
               "kind": "structured",
-              "summary": "\u9700\u8981\u91cd\u65b0\u521d\u59cb\u5316\u94b1\u5305\u4f1a\u8bdd\uff1aWallet session expired or unavailable. Re-initialization needed.",
-              "preview": "{\"_internal\": {\"action_map\": {\"Re-initialize\": \"./scripts/bootstrap.sh\", \"Run diagnostics\": \"python scripts/run_tool.py doctor\"}, \"next_command\": \"./scripts/bootstrap.sh\"}, \"ready\": false, \"state\": \"auth_required\", \"user\u2026",
+              "summary": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+              "preview": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+              "previewRaw": "{\"_internal\": {\"action_map\": {\"Re-initialize\": \"./scripts/bootstrap.sh\", \"Run diagnostics\": \"python scripts/run_tool.py doctor\"}, \"next_command\": \"./scripts/bootstrap.sh\"}, \"ready\": false, \"state\": \"auth_required\"\u2026",
               "state": "auth_required",
               "stateDisplay": "\u9700\u8981\u91cd\u65b0\u521d\u59cb\u5316\u94b1\u5305\u4f1a\u8bdd",
-              "message": "Wallet session expired or unavailable. Re-initialization needed.",
+              "message": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+              "messageRaw": "Wallet session expired or unavailable. Re-initialization needed.",
+              "messageDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
               "guidance": {
-                "message": "Wallet session expired or unavailable. Re-initialization needed.",
+                "message": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
                 "userActions": [
                   "Re-initialize",
                   "Run diagnostics"
@@ -1330,8 +1543,14 @@
                 ],
                 "nextAction": null,
                 "state": "auth_required",
+                "messageRaw": "Wallet session expired or unavailable. Re-initialization needed.",
                 "messageDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
-                "nextCommandDisplay": "./scripts/bootstrap.sh",
+                "nextCommandRaw": "./scripts/bootstrap.sh",
+                "nextCommandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
+                "userActionsRaw": [
+                  "Re-initialize",
+                  "Run diagnostics"
+                ],
                 "userActionDetails": [
                   {
                     "label": "Re-initialize",
@@ -1349,7 +1568,11 @@
                     "actionGroupRank": 0,
                     "actionTier": "current",
                     "actionTierLabel": "\u5f53\u524d",
-                    "actionTierRank": 0
+                    "actionTierRank": 0,
+                    "labelRaw": "Re-initialize",
+                    "descriptionDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u672c\u5730\u8fd0\u884c\u73af\u5883\u548c\u94b1\u5305\u4f1a\u8bdd\uff0c\u518d\u56de\u6765\u7ee7\u7eed\u3002",
+                    "commandRaw": "./scripts/bootstrap.sh",
+                    "commandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883"
                   },
                   {
                     "label": "Run diagnostics",
@@ -1367,28 +1590,45 @@
                     "actionGroupRank": 0,
                     "actionTier": "current",
                     "actionTierLabel": "\u5f53\u524d",
-                    "actionTierRank": 0
+                    "actionTierRank": 0,
+                    "labelRaw": "Run diagnostics",
+                    "descriptionDisplay": "\u5148\u8dd1 Mine \u8bca\u65ad\uff0c\u786e\u8ba4\u662f\u94b1\u5305\u4f1a\u8bdd\u3001\u4f9d\u8d56\u8fd8\u662f\u73af\u5883\u8def\u5f84\u51fa\u4e86\u95ee\u9898\u3002",
+                    "commandRaw": "python scripts/run_tool.py doctor",
+                    "commandDisplay": "\u8fd0\u884c Mine \u8bca\u65ad"
                   }
                 ],
                 "userActionsDisplay": [
                   "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
                   "\u8fd0\u884c Mine \u8bca\u65ad"
-                ]
+                ],
+                "preview": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+                "previewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+                "previewRaw": "Wallet session expired or unavailable. Re-initialization needed\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201cRe-initialize\u201d"
               },
-              "nextCommandDisplay": "./scripts/bootstrap.sh"
+              "nextCommandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
+              "previewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+              "detail": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+              "detailDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+              "errorSummary": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+              "errorSummaryDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+              "structuredPreviewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
-          "resultSummary": "\u9700\u8981\u91cd\u65b0\u521d\u59cb\u5316\u94b1\u5305\u4f1a\u8bdd\uff1aWallet session expired or unavailable. Re-initialization needed.",
+          "resultSummary": "Mine \u8fd0\u884c\u73af\u5883\u5df2\u7ecf\u5c31\u7eea\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
           "stdoutDisplay": {
             "kind": "structured",
-            "summary": "\u9700\u8981\u91cd\u65b0\u521d\u59cb\u5316\u94b1\u5305\u4f1a\u8bdd\uff1aWallet session expired or unavailable. Re-initialization needed.",
-            "preview": "{\"_internal\": {\"action_map\": {\"Re-initialize\": \"./scripts/bootstrap.sh\", \"Run diagnostics\": \"python scripts/run_tool.py doctor\"}, \"next_command\": \"./scripts/bootstrap.sh\"}, \"ready\": false, \"state\": \"auth_required\", \"user\u2026",
+            "summary": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+            "preview": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+            "previewRaw": "{\"_internal\": {\"action_map\": {\"Re-initialize\": \"./scripts/bootstrap.sh\", \"Run diagnostics\": \"python scripts/run_tool.py doctor\"}, \"next_command\": \"./scripts/bootstrap.sh\"}, \"ready\": false, \"state\": \"auth_required\"\u2026",
             "state": "auth_required",
             "stateDisplay": "\u9700\u8981\u91cd\u65b0\u521d\u59cb\u5316\u94b1\u5305\u4f1a\u8bdd",
-            "message": "Wallet session expired or unavailable. Re-initialization needed.",
+            "message": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+            "messageRaw": "Wallet session expired or unavailable. Re-initialization needed.",
+            "messageDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
             "guidance": {
-              "message": "Wallet session expired or unavailable. Re-initialization needed.",
+              "message": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
               "userActions": [
                 "Re-initialize",
                 "Run diagnostics"
@@ -1402,8 +1642,14 @@
               ],
               "nextAction": null,
               "state": "auth_required",
+              "messageRaw": "Wallet session expired or unavailable. Re-initialization needed.",
               "messageDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
-              "nextCommandDisplay": "./scripts/bootstrap.sh",
+              "nextCommandRaw": "./scripts/bootstrap.sh",
+              "nextCommandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
+              "userActionsRaw": [
+                "Re-initialize",
+                "Run diagnostics"
+              ],
               "userActionDetails": [
                 {
                   "label": "Re-initialize",
@@ -1421,7 +1667,11 @@
                   "actionGroupRank": 0,
                   "actionTier": "current",
                   "actionTierLabel": "\u5f53\u524d",
-                  "actionTierRank": 0
+                  "actionTierRank": 0,
+                  "labelRaw": "Re-initialize",
+                  "descriptionDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u672c\u5730\u8fd0\u884c\u73af\u5883\u548c\u94b1\u5305\u4f1a\u8bdd\uff0c\u518d\u56de\u6765\u7ee7\u7eed\u3002",
+                  "commandRaw": "./scripts/bootstrap.sh",
+                  "commandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883"
                 },
                 {
                   "label": "Run diagnostics",
@@ -1439,20 +1689,34 @@
                   "actionGroupRank": 0,
                   "actionTier": "current",
                   "actionTierLabel": "\u5f53\u524d",
-                  "actionTierRank": 0
+                  "actionTierRank": 0,
+                  "labelRaw": "Run diagnostics",
+                  "descriptionDisplay": "\u5148\u8dd1 Mine \u8bca\u65ad\uff0c\u786e\u8ba4\u662f\u94b1\u5305\u4f1a\u8bdd\u3001\u4f9d\u8d56\u8fd8\u662f\u73af\u5883\u8def\u5f84\u51fa\u4e86\u95ee\u9898\u3002",
+                  "commandRaw": "python scripts/run_tool.py doctor",
+                  "commandDisplay": "\u8fd0\u884c Mine \u8bca\u65ad"
                 }
               ],
               "userActionsDisplay": [
                 "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
                 "\u8fd0\u884c Mine \u8bca\u65ad"
-              ]
+              ],
+              "preview": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+              "previewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+              "previewRaw": "Wallet session expired or unavailable. Re-initialization needed\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201cRe-initialize\u201d"
             },
-            "nextCommandDisplay": "./scripts/bootstrap.sh"
+            "nextCommandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
+            "previewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+            "detail": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+            "detailDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+            "errorSummary": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+            "errorSummaryDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
+            "structuredPreviewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d"
           },
+          "previewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
           "stateDisplay": "\u9700\u8981\u91cd\u65b0\u521d\u59cb\u5316\u94b1\u5305\u4f1a\u8bdd",
           "messageDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "Wallet session expired or unavailable. Re-initialization needed.",
+            "message": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
             "userActions": [
               "Re-initialize",
               "Run diagnostics"
@@ -1466,8 +1730,14 @@
             ],
             "nextAction": null,
             "state": "auth_required",
+            "messageRaw": "Wallet session expired or unavailable. Re-initialization needed.",
             "messageDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002",
-            "nextCommandDisplay": "./scripts/bootstrap.sh",
+            "nextCommandRaw": "./scripts/bootstrap.sh",
+            "nextCommandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
+            "userActionsRaw": [
+              "Re-initialize",
+              "Run diagnostics"
+            ],
             "userActionDetails": [
               {
                 "label": "Re-initialize",
@@ -1485,7 +1755,11 @@
                 "actionGroupRank": 0,
                 "actionTier": "current",
                 "actionTierLabel": "\u5f53\u524d",
-                "actionTierRank": 0
+                "actionTierRank": 0,
+                "labelRaw": "Re-initialize",
+                "descriptionDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u672c\u5730\u8fd0\u884c\u73af\u5883\u548c\u94b1\u5305\u4f1a\u8bdd\uff0c\u518d\u56de\u6765\u7ee7\u7eed\u3002",
+                "commandRaw": "./scripts/bootstrap.sh",
+                "commandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883"
               },
               {
                 "label": "Run diagnostics",
@@ -1503,19 +1777,26 @@
                 "actionGroupRank": 0,
                 "actionTier": "current",
                 "actionTierLabel": "\u5f53\u524d",
-                "actionTierRank": 0
+                "actionTierRank": 0,
+                "labelRaw": "Run diagnostics",
+                "descriptionDisplay": "\u5148\u8dd1 Mine \u8bca\u65ad\uff0c\u786e\u8ba4\u662f\u94b1\u5305\u4f1a\u8bdd\u3001\u4f9d\u8d56\u8fd8\u662f\u73af\u5883\u8def\u5f84\u51fa\u4e86\u95ee\u9898\u3002",
+                "commandRaw": "python scripts/run_tool.py doctor",
+                "commandDisplay": "\u8fd0\u884c Mine \u8bca\u65ad"
               }
             ],
             "userActionsDisplay": [
               "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
               "\u8fd0\u884c Mine \u8bca\u65ad"
-            ]
+            ],
+            "preview": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+            "previewDisplay": "Mine \u7684\u94b1\u5305\u4f1a\u8bdd\u5df2\u7ecf\u5931\u6548\uff0c\u5148\u91cd\u65b0\u521d\u59cb\u5316\u8fd0\u884c\u73af\u5883\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883\u201d",
+            "previewRaw": "Wallet session expired or unavailable. Re-initialization needed\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201cRe-initialize\u201d"
           },
           "userActionsDisplay": [
             "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883",
             "\u8fd0\u884c Mine \u8bca\u65ad"
           ],
-          "nextCommandDisplay": "./scripts/bootstrap.sh"
+          "nextCommandDisplay": "\u91cd\u65b0\u521d\u59cb\u5316 Mine \u8fd0\u884c\u73af\u5883"
         },
         {
           "label": "mine control status",
@@ -1541,20 +1822,29 @@
             }
           },
           "text": "{\n  \"state\": \"idle\",\n  \"user_message\": \"No active mining session. Start a new session to begin earning.\",\n  \"user_actions\": [\n    \"Start mining\"\n  ],\n  \"_internal\": {\n    \"action_map\": {\n      \"Start mining\": \"python scripts/run_tool.py agent-start\"\n    }\n  }\n}",
-          "textDisplay": "{ \"state\": \"idle\", \"user_message\": \"No active mining session. Start a new session to begin earning.\", \"user_actions\": [ \"Start mining\" ], \"_internal\": { \"action_map\": { \"Start mining\": \"python scripts/run_tool.py agent-s\u2026",
+          "textDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
             "summary": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "summaryDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "summaryRaw": "{\"_internal\": {\"action_map\": {\"Start mining\": \"python scripts/run_tool.py agent-start\"}}, \"state\": \"idle\", \"user_actions\": [\"Start mining\"], \"user_message\": \"No active mining session. Start a new session to begin earning\u2026",
+            "preview": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "previewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "previewRaw": "{\"_internal\": {\"action_map\": {\"Start mining\": \"python scripts/run_tool.py agent-start\"}}, \"state\": \"idle\", \"user_actions\": [\"Start mining\"], \"user_message\": \"No active mining session. Start a new session to begin earning\u2026",
+            "structuredPreviewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
             "stdoutDisplay": {
               "kind": "structured",
               "summary": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
-              "preview": "{\"_internal\": {\"action_map\": {\"Start mining\": \"python scripts/run_tool.py agent-start\"}}, \"state\": \"idle\", \"user_actions\": [\"Start mining\"], \"user_message\": \"No active mining session. Start a new session to begin earning\u2026",
+              "preview": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+              "previewRaw": "{\"_internal\": {\"action_map\": {\"Start mining\": \"python scripts/run_tool.py agent-start\"}}, \"state\": \"idle\", \"user_actions\": [\"Start mining\"], \"user_message\": \"No active mining session. Start a new session to begin earning\u2026",
               "state": "idle",
               "stateDisplay": "\u5f53\u524d\u7a7a\u95f2",
-              "message": "No active mining session. Start a new session to begin earning.",
+              "message": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+              "messageRaw": "No active mining session. Start a new session to begin earning.",
+              "messageDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
               "guidance": {
-                "message": "No active mining session. Start a new session to begin earning.",
+                "message": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
                 "userActions": [
                   "Start mining"
                 ],
@@ -1564,7 +1854,11 @@
                 "nextCommand": null,
                 "nextAction": null,
                 "state": "idle",
+                "messageRaw": "No active mining session. Start a new session to begin earning.",
                 "messageDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+                "userActionsRaw": [
+                  "Start mining"
+                ],
                 "userActionDetails": [
                   {
                     "label": "Start mining",
@@ -1582,26 +1876,43 @@
                     "actionGroupRank": 0,
                     "actionTier": "current",
                     "actionTierLabel": "\u5f53\u524d",
-                    "actionTierRank": 0
+                    "actionTierRank": 0,
+                    "labelRaw": "Start mining",
+                    "descriptionDisplay": "\u5f00\u59cb\u65b0\u4e00\u8f6e Mine \u91c7\u96c6\uff0c\u8ba9 worker \u771f\u6b63\u8fdb\u5165\u8d5a\u94b1\u5faa\u73af\u3002",
+                    "commandRaw": "python scripts/run_tool.py agent-start",
+                    "commandDisplay": "\u5f00\u59cb Mine \u91c7\u96c6"
                   }
                 ],
                 "userActionsDisplay": [
                   "\u5f00\u59cb Mine \u91c7\u96c6"
-                ]
-              }
+                ],
+                "preview": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+                "previewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+                "previewRaw": "No active mining session. Start a new session to begin earning\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201cStart mining\u201d"
+              },
+              "previewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+              "detail": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+              "detailDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+              "errorSummary": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+              "errorSummaryDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+              "structuredPreviewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
           "resultSummary": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
           "stdoutDisplay": {
             "kind": "structured",
             "summary": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
-            "preview": "{\"_internal\": {\"action_map\": {\"Start mining\": \"python scripts/run_tool.py agent-start\"}}, \"state\": \"idle\", \"user_actions\": [\"Start mining\"], \"user_message\": \"No active mining session. Start a new session to begin earning\u2026",
+            "preview": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+            "previewRaw": "{\"_internal\": {\"action_map\": {\"Start mining\": \"python scripts/run_tool.py agent-start\"}}, \"state\": \"idle\", \"user_actions\": [\"Start mining\"], \"user_message\": \"No active mining session. Start a new session to begin earning\u2026",
             "state": "idle",
             "stateDisplay": "\u5f53\u524d\u7a7a\u95f2",
-            "message": "No active mining session. Start a new session to begin earning.",
+            "message": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+            "messageRaw": "No active mining session. Start a new session to begin earning.",
+            "messageDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
             "guidance": {
-              "message": "No active mining session. Start a new session to begin earning.",
+              "message": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
               "userActions": [
                 "Start mining"
               ],
@@ -1611,7 +1922,11 @@
               "nextCommand": null,
               "nextAction": null,
               "state": "idle",
+              "messageRaw": "No active mining session. Start a new session to begin earning.",
               "messageDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+              "userActionsRaw": [
+                "Start mining"
+              ],
               "userActionDetails": [
                 {
                   "label": "Start mining",
@@ -1629,18 +1944,32 @@
                   "actionGroupRank": 0,
                   "actionTier": "current",
                   "actionTierLabel": "\u5f53\u524d",
-                  "actionTierRank": 0
+                  "actionTierRank": 0,
+                  "labelRaw": "Start mining",
+                  "descriptionDisplay": "\u5f00\u59cb\u65b0\u4e00\u8f6e Mine \u91c7\u96c6\uff0c\u8ba9 worker \u771f\u6b63\u8fdb\u5165\u8d5a\u94b1\u5faa\u73af\u3002",
+                  "commandRaw": "python scripts/run_tool.py agent-start",
+                  "commandDisplay": "\u5f00\u59cb Mine \u91c7\u96c6"
                 }
               ],
               "userActionsDisplay": [
                 "\u5f00\u59cb Mine \u91c7\u96c6"
-              ]
-            }
+              ],
+              "preview": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+              "previewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+              "previewRaw": "No active mining session. Start a new session to begin earning\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201cStart mining\u201d"
+            },
+            "previewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+            "detail": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+            "detailDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+            "errorSummary": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "errorSummaryDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u4efb\u52a1\u4f1a\u8bdd\uff0c\u7b49\u4f60\u9009\u5b9a\u6570\u636e\u96c6\u540e\u5c31\u80fd\u5f00\u59cb\u3002\u9ed8\u8ba4\u8282\u594f\u662f\u5148\u53d1\u73b0\u7f51\u5740\u548c\u6570\u636e\u96c6\uff0c\u518d\u53bb\u91cd\u3001\u6293\u53d6\u3001\u6e05\u6d17\u3001\u62bd\u7ed3\u6784\u5316\u5b57\u6bb5\uff0c\u6700\u540e\u63d0\u4ea4\u5e76\u7ef4\u6301\u4fdd\u6d3b\u3002",
+            "structuredPreviewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d"
           },
+          "previewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
           "stateDisplay": "\u5f53\u524d\u7a7a\u95f2",
           "messageDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "No active mining session. Start a new session to begin earning.",
+            "message": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
             "userActions": [
               "Start mining"
             ],
@@ -1650,7 +1979,11 @@
             "nextCommand": null,
             "nextAction": null,
             "state": "idle",
+            "messageRaw": "No active mining session. Start a new session to begin earning.",
             "messageDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002",
+            "userActionsRaw": [
+              "Start mining"
+            ],
             "userActionDetails": [
               {
                 "label": "Start mining",
@@ -1668,12 +2001,19 @@
                 "actionGroupRank": 0,
                 "actionTier": "current",
                 "actionTierLabel": "\u5f53\u524d",
-                "actionTierRank": 0
+                "actionTierRank": 0,
+                "labelRaw": "Start mining",
+                "descriptionDisplay": "\u5f00\u59cb\u65b0\u4e00\u8f6e Mine \u91c7\u96c6\uff0c\u8ba9 worker \u771f\u6b63\u8fdb\u5165\u8d5a\u94b1\u5faa\u73af\u3002",
+                "commandRaw": "python scripts/run_tool.py agent-start",
+                "commandDisplay": "\u5f00\u59cb Mine \u91c7\u96c6"
               }
             ],
             "userActionsDisplay": [
               "\u5f00\u59cb Mine \u91c7\u96c6"
-            ]
+            ],
+            "preview": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+            "previewDisplay": "Mine \u5f53\u524d\u6ca1\u6709\u6d3b\u8dc3\u91c7\u96c6\u4f1a\u8bdd\uff0c\u542f\u52a8\u65b0\u4e00\u8f6e\u540e\u624d\u4f1a\u5f00\u59cb\u4ea7\u51fa\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201c\u5f00\u59cb Mine \u91c7\u96c6\u201d",
+            "previewRaw": "No active mining session. Start a new session to begin earning\u3002 \u4e0b\u4e00\u6b65\u53ef\u5148\u7528\u201cStart mining\u201d"
           },
           "userActionsDisplay": [
             "\u5f00\u59cb Mine \u91c7\u96c6"
@@ -1823,18 +2163,27 @@
             }
           },
           "text": "{\n  \"ok\": true,\n  \"user_message\": \"Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2\",\n  \"data\": {\n    \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\",\n    \"cli_path\": \"/usr/bin/awp-wallet\",\n    \"safe_to_init\": true,\n    \"status\": \"ready\"\n  },\n  \"_internal\": {\n    \"next_action\": \"ready\",\n    \"next_command\": \"predict-agent preflight\",\n    \"progress\": \"1/4\"\n  }\n}\n[predict-agent] wallet: checking status...\n[predict-agent] wallet: cli=true, dir=false, keystore=false, receive=true, safe_to_init=true",
-          "textDisplay": "{ \"ok\": true, \"user_message\": \"Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2\", \"data\": { \"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\", \"cli_path\": \"/usr/bin/awp-wallet\", \"safe_to_init\": true, \"statu\u2026",
+          "textDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
-            "summary": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "summary": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "summaryDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "summaryRaw": "{\"_internal\": {\"next_action\": \"ready\", \"next_command\": \"predict-agent preflight\", \"progress\": \"1/4\"}, \"data\": {\"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\", \"cli_path\": \"/usr/bin/awp-wallet\", \"safe_to_init\":\u2026",
+            "preview": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "previewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"ready\", \"next_command\": \"predict-agent preflight\", \"progress\": \"1/4\"}, \"data\": {\"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\", \"cli_path\": \"/usr/bin/awp-wallet\", \"safe_to_init\":\u2026",
+            "structuredPreviewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
             "stdoutDisplay": {
               "kind": "structured",
-              "summary": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-              "preview": "{\"_internal\": {\"next_action\": \"ready\", \"next_command\": \"predict-agent preflight\", \"progress\": \"1/4\"}, \"data\": {\"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\", \"cli_path\": \"/usr/bin/awp-wallet\", \"safe_to_init\": t\u2026",
-              "message": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "summary": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "preview": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "previewRaw": "{\"_internal\": {\"next_action\": \"ready\", \"next_command\": \"predict-agent preflight\", \"progress\": \"1/4\"}, \"data\": {\"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\", \"cli_path\": \"/usr/bin/awp-wallet\", \"safe_to_init\":\u2026",
+              "message": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "messageRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "messageDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
               "guidance": {
-                "message": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "message": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
                 "userActions": [],
                 "actionMap": {},
                 "nextCommand": [
@@ -1843,23 +2192,38 @@
                 ],
                 "nextAction": "ready",
                 "state": null,
-                "messageDisplay": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-                "nextCommandDisplay": "predict-agent preflight",
+                "messageRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+                "messageDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+                "nextCommandRaw": "predict-agent preflight",
+                "nextCommandDisplay": "\u91cd\u8dd1 Predict \u9884\u68c0",
                 "userActionDetails": [],
-                "userActionsDisplay": []
+                "userActionsDisplay": [],
+                "preview": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+                "previewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+                "previewRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2"
               },
-              "nextCommandDisplay": "predict-agent preflight"
+              "nextCommandDisplay": "\u91cd\u8dd1 Predict \u9884\u68c0",
+              "previewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "detail": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "detailDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "errorSummary": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "errorSummaryDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "structuredPreviewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
-          "resultSummary": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+          "resultSummary": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
           "stdoutDisplay": {
             "kind": "structured",
-            "summary": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-            "preview": "{\"_internal\": {\"next_action\": \"ready\", \"next_command\": \"predict-agent preflight\", \"progress\": \"1/4\"}, \"data\": {\"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\", \"cli_path\": \"/usr/bin/awp-wallet\", \"safe_to_init\": t\u2026",
-            "message": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "summary": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "preview": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"ready\", \"next_command\": \"predict-agent preflight\", \"progress\": \"1/4\"}, \"data\": {\"address\": \"0x518fdf57793e54254817c7d49618675d4fa774c2\", \"cli_path\": \"/usr/bin/awp-wallet\", \"safe_to_init\":\u2026",
+            "message": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "messageRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "messageDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
             "guidance": {
-              "message": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "message": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
               "userActions": [],
               "actionMap": {},
               "nextCommand": [
@@ -1868,16 +2232,28 @@
               ],
               "nextAction": "ready",
               "state": null,
-              "messageDisplay": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-              "nextCommandDisplay": "predict-agent preflight",
+              "messageRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+              "messageDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "nextCommandRaw": "predict-agent preflight",
+              "nextCommandDisplay": "\u91cd\u8dd1 Predict \u9884\u68c0",
               "userActionDetails": [],
-              "userActionsDisplay": []
+              "userActionsDisplay": [],
+              "preview": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "previewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+              "previewRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2"
             },
-            "nextCommandDisplay": "predict-agent preflight"
+            "nextCommandDisplay": "\u91cd\u8dd1 Predict \u9884\u68c0",
+            "previewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "detail": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "detailDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "errorSummary": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "errorSummaryDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "structuredPreviewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002"
           },
-          "messageDisplay": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+          "previewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+          "messageDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "message": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
             "userActions": [],
             "actionMap": {},
             "nextCommand": [
@@ -1886,12 +2262,17 @@
             ],
             "nextAction": "ready",
             "state": null,
-            "messageDisplay": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
-            "nextCommandDisplay": "predict-agent preflight",
+            "messageRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2",
+            "messageDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "nextCommandRaw": "predict-agent preflight",
+            "nextCommandDisplay": "\u91cd\u8dd1 Predict \u9884\u68c0",
             "userActionDetails": [],
-            "userActionsDisplay": []
+            "userActionsDisplay": [],
+            "preview": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "previewDisplay": "Predict \u94b1\u5305\u5df2\u5c31\u7eea\uff1a0x518fdf57793e54254817c7d49618675d4fa774c2\u3002",
+            "previewRaw": "Wallet ready: 0x518fdf57793e54254817c7d49618675d4fa774c2"
           },
-          "nextCommandDisplay": "predict-agent preflight"
+          "nextCommandDisplay": "\u91cd\u8dd1 Predict \u9884\u68c0"
         },
         {
           "label": "predict status",
@@ -1922,19 +2303,28 @@
             }
           },
           "text": "{\n  \"ok\": false,\n  \"user_message\": \"Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)\",\n  \"error\": {\n    \"code\": \"STATUS_FAILED\",\n    \"category\": \"network\",\n    \"retryable\": true,\n    \"suggestion\": \"Check coordinator connectivity.\",\n    \"debug\": {\n      \"error_chain\": \"GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?): error sending request for url (https://api.agentpredict.work/api/v1/agents/me/status): client error (Connect): dns error: Operation not permitted (os error 1)\",\n      \"error_detail\": \"GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)\",\n      \"server_url\": \"https://api.agentpredict.work\"\n    }\n  },\n  \"_internal\": {\n    \"next_action\": \"retry\",\n    \"next_command\": \"predict-agent status\"\n  }\n}\n[predict-agent] status: fetching agent status from https://api.agentpredict.work\n[predict-agent ERROR] status: failed to fetch: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-          "textDisplay": "{ \"ok\": false, \"user_message\": \"Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)\", \"error\": { \"code\": \"STATUS_FAILED\", \"category\":\u2026",
+          "textDisplay": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
-            "summary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff1aCheck coordinator connectivity.",
+            "summary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "summaryDisplay": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "summaryRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent status\"}, \"error\": {\"category\": \"network\", \"code\": \"STATUS_FAILED\", \"debug\": {\"error_chain\": \"GET /api/v1/agents/me/status failed: network error (is\u2026",
+            "preview": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "previewDisplay": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent status\"}, \"error\": {\"category\": \"network\", \"code\": \"STATUS_FAILED\", \"debug\": {\"error_chain\": \"GET /api/v1/agents/me/status failed: network error (is\u2026",
+            "structuredPreviewDisplay": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
             "stdoutDisplay": {
               "kind": "structured",
-              "summary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff1aCheck coordinator connectivity.",
-              "preview": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent status\"}, \"error\": {\"category\": \"network\", \"code\": \"STATUS_FAILED\", \"debug\": {\"error_chain\": \"GET /api/v1/agents/me/status failed: network error (is t\u2026",
-              "message": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-              "errorSummary": "Check coordinator connectivity.",
+              "summary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "preview": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "previewRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent status\"}, \"error\": {\"category\": \"network\", \"code\": \"STATUS_FAILED\", \"debug\": {\"error_chain\": \"GET /api/v1/agents/me/status failed: network error (is\u2026",
+              "message": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "messageRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+              "messageDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "errorSummary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
               "guidance": {
-                "message": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+                "message": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
                 "userActions": [],
                 "actionMap": {},
                 "nextCommand": [
@@ -1943,24 +2333,39 @@
                 ],
                 "nextAction": "retry",
                 "state": null,
-                "messageDisplay": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-                "nextCommandDisplay": "predict-agent status",
+                "messageRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+                "messageDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+                "nextCommandRaw": "predict-agent status",
+                "nextCommandDisplay": "\u67e5\u770b Predict \u8fd0\u884c\u72b6\u6001",
                 "userActionDetails": [],
-                "userActionsDisplay": []
+                "userActionsDisplay": [],
+                "preview": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+                "previewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+                "previewRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)"
               },
-              "nextCommandDisplay": "predict-agent status"
+              "nextCommandDisplay": "\u67e5\u770b Predict \u8fd0\u884c\u72b6\u6001",
+              "previewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "detail": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "detailDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "errorSummaryRaw": "Check coordinator connectivity.",
+              "errorSummaryDisplay": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "structuredPreviewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
-          "resultSummary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff1aCheck coordinator connectivity.",
+          "resultSummary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
           "stdoutDisplay": {
             "kind": "structured",
-            "summary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff1aCheck coordinator connectivity.",
-            "preview": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent status\"}, \"error\": {\"category\": \"network\", \"code\": \"STATUS_FAILED\", \"debug\": {\"error_chain\": \"GET /api/v1/agents/me/status failed: network error (is t\u2026",
-            "message": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-            "errorSummary": "Check coordinator connectivity.",
+            "summary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "preview": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent status\"}, \"error\": {\"category\": \"network\", \"code\": \"STATUS_FAILED\", \"debug\": {\"error_chain\": \"GET /api/v1/agents/me/status failed: network error (is\u2026",
+            "message": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "messageRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+            "messageDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "errorSummary": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
             "guidance": {
-              "message": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+              "message": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
               "userActions": [],
               "actionMap": {},
               "nextCommand": [
@@ -1969,16 +2374,28 @@
               ],
               "nextAction": "retry",
               "state": null,
-              "messageDisplay": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-              "nextCommandDisplay": "predict-agent status",
+              "messageRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+              "messageDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "nextCommandRaw": "predict-agent status",
+              "nextCommandDisplay": "\u67e5\u770b Predict \u8fd0\u884c\u72b6\u6001",
               "userActionDetails": [],
-              "userActionsDisplay": []
+              "userActionsDisplay": [],
+              "preview": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "previewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+              "previewRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)"
             },
-            "nextCommandDisplay": "predict-agent status"
+            "nextCommandDisplay": "\u67e5\u770b Predict \u8fd0\u884c\u72b6\u6001",
+            "previewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "detail": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "detailDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "errorSummaryRaw": "Check coordinator connectivity.",
+            "errorSummaryDisplay": "Predict \u8fd0\u884c\u65f6\u5f53\u524d\u8fd8\u6ca1\u8fdb\u5165\u7a33\u5b9a\u5faa\u73af\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "structuredPreviewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002"
           },
-          "messageDisplay": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+          "previewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+          "messageDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+            "message": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
             "userActions": [],
             "actionMap": {},
             "nextCommand": [
@@ -1987,12 +2404,17 @@
             ],
             "nextAction": "retry",
             "state": null,
-            "messageDisplay": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-            "nextCommandDisplay": "predict-agent status",
+            "messageRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+            "messageDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "nextCommandRaw": "predict-agent status",
+            "nextCommandDisplay": "\u67e5\u770b Predict \u8fd0\u884c\u72b6\u6001",
             "userActionDetails": [],
-            "userActionsDisplay": []
+            "userActionsDisplay": [],
+            "preview": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "previewDisplay": "Predict \u5f53\u524d\u8fd8\u6ca1\u8fde\u4e0a\u534f\u8c03\u5668\uff0c\u5148\u68c0\u67e5\u534f\u8c03\u5668\u8fde\u901a\u6027\u3002",
+            "previewRaw": "Failed to fetch status: GET /api/v1/agents/me/status failed: network error (is the coordinator running at https://api.agentpredict.work?)"
           },
-          "nextCommandDisplay": "predict-agent status"
+          "nextCommandDisplay": "\u67e5\u770b Predict \u8fd0\u884c\u72b6\u6001"
         },
         {
           "label": "predict stake eligibility",
@@ -2022,19 +2444,28 @@
             }
           },
           "text": "{\n  \"ok\": false,\n  \"user_message\": \"Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)\",\n  \"error\": {\n    \"code\": \"STAKE_FETCH_FAILED\",\n    \"category\": \"network\",\n    \"retryable\": true,\n    \"suggestion\": \"Check coordinator connectivity.\",\n    \"debug\": {\n      \"error_detail\": \"GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)\",\n      \"server_url\": \"https://api.agentpredict.work\"\n    }\n  },\n  \"_internal\": {\n    \"next_action\": \"retry\",\n    \"next_command\": \"predict-agent stake\"\n  }\n}\n[predict-agent] stake: fetching stake status from https://api.agentpredict.work\n[predict-agent ERROR] stake: failed to fetch: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-          "textDisplay": "{ \"ok\": false, \"user_message\": \"Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)\", \"error\": { \"code\": \"STAKE_FETCH_FAILED\", \"c\u2026",
+          "textDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
           "resultDisplay": {
             "code": 0,
             "codeDisplay": "\u9000\u51fa\u7801 0",
             "summary": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "summaryDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "summaryRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent stake\"}, \"error\": {\"category\": \"network\", \"code\": \"STAKE_FETCH_FAILED\", \"debug\": {\"error_detail\": \"GET /api/v1/agents/me/stake failed: network error (\u2026",
+            "preview": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "previewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent stake\"}, \"error\": {\"category\": \"network\", \"code\": \"STAKE_FETCH_FAILED\", \"debug\": {\"error_detail\": \"GET /api/v1/agents/me/stake failed: network error (\u2026",
+            "structuredPreviewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
             "stdoutDisplay": {
               "kind": "structured",
               "summary": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
-              "preview": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent stake\"}, \"error\": {\"category\": \"network\", \"code\": \"STAKE_FETCH_FAILED\", \"debug\": {\"error_detail\": \"GET /api/v1/agents/me/stake failed: network error (\u2026",
-              "message": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-              "errorSummary": "Check coordinator connectivity.",
+              "preview": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "previewRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent stake\"}, \"error\": {\"category\": \"network\", \"code\": \"STAKE_FETCH_FAILED\", \"debug\": {\"error_detail\": \"GET /api/v1/agents/me/stake failed: network error (\u2026",
+              "message": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "messageRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+              "messageDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "errorSummary": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
               "guidance": {
-                "message": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+                "message": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
                 "userActions": [],
                 "actionMap": {},
                 "nextCommand": [
@@ -2043,24 +2474,39 @@
                 ],
                 "nextAction": "retry",
                 "state": null,
-                "messageDisplay": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-                "nextCommandDisplay": "predict-agent stake",
+                "messageRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+                "messageDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+                "nextCommandRaw": "predict-agent stake",
+                "nextCommandDisplay": "\u68c0\u67e5 Predict \u8d44\u683c\u8def\u5f84",
                 "userActionDetails": [],
-                "userActionsDisplay": []
+                "userActionsDisplay": [],
+                "preview": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+                "previewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+                "previewRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)"
               },
-              "nextCommandDisplay": "predict-agent stake"
+              "nextCommandDisplay": "\u68c0\u67e5 Predict \u8d44\u683c\u8def\u5f84",
+              "previewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "detail": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "detailDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "errorSummaryRaw": "Check coordinator connectivity.",
+              "errorSummaryDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "structuredPreviewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002"
             },
-            "stderrDisplay": null
+            "stderrDisplay": null,
+            "stderrDisplayRaw": null
           },
           "resultSummary": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
           "stdoutDisplay": {
             "kind": "structured",
             "summary": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
-            "preview": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent stake\"}, \"error\": {\"category\": \"network\", \"code\": \"STAKE_FETCH_FAILED\", \"debug\": {\"error_detail\": \"GET /api/v1/agents/me/stake failed: network error (\u2026",
-            "message": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-            "errorSummary": "Check coordinator connectivity.",
+            "preview": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "previewRaw": "{\"_internal\": {\"next_action\": \"retry\", \"next_command\": \"predict-agent stake\"}, \"error\": {\"category\": \"network\", \"code\": \"STAKE_FETCH_FAILED\", \"debug\": {\"error_detail\": \"GET /api/v1/agents/me/stake failed: network error (\u2026",
+            "message": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "messageRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+            "messageDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "errorSummary": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
             "guidance": {
-              "message": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+              "message": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
               "userActions": [],
               "actionMap": {},
               "nextCommand": [
@@ -2069,16 +2515,28 @@
               ],
               "nextAction": "retry",
               "state": null,
-              "messageDisplay": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-              "nextCommandDisplay": "predict-agent stake",
+              "messageRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+              "messageDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "nextCommandRaw": "predict-agent stake",
+              "nextCommandDisplay": "\u68c0\u67e5 Predict \u8d44\u683c\u8def\u5f84",
               "userActionDetails": [],
-              "userActionsDisplay": []
+              "userActionsDisplay": [],
+              "preview": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "previewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+              "previewRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)"
             },
-            "nextCommandDisplay": "predict-agent stake"
+            "nextCommandDisplay": "\u68c0\u67e5 Predict \u8d44\u683c\u8def\u5f84",
+            "previewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "detail": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "detailDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "errorSummaryRaw": "Check coordinator connectivity.",
+            "errorSummaryDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "structuredPreviewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002"
           },
-          "messageDisplay": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+          "previewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+          "messageDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
           "runtimeGuidanceDisplay": {
-            "message": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+            "message": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
             "userActions": [],
             "actionMap": {},
             "nextCommand": [
@@ -2087,12 +2545,17 @@
             ],
             "nextAction": "retry",
             "state": null,
-            "messageDisplay": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
-            "nextCommandDisplay": "predict-agent stake",
+            "messageRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)",
+            "messageDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "nextCommandRaw": "predict-agent stake",
+            "nextCommandDisplay": "\u68c0\u67e5 Predict \u8d44\u683c\u8def\u5f84",
             "userActionDetails": [],
-            "userActionsDisplay": []
+            "userActionsDisplay": [],
+            "preview": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "previewDisplay": "Predict \u8fd9\u8f6e\u5361\u5728\u8d44\u683c\u68c0\u67e5\uff0c\u5f53\u524d\u8fd8\u6ca1\u62ff\u5230\u7a33\u5b9a\u7684 stake \u7ed3\u679c\u3002",
+            "previewRaw": "Failed to fetch stake status: GET /api/v1/agents/me/stake failed: network error (is the coordinator running at https://api.agentpredict.work?)"
           },
-          "nextCommandDisplay": "predict-agent stake"
+          "nextCommandDisplay": "\u68c0\u67e5 Predict \u8d44\u683c\u8def\u5f84"
         }
       ],
       "remediationNotes": [],

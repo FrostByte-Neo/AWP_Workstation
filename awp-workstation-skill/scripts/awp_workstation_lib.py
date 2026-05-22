@@ -122,6 +122,156 @@ REVIEW_PUBLIC_FIELDS = [
     "progress",
 ]
 
+PLAYBOOK_COMMAND_PUBLIC_FIELDS = [
+    "argv",
+    "category",
+    "command",
+    "commandGroupKey",
+    "commandGroupLabel",
+    "commandTier",
+    "commandTierLabel",
+    "commandTierRank",
+    "cwd",
+    "description",
+    "executionPolicy",
+    "label",
+    "rawLabel",
+    "requires_confirmation",
+    "selectedByDefault",
+]
+
+USER_ACTION_DETAIL_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "command",
+    "description",
+    "displayLabel",
+    "label",
+    "researchGroupKey",
+    "researchGroupLabel",
+    "researchGroupRank",
+    "researchTier",
+    "researchTierLabel",
+    "researchTierRank",
+]
+
+PUBLIC_ACTION_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "description",
+    "label",
+    "researchGroupKey",
+    "researchGroupLabel",
+    "researchGroupRank",
+    "researchTier",
+    "researchTierLabel",
+    "researchTierRank",
+]
+
+START_RESPONSE_FIELDS = [
+    "_internal",
+    "executionHeadline",
+    "executionState",
+    "executionStateDisplay",
+    "intro",
+    "knowledgeFocusTopics",
+    "knowledgeOverview",
+    "knowledgeReferenceHighlights",
+    "knowledgeReviewQueueSummary",
+    "knowledgeSourceHighlights",
+    "primaryUserAction",
+    "primaryUserActionCommand",
+    "primaryUserActionDisplay",
+    "progress",
+    "recoveryDecision",
+    "resumeStatus",
+    "resumeStatusDisplay",
+    "userActionDetails",
+    "user_actions",
+    "user_message",
+]
+
+RUN_RESPONSE_FIELDS = [
+    "confirmationQueue",
+    "executedSteps",
+    "executionHeadline",
+    "executionState",
+    "executionStateDisplay",
+    "followUpActions",
+    "headline",
+    "knowledgeContext",
+    "knowledgeReferenceHighlights",
+    "knowledgeSourceHighlights",
+    "mode",
+    "nextAction",
+    "playbookSource",
+    "primaryUserAction",
+    "primaryUserActionCommand",
+    "primaryUserActionDisplay",
+    "progress",
+    "recoveryDecision",
+    "resumeStatus",
+    "resumeStatusDisplay",
+    "resumedFromState",
+    "runtimeGuidance",
+    "selectedWorknetKey",
+    "selectedWorknetName",
+    "stateRoot",
+    "status",
+    "userActionDetails",
+    "userMessage",
+    "warnings",
+]
+
+WORKSTATION_STATUS_INTERNAL_FIELDS = [
+    "_internal",
+    "answer",
+    "executionHeadline",
+    "executionState",
+    "executionStateDisplay",
+    "generatedAt",
+    "headline",
+    "intent",
+    "knowledgeCaveat",
+    "knowledgeFocusTopics",
+    "knowledgeOverview",
+    "knowledgeRecord",
+    "knowledgeReferenceHighlights",
+    "knowledgeReviewQueueSummary",
+    "knowledgeSourceHighlights",
+    "latestReview",
+    "primaryUserAction",
+    "primaryUserActionCommand",
+    "primaryUserActionDisplay",
+    "progress",
+    "query",
+    "recoveryDecision",
+    "researchActionGroups",
+    "resumeStatus",
+    "resumeStatusDisplay",
+    "sourceEvidenceHighlights",
+    "sourceFactHighlights",
+    "sourceKey",
+    "sourceName",
+    "sourceRecord",
+    "sourceTopicHighlights",
+    "sourceWorknetHighlights",
+    "status",
+    "targetWorknetDisplay",
+    "userActionDetails",
+    "userActions",
+    "worknetKey",
+    "worknetName",
+]
+
 WORKSTATION_STATUS_PUBLIC_FIELDS = [
     "query",
     "intent",
@@ -16086,6 +16236,360 @@ def build_display_contract_audit(
     }
 
 
+def build_glossary_query_result(
+    term: str,
+    *,
+    catalog: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    catalog = catalog if isinstance(catalog, dict) else build_glossary_catalog()
+    query = str(term or "").strip().lower()
+    match = None
+    for item in catalog.get("terms", []):
+        candidates = [str(item.get("term", "")).lower()]
+        candidates.extend(str(alias).lower() for alias in item.get("aliases", []))
+        if query in candidates:
+            match = item
+            break
+    normalized_match = normalize_glossary_query_match_payload(match) if isinstance(match, dict) else None
+    normalized_match_display = normalize_glossary_item_payload(match) if isinstance(match, dict) else None
+    return normalize_query_payload(
+        {
+            "query": query,
+            "match": normalized_match,
+            "matchDisplay": normalized_match_display,
+        },
+        GLOSSARY_QUERY_FIELDS,
+    )
+
+
+def build_query_contract_audit(
+    *,
+    catalog: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    catalog = catalog if isinstance(catalog, dict) else (load_cached_knowledge_catalog() or build_knowledge_catalog())
+    knowledge_result = build_knowledge_query_result("mine", catalog=catalog)
+    review_queue_result = build_knowledge_query_result("review-queue", catalog=catalog)
+    source_result = build_source_query_result("awp-skill", catalog=catalog)
+    changed_result = build_changed_sources_query_result(catalog=catalog)
+    glossary_result = build_glossary_query_result("rootnet")
+
+    def first_item(items: Any) -> Optional[dict[str, Any]]:
+        if not isinstance(items, list):
+            return None
+        for item in items:
+            if isinstance(item, dict):
+                return item
+        return None
+
+    def audit_item(
+        key: str,
+        title: str,
+        payload: Any,
+        fields: list[str],
+        *,
+        sample_ref: Optional[str] = None,
+    ) -> dict[str, Any]:
+        expected = list(fields)
+        if not isinstance(payload, dict):
+            reasons = ["No sample payload was available for this query contract."]
+            if sample_ref:
+                reasons.append(f"Sample ref: {sample_ref}")
+            return {
+                "key": key,
+                "title": title,
+                "status": "missing",
+                "expectedFields": expected,
+                "actualFields": [],
+                "missingFields": expected,
+                "extraFields": [],
+                "reasons": reasons,
+                "sampleRef": sample_ref,
+            }
+        actual = list(payload.keys())
+        missing_fields = [field for field in expected if field not in payload]
+        extra_fields = [field for field in actual if field not in expected]
+        status = "covered" if not missing_fields and not extra_fields else "partial"
+        reasons = [f"Observed {len(actual)} field(s); expected fixed contract size is {len(expected)}."]
+        if missing_fields:
+            reasons.append("Missing fields: " + ", ".join(missing_fields[:10]))
+        if extra_fields:
+            reasons.append("Unexpected fields: " + ", ".join(extra_fields[:10]))
+        if sample_ref:
+            reasons.append(f"Sample ref: {sample_ref}")
+        return {
+            "key": key,
+            "title": title,
+            "status": status,
+            "expectedFields": expected,
+            "actualFields": actual,
+            "missingFields": missing_fields,
+            "extraFields": extra_fields,
+            "reasons": reasons,
+            "sampleRef": sample_ref,
+        }
+
+    items = [
+        audit_item(
+            "knowledge-query",
+            "Primary knowledge query contract",
+            knowledge_result,
+            KNOWLEDGE_QUERY_FIELDS,
+            sample_ref="build_knowledge_query_result('mine')",
+        ),
+        audit_item(
+            "knowledge-review-queue-query",
+            "Review-queue knowledge query contract",
+            review_queue_result,
+            KNOWLEDGE_REVIEW_QUEUE_QUERY_FIELDS,
+            sample_ref="build_knowledge_query_result('review-queue')",
+        ),
+        audit_item(
+            "source-query",
+            "Source query contract",
+            source_result,
+            SOURCE_QUERY_FIELDS,
+            sample_ref="build_source_query_result('awp-skill')",
+        ),
+        audit_item(
+            "changed-sources-query",
+            "Changed-sources query contract",
+            changed_result,
+            CHANGED_SOURCES_QUERY_FIELDS,
+            sample_ref="build_changed_sources_query_result()",
+        ),
+        audit_item(
+            "glossary-query",
+            "Glossary query contract",
+            glossary_result,
+            GLOSSARY_QUERY_FIELDS,
+            sample_ref="build_glossary_query_result('rootnet')",
+        ),
+        audit_item(
+            "source-review-scope",
+            "Source review-scope contract",
+            source_result.get("reviewScope"),
+            REVIEW_SCOPE_FIELDS,
+            sample_ref="build_source_query_result('awp-skill').reviewScope",
+        ),
+        audit_item(
+            "glossary-query-match",
+            "Glossary match contract",
+            glossary_result.get("match"),
+            GLOSSARY_QUERY_MATCH_FIELDS,
+            sample_ref="build_glossary_query_result('rootnet').match",
+        ),
+        audit_item(
+            "glossary-query-match-display",
+            "Glossary match display contract",
+            glossary_result.get("matchDisplay"),
+            GLOSSARY_ITEM_FIELDS,
+            sample_ref="build_glossary_query_result('rootnet').matchDisplay",
+        ),
+    ]
+
+    covered_count = sum(1 for item in items if item["status"] == "covered")
+    partial_count = sum(1 for item in items if item["status"] == "partial")
+    missing_count = sum(1 for item in items if item["status"] == "missing")
+    return {
+        "generatedAt": now_iso(),
+        "summary": {
+            "covered": covered_count,
+            "partial": partial_count,
+            "missing": missing_count,
+        },
+        "items": items,
+    }
+
+
+def build_public_contract_audit() -> dict[str, Any]:
+    preflight = public_preflight_view(build_preflight_report())
+    capability_bundle = build_capability_bundle()
+    capability_reports = capability_bundle.get("reports", []) if isinstance(capability_bundle, dict) else []
+    capability_public = public_capability_view(capability_reports[0]) if capability_reports and isinstance(capability_reports[0], dict) else None
+    start_response = build_start_response()
+    run_response = run_workstation(mode="autopilot", worknet_identifier="mine", execute=False)
+    workstation_status_full = build_workstation_status(query="研究 Mine")
+    workstation_status_public = public_workstation_status_view(workstation_status_full)
+    playbook_public = public_playbook_view(build_work_playbook("mine"))
+    review_public = public_review_view(build_epoch_review())
+
+    def first_item(items: Any) -> Optional[dict[str, Any]]:
+        if not isinstance(items, list):
+            return None
+        for item in items:
+            if isinstance(item, dict):
+                return item
+        return None
+
+    def audit_item(
+        key: str,
+        title: str,
+        payload: Any,
+        fields: list[str],
+        *,
+        sample_ref: Optional[str] = None,
+    ) -> dict[str, Any]:
+        expected = list(fields)
+        if not isinstance(payload, dict):
+            reasons = ["No sample payload was available for this public contract."]
+            if sample_ref:
+                reasons.append(f"Sample ref: {sample_ref}")
+            return {
+                "key": key,
+                "title": title,
+                "status": "missing",
+                "expectedFields": expected,
+                "actualFields": [],
+                "missingFields": expected,
+                "extraFields": [],
+                "reasons": reasons,
+                "sampleRef": sample_ref,
+            }
+        actual = list(payload.keys())
+        missing_fields = [field for field in expected if field not in payload]
+        extra_fields = [field for field in actual if field not in expected]
+        status = "covered" if not missing_fields and not extra_fields else "partial"
+        reasons = [f"Observed {len(actual)} field(s); expected fixed contract size is {len(expected)}."]
+        if missing_fields:
+            reasons.append("Missing fields: " + ", ".join(missing_fields[:10]))
+        if extra_fields:
+            reasons.append("Unexpected fields: " + ", ".join(extra_fields[:10]))
+        if sample_ref:
+            reasons.append(f"Sample ref: {sample_ref}")
+        return {
+            "key": key,
+            "title": title,
+            "status": status,
+            "expectedFields": expected,
+            "actualFields": actual,
+            "missingFields": missing_fields,
+            "extraFields": extra_fields,
+            "reasons": reasons,
+            "sampleRef": sample_ref,
+        }
+
+    items = [
+        audit_item(
+            "public-preflight",
+            "Public preflight contract",
+            preflight,
+            PREFLIGHT_PUBLIC_FIELDS,
+            sample_ref="public_preflight_view(build_preflight_report())",
+        ),
+        audit_item(
+            "public-capability",
+            "Public capability-report contract",
+            capability_public,
+            CAPABILITY_PUBLIC_FIELDS,
+            sample_ref="public_capability_view(build_capability_bundle().reports[0])",
+        ),
+        audit_item(
+            "public-playbook",
+            "Public playbook contract",
+            playbook_public,
+            PLAYBOOK_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('mine'))",
+        ),
+        audit_item(
+            "public-playbook-command",
+            "Public playbook command-item contract",
+            first_item(playbook_public.get("commands") if isinstance(playbook_public, dict) else None),
+            PLAYBOOK_COMMAND_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('mine')).commands[0]",
+        ),
+        audit_item(
+            "public-playbook-user-action-detail",
+            "Public playbook user-action-detail contract",
+            first_item(playbook_public.get("userActionDetails") if isinstance(playbook_public, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('mine')).userActionDetails[0]",
+        ),
+        audit_item(
+            "public-review",
+            "Public review contract",
+            review_public,
+            REVIEW_PUBLIC_FIELDS,
+            sample_ref="public_review_view(build_epoch_review())",
+        ),
+        audit_item(
+            "public-review-user-action-detail",
+            "Public review user-action-detail contract",
+            first_item(review_public.get("userActionDetails") if isinstance(review_public, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_review_view(build_epoch_review()).userActionDetails[0]",
+        ),
+        audit_item(
+            "start-response",
+            "Start-response contract",
+            start_response,
+            START_RESPONSE_FIELDS,
+            sample_ref="build_start_response()",
+        ),
+        audit_item(
+            "start-response-user-action",
+            "Start-response user-action contract",
+            first_item(start_response.get("user_actions") if isinstance(start_response, dict) else None),
+            PUBLIC_ACTION_FIELDS,
+            sample_ref="build_start_response().user_actions[0]",
+        ),
+        audit_item(
+            "run-response",
+            "Run-response contract",
+            run_response,
+            RUN_RESPONSE_FIELDS,
+            sample_ref="run_workstation(mode='autopilot', worknet_identifier='mine', execute=False)",
+        ),
+        audit_item(
+            "run-response-user-action-detail",
+            "Run-response user-action-detail contract",
+            first_item(run_response.get("userActionDetails") if isinstance(run_response, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="run_workstation(...).userActionDetails[0]",
+        ),
+        audit_item(
+            "workstation-status-full",
+            "Full workstation-status contract",
+            workstation_status_full,
+            WORKSTATION_STATUS_INTERNAL_FIELDS,
+            sample_ref="build_workstation_status(query='研究 Mine')",
+        ),
+        audit_item(
+            "workstation-status-public",
+            "Public workstation-status contract",
+            workstation_status_public,
+            WORKSTATION_STATUS_PUBLIC_FIELDS,
+            sample_ref="public_workstation_status_view(build_workstation_status(query='研究 Mine'))",
+        ),
+        audit_item(
+            "workstation-status-user-action",
+            "Public workstation-status user-action contract",
+            first_item(workstation_status_public.get("userActions") if isinstance(workstation_status_public, dict) else None),
+            PUBLIC_ACTION_FIELDS,
+            sample_ref="public_workstation_status_view(...).userActions[0]",
+        ),
+        audit_item(
+            "workstation-status-user-action-detail",
+            "Public workstation-status user-action-detail contract",
+            first_item(workstation_status_public.get("userActionDetails") if isinstance(workstation_status_public, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_workstation_status_view(...).userActionDetails[0]",
+        ),
+    ]
+
+    covered_count = sum(1 for item in items if item["status"] == "covered")
+    partial_count = sum(1 for item in items if item["status"] == "partial")
+    missing_count = sum(1 for item in items if item["status"] == "missing")
+    return {
+        "generatedAt": now_iso(),
+        "summary": {
+            "covered": covered_count,
+            "partial": partial_count,
+            "missing": missing_count,
+        },
+        "items": items,
+    }
+
+
 def build_topic_dossier_catalog() -> dict[str, Any]:
     state = state_context()
     source_map = {item["key"]: item for item in OFFICIAL_WEB_SOURCES}
@@ -16829,6 +17333,168 @@ GLOSSARY_ITEM_FIELDS = [
     "relatedTopics",
 ]
 
+GLOSSARY_QUERY_MATCH_FIELDS = [
+    *GLOSSARY_ITEM_FIELDS,
+    "sourceKeys",
+]
+
+REVIEW_SCOPE_FIELDS = [
+    "topicCount",
+    "factCount",
+    "worknetCount",
+    "evidenceCount",
+]
+
+KNOWLEDGE_QUERY_FIELDS = [
+    "topic",
+    "status",
+    "resolvedTopicKey",
+    "resolvedTopicLabel",
+    "progress",
+    "headline",
+    "summary",
+    "plainLanguage",
+    "executionState",
+    "executionStateDisplay",
+    "executionHeadline",
+    "primaryCommand",
+    "primaryUserAction",
+    "primaryUserActionDisplay",
+    "primaryUserActionCommand",
+    "userActionDetails",
+    "researchActionGroups",
+    "recommendations",
+    "citations",
+    "citationsDisplay",
+    "glossary",
+    "dossier",
+    "dossierDisplay",
+    "sourceFact",
+    "sourceFactDisplay",
+    "evidence",
+    "evidenceDisplay",
+    "worknet",
+    "worknetDisplay",
+    "runtimeProbeDisplay",
+    "runtimeProbeHighlights",
+    "sourceImpact",
+    "sourceImpactDisplay",
+    "freshness",
+    "freshnessDisplay",
+    "relatedSourceHighlights",
+    "relatedReferenceHighlights",
+]
+
+KNOWLEDGE_REVIEW_QUEUE_QUERY_FIELDS = [
+    "topic",
+    "status",
+    "progress",
+    "headline",
+    "summary",
+    "executionState",
+    "executionStateDisplay",
+    "executionHeadline",
+    "primaryCommand",
+    "primaryUserAction",
+    "primaryUserActionDisplay",
+    "primaryUserActionCommand",
+    "userActionDetails",
+    "researchActionGroups",
+    "recommendations",
+    "citations",
+    "reviewQueueSummary",
+    "reviewQueueTopEntries",
+    "reviewQueueTopEntriesDisplay",
+    "sourceDriftSummary",
+    "sourceImpactSummary",
+    "changedSources",
+    "changedSourcesDisplay",
+    "impacts",
+    "impactsDisplay",
+    "reviewQueue",
+    "knowledgeReviewQueue",
+]
+
+SOURCE_QUERY_FIELDS = [
+    "sourceKey",
+    "sourceName",
+    "sourceNameDisplay",
+    "status",
+    "progress",
+    "headline",
+    "summary",
+    "summaryPreview",
+    "summaryDisplay",
+    "executionState",
+    "executionStateDisplay",
+    "executionHeadline",
+    "primaryCommand",
+    "primaryUserAction",
+    "primaryUserActionDisplay",
+    "primaryUserActionCommand",
+    "userActionDetails",
+    "researchActionGroups",
+    "recommendations",
+    "reviewScope",
+    "topicHighlights",
+    "factHighlights",
+    "worknetHighlights",
+    "evidenceHighlights",
+    "source",
+    "sourceDisplay",
+    "drift",
+    "driftDisplay",
+    "impact",
+    "impactDisplay",
+    "facts",
+    "factsDisplay",
+    "evidence",
+    "evidenceDisplay",
+    "dossiers",
+    "dossiersDisplay",
+    "glossary",
+    "glossaryDisplay",
+    "worknets",
+    "worknetsDisplay",
+    "runtimeProbeDisplay",
+    "runtimeProbeHighlights",
+    "citationsDisplay",
+]
+
+CHANGED_SOURCES_QUERY_FIELDS = [
+    "query",
+    "status",
+    "progress",
+    "headline",
+    "summary",
+    "executionState",
+    "executionStateDisplay",
+    "executionHeadline",
+    "primaryCommand",
+    "primaryUserAction",
+    "primaryUserActionDisplay",
+    "primaryUserActionCommand",
+    "userActionDetails",
+    "researchActionGroups",
+    "recommendations",
+    "sourceDriftSummary",
+    "sourceImpactSummary",
+    "changedSources",
+    "changedSourcesDisplay",
+    "changedSourceHighlights",
+    "impacts",
+    "impactsDisplay",
+    "reviewQueue",
+    "knowledgeReviewQueueSummary",
+    "reviewQueueTopEntriesDisplay",
+]
+
+GLOSSARY_QUERY_FIELDS = [
+    "query",
+    "match",
+    "matchDisplay",
+]
+
 KNOWLEDGE_HIGHLIGHT_FIELDS_BY_KIND = {
     "topic": TOPIC_HIGHLIGHT_FIELDS,
     "reference": REFERENCE_HIGHLIGHT_FIELDS,
@@ -16892,6 +17558,21 @@ def normalize_worknet_payload(record: Any) -> dict[str, Any]:
 def normalize_glossary_item_payload(record: Any) -> dict[str, Any]:
     source = record if isinstance(record, dict) else {}
     return project_fields(source, GLOSSARY_ITEM_FIELDS)
+
+
+def normalize_glossary_query_match_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, GLOSSARY_QUERY_MATCH_FIELDS)
+
+
+def normalize_review_scope_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, REVIEW_SCOPE_FIELDS)
+
+
+def normalize_query_payload(record: Any, fields: list[str]) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, fields)
 
 
 def normalize_knowledge_review_queue_summary(record: Any) -> dict[str, Any]:
@@ -19254,7 +19935,7 @@ def build_knowledge_query_result(
             source_tier="queued",
             topic_tier="queued",
         )
-        return {
+        return normalize_query_payload({
             "topic": topic,
             "status": status,
             "progress": "[3/5] Knowledge Review Queue",
@@ -19282,7 +19963,7 @@ def build_knowledge_query_result(
             "impactsDisplay": impacts_display,
             "reviewQueue": source_impact.get("reviewQueue"),
             "knowledgeReviewQueue": knowledge_review_queue,
-        }
+        }, KNOWLEDGE_REVIEW_QUEUE_QUERY_FIELDS)
 
     dossiers = catalog.get("topicDossiers", []) if isinstance(catalog.get("topicDossiers"), list) else []
     source_facts = list(catalog.get("sourceFacts", []))
@@ -19689,7 +20370,7 @@ def build_knowledge_query_result(
         ],
     )
 
-    return {
+    return normalize_query_payload({
         "topic": topic,
         "status": status,
         "resolvedTopicKey": knowledge_resolved_topic_key(
@@ -19750,7 +20431,7 @@ def build_knowledge_query_result(
         "freshnessDisplay": knowledge_display_freshness(freshness),
         "relatedSourceHighlights": related_source_highlights,
         "relatedReferenceHighlights": related_reference_highlights,
-    }
+    }, KNOWLEDGE_QUERY_FIELDS)
 
 
 def knowledge_display_glossary_items(items: Any) -> list[dict[str, Any]]:
@@ -20269,7 +20950,7 @@ def build_source_query_result(
         ],
         evidence_display_index=evidence_display_index,
     )
-    return {
+    return normalize_query_payload({
         "sourceKey": source_key,
         "sourceName": source_record.get("name") if isinstance(source_record, dict) else None,
         "sourceNameDisplay": source_display.get("nameDisplay") if isinstance(source_display, dict) else None,
@@ -20289,12 +20970,12 @@ def build_source_query_result(
         "userActionDetails": user_action_details,
         "researchActionGroups": research_action_groups,
         "recommendations": recommendations,
-        "reviewScope": {
+        "reviewScope": normalize_review_scope_payload({
             "topicCount": len(topic_highlights),
             "factCount": len(fact_highlights),
             "worknetCount": len(worknet_highlights),
             "evidenceCount": len(evidence_highlights),
-        },
+        }),
         "topicHighlights": topic_highlights,
         "factHighlights": fact_highlights,
         "worknetHighlights": worknet_highlights,
@@ -20318,7 +20999,7 @@ def build_source_query_result(
         "runtimeProbeDisplay": source_runtime_probe_display,
         "runtimeProbeHighlights": source_runtime_probe_display.get("highlights", []) if isinstance(source_runtime_probe_display, dict) else [],
         "citationsDisplay": citations_display,
-    }
+    }, SOURCE_QUERY_FIELDS)
 
 
 def build_changed_sources_query_result(
@@ -20477,7 +21158,7 @@ def build_changed_sources_query_result(
             *control_labels,
         ],
     )
-    return {
+    return normalize_query_payload({
         "query": "changed",
         "status": status,
         "progress": "[2/5] Source Drift",
@@ -20506,7 +21187,7 @@ def build_changed_sources_query_result(
         "reviewQueue": source_impact.get("reviewQueue"),
         "knowledgeReviewQueueSummary": queue_summary,
         "reviewQueueTopEntriesDisplay": knowledge_display_review_queue_entries(top_entries, catalog=catalog),
-    }
+    }, CHANGED_SOURCES_QUERY_FIELDS)
 
 
 def knowledge_catalog_topic_keys(catalog: Any) -> list[str]:
