@@ -272,6 +272,227 @@ WORKSTATION_STATUS_INTERNAL_FIELDS = [
     "worknetName",
 ]
 
+PARAMETER_SCHEMA_ITEM_FIELDS = [
+    "displayName",
+    "name",
+    "placeholder",
+    "placeholderDisplay",
+    "prompt",
+    "promptDisplay",
+]
+
+FOLLOW_UP_ACTION_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "argv",
+    "command",
+    "description",
+    "displayLabel",
+    "label",
+    "requiresConfirmation",
+    "researchGroupKey",
+    "researchGroupLabel",
+    "researchGroupRank",
+    "researchTier",
+    "researchTierLabel",
+    "researchTierRank",
+    "safeToAutoRun",
+]
+
+CONFIRMATION_QUEUE_ITEM_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "command",
+    "description",
+    "displayLabel",
+    "label",
+    "requiredInputs",
+    "requiresConfirmation",
+    "researchGroupKey",
+    "researchGroupLabel",
+    "researchGroupRank",
+    "researchTier",
+    "researchTierLabel",
+    "researchTierRank",
+]
+
+SELECTED_CONFIRMATION_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "displayLabel",
+    "label",
+    "requiredInputs",
+    "requiredInputsDisplay",
+]
+
+BACKGROUND_RECORD_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "alive",
+    "argv",
+    "cwd",
+    "displayLabel",
+    "label",
+    "logPath",
+    "logTail",
+    "pid",
+    "startedAt",
+    "summary",
+    "summaryDisplay",
+]
+
+RECOVERY_DECISION_FIELDS = [
+    "actions",
+    "decision",
+    "headline",
+    "lastWorknetName",
+    "message",
+    "preferredWorknetName",
+    "primaryActionLabel",
+    "restartActionLabel",
+    "staleReason",
+    "status",
+    "statusDisplay",
+    "switchActionLabel",
+]
+
+EXECUTED_STEP_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "argv",
+    "category",
+    "cwd",
+    "detailDisplay",
+    "displayLabel",
+    "executionPolicy",
+    "label",
+    "resultSummary",
+    "status",
+    "statusDisplay",
+    "stepGroupKey",
+    "stepGroupLabel",
+    "stepGroupRank",
+    "stepTier",
+    "stepTierLabel",
+    "stepTierRank",
+]
+
+RUNTIME_GUIDANCE_FIELDS = [
+    "actionMap",
+    "message",
+    "messageDisplay",
+    "messageRaw",
+    "nextCommand",
+    "nextCommandDisplay",
+    "nextCommandRaw",
+    "preview",
+    "previewDisplay",
+    "previewRaw",
+    "state",
+    "userActionDetails",
+    "userActions",
+    "userActionsDisplay",
+    "userActionsRaw",
+]
+
+RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS = [
+    "actionMap",
+    "message",
+    "messageDisplay",
+    "messageRaw",
+    "nextAction",
+    "nextCommand",
+    "nextCommandDisplay",
+    "nextCommandRaw",
+    "preview",
+    "previewDisplay",
+    "previewRaw",
+    "state",
+    "userActionDetails",
+    "userActions",
+    "userActionsDisplay",
+    "userActionsRaw",
+]
+
+RUNTIME_GUIDANCE_USER_ACTION_DETAIL_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "command",
+    "commandDisplay",
+    "commandRaw",
+    "description",
+    "descriptionDisplay",
+    "displayLabel",
+    "label",
+    "labelRaw",
+    "researchGroupKey",
+    "researchGroupLabel",
+    "researchGroupRank",
+    "researchTier",
+    "researchTierLabel",
+    "researchTierRank",
+]
+
+EXECUTED_STEP_RESULT_DISPLAY_FIELDS = [
+    "code",
+    "codeDisplay",
+    "preview",
+    "previewDisplay",
+    "previewRaw",
+    "stderrDisplay",
+    "stderrDisplayRaw",
+    "stdoutDisplay",
+    "structuredPreviewDisplay",
+    "summary",
+    "summaryDisplay",
+    "summaryRaw",
+]
+
+EXECUTED_STEP_STDOUT_DISPLAY_FIELDS = [
+    "detail",
+    "detailDisplay",
+    "detailRaw",
+    "errorSummary",
+    "errorSummaryDisplay",
+    "guidance",
+    "kind",
+    "message",
+    "messageDisplay",
+    "messageRaw",
+    "nextCommandDisplay",
+    "preview",
+    "previewDisplay",
+    "previewRaw",
+    "state",
+    "stateDisplay",
+    "structuredPreviewDisplay",
+    "summary",
+]
+
 WORKSTATION_STATUS_PUBLIC_FIELDS = [
     "query",
     "intent",
@@ -16573,6 +16794,378 @@ def build_public_contract_audit() -> dict[str, Any]:
             first_item(workstation_status_public.get("userActionDetails") if isinstance(workstation_status_public, dict) else None),
             USER_ACTION_DETAIL_FIELDS,
             sample_ref="public_workstation_status_view(...).userActionDetails[0]",
+        ),
+    ]
+
+    covered_count = sum(1 for item in items if item["status"] == "covered")
+    partial_count = sum(1 for item in items if item["status"] == "partial")
+    missing_count = sum(1 for item in items if item["status"] == "missing")
+    return {
+        "generatedAt": now_iso(),
+        "summary": {
+            "covered": covered_count,
+            "partial": partial_count,
+            "missing": missing_count,
+        },
+        "items": items,
+    }
+
+
+def build_branch_contract_audit() -> dict[str, Any]:
+    start_response = build_start_response()
+    run_response = run_workstation(mode="autopilot", worknet_identifier="mine", execute=False)
+    workstation_status = build_workstation_status(query="研究 Mine")
+
+    synthetic_runtime_guidance = annotate_runtime_guidance_payload(
+        {
+            "message": "Wallet session expired; reinitialize first.",
+            "state": "auth_required",
+            "userActions": ["re-initialize", "check status"],
+            "actionMap": {
+                "re-initialize": "bash bootstrap.sh",
+                "check status": "python3 scripts/run_tool.py agent-status",
+            },
+            "nextCommand": ["python3", "scripts/run_tool.py", "agent-status"],
+        },
+        worknet_key="mine",
+    )
+
+    synthetic_follow_up_items = annotate_raw_follow_up_actions([
+        {
+            "label": "继续当前运行",
+            "description": "继续这条 runtime 建议动作。",
+            "command": "python3 scripts/run-workstation.py --mode autopilot --execute",
+            "argv": ["python3", "scripts/run-workstation.py", "--mode", "autopilot", "--execute"],
+            "safeToAutoRun": True,
+            "requiresConfirmation": False,
+        }
+    ])
+    synthetic_follow_up = synthetic_follow_up_items[0] if synthetic_follow_up_items else None
+
+    synthetic_confirmation_items = annotate_raw_confirmation_queue([
+        {
+            "label": "确认提交",
+            "description": "确认并执行这个待确认动作。",
+            "command": "python3 scripts/run-workstation.py --confirm-label 确认提交",
+            "requiresConfirmation": True,
+            "requiredInputs": [
+                {"name": "amount", "prompt": "输入数量", "placeholder": "100"},
+            ],
+        }
+    ])
+    synthetic_confirmation = synthetic_confirmation_items[0] if synthetic_confirmation_items else None
+
+    synthetic_selected_confirmation = annotate_selected_confirmation(
+        {
+            "label": "确认提交",
+            "requiredInputs": [
+                {"name": "amount", "prompt": "输入数量", "placeholder": "100"},
+            ],
+        }
+    )
+
+    synthetic_background = annotate_background_record(
+        {
+            "label": "mine-worker",
+            "pid": 123,
+            "cwd": "/tmp",
+            "argv": ["python3", "worker.py"],
+            "logPath": "/tmp/mine.log",
+            "startedAt": "2026-05-22T00:00:00Z",
+            "alive": False,
+            "logTail": "tail",
+            "summary": {"headline": "Mine 后台任务已停止。", "status": "stopped"},
+        }
+    )
+
+    synthetic_recovery_decision = humanize_public_recovery_decision(
+        {
+            "decision": "resume_previous_run",
+            "status": "restart_available",
+            "headline": "继续上次运行",
+            "message": "继续旧 run。",
+            "lastWorknetName": "Mine",
+            "preferredWorknetName": "Predict",
+            "primaryActionLabel": "继续 Mine",
+            "restartActionLabel": "重新启动 Mine",
+            "switchActionLabel": "改按默认 Predict 开始",
+            "staleReason": "old run stopped",
+            "actions": [
+                {
+                    "label": "继续 Mine",
+                    "description": "继续旧 run",
+                    "command": "python3 scripts/run-workstation.py --mode autopilot --execute",
+                },
+                {
+                    "label": "查看上次复盘",
+                    "description": "看复盘",
+                    "command": "python3 scripts/review-epoch.py",
+                },
+            ],
+        }
+    )
+
+    parameter_schema_display = annotate_parameter_schema_items(
+        [{"name": "amount", "prompt": "输入数量", "placeholder": "100"}]
+    )
+    synthetic_parameter_schema_item = parameter_schema_display[0] if parameter_schema_display else None
+    synthetic_step = {
+        "label": "gov private state",
+        "status": "failed",
+        "result": {
+            "code": 1,
+            "stdout": {
+                "state": "blocked",
+                "message": "[Errno -2] Name or service not known",
+                "detail": "trace detail",
+                "user_actions": ["check status", "re-initialize"],
+                "_internal": {
+                    "action_map": {
+                        "check status": "python3 scripts/private/state.py",
+                        "re-initialize": "bash bootstrap.sh",
+                    },
+                    "next_action": "follow_runtime_guidance",
+                    "next_command": "python3 scripts/private/state.py",
+                },
+            },
+            "stderr": "Traceback: boom",
+        },
+    }
+    synthetic_result_display = build_executed_step_result_display("gov", synthetic_step)
+    synthetic_stdout_display = (
+        synthetic_result_display.get("stdoutDisplay")
+        if isinstance(synthetic_result_display, dict)
+        and isinstance(synthetic_result_display.get("stdoutDisplay"), dict)
+        else None
+    )
+    synthetic_stdout_guidance = (
+        synthetic_stdout_display.get("guidance")
+        if isinstance(synthetic_stdout_display, dict)
+        and isinstance(synthetic_stdout_display.get("guidance"), dict)
+        else None
+    )
+    synthetic_probe = annotate_probe_result_display(
+        {
+            "label": "predict status",
+            "code": 1,
+            "text": "failed to fetch status: check coordinator connectivity",
+            "result": {
+                "state": "blocked",
+                "message": "failed to fetch status: check coordinator connectivity",
+                "detail": "failed to fetch status: check coordinator connectivity",
+                "user_actions": ["check status", "re-initialize"],
+                "_internal": {
+                    "action_map": {
+                        "check status": "python3 scripts/run_tool.py agent-status",
+                        "re-initialize": "bash bootstrap.sh",
+                    },
+                    "next_action": "follow_runtime_guidance",
+                    "next_command": "bash bootstrap.sh",
+                },
+            },
+        },
+        skill_key="predict",
+    )
+    synthetic_probe_result_display = (
+        synthetic_probe.get("resultDisplay")
+        if isinstance(synthetic_probe, dict)
+        and isinstance(synthetic_probe.get("resultDisplay"), dict)
+        else None
+    )
+    synthetic_probe_stdout_display = (
+        synthetic_probe.get("stdoutDisplay")
+        if isinstance(synthetic_probe, dict)
+        and isinstance(synthetic_probe.get("stdoutDisplay"), dict)
+        else None
+    )
+    synthetic_probe_runtime_guidance_display = (
+        synthetic_probe.get("runtimeGuidanceDisplay")
+        if isinstance(synthetic_probe, dict)
+        and isinstance(synthetic_probe.get("runtimeGuidanceDisplay"), dict)
+        else None
+    )
+
+    def first_item(items: Any) -> Optional[dict[str, Any]]:
+        if not isinstance(items, list):
+            return None
+        for item in items:
+            if isinstance(item, dict):
+                return item
+        return None
+
+    def audit_item(
+        key: str,
+        title: str,
+        payload: Any,
+        fields: list[str],
+        *,
+        sample_ref: Optional[str] = None,
+    ) -> dict[str, Any]:
+        expected = list(fields)
+        if not isinstance(payload, dict):
+            reasons = ["No sample payload was available for this branch contract."]
+            if sample_ref:
+                reasons.append(f"Sample ref: {sample_ref}")
+            return {
+                "key": key,
+                "title": title,
+                "status": "missing",
+                "expectedFields": expected,
+                "actualFields": [],
+                "missingFields": expected,
+                "extraFields": [],
+                "reasons": reasons,
+                "sampleRef": sample_ref,
+            }
+        actual = list(payload.keys())
+        missing_fields = [field for field in expected if field not in payload]
+        extra_fields = [field for field in actual if field not in expected]
+        status = "covered" if not missing_fields and not extra_fields else "partial"
+        reasons = [f"Observed {len(actual)} field(s); expected fixed contract size is {len(expected)}."]
+        if missing_fields:
+            reasons.append("Missing fields: " + ", ".join(missing_fields[:10]))
+        if extra_fields:
+            reasons.append("Unexpected fields: " + ", ".join(extra_fields[:10]))
+        if sample_ref:
+            reasons.append(f"Sample ref: {sample_ref}")
+        return {
+            "key": key,
+            "title": title,
+            "status": status,
+            "expectedFields": expected,
+            "actualFields": actual,
+            "missingFields": missing_fields,
+            "extraFields": extra_fields,
+            "reasons": reasons,
+            "sampleRef": sample_ref,
+        }
+
+    items = [
+        audit_item(
+            "start-recovery-decision",
+            "Start-response recovery-decision contract",
+            start_response.get("recoveryDecision"),
+            RECOVERY_DECISION_FIELDS,
+            sample_ref="build_start_response().recoveryDecision",
+        ),
+        audit_item(
+            "run-recovery-decision",
+            "Run-response recovery-decision contract",
+            run_response.get("recoveryDecision"),
+            RECOVERY_DECISION_FIELDS,
+            sample_ref="run_workstation(...).recoveryDecision",
+        ),
+        audit_item(
+            "status-recovery-decision",
+            "Workstation-status recovery-decision contract",
+            workstation_status.get("recoveryDecision"),
+            RECOVERY_DECISION_FIELDS,
+            sample_ref="build_workstation_status(...).recoveryDecision",
+        ),
+        audit_item(
+            "synthetic-recovery-decision",
+            "Synthetic recovery-decision contract",
+            synthetic_recovery_decision,
+            RECOVERY_DECISION_FIELDS,
+            sample_ref="humanize_public_recovery_decision({...})",
+        ),
+        audit_item(
+            "synthetic-follow-up-action",
+            "Synthetic follow-up action contract",
+            synthetic_follow_up,
+            FOLLOW_UP_ACTION_FIELDS,
+            sample_ref="annotate_raw_follow_up_actions([...])[0]",
+        ),
+        audit_item(
+            "synthetic-confirmation-queue-item",
+            "Synthetic confirmation-queue item contract",
+            synthetic_confirmation,
+            CONFIRMATION_QUEUE_ITEM_FIELDS,
+            sample_ref="annotate_raw_confirmation_queue([...])[0]",
+        ),
+        audit_item(
+            "synthetic-selected-confirmation",
+            "Synthetic selected-confirmation contract",
+            synthetic_selected_confirmation,
+            SELECTED_CONFIRMATION_FIELDS,
+            sample_ref="annotate_selected_confirmation({...})",
+        ),
+        audit_item(
+            "synthetic-background-record",
+            "Synthetic background-record contract",
+            synthetic_background,
+            BACKGROUND_RECORD_FIELDS,
+            sample_ref="annotate_background_record({...})",
+        ),
+        audit_item(
+            "run-executed-step",
+            "Run-response executed-step contract",
+            first_item(run_response.get("executedSteps")),
+            EXECUTED_STEP_FIELDS,
+            sample_ref="run_workstation(...).executedSteps[0]",
+        ),
+        audit_item(
+            "parameter-schema-item",
+            "Parameter-schema display item contract",
+            synthetic_parameter_schema_item,
+            PARAMETER_SCHEMA_ITEM_FIELDS,
+            sample_ref="annotate_parameter_schema_items([...])[0]",
+        ),
+        audit_item(
+            "runtime-guidance",
+            "Synthetic runtime-guidance contract",
+            synthetic_runtime_guidance,
+            RUNTIME_GUIDANCE_FIELDS,
+            sample_ref="annotate_runtime_guidance_payload({...})",
+        ),
+        audit_item(
+            "runtime-guidance-user-action-detail",
+            "Synthetic runtime-guidance user-action-detail contract",
+            first_item(synthetic_runtime_guidance.get("userActionDetails") if isinstance(synthetic_runtime_guidance, dict) else None),
+            RUNTIME_GUIDANCE_USER_ACTION_DETAIL_FIELDS,
+            sample_ref="annotate_runtime_guidance_payload({...}).userActionDetails[0]",
+        ),
+        audit_item(
+            "executed-step-result-display",
+            "Synthetic executed-step result-display contract",
+            synthetic_result_display,
+            EXECUTED_STEP_RESULT_DISPLAY_FIELDS,
+            sample_ref="build_executed_step_result_display('gov', synthetic_step)",
+        ),
+        audit_item(
+            "executed-step-stdout-display",
+            "Synthetic executed-step stdout-display contract",
+            synthetic_stdout_display,
+            EXECUTED_STEP_STDOUT_DISPLAY_FIELDS,
+            sample_ref="build_executed_step_result_display(...).stdoutDisplay",
+        ),
+        audit_item(
+            "executed-step-stdout-guidance",
+            "Synthetic executed-step stdout guidance contract",
+            synthetic_stdout_guidance,
+            RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
+            sample_ref="build_executed_step_result_display(...).stdoutDisplay.guidance",
+        ),
+        audit_item(
+            "probe-result-display",
+            "Synthetic probe result-display contract",
+            synthetic_probe_result_display,
+            EXECUTED_STEP_RESULT_DISPLAY_FIELDS,
+            sample_ref="annotate_probe_result_display({...}).resultDisplay",
+        ),
+        audit_item(
+            "probe-stdout-display",
+            "Synthetic probe stdout-display contract",
+            synthetic_probe_stdout_display,
+            EXECUTED_STEP_STDOUT_DISPLAY_FIELDS,
+            sample_ref="annotate_probe_result_display({...}).stdoutDisplay",
+        ),
+        audit_item(
+            "probe-runtime-guidance-display",
+            "Synthetic probe runtime-guidance-display contract",
+            synthetic_probe_runtime_guidance_display,
+            RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
+            sample_ref="annotate_probe_result_display({...}).runtimeGuidanceDisplay",
         ),
     ]
 

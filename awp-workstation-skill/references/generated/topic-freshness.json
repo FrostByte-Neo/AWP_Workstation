@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-21T11:33:37Z",
-  "sourceImpactGeneratedAt": "2026-05-21T11:33:37Z",
+  "generatedAt": "2026-05-22T02:50:13Z",
+  "sourceImpactGeneratedAt": "2026-05-22T02:50:13Z",
   "summary": {
-    "affectedTopics": 4,
-    "affectedFacts": 4,
-    "affectedWorknets": 2
+    "affectedTopics": 0,
+    "affectedFacts": 0,
+    "affectedWorknets": 0
   },
   "topics": [
     {
@@ -21,22 +21,11 @@
       "key": "awp-skill",
       "label": "AWP RootNet Skill",
       "bucket": "topic",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "awp-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "awp-skill",
-          "sourceName": "awp-core/awp-skill",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     },
     {
       "key": "benchmark-testnet",
@@ -62,22 +51,11 @@
       "key": "community",
       "label": "Community",
       "bucket": "topic",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "community-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "community-skill",
-          "sourceName": "Community skill URI",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     },
     {
       "key": "dao",
@@ -133,22 +111,11 @@
       "key": "protocol-core",
       "label": "AWP Protocol Core",
       "bucket": "topic",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "awp-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "awp-skill",
-          "sourceName": "awp-core/awp-skill",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     },
     {
       "key": "staking",
@@ -164,22 +131,11 @@
       "key": "tmr",
       "label": "TMR",
       "bucket": "topic",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "tmr-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "tmr-skill",
-          "sourceName": "TMR skill URI",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     }
   ],
   "facts": [
@@ -197,22 +153,11 @@
       "key": "awp-skill-ops",
       "label": "AWP RootNet Skill",
       "bucket": "fact",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "awp-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "awp-skill",
-          "sourceName": "awp-core/awp-skill",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     },
     {
       "key": "blog-facts",
@@ -228,22 +173,11 @@
       "key": "community",
       "label": "Community",
       "bucket": "fact",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "community-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "community-skill",
-          "sourceName": "Community skill URI",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     },
     {
       "key": "dao-facts",
@@ -319,22 +253,11 @@
       "key": "protocol-core",
       "label": "Protocol Core",
       "bucket": "fact",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "awp-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "awp-skill",
-          "sourceName": "awp-core/awp-skill",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     },
     {
       "key": "staking-facts",
@@ -360,22 +283,11 @@
       "key": "tmr",
       "label": "TMR",
       "bucket": "fact",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "tmr-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "tmr-skill",
-          "sourceName": "TMR skill URI",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     }
   ],
   "worknets": [
@@ -393,22 +305,11 @@
       "key": "community",
       "label": "Community",
       "bucket": "worknet",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "community-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "community-skill",
-          "sourceName": "Community skill URI",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     },
     {
       "key": "gov",
@@ -454,22 +355,11 @@
       "key": "tmr",
       "label": "TMR",
       "bucket": "worknet",
-      "status": "affected",
-      "highestPriority": "high",
-      "changedSourceKeys": [
-        "tmr-skill"
-      ],
-      "impactItems": [
-        {
-          "sourceKey": "tmr-skill",
-          "sourceName": "TMR skill URI",
-          "priority": "high",
-          "driftStatus": "content_changed"
-        }
-      ],
-      "reviewHints": [
-        "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002"
-      ]
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
     }
   ]
 }

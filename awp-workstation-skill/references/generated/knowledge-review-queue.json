@@ -1,135 +1,14 @@
 {
-  "generatedAt": "2026-05-21T11:33:37Z",
+  "generatedAt": "2026-05-22T02:50:13Z",
   "schemaVersion": 1,
-  "sourceImpactGeneratedAt": "2026-05-21T11:33:37Z",
+  "sourceImpactGeneratedAt": "2026-05-22T02:50:13Z",
   "summary": {
-    "entries": 15,
-    "sources": 3,
-    "topics": 4,
-    "facts": 4,
-    "evidence": 2,
-    "worknets": 2
+    "entries": 0,
+    "sources": 0,
+    "topics": 0,
+    "facts": 0,
+    "evidence": 0,
+    "worknets": 0
   },
-  "entries": [
-    {
-      "kind": "source",
-      "key": "awp-skill",
-      "label": "awp-core/awp-skill",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-source.py --source-key awp-skill --rebuild"
-    },
-    {
-      "kind": "topic",
-      "key": "protocol-core",
-      "label": "AWP Protocol Core",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild"
-    },
-    {
-      "kind": "topic",
-      "key": "awp-skill",
-      "label": "AWP RootNet Skill",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic awp-skill --rebuild"
-    },
-    {
-      "kind": "fact",
-      "key": "protocol-core",
-      "label": "Protocol Core",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild"
-    },
-    {
-      "kind": "fact",
-      "key": "awp-skill-ops",
-      "label": "AWP RootNet Skill",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic awp-skill-ops --rebuild"
-    },
-    {
-      "kind": "source",
-      "key": "community-skill",
-      "label": "Community skill URI",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-source.py --source-key community-skill --rebuild"
-    },
-    {
-      "kind": "topic",
-      "key": "community",
-      "label": "Community",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
-    },
-    {
-      "kind": "fact",
-      "key": "community",
-      "label": "Community",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
-    },
-    {
-      "kind": "worknet",
-      "key": "community",
-      "label": "Community",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
-    },
-    {
-      "kind": "evidence",
-      "key": "community-live-skill-uri",
-      "label": "community-live-skill-uri",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic community --rebuild"
-    },
-    {
-      "kind": "source",
-      "key": "tmr-skill",
-      "label": "TMR skill URI",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-source.py --source-key tmr-skill --rebuild"
-    },
-    {
-      "kind": "topic",
-      "key": "tmr",
-      "label": "TMR",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
-    },
-    {
-      "kind": "fact",
-      "key": "tmr",
-      "label": "TMR",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
-    },
-    {
-      "kind": "worknet",
-      "key": "tmr",
-      "label": "TMR",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
-    },
-    {
-      "kind": "evidence",
-      "key": "tmr-live-skill-uri",
-      "label": "tmr-live-skill-uri",
-      "priority": "high",
-      "reason": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
-      "command": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
-    }
-  ]
+  "entries": []
 }
