@@ -18,7 +18,7 @@ def main() -> None:
     parser.add_argument(
         "--topic",
         required=True,
-        help="Topic key such as protocol-core, mine, predict, gov, ardi, kya, or awp-skill.",
+        help="Topic key such as atlas, protocol-core, mine, predict, gov, ardi, kya, or awp-skill.",
     )
     parser.add_argument(
         "--rebuild",

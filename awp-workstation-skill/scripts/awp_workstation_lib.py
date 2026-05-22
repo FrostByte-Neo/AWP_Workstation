@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import py_compile
 import re
 import shutil
 import shlex
@@ -29,7 +30,7 @@ DEFAULT_FALLBACK_STATE_ROOT = Path("/tmp/awp-workstation")
 DEFAULT_RPC_URL = os.environ.get("AWP_RPC_URL", "https://api.awp.sh/v2")
 SOURCE_IMPACT_SCHEMA_VERSION = 2
 KNOWLEDGE_REVIEW_QUEUE_SCHEMA_VERSION = 1
-KNOWLEDGE_CATALOG_SCHEMA_VERSION = 12
+KNOWLEDGE_CATALOG_SCHEMA_VERSION = 19
 OFFICIAL_SKILL_ALLOWLIST_PREFIXES = ("https://github.com/awp-worknet/",)
 DEFAULT_FETCH_USER_AGENT = "awp-workstation-skill/0.1.0"
 WORKNET_ID_BASE = 100_000_000
@@ -46,6 +47,7 @@ COMMAND_HINT_RE = re.compile(
     r"(python3\s+scripts/[A-Za-z0-9._/\-]+(?:\s+--?[A-Za-z0-9._/\-<>$]+(?:\s+[A-Za-z0-9._/\-<>:$]+)?)*)"
 )
 PLACEHOLDER_TOKEN_RE = re.compile(r"^<([^>]+)>$")
+MINE_SESSION_RE = re.compile(r"\bsession:\s*([A-Za-z0-9_.:-]+)")
 
 PREFLIGHT_PUBLIC_FIELDS = [
     "walletReady",
@@ -303,6 +305,27 @@ FOLLOW_UP_ACTION_FIELDS = [
     "safeToAutoRun",
 ]
 
+CONFIRMED_ACTION_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "command",
+    "displayLabel",
+    "incompleteFields",
+    "label",
+    "requiredInputs",
+    "requiresConfirmation",
+    "researchGroupKey",
+    "researchGroupLabel",
+    "researchGroupRank",
+    "researchTier",
+    "researchTierLabel",
+    "researchTierRank",
+]
+
 CONFIRMATION_QUEUE_ITEM_FIELDS = [
     "actionGroupKey",
     "actionGroupLabel",
@@ -313,6 +336,7 @@ CONFIRMATION_QUEUE_ITEM_FIELDS = [
     "command",
     "description",
     "displayLabel",
+    "incompleteFields",
     "label",
     "requiredInputs",
     "requiresConfirmation",
@@ -355,6 +379,43 @@ BACKGROUND_RECORD_FIELDS = [
     "startedAt",
     "summary",
     "summaryDisplay",
+]
+
+BACKGROUND_SUMMARY_FIELDS = [
+    "detail",
+    "headline",
+    "state",
+]
+
+SELECTED_BACKGROUND_PREVIEW_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "alive",
+    "displayLabel",
+    "label",
+    "logPath",
+    "pid",
+    "stopCommand",
+]
+
+SELECTED_BACKGROUND_ERROR_FIELDS = [
+    "actionGroupKey",
+    "actionGroupLabel",
+    "actionGroupRank",
+    "actionTier",
+    "actionTierLabel",
+    "actionTierRank",
+    "alive",
+    "displayLabel",
+    "error",
+    "label",
+    "logPath",
+    "pid",
+    "stopCommand",
 ]
 
 RECOVERY_DECISION_FIELDS = [
@@ -457,6 +518,31 @@ RUNTIME_GUIDANCE_USER_ACTION_DETAIL_FIELDS = [
     "researchTierRank",
 ]
 
+RUN_RESPONSE_BRIEFING_FIELDS = [
+    "executionHeadline",
+    "executionState",
+    "executionStateDisplay",
+    "headline",
+    "knowledgeContext",
+    "knowledgeReferenceHighlights",
+    "knowledgeSourceHighlights",
+    "primaryUserAction",
+    "primaryUserActionCommand",
+    "primaryUserActionDisplay",
+    "recoveryDecision",
+    "resumeStatus",
+    "resumeStatusDisplay",
+    "userActionDetails",
+    "userMessage",
+]
+
+RESUME_RECOVERY_BRIEFING_FIELDS = [
+    "decision",
+    "headline",
+    "message",
+    "status",
+]
+
 EXECUTED_STEP_RESULT_DISPLAY_FIELDS = [
     "code",
     "codeDisplay",
@@ -464,6 +550,7 @@ EXECUTED_STEP_RESULT_DISPLAY_FIELDS = [
     "previewDisplay",
     "previewRaw",
     "stderrDisplay",
+    "stderrDisplayDisplay",
     "stderrDisplayRaw",
     "stdoutDisplay",
     "structuredPreviewDisplay",
@@ -492,6 +579,36 @@ EXECUTED_STEP_STDOUT_DISPLAY_FIELDS = [
     "structuredPreviewDisplay",
     "summary",
 ]
+
+
+def normalize_parameter_schema_item_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, PARAMETER_SCHEMA_ITEM_FIELDS)
+
+
+def normalize_runtime_guidance_user_action_detail_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, RUNTIME_GUIDANCE_USER_ACTION_DETAIL_FIELDS)
+
+
+def normalize_runtime_guidance_contract_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS)
+
+
+def normalize_executed_step_result_display_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, EXECUTED_STEP_RESULT_DISPLAY_FIELDS)
+
+
+def normalize_executed_step_stdout_display_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, EXECUTED_STEP_STDOUT_DISPLAY_FIELDS)
+
+
+def normalize_background_summary_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, BACKGROUND_SUMMARY_FIELDS)
 
 WORKSTATION_STATUS_PUBLIC_FIELDS = [
     "query",
@@ -689,6 +806,14 @@ OFFICIAL_WEB_SOURCES: list[dict[str, Any]] = [
         "summary": "Canonical protocol paper for RootNet, WorkNet, emission, staking, and DAO mechanics.",
     },
     {
+        "key": "awp-whitepaper-page",
+        "name": "AWP whitepaper page",
+        "url": "https://awp.pro/whitepaper",
+        "kind": "docs",
+        "trustTier": 1,
+        "summary": "Official in-browser whitepaper landing page and PDF download surface.",
+    },
+    {
         "key": "awp-skill",
         "name": "awp-core/awp-skill",
         "url": "https://github.com/awp-core/awp-skill",
@@ -799,6 +924,63 @@ OFFICIAL_WEB_SOURCES: list[dict[str, Any]] = [
         "summary": "Official updates, guides, and conceptual deep dives.",
     },
     {
+        "key": "awp-agents",
+        "name": "AWP agents status",
+        "url": "https://awp.pro/agents",
+        "kind": "protocol-surface",
+        "trustTier": 1,
+        "summary": "Official cross-network agent status lookup surface.",
+    },
+    {
+        "key": "awp-blog-01-launch-worknet",
+        "name": "AWP BLOG 01 | How to launch a WorkNet",
+        "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-01-or-how-to-launch-a-worknet",
+        "kind": "docs",
+        "trustTier": 1,
+        "summary": "Official builder-facing guide for designing, registering, activating, and operating a WorkNet.",
+    },
+    {
+        "key": "awp-blog-02-what-is-awp",
+        "name": "AWP BLOG 02 | What is Agent Work Protocol?",
+        "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-02-or-what-is-agent-work-protocol",
+        "kind": "docs",
+        "trustTier": 1,
+        "summary": "Official plain-language protocol explainer framing AWP as an open labor market for agents.",
+    },
+    {
+        "key": "awp-blog-03-start-earning",
+        "name": "AWP BLOG 03 | How your agent starts earning in 5 minutes",
+        "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-03-or-how-your-agent-starts-earning-in-5-minutes",
+        "kind": "docs",
+        "trustTier": 1,
+        "summary": "Official onboarding guide for installing awp-skill, creating a work wallet, registering, and starting WorkNet work.",
+    },
+    {
+        "key": "awp-blog-04-fair-launch",
+        "name": "AWP BLOG 04 | Why AWP fair launch?",
+        "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-04-or-why-awp-fair-launch",
+        "kind": "docs",
+        "trustTier": 1,
+        "summary": "Official explanation of AWP fair-launch token emission, zero premine, and DAO Treasury positioning.",
+    },
+    {
+        "key": "awp-blog-05-worknet",
+        "name": "AWP BLOG 05 | What is a WorkNet",
+        "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-05-or-what-is-a-worknet",
+        "kind": "docs",
+        "trustTier": 1,
+        "summary": "Official plain-language explanation of WorkNets as autonomous economic units with payroll, equity, scoring, and market price.",
+    },
+    {
+        "key": "awp-community",
+        "name": "AWP community hub",
+        "url": "https://awp.community/",
+        "kind": "docs",
+        "trustTier": 1,
+        "worknetKey": "community",
+        "summary": "Official community hub linked from awp.pro.",
+    },
+    {
         "key": "gov-works",
         "name": "GovNet",
         "url": "https://gov.works/",
@@ -904,7 +1086,7 @@ DERIVED_SOURCE_FACTS: list[dict[str, Any]] = [
     {
         "key": "protocol-core",
         "topic": "Protocol Core",
-        "sourceKeys": ["awp-home", "awp-whitepaper", "awp-skill", "awp-skill-readme-raw"],
+        "sourceKeys": ["awp-home", "awp-whitepaper", "awp-whitepaper-page", "awp-skill", "awp-skill-readme-raw"],
         "facts": [
             "AWP is a decentralized agent-work protocol with RootNet plus task-specific WorkNets.",
             "Current mainnet chain set is Base, Ethereum, Arbitrum, and BSC.",
@@ -1002,16 +1184,42 @@ DERIVED_SOURCE_FACTS: list[dict[str, Any]] = [
         "sourceKeys": ["awp-live-query", "tmr-skill"],
         "facts": [
             "As of May 20, 2026, official live queries resolve TMR to Base worknetId 845300000013 with skill URI https://github.com/awp-worknet/tmr-skill.",
+            "As of May 22, 2026, the public awp-worknet/tmr-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
             "Compared with Mine, Predict, Gov, Ardi, and KYA, the current official TMR source surface is still thin, so the workstation treats it as discoverable but not yet safe to auto-run.",
+        ],
+    },
+    {
+        "key": "tmr-runtime-facts",
+        "topic": "TMR Runtime Surface",
+        "sourceKeys": ["awp-live-query", "tmr-skill"],
+        "facts": [
+            "The active canonical TMR worknet currently resolves to Base worknetId 845300000013, while 845300000008 remains visible as a pending predecessor entry in the live API.",
+            "The official live skill URI for TMR is https://github.com/awp-worknet/tmr-skill.",
+            "As of May 22, 2026, the public awp-worknet/tmr-skill repository surface still exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
+            "The live API currently shows a zero minimum-stake hint for TMR, but that is only live metadata and not proof the task loop is well understood enough to auto-run.",
         ],
     },
     {
         "key": "community",
         "topic": "Community",
-        "sourceKeys": ["awp-live-query", "community-skill"],
+        "sourceKeys": ["awp-live-query", "community-skill", "awp-community"],
         "facts": [
             "As of May 20, 2026, official live queries resolve Community to Base worknetId 845300000011 with skill URI https://github.com/awp-worknet/com-skill.",
+            "As of May 22, 2026, the public awp-worknet/com-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
+            "The broader AWP site links Community to awp.community as a community hub for guides, tools, translations, memes, and analysis rather than a concrete operator runtime spec.",
             "The current official Community source surface is still thinner than the major worknets, so the workstation keeps it in discover-but-don't-auto-run mode until upstream runtime detail improves.",
+        ],
+    },
+    {
+        "key": "community-runtime-facts",
+        "topic": "Community Runtime Surface",
+        "sourceKeys": ["awp-live-query", "community-skill", "awp-community"],
+        "facts": [
+            "The active canonical Community worknet currently resolves to Base worknetId 845300000011, while 845300000006 remains visible as a pending predecessor entry in the live API.",
+            "The official live skill URI for Community is https://github.com/awp-worknet/com-skill.",
+            "As of May 22, 2026, the public awp-worknet/com-skill repository surface still exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
+            "The broader AWP site links Community to awp.community as a hub for guides, tools, translations, memes, and analysis rather than a concrete operator runtime specification.",
+            "The live API currently shows a zero minimum-stake hint for Community, but that is only live metadata and not proof the work loop is ready for unattended execution.",
         ],
     },
     {
@@ -1047,10 +1255,75 @@ DERIVED_SOURCE_FACTS: list[dict[str, Any]] = [
     {
         "key": "blog-facts",
         "topic": "Official Guides",
-        "sourceKeys": ["awp-blog"],
+        "sourceKeys": [
+            "awp-blog",
+            "awp-blog-01-launch-worknet",
+            "awp-blog-02-what-is-awp",
+            "awp-blog-03-start-earning",
+            "awp-blog-04-fair-launch",
+            "awp-blog-05-worknet",
+        ],
         "facts": [
             "The official blog contains practical onboarding and conceptual WorkNet explanations.",
-            "The published guide sequence includes articles on launching a WorkNet, what AWP is, getting an agent earning quickly, fair launch, and what a WorkNet is.",
+            "The published guide sequence currently includes launching a WorkNet, what AWP is, getting an agent earning quickly, fair launch, and what a WorkNet is.",
+        ],
+    },
+    {
+        "key": "agent-status-facts",
+        "topic": "Protocol Core",
+        "sourceKeys": ["awp-agents"],
+        "facts": [
+            "The public AWP agents surface lets a user enter an agent wallet address and check its status across all visible networks.",
+            "This surface is a public status lookup tool, not a signing or execution runtime.",
+        ],
+    },
+    {
+        "key": "blog-onboarding-facts",
+        "topic": "Official Guides",
+        "sourceKeys": ["awp-blog-03-start-earning", "awp-skill-readme-raw", "awp-home"],
+        "facts": [
+            "The official Apr 24, 2026 onboarding guide presents a six-step path: get an agent runtime, install awp-skill, create a work wallet, register gaslessly, pick a WorkNet, then start working.",
+            "The same guide distinguishes the default agent-owned work wallet from linking a personal wallet directly, which matches the workstation's safer agent-wallet-first default.",
+            "The onboarding guide says rewards accumulate in the wallet across daily epochs and can be claimed on-chain later rather than being pushed after every single task.",
+        ],
+    },
+    {
+        "key": "blog-worknet-economics-facts",
+        "topic": "Official Guides",
+        "sourceKeys": ["awp-blog-05-worknet", "awp-worknets", "awp-whitepaper"],
+        "facts": [
+            "The official Apr 30, 2026 WorkNet explainer frames a WorkNet as an autonomous economic unit with payroll, equity, performance reviews, and market price.",
+            "That same guide explains why agents are paid through WorkNets rather than directly from RootNet emission: accountability and market selection sit at the WorkNet layer.",
+            "The user-facing takeaway is that agents earn both the WorkNet token and a share of AWP, then decide whether to hold, sell, or move to a different WorkNet next epoch.",
+        ],
+    },
+    {
+        "key": "blog-fair-launch-facts",
+        "topic": "Official Guides",
+        "sourceKeys": ["awp-blog-04-fair-launch", "awp-whitepaper", "awp-dao"],
+        "facts": [
+            "The official Apr 29, 2026 fair-launch guide says AWP has a 10 billion supply released entirely through emission, with zero premine and zero investor, team, advisor, or foundation allocation.",
+            "The same guide explains the visible 50/50 split between WorkNet wages and the DAO Treasury, rather than treating treasury balance as an insider reserve.",
+            "For workstation users, the practical message is that there are no separate insider unlock cliffs to model; future supply changes come from the public emission curve.",
+        ],
+    },
+    {
+        "key": "blog-worknet-launch-facts",
+        "topic": "Official Guides",
+        "sourceKeys": ["awp-blog-01-launch-worknet", "awp-aip", "awp-skill-readme-raw"],
+        "facts": [
+            "The official Apr 21, 2026 WorkNet launch guide says builders first define the work, public scoring contract, and anti-sybil posture before touching registration.",
+            "It then describes a gasless worknet registration flow, human Guardian activation review, manager role configuration, daily reward distribution, and weekly emission competition.",
+            "This builder flow is important encyclopedia context because it explains why not every live worknet immediately has the same depth of public runtime material.",
+        ],
+    },
+    {
+        "key": "blog-protocol-facts",
+        "topic": "Official Guides",
+        "sourceKeys": ["awp-blog-02-what-is-awp", "awp-home", "awp-whitepaper"],
+        "facts": [
+            "The official Apr 23, 2026 protocol explainer frames AWP as an open labor market where agents discover work, produce verifiable output, and get paid without per-task human intervention.",
+            "That guide also makes three user-facing protocol claims explicit: fair launch, proof of useful work, and permissionless WorkNets.",
         ],
     },
 ]
@@ -1263,7 +1536,7 @@ DERIVED_TOPIC_DOSSIERS: list[dict[str, Any]] = [
             "public task documentation is still sparse",
             "the workstation should not auto-run Community until the skill is inspected locally",
         ],
-        "sourceKeys": ["awp-live-query", "community-skill"],
+        "sourceKeys": ["awp-live-query", "community-skill", "awp-community"],
     },
     {
         "key": "staking",
@@ -1334,7 +1607,7 @@ DERIVED_TOPIC_DOSSIERS: list[dict[str, Any]] = [
         "key": "blog",
         "kind": "docs",
         "title": "AWP Official Guides",
-        "summary": "Official practical and conceptual writing that explains WorkNets and onboarding in plain language.",
+        "summary": "Official practical and conceptual writing that explains onboarding, protocol framing, WorkNet economics, fair launch, and WorkNet creation in plain language.",
         "defaultEntrypoint": "awp.pro/blog",
         "whyItExists": "Complements specs with product-facing guidance and onboarding narratives.",
         "operatorLoop": [
@@ -1347,7 +1620,14 @@ DERIVED_TOPIC_DOSSIERS: list[dict[str, Any]] = [
         "risks": [
             "editorial guidance can drift faster than normative specs",
         ],
-        "sourceKeys": ["awp-blog"],
+        "sourceKeys": [
+            "awp-blog",
+            "awp-blog-01-launch-worknet",
+            "awp-blog-02-what-is-awp",
+            "awp-blog-03-start-earning",
+            "awp-blog-04-fair-launch",
+            "awp-blog-05-worknet",
+        ],
     },
 ]
 
@@ -1361,6 +1641,16 @@ DERIVED_EVIDENCE_RECORDS: list[dict[str, Any]] = [
         "evidenceType": "normative-overview",
         "stability": "high",
         "rationale": "The whitepaper defines RootNet and WorkNet as the protocol's architectural split.",
+    },
+    {
+        "key": "whitepaper-public-page",
+        "topicKey": "protocol-core",
+        "claim": "The public AWP whitepaper page mirrors the protocol paper in-browser and links the downloadable PDF, giving the workstation a human-readable official protocol surface in addition to the raw PDF.",
+        "sourceKey": "awp-whitepaper-page",
+        "locator": "whitepaper landing page summary and PDF link",
+        "evidenceType": "docs-surface",
+        "stability": "medium",
+        "rationale": "This is a more diffable public surface than the PDF alone and should be tracked as its own official source.",
     },
     {
         "key": "protocol-endpoints",
@@ -1553,6 +1843,16 @@ DERIVED_EVIDENCE_RECORDS: list[dict[str, Any]] = [
         "rationale": "This is the core reason the workstation exposes TMR as discoverable but not auto-runnable.",
     },
     {
+        "key": "tmr-repo-surface-thin",
+        "topicKey": "tmr",
+        "claim": "As of May 22, 2026, the public awp-worknet/tmr-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs, so it is still too thin for a reliable workstation runtime contract.",
+        "sourceKey": "tmr-skill",
+        "locator": "GitHub repository landing page on May 22, 2026",
+        "evidenceType": "skill-uri",
+        "stability": "medium",
+        "rationale": "This explains why TMR remains discoverable but not safely auto-runnable.",
+    },
+    {
         "key": "community-live-skill-uri",
         "topicKey": "community",
         "claim": "As of May 20, 2026, the live AWP surface resolves Community to Base worknetId 845300000011 with official skill URI https://github.com/awp-worknet/com-skill, but the public operator surface is still too thin for safe unattended execution.",
@@ -1563,6 +1863,26 @@ DERIVED_EVIDENCE_RECORDS: list[dict[str, Any]] = [
         "rationale": "This is the core reason the workstation exposes Community as discoverable but not auto-runnable.",
     },
     {
+        "key": "community-repo-surface-thin",
+        "topicKey": "community",
+        "claim": "As of May 22, 2026, the public awp-worknet/com-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs, so it is still too thin for a reliable workstation runtime contract.",
+        "sourceKey": "community-skill",
+        "locator": "GitHub repository landing page on May 22, 2026",
+        "evidenceType": "skill-uri",
+        "stability": "medium",
+        "rationale": "This makes the Community skill URI useful for discovery, but still too thin for unattended execution guidance.",
+    },
+    {
+        "key": "community-hub-surface",
+        "topicKey": "community",
+        "claim": "The broader AWP site links Community to awp.community as a community hub for guides, tools, translations, memes, and analysis rather than a concrete operator runtime specification.",
+        "sourceKey": "awp-community",
+        "locator": "community hub linked from awp.pro",
+        "evidenceType": "docs-surface",
+        "stability": "low",
+        "rationale": "Useful for ecosystem context, but still not a substitute for runnable skill docs.",
+    },
+    {
         "key": "blog-operator-guides",
         "topicKey": "blog",
         "claim": "The official blog is part of the documentation surface and currently includes practical onboarding plus WorkNet concept guides.",
@@ -1571,6 +1891,66 @@ DERIVED_EVIDENCE_RECORDS: list[dict[str, Any]] = [
         "evidenceType": "docs-surface",
         "stability": "low",
         "rationale": "Useful for explanation tone, but less normative than AIPs and skill docs.",
+    },
+    {
+        "key": "agent-status-lookup",
+        "topicKey": "protocol-core",
+        "claim": "The public AWP agents page accepts an agent wallet address and checks its status across all visible networks.",
+        "sourceKey": "awp-agents",
+        "locator": "agents page lookup prompt",
+        "evidenceType": "protocol-surface",
+        "stability": "low",
+        "rationale": "This is a public protocol-facing status surface the encyclopedia can reference without treating it as an execution runtime.",
+    },
+    {
+        "key": "blog-agent-quickstart",
+        "topicKey": "blog",
+        "claim": "The official Apr 24, 2026 onboarding guide reduces the default start path to install awp-skill, auto-create a work wallet, register gaslessly, pick a WorkNet, and start working.",
+        "sourceKey": "awp-blog-03-start-earning",
+        "locator": "steps 2 through 6",
+        "evidenceType": "docs-surface",
+        "stability": "medium",
+        "rationale": "This is the clearest public product-language source for the workstation's onboarding narrative.",
+    },
+    {
+        "key": "blog-worknet-company-model",
+        "topicKey": "blog",
+        "claim": "The official Apr 30, 2026 WorkNet explainer models a WorkNet as an autonomous economic unit with payroll, equity, performance reviews, and market price.",
+        "sourceKey": "awp-blog-05-worknet",
+        "locator": "intro and 'A WorkNet is a company' sections",
+        "evidenceType": "docs-surface",
+        "stability": "medium",
+        "rationale": "This is the strongest official plain-language source for translating WorkNet economics into user-facing explanations.",
+    },
+    {
+        "key": "blog-fair-launch-emission",
+        "topicKey": "blog",
+        "claim": "The official Apr 29, 2026 fair-launch guide says AWP supply is 10 billion, released entirely through emission with zero premine, and split visibly between WorkNet wages and the DAO Treasury.",
+        "sourceKey": "awp-blog-04-fair-launch",
+        "locator": "fair launch allocation section",
+        "evidenceType": "docs-surface",
+        "stability": "medium",
+        "rationale": "This gives the encyclopedia a more user-readable explanation of token distribution than the whitepaper alone.",
+    },
+    {
+        "key": "blog-worknet-launch-sequence",
+        "topicKey": "blog",
+        "claim": "The official Apr 21, 2026 launch guide breaks WorkNet creation into design, gasless registration, Guardian activation review, manager configuration, daily reward distribution, and ongoing emission competition.",
+        "sourceKey": "awp-blog-01-launch-worknet",
+        "locator": "part 3 step-by-step sections",
+        "evidenceType": "docs-surface",
+        "stability": "medium",
+        "rationale": "This is the clearest public builder-facing lifecycle summary for explaining how new WorkNets appear and mature.",
+    },
+    {
+        "key": "blog-proof-of-useful-work",
+        "topicKey": "protocol-core",
+        "claim": "The official Apr 23, 2026 protocol explainer explicitly frames AWP around proof of useful work rather than wasteful proof-of-work, and around WorkNets as permissionless labor markets for agents.",
+        "sourceKey": "awp-blog-02-what-is-awp",
+        "locator": "why it is built this way",
+        "evidenceType": "docs-surface",
+        "stability": "medium",
+        "rationale": "This gives the workstation a product-facing source for the protocol's economic and philosophical framing.",
     },
 ]
 
@@ -1692,6 +2072,413 @@ DERIVED_GLOSSARY_TERMS: list[dict[str, Any]] = [
         "relatedTopics": ["awp-skill", "benchmark-testnet", "kya"],
         "sourceKeys": ["awp-skill-readme-raw", "awp-testnet", "kya-skill-raw"],
     },
+    {
+        "term": "proof of useful work",
+        "aliases": ["POUW", "useful work proof"],
+        "plainLanguage": "把真正有价值的 agent 输出本身当成证明，而不是烧算力做无意义题目。",
+        "definition": "The protocol principle that useful agent output and the proof required for reward should be the same act.",
+        "whyItMatters": "It explains why AWP talks about work verification and scoring instead of abstract mining puzzles.",
+        "relatedTopics": ["protocol-core", "blog", "mine", "predict"],
+        "sourceKeys": ["awp-whitepaper", "awp-blog-02-what-is-awp"],
+    },
+    {
+        "term": "work token",
+        "aliases": ["worknet token", "subnet token"],
+        "plainLanguage": "每条 WorkNet 自己的代币，用来给完成工作的 agent 记账和定价。",
+        "definition": "The native token issued by a specific WorkNet and earned by agents who complete accepted work there.",
+        "whyItMatters": "Users need to understand why rewards often come in both AWP and a WorkNet-specific token.",
+        "relatedTopics": ["protocol-core", "blog", "mine", "predict", "gov", "ardi"],
+        "sourceKeys": ["awp-whitepaper", "awp-blog-05-worknet", "awp-blog-01-launch-worknet"],
+    },
+    {
+        "term": "fair launch",
+        "aliases": ["zero premine", "emission-only launch"],
+        "plainLanguage": "没有预挖、没有投资人份额、没有团队预留，代币只通过公开 emission 释放。",
+        "definition": "The token distribution model where supply enters circulation only through the public emission curve rather than insider allocation.",
+        "whyItMatters": "It changes how the workstation should explain token supply, treasury, and long-term dilution risk.",
+        "relatedTopics": ["protocol-core", "dao", "staking", "blog"],
+        "sourceKeys": ["awp-whitepaper", "awp-blog-04-fair-launch"],
+    },
+    {
+        "term": "Guardian",
+        "aliases": ["guardian activation", "guardian review"],
+        "plainLanguage": "新 WorkNet 激活前要过的一道人审/多签守门步骤，不是任何人注册完就自动完全上线。",
+        "definition": "The human multisig review layer that decides whether a newly registered WorkNet can move from pending status to active status.",
+        "whyItMatters": "It explains why some live or pending WorkNets may exist before the public runtime surface is fully mature.",
+        "relatedTopics": ["protocol-core", "blog"],
+        "sourceKeys": ["awp-blog-01-launch-worknet"],
+    },
+    {
+        "term": "validator",
+        "aliases": ["validation role", "validator gate"],
+        "plainLanguage": "负责复核工作质量、决定哪些提交能过关拿奖励的角色。",
+        "definition": "A role that verifies work quality and often faces different stake or qualification rules than general worker agents.",
+        "whyItMatters": "Mine and similar worknets may let workers start without stake while requiring different validator-side qualification.",
+        "relatedTopics": ["mine", "staking"],
+        "sourceKeys": ["aip-001-raw"],
+    },
+    {
+        "term": "virtual chips",
+        "aliases": ["chips", "chip feed"],
+        "plainLanguage": "Predict 里先用来参与市场的虚拟筹码，不要求一开始就持有真实代币。",
+        "definition": "The synthetic participation unit used by Predict to lower entry friction before direct token acquisition or stake-backed paths.",
+        "whyItMatters": "It explains why Predict can start as an observe-and-reason workflow before the user commits real capital.",
+        "relatedTopics": ["predict"],
+        "sourceKeys": ["aip-002-raw", "predict-skill-raw"],
+    },
+    {
+        "term": "alpha",
+        "aliases": ["alpha rewards", "alpha bucket"],
+        "plainLanguage": "Predict 里更偏向“判断质量”的奖励部分，不只是参与就有。",
+        "definition": "The reward bucket in Predict associated with differentiated reasoning quality rather than mere participation volume.",
+        "whyItMatters": "It is why reasoning originality and duplication control are first-class operator concerns for Predict.",
+        "relatedTopics": ["predict"],
+        "sourceKeys": ["aip-002-raw"],
+    },
+    {
+        "term": "EIP-712",
+        "aliases": ["typed signature", "typed-data signing"],
+        "plainLanguage": "一种结构化签名格式，AWP 用它做免 gas 中继和部分 Gov 签名动作。",
+        "definition": "The typed structured-signature standard used for relay-assisted protocol actions and authenticated writes.",
+        "whyItMatters": "The workstation needs it to explain why some actions are sign-and-relay flows rather than direct transactions.",
+        "relatedTopics": ["awp-skill", "gov", "kya"],
+        "sourceKeys": ["awp-skill-readme-raw", "gov-skill-raw"],
+    },
+    {
+        "term": "EMG-SIG-V1",
+        "aliases": ["Gov auth scheme", "emg sig"],
+        "plainLanguage": "Gov skill 用来约束签名读写的一套认证约定。",
+        "definition": "The Gov runtime's authenticated signing discipline for protected reads and writes.",
+        "whyItMatters": "It explains why Gov public reads and signed actions behave differently and why auth errors need special handling.",
+        "relatedTopics": ["gov"],
+        "sourceKeys": ["gov-skill-raw"],
+    },
+    {
+        "term": "signal proposal",
+        "aliases": ["gasless sentiment polling", "signal vote"],
+        "plainLanguage": "一种更偏表达态度的治理提案，不一定直接触发链上执行。",
+        "definition": "A governance proposal path documented as gasless sentiment polling rather than direct executable on-chain action.",
+        "whyItMatters": "It helps the workstation distinguish soft governance signaling from value-moving or executable DAO actions.",
+        "relatedTopics": ["dao", "gov"],
+        "sourceKeys": ["awp-dao"],
+    },
+    {
+        "term": "Ardinals",
+        "aliases": ["Ardi inscriptions", "dictionary NFTs"],
+        "plainLanguage": "Ardi 里和解谜结果绑定的一类铭刻资产。",
+        "definition": "The inscription-style NFT output of successful Ardi reasoning and reveal flows.",
+        "whyItMatters": "It is part of Ardi's economic loop and explains why reveal/inscribe timing matters operationally.",
+        "relatedTopics": ["ardi"],
+        "sourceKeys": ["ardi-skill-raw", "ardinals-agents"],
+    },
+    {
+        "term": "_internal.next_command",
+        "aliases": ["next command", "command journal"],
+        "plainLanguage": "官方 runtime 给工作站的下一步命令提示，Ardi 尤其依赖它。",
+        "definition": "The structured runtime guidance field that tells the workstation which concrete next command to follow.",
+        "whyItMatters": "It is the cleanest way to keep execution aligned with official runtime semantics instead of guessing the next step locally.",
+        "relatedTopics": ["ardi", "awp-skill"],
+        "sourceKeys": ["ardi-skill-raw", "gov-skill-raw"],
+    },
+    {
+        "term": "canonical WorkNet ID",
+        "aliases": ["canonical ID", "active canonical ID"],
+        "plainLanguage": "当前真正该优先使用的官方 WorkNet ID，而不是历史遗留或待定条目。",
+        "definition": "The currently preferred live WorkNet identifier that the workstation should treat as the active canonical mapping for a worknet.",
+        "whyItMatters": "It keeps the workstation from mixing live active worknets with older pending or predecessor entries.",
+        "relatedTopics": ["protocol-core", "tmr", "community", "gov", "kya", "ardi"],
+        "sourceKeys": ["awp-live-query", "awp-worknets"],
+    },
+    {
+        "term": "pending predecessor entry",
+        "aliases": ["predecessor worknet", "legacy pending entry"],
+        "plainLanguage": "官方实时接口里还能看到、但不该当成当前主条目的旧 WorkNet 记录。",
+        "definition": "A still-visible older or pending live API entry that should not replace the current active canonical WorkNet mapping.",
+        "whyItMatters": "It explains why Community and TMR can show more than one live ID without meaning both are the current execution target.",
+        "relatedTopics": ["protocol-core", "tmr", "community", "gov", "kya", "ardi"],
+        "sourceKeys": ["awp-live-query"],
+    },
+    {
+        "term": "minimum-stake hint",
+        "aliases": ["minStake hint", "zero min-stake hint"],
+        "plainLanguage": "官方实时接口当前暴露的最低质押提示值，但它不等于任务语义已经完全搞清楚。",
+        "definition": "A live metadata hint from the official API about the current minimum stake field for a WorkNet, without guaranteeing that the full operator workflow is understood.",
+        "whyItMatters": "The workstation can show it as live metadata while still refusing to overclaim runnable status for thin worknets.",
+        "relatedTopics": ["tmr", "community", "staking"],
+        "sourceKeys": ["awp-live-query"],
+    },
+    {
+        "term": "credit-score gating",
+        "aliases": ["credit score gate", "quality gate"],
+        "plainLanguage": "Mine 在结算时会按质量和信用门槛筛掉不靠谱提交，不是提交了就一定算收益。",
+        "definition": "The quality and scoring gate that Mine applies around submission acceptance and settlement eligibility.",
+        "whyItMatters": "It explains why Mine rewards depend on accepted, quality-verified work rather than raw submission count.",
+        "relatedTopics": ["mine", "epoch"],
+        "sourceKeys": ["aip-001-raw"],
+    },
+    {
+        "term": "nonce drift",
+        "aliases": ["nonce mismatch", "stale nonce"],
+        "plainLanguage": "签名动作用到的 nonce 和服务端预期不一致，导致 Gov 这类受保护动作不能直接通过。",
+        "definition": "A signing failure mode where the expected nonce and the locally used nonce diverge.",
+        "whyItMatters": "The workstation should treat it as an auth/retry problem, not as proof that the whole worknet is broken.",
+        "relatedTopics": ["gov", "EIP-712", "EMG-SIG-V1"],
+        "sourceKeys": ["gov-skill-raw"],
+    },
+    {
+        "term": "time skew",
+        "aliases": ["clock skew", "timestamp drift"],
+        "plainLanguage": "本地时间和服务端容忍窗口偏太多，会让签名动作被 Gov 这类运行时拒绝。",
+        "definition": "A signing failure mode caused by local clock drift relative to the server or protocol time window.",
+        "whyItMatters": "It helps the workstation explain why a signed action can fail even when the wallet and command are otherwise correct.",
+        "relatedTopics": ["gov", "EIP-712", "EMG-SIG-V1"],
+        "sourceKeys": ["gov-skill-raw"],
+    },
+    {
+        "term": "domain mismatch",
+        "aliases": ["wrong signing domain", "auth domain mismatch"],
+        "plainLanguage": "签名时用错了目标域或环境，导致 Gov 这类保护动作会把签名当成无效。",
+        "definition": "A signing failure mode where the signature domain does not match the runtime's expected environment or verifier.",
+        "whyItMatters": "It distinguishes configuration/auth bugs from genuine protocol qualification blockers.",
+        "relatedTopics": ["gov", "EIP-712", "EMG-SIG-V1"],
+        "sourceKeys": ["gov-skill-raw"],
+    },
+]
+
+DERIVED_CONCEPT_DIRECTORY: list[dict[str, Any]] = [
+    {
+        "key": "registration",
+        "title": "AWP Registration",
+        "kind": "workflow",
+        "aliases": ["agent registration", "gasless onboarding", "register agent"],
+        "plainLanguage": "先装 awp-skill 和 awp-wallet，再用免 gas 流程把 agent 工作账号注册进 AWP。",
+        "whyItMatters": "这是所有后续 WorkNet 执行、资格判断和奖励路由的入口，不应该让用户自己理解协议细节。",
+        "summary": "Workstation 默认要把注册解释成一个安全 onboarding 流程：创建工作钱包、检查 PATH、跑 official preflight，然后按 awp-skill 的 gasless 流程完成注册。",
+        "operatorLoop": [
+            "install awp-skill and awp-wallet",
+            "initialize a fresh agent work wallet",
+            "run official preflight and detect missing prerequisites",
+            "complete gasless registration before starting WorkNet work",
+        ],
+        "sourceKeys": ["awp-skill", "awp-skill-readme-raw", "awp-testnet", "kya-skill-raw"],
+        "evidenceKeys": ["awp-skill-install-sequence", "awp-skill-gasless-ops", "testnet-gasless-start", "kya-registration-handoff"],
+        "relatedTopics": ["protocol-core", "awp-skill", "benchmark-testnet", "kya"],
+        "relatedWorknets": ["kya"],
+        "coverageState": "well-defined",
+        "coverageNote": "Official RootNet skill docs plus testnet/KYA handoff rules make this one of the clearest cross-worknet workflows.",
+    },
+    {
+        "key": "recipient-routing",
+        "title": "Recipient Routing",
+        "kind": "workflow",
+        "aliases": ["reward recipient", "resolved recipient", "set recipient"],
+        "plainLanguage": "确认奖励最后打到哪个地址，而不是默认假设会回到用户主钱包。",
+        "whyItMatters": "收款地址配错时，工作照样跑，但奖励可能路由到错误地址，是最隐蔽的协议风险之一。",
+        "summary": "Recipient routing 连接 RootNet 绑定、KYA handoff 和后续 WorkNet 收益归集。Workstation 必须把它当成一条明确的用户确认流程，而不是隐藏实现细节。",
+        "operatorLoop": [
+            "check the current resolved recipient during preflight",
+            "compare recipient intent with the agent work wallet and principal",
+            "route any recipient-changing action through confirmation",
+            "re-check recipient after registration or delegate handoff",
+        ],
+        "sourceKeys": ["awp-whitepaper", "awp-skill-readme-raw", "kya-skill-raw"],
+        "evidenceKeys": ["awp-skill-gasless-ops", "kya-handoff-url-plain-text"],
+        "relatedTopics": ["protocol-core", "awp-skill", "kya"],
+        "relatedWorknets": ["kya"],
+        "coverageState": "thin",
+        "coverageNote": "Core semantics are clear, but the encyclopedia still lacks a first-class dedicated dossier for recipient misrouting and recovery paths.",
+    },
+    {
+        "key": "allocation-and-delegation",
+        "title": "Allocation And Delegation",
+        "kind": "workflow",
+        "aliases": ["allocation", "delegate staking", "delegated staking", "reallocate"],
+        "plainLanguage": "把 stake 或权限指向某个 agent / WorkNet，必要时走 KYA 委托路径，而不是直接让用户碰底层合约。",
+        "whyItMatters": "这是 Predict、Gov、Ardi 等资格路径的共用底层动作，既牵涉价值，又影响可运行性。",
+        "summary": "Workstation 需要把 allocation、delegation 和 KYA 辅助路径讲成一条可比较的资格工作流：什么时候必须 stake、什么时候可以走 delegated path、什么时候只能先观察。",
+        "operatorLoop": [
+            "check whether the target WorkNet truly needs stake or delegation",
+            "compare direct AWP stake against KYA delegated paths",
+            "confirm any allocate, deallocate, or reallocate action",
+            "re-run qualification checks after delegation changes",
+        ],
+        "sourceKeys": ["awp-skill-readme-raw", "kya-skill-raw", "predict-skill-raw", "awp-staking"],
+        "evidenceKeys": ["awp-skill-gasless-ops", "kya-registration-handoff", "predict-official-runtime", "staking-awp-power"],
+        "relatedTopics": ["awp-skill", "kya", "predict", "ardi", "staking"],
+        "relatedWorknets": ["predict", "ardi", "kya"],
+        "coverageState": "thin",
+        "coverageNote": "The workstation knows the main paths, but the cross-worknet decision logic is still spread across facts instead of one reusable concept dossier.",
+    },
+    {
+        "key": "qualification-gates",
+        "title": "Qualification Gates",
+        "kind": "concept",
+        "aliases": ["min stake", "awp power gate", "eligibility gate", "qualification"],
+        "plainLanguage": "不同 WorkNet 会用 stake、AWP Power、KYA、Base gas 或质量门槛来决定你现在能不能真正开跑。",
+        "whyItMatters": "这是用户最容易困惑的地方：为什么 Mine 能直接跑，而 Predict / Gov / Ardi 常常还要先补资格。",
+        "summary": "Qualification gates 不是一个协议参数，而是一组跨 WorkNet 条件：Mine 的 validator stake、Predict 的 allocation / KYA path、Gov 的 AWP Power、Ardi 的 Base gas 与资格路径，都属于同一类知识。",
+        "operatorLoop": [
+            "read the worknet-specific gate from capability scan or official runtime docs",
+            "separate hard blockers from enhancement paths",
+            "surface gas, stake, and identity prerequisites in plain language",
+            "refresh the gate after any funding, staking, or delegation action",
+        ],
+        "sourceKeys": ["aip-001-raw", "predict-skill-raw", "awp-staking", "gov-skill-raw", "ardi-skill-raw"],
+        "evidenceKeys": ["mine-emission-and-stake", "predict-official-runtime", "staking-awp-power", "gov-public-vs-signed", "ardi-operational-caps"],
+        "relatedTopics": ["mine", "predict", "gov", "ardi", "staking"],
+        "relatedWorknets": ["mine", "predict", "gov", "ardi"],
+        "coverageState": "thin",
+        "coverageNote": "The ingredients exist, but the encyclopedia still needs a stronger unified view of qualification semantics across worknets.",
+    },
+    {
+        "key": "epoch-settlement",
+        "title": "Epoch Settlement",
+        "kind": "workflow",
+        "aliases": ["epoch review", "settlement window", "reward settlement"],
+        "plainLanguage": "很多 WorkNet 不是做完就立刻拿结果，而是要等一个结算窗口统一算分、结算和发奖励。",
+        "whyItMatters": "如果不理解 epoch，就会误判收益、失败原因和复盘节奏。",
+        "summary": "Mine、Predict、Gov、Ardi 都带有某种窗口或阶段节奏。Workstation 必须把执行、等待、复盘和下一步确认动作都对齐到 settlement 节奏，而不是只盯单次命令输出。",
+        "operatorLoop": [
+            "align task submission to the current epoch or phase",
+            "track what still needs waiting, reveal, settlement, or review",
+            "generate an epoch review instead of relying on raw command logs",
+            "feed failures and strategy changes into the next run",
+        ],
+        "sourceKeys": ["aip-001-raw", "aip-002-raw", "gov-skill-raw", "ardi-skill-raw"],
+        "evidenceKeys": ["mine-emission-and-stake", "predict-worknet-summary", "gov-public-vs-signed", "ardi-operational-caps"],
+        "relatedTopics": ["mine", "predict", "gov", "ardi"],
+        "relatedWorknets": ["mine", "predict", "gov", "ardi"],
+        "coverageState": "thin",
+        "coverageNote": "Epoch language appears across the major worknets, but it is still modeled as repeated facts rather than one shared settlement concept.",
+    },
+    {
+        "key": "gov-auth-signing",
+        "title": "Gov Auth And Signing",
+        "kind": "workflow",
+        "aliases": ["EIP-712", "EMG-SIG-V1", "signed reads", "signed writes"],
+        "plainLanguage": "Gov 里公开读和签名动作是两套世界：前者谁都能看，后者必须通过 awp-wallet 和签名纪律。",
+        "whyItMatters": "这直接决定哪些 Gov 动作可以自动观察，哪些必须先确认并且处理 nonce / time skew / domain mismatch 之类的问题。",
+        "summary": "Gov 的认证模型应该被看成一个单独 workflow：public reads 无钱包、signed reads and writes 走 awp-wallet、所有投票和交易动作都进 confirmation queue，并且要有重试与错误分类 discipline。",
+        "operatorLoop": [
+            "separate public reads from signed reads and writes",
+            "resolve principal and wallet context before any signed action",
+            "route trade, vote, and order actions through confirmation",
+            "classify auth failures such as nonce drift or time skew before retrying",
+        ],
+        "sourceKeys": ["gov-skill-raw", "gov-works", "awp-skill-readme-raw"],
+        "evidenceKeys": ["gov-public-vs-signed", "gov-auth-discipline"],
+        "relatedTopics": ["gov", "awp-skill", "protocol-core"],
+        "relatedWorknets": ["gov"],
+        "coverageState": "well-defined",
+        "coverageNote": "The official Gov runtime is explicit about signed vs public flows and failure handling, so this concept is already strong.",
+    },
+    {
+        "key": "ardi-command-journal",
+        "title": "Ardi Command Journal",
+        "kind": "workflow",
+        "aliases": ["_internal.next_command", "ardi journal", "command journal"],
+        "plainLanguage": "Ardi 不是让工作站自己猜下一步，而是要求严格跟着官方 runtime 给出的下一条命令走。",
+        "whyItMatters": "这决定了 Ardi 的安全边界：如果偏离官方 command journal，最容易在 commit / reveal 这种时间窗动作上出错。",
+        "summary": "Ardi 要被建模成 command-journal-driven worknet：从 preflight 到 commit、reveal、inscribe，都应该围绕 `_internal.next_command` 和官方 ardi-agent CLI 展开，而不是让工作站临场自由拼装命令。",
+        "operatorLoop": [
+            "run ardi-agent preflight first",
+            "read runtime guidance and _internal.next_command",
+            "follow commit and reveal windows exactly",
+            "avoid handcrafted loops when official auto-mine or next-command guidance exists",
+        ],
+        "sourceKeys": ["ardi-skill-raw", "ardinals-agents"],
+        "evidenceKeys": ["ardi-agent-only", "ardi-operational-caps"],
+        "relatedTopics": ["ardi"],
+        "relatedWorknets": ["ardi"],
+        "coverageState": "well-defined",
+        "coverageNote": "The official Ardi runtime already documents the command-journal discipline clearly; the encyclopedia can treat this as a stable operator rule.",
+    },
+    {
+        "key": "agent-onboarding",
+        "title": "Agent Onboarding",
+        "kind": "workflow",
+        "aliases": ["quickstart", "start earning", "new user flow"],
+        "plainLanguage": "把“装 skill、建工作钱包、免 gas 注册、选 WorkNet、开始工作”讲成一条对话式新手路径，而不是协议手册。",
+        "whyItMatters": "这是 workstation 最接近产品首页的一层；如果它不稳，用户就会被 RootNet、wallet、stake 等底层细节淹没。",
+        "summary": "官方博客和 awp-skill README 已经给出了足够清晰的 quickstart 轮廓。Workstation 应该把它收成稳定 onboarding：优先 agent 自己的工作钱包、默认 gasless registration、先选低门槛 WorkNet，再用复盘解释收益和失败。",
+        "operatorLoop": [
+            "start from a SKILL.md-capable agent runtime",
+            "install awp-skill and let it bootstrap a work wallet",
+            "complete gasless registration before discussing advanced protocol knobs",
+            "show available WorkNets and recommend the safest first loop",
+            "translate epoch rewards and failures back into user language",
+        ],
+        "sourceKeys": ["awp-home", "awp-skill-readme-raw", "awp-blog-03-start-earning", "awp-testnet"],
+        "evidenceKeys": ["awp-skill-install-sequence", "blog-agent-quickstart", "testnet-gasless-start"],
+        "relatedTopics": ["protocol-core", "awp-skill", "blog", "benchmark-testnet"],
+        "relatedWorknets": ["mine", "predict", "benchmark-testnet"],
+        "coverageState": "well-defined",
+        "coverageNote": "The quickstart path is now backed by both formal skill docs and an official onboarding guide, so the encyclopedia can present it as a stable default user journey.",
+    },
+    {
+        "key": "worknet-economic-unit",
+        "title": "WorkNet As Economic Unit",
+        "kind": "concept",
+        "aliases": ["worknet as company", "economic unit", "autonomous economic unit"],
+        "plainLanguage": "WorkNet 不只是一个合约地址，而是一种有工资、股权、评分和市场价格的 agent 经济单元。",
+        "whyItMatters": "这决定了 workstation 应该怎么解释 WorkNet：不是叫用户背协议名词，而是理解“你加入的是哪种工作市场，它如何付钱和筛选产出”。",
+        "summary": "官方博客把 WorkNet 讲成有 payroll、equity、performance reviews、market price 的经济体，这比只说‘有 work token’更适合做百科底层解释。它还能统一 Mine、Predict、Gov、Ardi 这些不同任务网络的叙事口径。",
+        "operatorLoop": [
+            "identify what work the WorkNet buys",
+            "read how that WorkNet scores accepted output",
+            "separate AWP reserve economics from the WorkNet's own token economics",
+            "explain why agents earn through WorkNets rather than directly from RootNet emission",
+        ],
+        "sourceKeys": ["awp-whitepaper", "awp-worknets", "awp-blog-05-worknet"],
+        "evidenceKeys": ["protocol-two-layer", "blog-worknet-company-model", "mine-worknet-summary", "predict-worknet-summary"],
+        "relatedTopics": ["protocol-core", "blog", "mine", "predict", "gov", "ardi"],
+        "relatedWorknets": ["mine", "predict", "gov", "ardi", "tmr", "community"],
+        "coverageState": "well-defined",
+        "coverageNote": "The combination of whitepaper structure plus the Apr 30, 2026 WorkNet explainer makes this one of the strongest plain-language protocol concepts now available.",
+    },
+    {
+        "key": "fair-launch-and-emission",
+        "title": "Fair Launch And Emission",
+        "kind": "concept",
+        "aliases": ["emission-only launch", "zero premine", "treasury split"],
+        "plainLanguage": "AWP 的发行逻辑要被解释成公开 emission 曲线，而不是传统团队/投资人分仓模型。",
+        "whyItMatters": "这会直接影响 workstation 怎么解释长期供给、DAO Treasury、用户收益预期，以及为什么 AWP 文档反复强调 fair launch。",
+        "summary": "白皮书给了规范层，官方 fair-launch 博客给了人话层。Workstation 应该把两者合并成一条稳定知识：10B AWP 只靠 emission 进入流通，没有 insider unlock cliff，Treasury 也不是团队后门资金池。",
+        "operatorLoop": [
+            "distinguish public emission from insider allocation models",
+            "explain the visible split between WorkNet wages and DAO Treasury",
+            "separate future emission curve risk from hidden unlock risk",
+            "tie treasury governance back to veAWP holders rather than a team-controlled reserve",
+        ],
+        "sourceKeys": ["awp-whitepaper", "awp-dao", "awp-blog-04-fair-launch"],
+        "evidenceKeys": ["blog-fair-launch-emission", "dao-public-params"],
+        "relatedTopics": ["protocol-core", "dao", "staking", "blog"],
+        "relatedWorknets": [],
+        "coverageState": "well-defined",
+        "coverageNote": "The fair-launch story is now anchored by both normative and user-facing official sources, so the encyclopedia can explain it without leaning on marketing shorthand.",
+    },
+    {
+        "key": "worknet-launch-lifecycle",
+        "title": "WorkNet Launch Lifecycle",
+        "kind": "workflow",
+        "aliases": ["launch worknet", "register worknet", "guardian activation"],
+        "plainLanguage": "新 WorkNet 从构思到真正 active，要经历设计、gasless 注册、Guardian 审核、manager 配置和持续分发，不是注册完就万事俱备。",
+        "whyItMatters": "这能解释为什么网络里会出现资料厚度不同、成熟度不同的 WorkNet，也解释了为什么 workstation 不该把每个 live worknet 都当成同样可自动运行。",
+        "summary": "官方 launch guide 首次把 WorkNet builder 路径讲清楚了。对百科来说，这不只是给 builder 看，也是在解释整个网络为什么会出现 pending predecessor、thin repo、以及‘已激活但资料仍薄’这类成熟度差异。",
+        "operatorLoop": [
+            "define work, public scoring, and anti-sybil logic",
+            "register the WorkNet through the official gasless flow",
+            "wait for Guardian activation review before treating it as mature",
+            "configure manager roles and distribution operations",
+            "expect public runtime quality to improve over time rather than at one instant",
+        ],
+        "sourceKeys": ["awp-blog-01-launch-worknet", "awp-aip", "awp-skill-readme-raw"],
+        "evidenceKeys": ["blog-worknet-launch-sequence", "awp-skill-gasless-ops"],
+        "relatedTopics": ["protocol-core", "blog", "awp-skill", "tmr", "community"],
+        "relatedWorknets": ["tmr", "community"],
+        "coverageState": "thin",
+        "coverageNote": "The public builder lifecycle is finally explicit, but the workstation still lacks the same depth of official launch/ops material for many thinner worknets.",
+    },
 ]
 
 KNOWLEDGE_COVERAGE_REQUIREMENTS: list[dict[str, Any]] = [
@@ -1711,9 +2498,29 @@ KNOWLEDGE_COVERAGE_REQUIREMENTS: list[dict[str, Any]] = [
         "intent": "Mine, Predict, KYA, Ardi, Gov, TMR, and Community should all be represented.",
     },
     {
+        "key": "active-worknet-source-depth",
+        "title": "Active WorkNet Source Depth",
+        "intent": "Active WorkNets should not be treated as fully documented if the public source surface is still only a live ID plus a thin repo landing page.",
+    },
+    {
         "key": "glossary-coverage",
         "title": "Glossary Coverage",
         "intent": "Key terms from the goal such as RootNet, WorkNet, skillURI, epoch, CLOB, and staking must be explainable.",
+    },
+    {
+        "key": "concept-workflows",
+        "title": "Concept Workflow Layer",
+        "intent": "Cross-worknet concepts such as registration, recipient routing, delegation, qualification, settlement, Gov signing, and Ardi command guidance should be first-class encyclopedia records.",
+    },
+    {
+        "key": "official-guide-depth",
+        "title": "Official Guide Depth",
+        "intent": "Official onboarding and plain-language AWP guides should be tracked as first-class sources, facts, and concepts instead of only being implied by top-level indexes.",
+    },
+    {
+        "key": "public-status-surfaces",
+        "title": "Public Status Surfaces",
+        "intent": "Official public lookup and status surfaces should be modeled distinctly from execution runtimes so the encyclopedia can explain what is safe to inspect versus what can actually act.",
     },
     {
         "key": "source-traceability",
@@ -2133,7 +2940,7 @@ KNOWN_WORKNETS: list[dict[str, Any]] = [
         "skills_uri": "https://github.com/awp-worknet/com-skill",
         "install_uri": "https://github.com/awp-worknet/com-skill",
         "local_source_key": None,
-        "source_keys": ["awp-live-query", "community-skill"],
+        "source_keys": ["awp-live-query", "awp-community", "community-skill"],
         "min_stake": 0,
         "automation_level": "manual-only",
         "risk_level": "medium",
@@ -2165,6 +2972,8 @@ HUMANIZED_KNOWLEDGE_SOURCE_LABELS: dict[str, str] = {
     "predict skill raw": "Predict 官方 skill 说明",
     "community skill uri": "Community 官方 skill 来源",
     "community-skill": "Community 官方 skill 来源",
+    "awp community hub": "AWP Community Hub",
+    "awp-community": "AWP Community Hub",
     "gov skill raw": "Gov 官方 skill 说明",
     "gov-skill-raw": "Gov 官方 skill 说明",
     "gov markets api": "Gov 官方市场接口",
@@ -2191,6 +3000,13 @@ HUMANIZED_KNOWLEDGE_SOURCE_LABELS: dict[str, str] = {
     "awp-testnet": "AWP Testnet 官方页面",
     "awp blog": "AWP 官方博客",
     "awp-blog": "AWP 官方博客",
+    "awp-agents": "AWP Agent 状态页",
+    "awp-whitepaper-page": "AWP 白皮书网页",
+    "awp-blog-01-launch-worknet": "AWP BLOG 01 | Launch a WorkNet",
+    "awp-blog-02-what-is-awp": "AWP BLOG 02 | What is AWP",
+    "awp-blog-03-start-earning": "AWP BLOG 03 | Start Earning",
+    "awp-blog-04-fair-launch": "AWP BLOG 04 | Fair Launch",
+    "awp-blog-05-worknet": "AWP BLOG 05 | What is a WorkNet",
 }
 
 CANONICAL_TOPIC_NARRATIVES: dict[str, dict[str, str]] = {
@@ -2245,16 +3061,16 @@ CANONICAL_TOPIC_NARRATIVES: dict[str, dict[str, str]] = {
         "caution": "凡是跟身份绑定、收款地址设置或委托质押有关的动作，都要强调签名和确认边界。",
     },
     "tmr": {
-        "plain": "TMR 是官方已激活但公开资料仍偏薄的 WorkNet，目前工作站主要把它当成已发现但不可贸然自动运行的目标。",
-        "why": "这类 WorkNet 需要先补齐官方 skill、流程和风险资料，才能安全进入自动化层。",
-        "loop": "默认节奏是先确认官方登记的 WorkNet ID 和技能来源，再检查本地有没有可用说明，最后只保留观察和资料整理。",
-        "caution": "在资料不足前，最稳妥的动作是继续整理来源、比对官方技能来源地址，而不是强行执行。",
+        "plain": "TMR 是官方已激活但公开资料仍偏薄的 WorkNet；当前 canonical Base ID 是 `845300000013`，旧的 pending predecessor 条目 `845300000008` 仍然还能在实时接口里看到。",
+        "why": "这类 WorkNet 最重要的不是先猜任务语义，而是先确认 live ID、official skill URI 和上游资料厚度，避免把登记信息误当成可运行 contract。",
+        "loop": "默认节奏是先核对 `845300000013 -> https://github.com/awp-worknet/tmr-skill` 这条实时映射，再确认 repo 目前是否已经不止 LICENSE，最后才决定能不能继续安装或执行。",
+        "caution": "实时接口当前给出 `minStake: 0` 只代表 live metadata hint；截至 2026-05-22，官方 repo 仍然只有 LICENSE，没有 README、SKILL.md 或运行时说明，所以现在最稳妥的动作仍然是整理来源，不是强行执行。",
     },
     "community": {
-        "plain": "Community 是官方已激活但公开操作资料仍偏薄的 WorkNet，目前更适合观察、整理资料和等待官方运行时信号。",
-        "why": "它已经进入发现面，但还没达到 workstation 可以放心自动化的资料密度。",
-        "loop": "默认节奏是先核对官方登记的 WorkNet ID 和技能来源，再检查官方 skill 说明，最后持续整理资料和等待更明确的执行信号。",
-        "caution": "只要官方技能来源地址或 README 再变，这条知识就要优先复核，避免工作站误判可运行性。",
+        "plain": "Community 是官方已激活但公开操作资料仍偏薄的 WorkNet；当前 canonical Base ID 是 `845300000011`，旧的 pending predecessor 条目 `845300000006` 仍然还能在实时接口里看到。",
+        "why": "它已经进入发现面，但最关键的判断是分清 `https://github.com/awp-worknet/com-skill` 只是薄 skill 入口、`https://awp.community/` 只是 community hub，而不是把它们误当成成熟运行时合同。",
+        "loop": "默认节奏是先核对 `845300000011 -> https://github.com/awp-worknet/com-skill` 这条实时映射，再区分 hub 和 runtime 资料，最后持续整理来源和等待更明确的执行信号。",
+        "caution": "实时接口当前给出 `minStake: 0` 只代表 live metadata hint；截至 2026-05-22，官方 repo 仍然只有 LICENSE，而 `awp.community` 更像资料和社区入口，不该被当成自动执行依据。",
     },
     "awp-skill-ops": {
         "plain": "这条参考记录的是 awp-skill 这层官方总控能力：注册、免 gas 中继、收款地址绑定、质押、分配和实时协议查询都依赖它。",
@@ -2478,6 +3294,48 @@ def prepend_canonical_worknet_plain(message: Optional[str], worknet_key: Optiona
     if body.startswith(plain):
         return body
     return f"{plain} {body}".strip()
+
+
+def worknet_runtime_maturity_note(
+    *,
+    worknet_key: Optional[str],
+    capability_report: Optional[dict[str, Any]] = None,
+    worknet_id: Any = None,
+    source_keys: Any = None,
+    install_uri: Any = None,
+) -> Optional[str]:
+    metadata = knowledge_worknet_metadata(
+        worknet_key=worknet_key,
+        worknet_id=worknet_id,
+        source_keys=source_keys,
+        install_uri=install_uri,
+        capability_report=capability_report,
+    )
+    if not isinstance(metadata, dict):
+        return None
+    runtime_spec_state_display = str(metadata.get("runtimeSpecStateDisplay") or "").strip()
+    canonical_worknet_id = str(metadata.get("canonicalWorknetId") or "").strip()
+    min_stake_hint_display = str(metadata.get("minStakeHintDisplay") or "").strip()
+    parts: list[str] = []
+    if runtime_spec_state_display:
+        parts.append(f"资料成熟度是{runtime_spec_state_display}")
+    if canonical_worknet_id:
+        parts.append(f"canonical ID 是 {canonical_worknet_id}")
+    if min_stake_hint_display:
+        parts.append(f"实时 minStake 提示是 {min_stake_hint_display}")
+    if not parts:
+        return None
+    return "补充：" + "，".join(parts) + "。"
+
+
+def append_runtime_maturity_note(base: Optional[str], note: Optional[str]) -> Optional[str]:
+    body = str(base or "").strip()
+    extra = str(note or "").strip()
+    if not body:
+        return extra or None
+    if not extra or extra in body:
+        return body
+    return f"{strip_sentence_end(body)}。 {extra}".strip()
 
 OFFICIAL_REMOTE_SKILL_MANIFESTS: dict[str, dict[str, Any]] = {
     "awp-skill": {
@@ -2747,7 +3605,7 @@ OFFICIAL_REMOTE_SKILL_MANIFESTS: dict[str, dict[str, Any]] = {
     "community": {
         "runtimeName": "com-skill",
         "summary": "Official live Community skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
-        "sourceKeys": ["awp-live-query", "community-skill"],
+        "sourceKeys": ["awp-live-query", "community-skill", "awp-community"],
         "requiredBins": [],
         "optionalBins": [],
         "env": [],
@@ -3610,7 +4468,7 @@ def annotate_runtime_user_action_details(
                 command=raw_command,
                 skill_key=worknet_key,
             ) or display_label or raw_command
-        annotated.append(normalized)
+        annotated.append(normalize_runtime_guidance_user_action_detail_payload(normalized))
     return annotated
 
 
@@ -3705,7 +4563,7 @@ def annotate_runtime_guidance_payload(
         )
     if raw_preview:
         normalized["previewRaw"] = raw_preview
-    return normalized
+    return normalize_runtime_guidance_contract_payload(normalized)
 
 
 def annotate_raw_follow_up_actions(actions: Any) -> list[dict[str, Any]]:
@@ -3723,6 +4581,21 @@ def annotate_raw_follow_up_actions(actions: Any) -> list[dict[str, Any]]:
     return annotate_execution_actions(normalized)
 
 
+def confirmation_item_incomplete_fields(item: dict[str, Any]) -> list[str]:
+    checks = {
+        "action": ("action", "label"),
+        "chain": ("chain", "chainId", "chainName", "network", "offChain", "gasless", "chainNote"),
+        "target": ("target", "targetAddress", "recipient", "recipientAddress", "contract", "to", "noTargetReason"),
+        "estimatedCost": ("estimatedCost", "estimatedFee", "estimatedGas", "cost", "fee", "gasEstimate", "unknownCost"),
+        "risk": ("risk", "riskLevel", "riskSummary", "riskDisplay"),
+    }
+    missing: list[str] = []
+    for public_field, candidates in checks.items():
+        if not any(item.get(candidate) not in (None, "", [], {}) for candidate in candidates):
+            missing.append(public_field)
+    return missing
+
+
 def annotate_raw_confirmation_queue(items: Any) -> list[dict[str, Any]]:
     if not isinstance(items, list):
         return []
@@ -3734,6 +4607,9 @@ def annotate_raw_confirmation_queue(items: Any) -> list[dict[str, Any]]:
         label = str(updated.get("label") or "").strip()
         if label and not isinstance(updated.get("displayLabel"), str):
             updated["displayLabel"] = humanize_public_action_label(label)
+        incomplete_fields = confirmation_item_incomplete_fields(updated)
+        if incomplete_fields:
+            updated["incompleteFields"] = incomplete_fields
         normalized.append(updated)
     return annotate_execution_actions(normalized)
 
@@ -3782,12 +4658,12 @@ def annotate_parameter_schema_items(items: Any) -> list[dict[str, Any]]:
         placeholder = str(item.get("placeholder") or "").strip()
         display_name = name.replace("_", " ").strip() if name else None
         rendered.append(
-            {
+            normalize_parameter_schema_item_payload({
                 **item,
                 "displayName": display_name,
                 "promptDisplay": prompt or display_name,
                 "placeholderDisplay": placeholder or None,
-            }
+            })
         )
     return rendered
 
@@ -3807,7 +4683,7 @@ def annotate_background_record(record: Any) -> Any:
     normalized["actionTierRank"] = RESEARCH_HIGHLIGHT_TIER_RANKS.get("current")
     summary = normalized.get("summary")
     if isinstance(summary, dict):
-        normalized["summaryDisplay"] = dict(summary)
+        normalized["summaryDisplay"] = normalize_background_summary_payload(summary)
     return normalized
 
 
@@ -4091,7 +4967,7 @@ def build_executed_step_stdout_display(
     payload: Any,
 ) -> Optional[dict[str, Any]]:
     if payload is None:
-        return None
+        return normalize_executed_step_stdout_display_payload({})
     summary = executed_step_payload_summary_display(worknet_key, step, payload)
     preview = structured_preview_text(payload)
     if isinstance(payload, dict):
@@ -4143,7 +5019,7 @@ def build_executed_step_stdout_display(
             guidance_preview = runtime_guidance_preview_display(guidance)
             if guidance_preview:
                 guidance["previewDisplay"] = guidance_preview
-            display["guidance"] = guidance
+            display["guidance"] = normalize_runtime_guidance_contract_payload(guidance)
             next_command = guidance.get("nextCommand")
             if isinstance(next_command, list) and next_command:
                 display["nextCommandDisplay"] = humanize_runtime_next_command_display(
@@ -4181,15 +5057,15 @@ def build_executed_step_stdout_display(
         if isinstance(display.get("previewDisplay"), str):
             display["preview"] = display["previewDisplay"]
             display["structuredPreviewDisplay"] = display["previewDisplay"]
-        return display
-    return {
+        return normalize_executed_step_stdout_display_payload(display)
+    return normalize_executed_step_stdout_display_payload({
         "kind": type(payload).__name__,
         "summary": summary or preview,
         "preview": summary or preview,
         "previewRaw": preview,
         "previewDisplay": summary or preview,
         "structuredPreviewDisplay": summary or preview,
-    }
+    })
 
 
 def build_executed_step_result_display(
@@ -4247,7 +5123,7 @@ def build_executed_step_result_display(
             payload["preview"] = preview_text
             payload["previewDisplay"] = preview_text
             payload["structuredPreviewDisplay"] = preview_text
-    return payload
+    return normalize_executed_step_result_display_payload(payload)
 
 
 def annotate_executed_step(step: Any, *, worknet_key: Optional[str] = None) -> Any:
@@ -5620,9 +6496,34 @@ def detect_worknet_from_text(query: Optional[str], explicit_identifier: Optional
             if not candidate_text:
                 continue
             normalized_candidate = normalize_worknet_token(candidate_text)
-            if candidate_text in text or (normalized_candidate and normalized_candidate in normalized_query):
+            if worknet_candidate_matches_text(
+                candidate_text,
+                text,
+                normalized_candidate=normalized_candidate,
+                normalized_query=normalized_query,
+            ):
                 return profile
     return None
+
+
+def worknet_candidate_matches_text(
+    candidate_text: str,
+    query_text: str,
+    *,
+    normalized_candidate: Optional[str] = None,
+    normalized_query: Optional[str] = None,
+) -> bool:
+    candidate = str(candidate_text or "").strip().lower()
+    query = str(query_text or "").strip().lower()
+    if not candidate or not query:
+        return False
+    normalized_candidate = normalize_worknet_token(candidate) if normalized_candidate is None else normalized_candidate
+    normalized_query = normalize_worknet_token(query) if normalized_query is None else normalized_query
+    if normalized_candidate and normalized_candidate == normalized_query:
+        return True
+    if candidate.isdigit() and len(candidate) >= 3:
+        return re.search(rf"(?<![0-9]){re.escape(candidate)}(?![0-9])", query) is not None
+    return re.search(rf"(?<![A-Za-z0-9]){re.escape(candidate)}(?![A-Za-z0-9])", query) is not None
 
 
 def knowledge_source_records_from_catalog(catalog: Any) -> dict[str, dict[str, Any]]:
@@ -7712,6 +8613,57 @@ def state_context() -> dict[str, Any]:
     return layout
 
 
+VERIFICATION_STATE_SEED_FILES = {
+    "knowledge-catalog.json": ("cache", "knowledge-catalog.json"),
+    "capability-catalog.json": ("cache", "capability-scan.json"),
+    "official-live-worknets.json": ("cache", "official-live-worknets.json"),
+    "skill-inspections.json": ("cache", "skill-inspections.json"),
+    "concept-catalog.json": ("cache", "concept-catalog.json"),
+    "source-drift.json": ("cache", "source-drift.json"),
+    "source-impact.json": ("cache", "source-impact.json"),
+    "source-snapshot.json": ("cache", "source-snapshot.json"),
+    "knowledge-review-queue.json": ("cache", "knowledge-review-queue.json"),
+    "topic-freshness.json": ("cache", "topic-freshness.json"),
+    "source-facts.json": ("cache", "source-facts.json"),
+    "source-evidence.json": ("cache", "source-evidence.json"),
+    "topic-dossiers.json": ("cache", "topic-dossiers.json"),
+    "glossary.json": ("cache", "glossary.json"),
+    "skill-registry.json": ("skills", "install-status.json"),
+}
+
+
+def seed_verification_state_from_reference_exports(
+    state: Optional[dict[str, Any]] = None,
+    *,
+    overwrite: bool = True,
+) -> dict[str, Any]:
+    state = state or state_context()
+    seeded: list[dict[str, Any]] = []
+    for source_name, (bucket, target_name) in VERIFICATION_STATE_SEED_FILES.items():
+        source = REFERENCE_EXPORT_ROOT / source_name
+        if not source.exists():
+            continue
+        target_root = Path(str(state.get(bucket) or ""))
+        if not str(target_root):
+            continue
+        target_root.mkdir(parents=True, exist_ok=True)
+        target = target_root / target_name
+        if target.exists() and not overwrite:
+            continue
+        shutil.copy2(source, target)
+        seeded.append(
+            {
+                "source": str(source.relative_to(SKILL_ROOT)),
+                "target": str(target),
+            }
+        )
+    return {
+        "generatedAt": now_iso(),
+        "seeded": seeded,
+        "overwrite": overwrite,
+    }
+
+
 def ensure_user_preferences(state: dict[str, Any]) -> dict[str, Any]:
     path = Path(state["user"]) / "preferences.json"
     current = load_json(path, {})
@@ -7869,6 +8821,12 @@ def load_active_processes(state: dict[str, Any]) -> list[dict[str, Any]]:
         if not isinstance(item, dict):
             changed = True
             continue
+        if str(item.get("kind") or "") == "managed-external":
+            if item.get("stoppedAt"):
+                changed = True
+                continue
+            alive.append(item)
+            continue
         pid = item.get("pid")
         if isinstance(pid, int) and process_is_alive(pid):
             alive.append(item)
@@ -7881,7 +8839,26 @@ def load_active_processes(state: dict[str, Any]) -> list[dict[str, Any]]:
 
 def register_active_process(state: dict[str, Any], record: dict[str, Any]) -> list[dict[str, Any]]:
     active = load_active_processes(state)
-    active.append(record)
+    label = str(record.get("label") or "")
+    external_session_id = str(record.get("externalSessionId") or "")
+    updated: list[dict[str, Any]] = []
+    replaced = False
+    for item in active:
+        if not isinstance(item, dict):
+            continue
+        same_label = label and str(item.get("label") or "") == label
+        same_external_session = (
+            external_session_id
+            and str(item.get("externalSessionId") or "") == external_session_id
+        )
+        if same_label or same_external_session:
+            updated.append({**item, **record})
+            replaced = True
+        else:
+            updated.append(item)
+    if not replaced:
+        updated.append(record)
+    active = updated
     atomic_write_json(active_processes_path(state), active)
     return active
 
@@ -7998,11 +8975,86 @@ def inspect_background_process(
     return summarize_background_record(record, tail_lines=tail_lines)
 
 
+def record_command_argv(record: dict[str, Any], key: str) -> Optional[list[str]]:
+    value = record.get(key)
+    if isinstance(value, list) and value:
+        return [str(item) for item in value]
+    return None
+
+
+def summarize_managed_external_record(
+    record: dict[str, Any],
+    *,
+    tail_lines: int = 40,
+) -> dict[str, Any]:
+    status_argv = record_command_argv(record, "statusArgv")
+    status_result: Optional[dict[str, Any]] = None
+    status_payload: Any = None
+    message = str(record.get("lastMessage") or "外部后台任务已由 Workstation 记录。").strip()
+    state = str(record.get("runtimeState") or "running").strip() or "running"
+    alive = state not in {"stopped", "failed", "complete", "completed"}
+    if status_argv:
+        result = run_command(
+            status_argv,
+            cwd=str(record.get("cwd")) if record.get("cwd") else None,
+            timeout=30,
+        )
+        status_result = {
+            "ok": result.get("ok"),
+            "code": result.get("code"),
+            "stderr": trim_output(result.get("stderr", "")),
+        }
+        status_payload = parse_json_loose(result.get("stdout", ""))
+        if isinstance(status_payload, dict):
+            payload_state = str(status_payload.get("state") or status_payload.get("status") or "").strip()
+            if payload_state:
+                state = payload_state
+                alive = payload_state.lower() not in {"stopped", "failed", "complete", "completed", "idle"}
+            guidance = extract_runtime_guidance_from_payload(
+                status_payload,
+                worknet_key=str(record.get("worknetKey") or "") or None,
+            )
+            guidance_message = guidance.get("message") if isinstance(guidance, dict) else None
+            payload_message = runtime_message(status_payload)
+            message = str(guidance_message or payload_message or message).strip()
+        elif result.get("ok") is False:
+            alive = False
+            error = trim_output(result.get("stderr", "")) or "status command failed"
+            message = f"外部后台任务状态检查失败：{error}"
+    summary = {
+        "state": state,
+        "headline": message,
+        "detail": status_result.get("stderr") if isinstance(status_result, dict) and status_result.get("stderr") else None,
+    }
+    return {
+        "label": str(record.get("label") or ""),
+        "kind": "managed-external",
+        "worknetKey": record.get("worknetKey"),
+        "worknetName": record.get("worknetName"),
+        "externalSessionId": record.get("externalSessionId"),
+        "pid": None,
+        "cwd": record.get("cwd"),
+        "argv": record.get("argv"),
+        "statusCommand": record.get("statusCommand"),
+        "pauseCommand": record.get("pauseCommand"),
+        "stopCommand": record.get("stopCommand"),
+        "logPath": record.get("logPath"),
+        "startedAt": record.get("startedAt"),
+        "alive": alive,
+        "logTail": tail_text(record.get("logPath"), lines=tail_lines),
+        "summary": summary,
+        "statusResult": status_result,
+        "statusPayload": status_payload if isinstance(status_payload, (dict, list)) else None,
+    }
+
+
 def summarize_background_record(
     record: dict[str, Any],
     *,
     tail_lines: int = 40,
 ) -> dict[str, Any]:
+    if str(record.get("kind") or "") == "managed-external":
+        return summarize_managed_external_record(record, tail_lines=tail_lines)
     log_tail = tail_text(record.get("logPath"), lines=tail_lines)
     return {
         "label": str(record.get("label") or ""),
@@ -8022,11 +9074,55 @@ def stop_background_process(
     label: str,
     *,
     execute: bool,
+    prefer_pause: bool = False,
     sigkill_after_seconds: float = 2.0,
 ) -> dict[str, Any]:
     record = find_active_process(state, label)
     if record is None:
         raise ValueError(f"unknown background label: {label}")
+    if str(record.get("kind") or "") == "managed-external":
+        pause_argv = record_command_argv(record, "pauseArgv")
+        stop_argv = pause_argv if prefer_pause and pause_argv else record_command_argv(record, "stopArgv")
+        preview = {
+            "label": label,
+            "kind": "managed-external",
+            "externalSessionId": record.get("externalSessionId"),
+            "stopCommand": render_argv(stop_argv) if stop_argv else None,
+            "alive": True,
+        }
+        if not execute:
+            return {
+                "status": "needs_confirmation",
+                "selectedBackground": preview,
+                "activeBackgroundProcesses": load_active_processes(state),
+            }
+        if not stop_argv:
+            preview["error"] = "managed external task does not expose a stop command"
+            return {
+                "status": "failed",
+                "selectedBackground": preview,
+                "activeBackgroundProcesses": load_active_processes(state),
+            }
+        result = run_command(stop_argv, cwd=str(record.get("cwd")) if record.get("cwd") else None)
+        preview["result"] = {
+            "ok": result.get("ok"),
+            "code": result.get("code"),
+            "stdout": trim_output(parse_json_loose(result.get("stdout", ""))),
+            "stderr": trim_output(result.get("stderr", "")),
+        }
+        if result.get("ok"):
+            remaining = remove_active_process(state, label)
+            preview["alive"] = False
+            return {
+                "status": "stopped",
+                "selectedBackground": preview,
+                "activeBackgroundProcesses": remaining,
+            }
+        return {
+            "status": "failed",
+            "selectedBackground": preview,
+            "activeBackgroundProcesses": load_active_processes(state),
+        }
     pid = record.get("pid")
     preview = {
         "label": label,
@@ -8097,6 +9193,122 @@ def launch_background_command(
     }
     register_active_process(state, record)
     return record
+
+
+def mine_session_id_from_guidance(guidance: Any) -> Optional[str]:
+    if not isinstance(guidance, dict):
+        return None
+    internal = guidance.get("_internal")
+    if isinstance(internal, dict):
+        for key in ("session_id", "sessionId", "background_session", "worker_session"):
+            value = internal.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+    message = str(guidance.get("message") or guidance.get("messageDisplay") or "").strip()
+    match = MINE_SESSION_RE.search(message)
+    return match.group(1) if match else None
+
+
+def follow_up_action_by_token(actions: list[dict[str, Any]], token: str) -> Optional[dict[str, Any]]:
+    token = token.lower()
+    for item in actions:
+        label = str(item.get("label") or "").lower()
+        command = str(item.get("command") or "").lower()
+        argv_text = " ".join(str(part) for part in item.get("argv", [])).lower() if isinstance(item.get("argv"), list) else ""
+        if token in label or token in command or token in argv_text:
+            return item
+    return None
+
+
+def action_argv(action: Optional[dict[str, Any]]) -> Optional[list[str]]:
+    if not isinstance(action, dict):
+        return None
+    argv = action.get("argv")
+    if isinstance(argv, list) and argv:
+        return [str(part) for part in argv]
+    command = action.get("command")
+    if isinstance(command, str) and command.strip():
+        try:
+            return shlex.split(command)
+        except ValueError:
+            return None
+    return None
+
+
+def build_mine_managed_external_record(
+    run_record: dict[str, Any],
+    *,
+    state: dict[str, Any],
+) -> Optional[dict[str, Any]]:
+    playbook = run_record.get("playbook", {}) if isinstance(run_record.get("playbook"), dict) else {}
+    if str(playbook.get("worknetKey") or "").strip().lower() != "mine":
+        return None
+    guidance = run_record.get("runtimeGuidance", {})
+    session_id = mine_session_id_from_guidance(guidance)
+    if not session_id:
+        return None
+    executed_steps = run_record.get("executedSteps", []) if isinstance(run_record.get("executedSteps"), list) else []
+    source_step = next(
+        (
+            step for step in reversed(executed_steps)
+            if isinstance(step, dict)
+            and step.get("status") == "ok"
+            and isinstance(step.get("argv"), list)
+            and "scripts/run_tool.py" in " ".join(str(part) for part in step.get("argv", []))
+            and "agent-start" in " ".join(str(part) for part in step.get("argv", []))
+        ),
+        None,
+    )
+    if source_step is None:
+        return None
+    follow_up_actions = normalized_follow_up_actions(run_record.get("followUpActions", []))
+    status_action = follow_up_action_by_token(follow_up_actions, "status")
+    pause_action = follow_up_action_by_token(follow_up_actions, "pause")
+    stop_action = follow_up_action_by_token(follow_up_actions, "stop")
+    cwd = (
+        str(source_step.get("cwd"))
+        if source_step.get("cwd")
+        else str(status_action.get("cwd")) if isinstance(status_action, dict) and status_action.get("cwd") else None
+    )
+    status_argv = action_argv(status_action)
+    pause_argv = action_argv(pause_action)
+    stop_argv = action_argv(stop_action) or pause_argv
+    message = str(guidance.get("message") or "").strip()
+    return {
+        "kind": "managed-external",
+        "type": "managed-external",
+        "label": f"Mine session {session_id}",
+        "worknetKey": "mine",
+        "worknetName": playbook.get("requiredSkill") or "Mine WorkNet",
+        "externalSessionId": session_id,
+        "cwd": cwd,
+        "argv": [str(part) for part in source_step.get("argv", [])],
+        "statusArgv": status_argv,
+        "pauseArgv": pause_argv,
+        "stopArgv": stop_argv,
+        "statusCommand": render_argv(status_argv) if status_argv else None,
+        "pauseCommand": render_argv(pause_argv) if pause_argv else None,
+        "stopCommand": render_argv(stop_argv) if stop_argv else None,
+        "startedAt": run_record.get("generatedAt") or now_iso(),
+        "source": "runtime-guidance",
+        "sourceStepLabel": source_step.get("label"),
+        "lastMessage": message or f"Mine background worker launched (session: {session_id}).",
+        "runtimeState": str(guidance.get("state") or "running"),
+        "stateRoot": state["root"],
+    }
+
+
+def sync_managed_external_processes_from_run(
+    state: dict[str, Any],
+    run_record: dict[str, Any],
+) -> list[dict[str, Any]]:
+    record = build_mine_managed_external_record(run_record, state=state)
+    if record is None:
+        return load_active_processes(state)
+    active = register_active_process(state, record)
+    run_record["managedExternalProcess"] = record
+    run_record["activeBackgroundProcesses"] = active
+    return active
 
 
 def write_reference_export(filename: str, payload: Any) -> str:
@@ -8926,11 +10138,7 @@ def recommend_worknet_actions(
         key = str(profile.get("key") or "").strip().lower()
         if background and key == "predict":
             return "让 Predict 先在后台持续观察市场、形成观点，不逐轮打断你。"
-        summary = canonical_worknet_switch_summary_text(
-            profile,
-            runnable=bool(report.get("runnable")),
-            can_start_without_stake=report.get("canStartWithoutStake") is True,
-        )
+        summary = humanize_worknet_switch_summary(profile, report)
         if isinstance(summary, str) and summary.strip():
             return summary.strip()
         if isinstance(fallback, str) and fallback.strip():
@@ -9924,6 +11132,13 @@ def fallback_capability_reports(
         execution_blockers = runtime_probe_blockers(profile["key"], inspection)
         predict_loop_is_ready = profile["key"] == "predict" and predict_loop_ready(state, inspection)
         runnable = infer_runnable(profile, local_source)
+        worknet_metadata = knowledge_worknet_metadata(
+            worknet_key=profile["key"],
+            worknet_id=profile.get("worknet_id"),
+            source_keys=profile.get("source_keys", []),
+            install_uri=profile.get("install_uri") or profile.get("skills_uri"),
+            capability_report=None,
+        )
         runtime_ready_for_execution = inspection_status_enables_runtime(inspection_status) and (
             inspection.get("scriptCount", 0) > 0
             or bool(manifest.get("binaryRuntime"))
@@ -9966,6 +11181,14 @@ def fallback_capability_reports(
             reason_parts.append("local runtime is present, but its live probes are blocked by the current network environment")
         elif inspection_status == "empty-official-repo":
             reason_parts.append("official runtime checkout currently only exposes license or metadata files, so there is nothing safe to auto-run yet")
+        reason_parts.extend(
+            runtime_spec_reason_parts(
+                runtime_spec_state=worknet_metadata.get("runtimeSpecState"),
+                runtime_spec_state_display=worknet_metadata.get("runtimeSpecStateDisplay"),
+                canonical_worknet_id=worknet_metadata.get("canonicalWorknetId"),
+                min_stake_hint_display=worknet_metadata.get("minStakeHintDisplay"),
+            )
+        )
         if profile["key"] == "predict" and predict_loop_is_ready and predict_observe_hours > 0:
             reason_parts.append(f"user preference still suggests observing Predict outcomes for the first {predict_observe_hours} hours even though the official loop can start now")
             reason_parts.append("Predict can start with virtual chips now; staking remains an enhancement path rather than a hard prerequisite for the loop")
@@ -10359,7 +11582,10 @@ def build_capability_bundle() -> dict[str, Any]:
     preferences = ensure_user_preferences(state)
     wallet = awp_wallet_snapshot()
     knowledge_catalog = load_or_build_knowledge_catalog(state)
-    skill_inspections = build_skill_inspection_catalog(state=state, inventory=inventory)
+    skill_inspections = load_cached_skill_inspection_catalog(state) or build_skill_inspection_catalog(
+        state=state,
+        inventory=inventory,
+    )
     reports = fallback_capability_reports(inventory, state=state)
     cached_live = load_cached_live_worknets(state)
     if cached_live:
@@ -10741,10 +11967,17 @@ def build_preflight_report() -> dict[str, Any]:
     return report
 
 
-def build_start_response() -> dict[str, Any]:
-    state = state_context()
-    preflight = build_preflight_report()
-    knowledge_catalog = load_or_build_knowledge_catalog(state)
+def build_start_response_from_preflight(
+    preflight: Any,
+    *,
+    state: Optional[dict[str, Any]] = None,
+    knowledge_catalog: Optional[dict[str, Any]] = None,
+    cached_bundle: Optional[dict[str, Any]] = None,
+    persist: bool = False,
+) -> dict[str, Any]:
+    state = state or state_context()
+    preflight = preflight if isinstance(preflight, dict) else build_preflight_report()
+    knowledge_catalog = knowledge_catalog or load_or_build_knowledge_catalog(state)
     knowledge_overview = (
         knowledge_catalog.get("knowledgeOverview", {})
         if isinstance(knowledge_catalog.get("knowledgeOverview"), dict)
@@ -10771,7 +12004,7 @@ def build_start_response() -> dict[str, Any]:
         else None
     )
     recommendation: Optional[dict[str, Any]] = None
-    cached_bundle = load_cached_capability_bundle(state)
+    cached_bundle = cached_bundle if isinstance(cached_bundle, dict) else load_cached_capability_bundle(state)
     preferred_profile = resolve_worknet(str(preferences.get("preferredWorknet") or ""))
 
     user_actions: list[dict[str, Any]] = []
@@ -11059,11 +12292,7 @@ def build_start_response() -> dict[str, Any]:
                 {
                     "label": f"启动默认 {preferred_name}",
                     "description": (
-                        canonical_worknet_switch_summary_text(
-                            preferred_profile,
-                            runnable=bool(preferred_report.get("runnable")),
-                            can_start_without_stake=preferred_report.get("canStartWithoutStake") is True,
-                        )
+                        humanize_worknet_switch_summary(preferred_profile, preferred_report)
                         or "直接按你保存的默认 WorkNet 生成 playbook 并进入默认执行路径。"
                     ),
                 }
@@ -11193,8 +12422,23 @@ def build_start_response() -> dict[str, Any]:
             "capability_bundle_path": str(Path(state["cache"]) / "capability-scan.json"),
         },
     }
-    atomic_write_json(Path(state["cache"]) / "start-response.json", payload)
+    if persist:
+        atomic_write_json(Path(state["cache"]) / "start-response.json", payload)
     return payload
+
+
+def build_start_response() -> dict[str, Any]:
+    state = state_context()
+    preflight = build_preflight_report()
+    knowledge_catalog = load_or_build_knowledge_catalog(state)
+    cached_bundle = load_cached_capability_bundle(state)
+    return build_start_response_from_preflight(
+        preflight,
+        state=state,
+        knowledge_catalog=knowledge_catalog,
+        cached_bundle=cached_bundle,
+        persist=True,
+    )
 
 
 def build_work_playbook(worknet_identifier: str) -> dict[str, Any]:
@@ -11227,6 +12471,13 @@ def build_work_playbook(worknet_identifier: str) -> dict[str, Any]:
     inspection = inspect_skill_runtime(profile["key"], state=state, inventory=inventory)
     inspection_status = str(inspection.get("status", "missing"))
     manifest = official_remote_manifest(profile["key"])
+    worknet_metadata = knowledge_worknet_metadata(
+        worknet_key=profile["key"],
+        worknet_id=profile.get("worknet_id"),
+        source_keys=profile.get("source_keys", []),
+        install_uri=profile.get("install_uri") or profile.get("skills_uri"),
+        capability_report=None,
+    )
     commands: list[dict[str, Any]] = []
     install_command = (
         build_skill_sync_command(skill_record)
@@ -11268,6 +12519,39 @@ def build_work_playbook(worknet_identifier: str) -> dict[str, Any]:
     success_metrics = [humanize_playbook_success_metric(item) for item in success_metrics_raw]
     failure_modes = [humanize_playbook_failure_mode(item) for item in failure_modes_raw]
     human_confirmations = [humanize_playbook_confirmation_item(item) for item in human_confirmations_raw]
+    runtime_spec_state = str(worknet_metadata.get("runtimeSpecState") or "").strip()
+    runtime_spec_state_display = str(worknet_metadata.get("runtimeSpecStateDisplay") or "").strip()
+    canonical_worknet_id = str(worknet_metadata.get("canonicalWorknetId") or "").strip()
+    min_stake_hint_display = str(worknet_metadata.get("minStakeHintDisplay") or "").strip()
+    if runtime_spec_state == "runtime-doc-available":
+        append_unique_text(
+            failure_modes,
+            f"已有官方运行说明，但本地还缺 checkout / inspection 证据。"
+            + (f" 当前 canonical ID 是 {canonical_worknet_id}。" if canonical_worknet_id else "")
+        )
+        append_unique_text(
+            human_confirmations,
+            f"在真正执行 {profile['name']} 前，先按官方运行说明核对本地 inspection 结果。"
+            + (f" 当前 live minStake hint 是 {min_stake_hint_display}。" if min_stake_hint_display else "")
+        )
+    elif runtime_spec_state == "thin-repo-only":
+        append_unique_text(
+            failure_modes,
+            "当前只有 live ID 和薄仓库入口，官方运行合同还不够厚。",
+        )
+        append_unique_text(
+            human_confirmations,
+            f"在继续 {profile['name']} 前，先确认官方 skill 仓库是否已经补出 README、SKILL.md 或运行时说明。",
+        )
+    elif runtime_spec_state == "thin-repo-plus-hub":
+        append_unique_text(
+            failure_modes,
+            "当前只有 live ID、薄仓库入口和 community hub，资料层仍不足以证明可安全自动运行。",
+        )
+        append_unique_text(
+            human_confirmations,
+            f"在继续 {profile['name']} 前，先区分 community hub 和真正的 runtime 说明，不要把讨论入口当成执行合同。",
+        )
     if isinstance(knowledge_context, dict):
         label = str(knowledge_context.get("label") or profile.get("name") or profile.get("key") or "当前 WorkNet").strip()
         source_labels = knowledge_source_labels_text(
@@ -12101,6 +13385,9 @@ def build_run_response_briefing(
         user_message = headline
     if selected_key and playbook_source in {"preferred-worknet-over-stale-run", "preferred-worknet", "last-selected", "worknet"}:
         user_message = prepend_canonical_worknet_plain(user_message, selected_key)
+    maturity_note = worknet_runtime_maturity_note(worknet_key=selected_key or worknet_context_key)
+    if maturity_note:
+        user_message = append_runtime_maturity_note(user_message, maturity_note)
     if isinstance(knowledge_context, dict) and str(knowledge_context.get("freshnessStatus") or "") == "affected":
         label = str(knowledge_context.get("label") or selected_name or worknet_context_key or "当前 WorkNet").strip()
         source_note = reporter_source_note(knowledge_source_highlights)
@@ -12187,6 +13474,7 @@ def build_run_response_briefing(
         execution_headline=execution_state.get("executionHeadline"),
         primary_action=primary_action,
         worknet_context_key=worknet_context_key,
+        extra_parts=[maturity_note] if maturity_note else None,
     )
     return {
         "headline": headline,
@@ -13136,6 +14424,13 @@ def humanize_worknet_switch_summary(profile: dict[str, Any], report: Optional[di
     report = report or {}
     runnable = bool(report.get("runnable"))
     can_start_without_stake = report.get("canStartWithoutStake") is True
+    maturity_note = worknet_runtime_maturity_note(
+        worknet_key=key,
+        capability_report=report,
+        worknet_id=report.get("worknetId") or profile.get("worknet_id"),
+        source_keys=profile.get("source_keys", []),
+        install_uri=profile.get("install_uri") or profile.get("skills_uri"),
+    )
 
     canonical = canonical_worknet_switch_summary_text(
         profile,
@@ -13143,36 +14438,36 @@ def humanize_worknet_switch_summary(profile: dict[str, Any], report: Optional[di
         can_start_without_stake=can_start_without_stake,
     )
     if canonical:
-        return canonical
+        return append_runtime_maturity_note(canonical, maturity_note) or canonical
 
     if key == "mine":
         if runnable:
-            return f"{name} 当前可以直接切过去，而且默认就是无质押的数据工作流。"
-        return f"{name} 还没准备好自动运行，先检查本地 runtime 和 dataset 入口。"
+            return append_runtime_maturity_note(f"{name} 当前可以直接切过去，而且默认就是无质押的数据工作流。", maturity_note) or f"{name} 当前可以直接切过去，而且默认就是无质押的数据工作流。"
+        return append_runtime_maturity_note(f"{name} 还没准备好自动运行，先检查本地 runtime 和 dataset 入口。", maturity_note) or f"{name} 还没准备好自动运行，先检查本地 runtime 和 dataset 入口。"
     if key == "predict":
         if runnable:
-            return f"{name} 可以切过去观察市场，也可以直接挂静默循环；真实收益仍要等市场结算。"
-        return f"{name} 现在更适合先观察市场 context，等 runtime 条件稳定后再自动运行。"
+            return append_runtime_maturity_note(f"{name} 可以切过去观察市场，也可以直接挂静默循环；真实收益仍要等市场结算。", maturity_note) or f"{name} 可以切过去观察市场，也可以直接挂静默循环；真实收益仍要等市场结算。"
+        return append_runtime_maturity_note(f"{name} 现在更适合先观察市场 context，等 runtime 条件稳定后再自动运行。", maturity_note) or f"{name} 现在更适合先观察市场 context，等 runtime 条件稳定后再自动运行。"
     if key == "gov":
         if runnable:
-            return f"{name} 现在适合先切过去做公开观察；交易和投票类动作仍会先确认。"
-        return f"{name} 已可发现，但当前更适合先看 markets 和 phase，再决定是否继续。"
+            return append_runtime_maturity_note(f"{name} 现在适合先切过去做公开观察；交易和投票类动作仍会先确认。", maturity_note) or f"{name} 现在适合先切过去做公开观察；交易和投票类动作仍会先确认。"
+        return append_runtime_maturity_note(f"{name} 已可发现，但当前更适合先看 markets 和 phase，再决定是否继续。", maturity_note) or f"{name} 已可发现，但当前更适合先看 markets 和 phase，再决定是否继续。"
     if key == "ardi":
         if runnable:
-            return f"{name} 可以先切过去跑 preflight；后续 commit、reveal、inscribe 仍要跟官方下一步命令。"
-        return f"{name} 还不适合直接自动运行，先补齐它要求的 gas 或 stake 条件。"
+            return append_runtime_maturity_note(f"{name} 可以先切过去跑 preflight；后续 commit、reveal、inscribe 仍要跟官方下一步命令。", maturity_note) or f"{name} 可以先切过去跑 preflight；后续 commit、reveal、inscribe 仍要跟官方下一步命令。"
+        return append_runtime_maturity_note(f"{name} 还不适合直接自动运行，先补齐它要求的 gas 或 stake 条件。", maturity_note) or f"{name} 还不适合直接自动运行，先补齐它要求的 gas 或 stake 条件。"
     if key == "kya":
-        return f"{name} 更像一次性身份和委托工具，不会长期自动跑。"
+        return append_runtime_maturity_note(f"{name} 更像一次性身份和委托工具，不会长期自动跑。", maturity_note) or f"{name} 更像一次性身份和委托工具，不会长期自动跑。"
     if key in {"tmr", "community"}:
-        return f"{name} 已经被发现，但上游 skill 资料还不够厚，当前只建议查看档案，不建议自动执行。"
+        return append_runtime_maturity_note(f"{name} 已经被发现，但上游 skill 资料还不够厚，当前只建议查看档案，不建议自动执行。", maturity_note) or f"{name} 已经被发现，但上游 skill 资料还不够厚，当前只建议查看档案，不建议自动执行。"
     if runnable and can_start_without_stake:
-        return f"{name} 当前可以直接切过去，而且现在不用 stake 就能开始。"
+        return append_runtime_maturity_note(f"{name} 当前可以直接切过去，而且现在不用 stake 就能开始。", maturity_note) or f"{name} 当前可以直接切过去，而且现在不用 stake 就能开始。"
     if runnable:
-        return f"{name} 当前可以切过去。"
+        return append_runtime_maturity_note(f"{name} 当前可以切过去。", maturity_note) or f"{name} 当前可以切过去。"
     reason = str(report.get("reason") or "").strip()
     if reason:
-        return f"{name} 当前还不建议自动运行：{reason}"
-    return f"{name} 已经被发现，但现在还没有足够条件安全自动运行。"
+        return append_runtime_maturity_note(f"{name} 当前还不建议自动运行：{reason}", maturity_note) or f"{name} 当前还不建议自动运行：{reason}"
+    return append_runtime_maturity_note(f"{name} 已经被发现，但现在还没有足够条件安全自动运行。", maturity_note) or f"{name} 已经被发现，但现在还没有足够条件安全自动运行。"
 
 
 def review_runtime_safety_hint(worknet_key: str) -> Optional[str]:
@@ -14122,20 +15417,16 @@ def execute_follow_up_action(
         "resumedFollowUp": True,
         "sourceFollowUpAction": action,
     })
-    atomic_write_json(Path(state["runs"]) / "latest-run.json", run_record)
-    atomic_write_json(
-        Path(state["runs"]) / "pending-confirmations.json",
-        run_record["confirmationQueue"],
-    )
-    append_jsonl(Path(state["runs"]) / "history.jsonl", run_record)
-    return annotate_runtime_action_payloads({
+    active_processes = sync_managed_external_processes_from_run(state, run_record)
+    has_managed_external = bool(run_record.get("managedExternalProcess"))
+    response_payload = annotate_runtime_action_payloads({
         "mode": run_record["mode"],
         "status": (
             "needs_confirmation"
             if run_record["confirmationQueue"]
             else (
                 "background_running"
-                if isinstance(runtime_guidance, dict) and runtime_guidance.get("nextAction") == "monitor_background_run"
+                if has_managed_external or (isinstance(runtime_guidance, dict) and runtime_guidance.get("nextAction") == "monitor_background_run")
                 else ("needs_runtime_input" if runtime_guidance and follow_up_actions else ("executed" if execute else "planned"))
             )
         ),
@@ -14148,18 +15439,34 @@ def execute_follow_up_action(
             "await_confirmation"
             if run_record["confirmationQueue"]
             else (
-                runtime_guidance.get("nextAction")
-                if isinstance(runtime_guidance, dict) and runtime_guidance.get("nextAction") == "monitor_background_run"
+                "monitor_background_run"
+                if has_managed_external
                 else (
-                    "follow_runtime_guidance"
-                    if runtime_guidance and follow_up_actions
-                    else ("review_epoch" if execute else "execute_when_ready")
+                    runtime_guidance.get("nextAction")
+                    if isinstance(runtime_guidance, dict) and runtime_guidance.get("nextAction") == "monitor_background_run"
+                    else (
+                        "follow_runtime_guidance"
+                        if runtime_guidance and follow_up_actions
+                        else ("review_epoch" if execute else "execute_when_ready")
+                    )
                 )
             )
         ),
+        **({"activeBackgroundProcesses": active_processes} if has_managed_external else {}),
         "progress": "[4/5] Work loop",
         "stateRoot": state["root"],
     })
+    final_like_payload = {
+        **response_payload,
+        **derive_runtime_execution_state(response_payload),
+    }
+    persist_final_run_record(
+        state,
+        run_record,
+        final_like_payload,
+        run_record["confirmationQueue"],
+    )
+    return final_like_payload
 
 
 def continue_runtime_guidance_without_default(latest_run: dict[str, Any], *, state: dict[str, Any]) -> dict[str, Any]:
@@ -14358,13 +15665,7 @@ def execute_confirmation_action(
         "warnings": state["warnings"],
         "confirmedAction": action,
     })
-    atomic_write_json(Path(state["runs"]) / "latest-run.json", run_record)
-    atomic_write_json(
-        Path(state["runs"]) / "pending-confirmations.json",
-        remaining_queue,
-    )
-    append_jsonl(Path(state["runs"]) / "history.jsonl", run_record)
-    return annotate_runtime_action_payloads({
+    response_payload = annotate_runtime_action_payloads({
         "mode": run_record["mode"],
         "status": (
             "needs_confirmation"
@@ -14384,6 +15685,64 @@ def execute_confirmation_action(
         "progress": "[4/5] Work loop",
         "stateRoot": state["root"],
     })
+    final_like_payload = {
+        **response_payload,
+        **derive_runtime_execution_state(response_payload),
+    }
+    persist_final_run_record(state, run_record, final_like_payload, remaining_queue)
+    return final_like_payload
+
+
+def finalize_run_response_payload(
+    response: dict[str, Any],
+    *,
+    preferences: Optional[dict[str, Any]] = None,
+    recovery: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    briefing = build_run_response_briefing(
+        response,
+        preferences=preferences,
+        recovery=recovery,
+    )
+    return {
+        **response,
+        "headline": briefing.get("headline"),
+        "userMessage": briefing.get("userMessage"),
+        "resumeStatus": briefing.get("resumeStatus"),
+        "resumeStatusDisplay": briefing.get("resumeStatusDisplay"),
+        "executionState": briefing.get("executionState"),
+        "executionStateDisplay": briefing.get("executionStateDisplay"),
+        "executionHeadline": briefing.get("executionHeadline"),
+        "knowledgeContext": briefing.get("knowledgeContext"),
+        "knowledgeReferenceHighlights": briefing.get("knowledgeReferenceHighlights"),
+        "knowledgeSourceHighlights": briefing.get("knowledgeSourceHighlights"),
+        "primaryUserAction": briefing.get("primaryUserAction"),
+        "primaryUserActionDisplay": briefing.get("primaryUserActionDisplay"),
+        "primaryUserActionCommand": briefing.get("primaryUserActionCommand"),
+        "userActionDetails": briefing.get("userActionDetails"),
+        "recoveryDecision": humanize_public_recovery_decision(briefing.get("recoveryDecision")),
+    }
+
+
+def enrich_run_record_for_persistence(run_record: dict[str, Any], final_payload: dict[str, Any]) -> dict[str, Any]:
+    persisted = dict(run_record)
+    for field in [*RUN_RESPONSE_FIELDS, "activeBackgroundProcesses"]:
+        if field in final_payload:
+            persisted[field] = final_payload.get(field)
+    return persisted
+
+
+def persist_final_run_record(
+    state: dict[str, Any],
+    run_record: dict[str, Any],
+    final_payload: dict[str, Any],
+    confirmation_queue: list[dict[str, Any]],
+) -> dict[str, Any]:
+    persisted = enrich_run_record_for_persistence(run_record, final_payload)
+    atomic_write_json(Path(state["runs"]) / "latest-run.json", persisted)
+    atomic_write_json(Path(state["runs"]) / "pending-confirmations.json", confirmation_queue)
+    append_jsonl(Path(state["runs"]) / "history.jsonl", persisted)
+    return persisted
 
 
 def run_workstation(
@@ -14407,39 +15766,14 @@ def run_workstation(
     parsed_inputs = parse_input_assignments(provided_inputs)
     recovery_snapshot: Optional[dict[str, Any]] = None
 
-    def finalize_run_response(response: dict[str, Any]) -> dict[str, Any]:
-        briefing = build_run_response_briefing(
-            response,
-            preferences=preferences,
-            recovery=recovery_snapshot,
-        )
-        return {
-            **response,
-            "headline": briefing.get("headline"),
-            "userMessage": briefing.get("userMessage"),
-            "resumeStatus": briefing.get("resumeStatus"),
-            "resumeStatusDisplay": briefing.get("resumeStatusDisplay"),
-            "executionState": briefing.get("executionState"),
-            "executionStateDisplay": briefing.get("executionStateDisplay"),
-            "executionHeadline": briefing.get("executionHeadline"),
-            "knowledgeContext": briefing.get("knowledgeContext"),
-            "knowledgeReferenceHighlights": briefing.get("knowledgeReferenceHighlights"),
-            "knowledgeSourceHighlights": briefing.get("knowledgeSourceHighlights"),
-            "primaryUserAction": briefing.get("primaryUserAction"),
-            "primaryUserActionDisplay": briefing.get("primaryUserActionDisplay"),
-            "primaryUserActionCommand": briefing.get("primaryUserActionCommand"),
-            "userActionDetails": briefing.get("userActionDetails"),
-            "recoveryDecision": humanize_public_recovery_decision(briefing.get("recoveryDecision")),
-        }
-
     if not worknet_identifier and not playbook_path and isinstance(latest_run, dict):
         active = load_active_processes(state)
         if pause:
             selected = choose_default_background_process(active)
             if selected is None:
                 raise ValueError("no active background task to pause")
-            stopped = stop_background_process(state, str(selected.get("label")), execute=execute)
-            return finalize_run_response(annotate_runtime_action_payloads({
+            stopped = stop_background_process(state, str(selected.get("label")), execute=execute, prefer_pause=True)
+            return finalize_run_response_payload(annotate_runtime_action_payloads({
                 "mode": latest_run.get("mode") if isinstance(latest_run, dict) else "autopilot",
                 "status": stopped.get("status"),
                 "executedSteps": [],
@@ -14452,10 +15786,10 @@ def run_workstation(
                 "nextAction": "monitor_background_run" if stopped.get("activeBackgroundProcesses") else "review_epoch",
                 "progress": "[4/5] Work loop",
                 "stateRoot": state["root"],
-            }))
+            }), preferences=preferences, recovery=recovery_snapshot)
         if background_label:
             inspected = inspect_background_process(state, background_label, tail_lines=tail_lines)
-            return finalize_run_response(annotate_runtime_action_payloads({
+            return finalize_run_response_payload(annotate_runtime_action_payloads({
                 "mode": latest_run.get("mode") if isinstance(latest_run, dict) else "autopilot",
                 "status": "background_running" if inspected.get("alive") else "planned",
                 "executedSteps": [],
@@ -14475,10 +15809,10 @@ def run_workstation(
                 "nextAction": "monitor_background_run" if inspected.get("alive") else "execute_when_ready",
                 "progress": "[4/5] Work loop",
                 "stateRoot": state["root"],
-            }))
+            }), preferences=preferences, recovery=recovery_snapshot)
         if stop_background_label:
             stopped = stop_background_process(state, stop_background_label, execute=execute)
-            return finalize_run_response(annotate_runtime_action_payloads({
+            return finalize_run_response_payload(annotate_runtime_action_payloads({
                 "mode": latest_run.get("mode") if isinstance(latest_run, dict) else "autopilot",
                 "status": stopped.get("status"),
                 "executedSteps": [],
@@ -14491,58 +15825,58 @@ def run_workstation(
                 "nextAction": "monitor_background_run" if stopped.get("activeBackgroundProcesses") else "review_epoch",
                 "progress": "[4/5] Work loop",
                 "stateRoot": state["root"],
-            }))
+            }), preferences=preferences, recovery=recovery_snapshot)
         queue = normalized_confirmation_queue(pending_queue)
         if confirm_label:
             for item in queue:
                 if str(item.get("label")) == confirm_label:
-                    return finalize_run_response(execute_confirmation_action(
+                    return finalize_run_response_payload(execute_confirmation_action(
                         latest_run,
                         queue,
                         item,
                         execute=execute,
                         provided_inputs=parsed_inputs,
                         state=state,
-                    ))
+                    ), preferences=preferences, recovery=recovery_snapshot)
             raise ValueError(f"unknown confirmation label: {confirm_label}")
         if queue:
-            return finalize_run_response(continue_pending_confirmations(latest_run, queue, state=state))
+            return finalize_run_response_payload(continue_pending_confirmations(latest_run, queue, state=state), preferences=preferences, recovery=recovery_snapshot)
         follow_up_actions = normalized_follow_up_actions(latest_run.get("followUpActions", []))
         if follow_up_label:
             for item in follow_up_actions:
                 if str(item.get("label")) == follow_up_label:
-                    return finalize_run_response(execute_follow_up_action(
+                    return finalize_run_response_payload(execute_follow_up_action(
                         latest_run,
                         item,
                         execute=execute,
                         explicit_selection=True,
                         state=state,
-                    ))
+                    ), preferences=preferences, recovery=recovery_snapshot)
             source_follow_up = latest_run.get("sourceFollowUpAction")
             if isinstance(source_follow_up, dict) and str(source_follow_up.get("label")) == follow_up_label:
                 fallback_actions = normalized_follow_up_actions([source_follow_up])
                 if fallback_actions:
-                    return finalize_run_response(execute_follow_up_action(
+                    return finalize_run_response_payload(execute_follow_up_action(
                         latest_run,
                         fallback_actions[0],
                         execute=execute,
                         explicit_selection=True,
                         state=state,
-                    ))
+                    ), preferences=preferences, recovery=recovery_snapshot)
             raise ValueError(f"unknown follow-up label: {follow_up_label}")
         if follow_up_actions:
             default_follow_up = choose_default_follow_up_action(follow_up_actions)
             if default_follow_up is not None:
-                return finalize_run_response(execute_follow_up_action(
+                return finalize_run_response_payload(execute_follow_up_action(
                     latest_run,
                     default_follow_up,
                     execute=execute,
                     explicit_selection=False,
                     state=state,
-                ))
-            return finalize_run_response(continue_runtime_guidance_without_default(latest_run, state=state))
+                ), preferences=preferences, recovery=recovery_snapshot)
+            return finalize_run_response_payload(continue_runtime_guidance_without_default(latest_run, state=state), preferences=preferences, recovery=recovery_snapshot)
         if load_active_processes(state):
-            return finalize_run_response(continue_background_runs(latest_run, state=state, tail_lines=tail_lines))
+            return finalize_run_response_payload(continue_background_runs(latest_run, state=state, tail_lines=tail_lines), preferences=preferences, recovery=recovery_snapshot)
     selected_worknet_identifier = worknet_identifier
     selection_warnings: list[str] = []
     redirected_to_preferred_worknet = False
@@ -14629,29 +15963,18 @@ def run_workstation(
         "followUpActions": follow_up_actions,
         "warnings": selection_warnings + warnings + state["warnings"],
     })
-    latest_path = Path(state["runs"]) / "latest-run.json"
-    atomic_write_json(latest_path, run_record)
-    atomic_write_json(
-        Path(state["runs"]) / "pending-confirmations.json",
-        confirmation_queue,
-    )
-    append_jsonl(Path(state["runs"]) / "history.jsonl", run_record)
-    if execute and auto_advance and not confirmation_queue and follow_up_actions:
-        default_follow_up = choose_default_follow_up_action(normalized_follow_up_actions(follow_up_actions))
-        if default_follow_up is not None:
-            return finalize_run_response(execute_follow_up_action(
-                run_record,
-                default_follow_up,
-                execute=True,
-                explicit_selection=False,
-                state=state,
-            ))
-    return finalize_run_response(annotate_runtime_action_payloads({
+    active_processes = sync_managed_external_processes_from_run(state, run_record)
+    has_managed_external = bool(run_record.get("managedExternalProcess"))
+    response_payload = annotate_runtime_action_payloads({
         "mode": mode,
         "status": (
             "needs_confirmation"
             if confirmation_queue
-            else ("needs_runtime_input" if runtime_guidance and follow_up_actions else ("executed" if execute else "planned"))
+            else (
+                "background_running"
+                if has_managed_external
+                else ("needs_runtime_input" if runtime_guidance and follow_up_actions else ("executed" if execute else "planned"))
+            )
         ),
         "executedSteps": executed_steps,
         "confirmationQueue": confirmation_queue,
@@ -14666,21 +15989,47 @@ def run_workstation(
             "await_confirmation"
             if confirmation_queue
             else (
-                "follow_runtime_guidance"
-                if runtime_guidance and follow_up_actions
-                else ("review_epoch" if execute else "execute_when_ready")
+                "monitor_background_run"
+                if has_managed_external
+                else (
+                    "follow_runtime_guidance"
+                    if runtime_guidance and follow_up_actions
+                    else ("review_epoch" if execute else "execute_when_ready")
+                )
             )
         ),
+        **({"activeBackgroundProcesses": active_processes} if has_managed_external else {}),
         "progress": "[4/5] Work loop",
         "stateRoot": state["root"],
-    }))
+    })
+    final_payload = finalize_run_response_payload(
+        response_payload,
+        preferences=preferences,
+        recovery=recovery_snapshot,
+    )
+    persist_final_run_record(state, run_record, final_payload, confirmation_queue)
+    if execute and auto_advance and not confirmation_queue and follow_up_actions:
+        default_follow_up = choose_default_follow_up_action(normalized_follow_up_actions(follow_up_actions))
+        if default_follow_up is not None:
+            return finalize_run_response_payload(execute_follow_up_action(
+                run_record,
+                default_follow_up,
+                execute=True,
+                explicit_selection=False,
+                state=state,
+            ), preferences=preferences, recovery=recovery_snapshot)
+    return final_payload
 
 
-def build_epoch_review() -> dict[str, Any]:
-    state = state_context()
-    knowledge_catalog = load_or_build_knowledge_catalog(state)
-    latest_run = load_json(Path(state["runs"]) / "latest-run.json", {})
-    pending_queue = load_json(Path(state["runs"]) / "pending-confirmations.json", [])
+def build_epoch_review_from_run(
+    latest_run: Any,
+    pending_queue: Any,
+    *,
+    state: Optional[dict[str, Any]] = None,
+    knowledge_catalog: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    state = state or state_context()
+    knowledge_catalog = knowledge_catalog or load_or_build_knowledge_catalog(state)
     playbook = latest_run.get("playbook", {}) if isinstance(latest_run, dict) else {}
     worknet_key = str(playbook.get("worknetKey") or "")
     knowledge_context = knowledge_context_for_worknet(knowledge_catalog, worknet_key)
@@ -15006,6 +16355,20 @@ def build_epoch_review() -> dict[str, Any]:
         "progress": "[5/5] Review",
         "stateRoot": state["root"],
     }
+    return review
+
+
+def build_epoch_review() -> dict[str, Any]:
+    state = state_context()
+    knowledge_catalog = load_or_build_knowledge_catalog(state)
+    latest_run = load_json(Path(state["runs"]) / "latest-run.json", {})
+    pending_queue = load_json(Path(state["runs"]) / "pending-confirmations.json", [])
+    review = build_epoch_review_from_run(
+        latest_run,
+        pending_queue,
+        state=state,
+        knowledge_catalog=knowledge_catalog,
+    )
     atomic_write_json(Path(state["reviews"]) / "latest-review.json", review)
     return review
 
@@ -15045,6 +16408,12 @@ def build_workstation_status(
         explicit_identifier=source_identifier,
         catalog=knowledge_catalog,
     )
+    explicit_worknet_requested = isinstance(worknet_identifier, str) and worknet_identifier.strip()
+    target_knowledge_topic = None
+    if resolved_intent == "research" and target_source is None and not explicit_worknet_requested:
+        target_knowledge_topic = direct_knowledge_topic_from_research_text(knowledge_catalog, query)
+        if target_knowledge_topic:
+            target_profile = None
     if (
         target_source is not None
         and resolved_intent == "status"
@@ -15299,11 +16668,7 @@ def build_workstation_status(
                     action_map,
                     label=f"开始 {target_name}",
                     description=(
-                        canonical_worknet_switch_summary_text(
-                            target_profile,
-                            runnable=runnable,
-                            can_start_without_stake=target_report.get("canStartWithoutStake") is True,
-                        )
+                        humanize_worknet_switch_summary(target_profile, target_report)
                         or "直接按这个 WorkNet 的默认节奏启动；若碰到资金动作仍会先进入确认队列。"
                     ),
                     command=run_worknet_command(target_key, execute=True, auto_advance=True),
@@ -15494,6 +16859,69 @@ def build_workstation_status(
                         research_topic_labels.append(label)
                     elif label.startswith("查看工作网 "):
                         research_worknet_labels.append(label)
+        elif target_knowledge_topic:
+            topic_knowledge_record = build_knowledge_query_result(
+                target_knowledge_topic,
+                catalog=knowledge_catalog,
+            )
+            glossary_record = (
+                topic_knowledge_record.get("glossary")
+                if isinstance(topic_knowledge_record.get("glossary"), dict)
+                else None
+            )
+            primary_glossary_record = (
+                isinstance(glossary_record, dict)
+                and safe_slug(str(topic_knowledge_record.get("resolvedTopicKey") or ""))
+                == safe_slug(str(glossary_record.get("term") or ""))
+            )
+            target_worknet_display = (
+                topic_knowledge_record.get("worknetDisplay")
+                if not primary_glossary_record and isinstance(topic_knowledge_record.get("worknetDisplay"), dict)
+                else None
+            )
+            if isinstance(target_worknet_display, dict):
+                worknet_key = str(target_worknet_display.get("key") or "").strip() or None
+                worknet_name = str(target_worknet_display.get("name") or target_worknet_display.get("label") or "").strip() or None
+            else:
+                worknet_key = None
+                worknet_name = None
+            source_key = None
+            source_name = None
+            headline = str(
+                topic_knowledge_record.get("headline")
+                or topic_knowledge_record.get("resolvedTopicLabel")
+                or "研究 AWP 百科"
+            )
+            answer = str(
+                topic_knowledge_record.get("summary")
+                or topic_knowledge_record.get("plainLanguage")
+                or headline
+            )
+            status = str(topic_knowledge_record.get("status") or status)
+            related_source_highlights = (
+                topic_knowledge_record.get("relatedSourceHighlights", [])
+                if isinstance(topic_knowledge_record.get("relatedSourceHighlights"), list)
+                else []
+            )
+            merge_payload_user_action_details(user_actions, action_map, topic_knowledge_record, limit=8)
+            if isinstance(topic_knowledge_record.get("researchActionGroups"), list):
+                research_action_groups = topic_knowledge_record.get("researchActionGroups", [])
+            for index, item in enumerate(topic_knowledge_record.get("userActionDetails", [])):
+                if not isinstance(item, dict):
+                    continue
+                label = str(item.get("displayLabel") or item.get("label") or "").strip()
+                if not label:
+                    continue
+                if index == 0 or label.startswith("刷新 ") or label.startswith("重审 "):
+                    research_current_labels.append(label)
+                elif label.startswith("查看来源 ") or label.startswith("重读来源 "):
+                    research_source_labels.append(label)
+                elif label.startswith("查看参考 "):
+                    research_reference_labels.append(label)
+                elif label.startswith("查看 WorkNet") or label.startswith("查看工作网 ") or label.endswith(" WorkNet"):
+                    research_worknet_labels.append(label)
+                else:
+                    research_topic_labels.append(label)
         elif target_profile is not None:
             topic_entry = find_topic_directory_entry(
                 topic_directory,
@@ -15631,7 +17059,7 @@ def build_workstation_status(
         )
         queue_label = str(knowledge_review_queue_summary.get("primaryActionLabel") or "").strip()
         if queue_label:
-            if resolved_intent == "research" and target_source is None and target_profile is None:
+            if resolved_intent == "research" and target_source is None and target_profile is None and not target_knowledge_topic:
                 if queue_label not in research_control_labels:
                     research_control_labels.insert(0, queue_label)
             elif resolved_intent in {"research", "review-queue"} and queue_label not in research_control_labels and queue_label not in research_current_labels:
@@ -15678,7 +17106,7 @@ def build_workstation_status(
             worknet_key=worknet_key or current_worknet_key,
         )
     if resolved_intent == "research":
-        if target_source is None and target_profile is None:
+        if target_source is None and target_profile is None and not target_knowledge_topic:
             ordered_research_labels = [
                 *research_current_labels,
                 *research_control_labels,
@@ -15707,6 +17135,7 @@ def build_workstation_status(
         ]
         user_actions = frontload_user_action_labels(user_actions, ordered_review_queue_labels)
     if resolved_intent in {"status", "continue"}:
+        status_maturity_note = worknet_runtime_maturity_note(worknet_key=worknet_key or current_worknet_key)
         answer = align_run_execution_user_message(
             answer,
             execution_state=runtime_execution_state.get("executionState"),
@@ -15714,8 +17143,9 @@ def build_workstation_status(
             primary_action=user_actions[0]["label"] if user_actions else None,
             worknet_context_key=worknet_key or current_worknet_key,
             include_canonical_plain=False,
+            extra_parts=[status_maturity_note] if status_maturity_note else None,
         ) or answer
-    if resolved_intent == "research" and target_source is None and target_profile is None:
+    if resolved_intent == "research" and target_source is None and target_profile is None and not target_knowledge_topic:
         user_actions = annotate_research_action_details(
             user_actions,
             current_labels=[],
@@ -15846,7 +17276,7 @@ def build_workstation_status(
         },
     }
     user_action_details = action_details_from_ui_actions(user_actions, action_map)
-    if resolved_intent == "research" and target_source is None and target_profile is None:
+    if resolved_intent == "research" and target_source is None and target_profile is None and not target_knowledge_topic:
         user_action_details = annotate_research_action_details(
             user_action_details,
             current_labels=[],
@@ -15909,7 +17339,7 @@ def build_workstation_status(
         )
     else:
         user_action_details = annotate_execution_actions(user_action_details)
-    if not research_action_groups and resolved_intent == "research" and target_source is None and target_profile is None:
+    if not research_action_groups and resolved_intent == "research" and target_source is None and target_profile is None and not target_knowledge_topic:
         research_action_groups = build_research_action_groups(
             user_action_details,
             current_labels=[],
@@ -15997,6 +17427,32 @@ def build_glossary_catalog() -> dict[str, Any]:
     return catalog
 
 
+def build_concept_catalog() -> dict[str, Any]:
+    state = state_context()
+    coverage_labels = {
+        "well-defined": "资料完整",
+        "thin": "资料偏薄",
+        "unknown": "资料待补",
+    }
+    concepts = [
+        project_fields(
+            {
+                **item,
+                "coverageStateDisplay": coverage_labels.get(str(item.get("coverageState") or "").strip(), item.get("coverageState")),
+            },
+            CONCEPT_DIRECTORY_ITEM_FIELDS,
+        )
+        for item in DERIVED_CONCEPT_DIRECTORY
+    ]
+    catalog = {
+        "generatedAt": now_iso(),
+        "concepts": concepts,
+    }
+    atomic_write_json(Path(state["cache"]) / "concept-catalog.json", catalog)
+    write_reference_export("concept-catalog.json", catalog)
+    return catalog
+
+
 def build_coverage_audit(
     *,
     state: Optional[dict[str, Any]] = None,
@@ -16005,6 +17461,7 @@ def build_coverage_audit(
     source_evidence: Optional[dict[str, Any]] = None,
     topic_dossiers: Optional[dict[str, Any]] = None,
     glossary: Optional[dict[str, Any]] = None,
+    concept_catalog: Optional[dict[str, Any]] = None,
     skill_inspections: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     state = state or state_context()
@@ -16013,6 +17470,7 @@ def build_coverage_audit(
     source_evidence = source_evidence or build_source_evidence_catalog()
     topic_dossiers = topic_dossiers or build_topic_dossier_catalog()
     glossary = glossary or build_glossary_catalog()
+    concept_catalog = concept_catalog or build_concept_catalog()
     live_worknets = load_cached_live_worknets(state)
     source_drift = load_cached_source_drift(state)
     source_impact = load_cached_source_impact(state)
@@ -16029,6 +17487,12 @@ def build_coverage_audit(
     glossary_terms = {str(item["term"]).lower(): item for item in glossary.get("terms", [])}
     dossiers = {item["key"]: item for item in topic_dossiers.get("dossiers", [])}
     evidence_records = source_evidence.get("records", [])
+    concept_records = {str(item.get("key") or "").strip(): item for item in concept_catalog.get("concepts", []) if isinstance(item, dict) and str(item.get("key") or "").strip()}
+    inspection_map = {
+        str(item.get("skillKey") or "").strip(): item
+        for item in skill_inspections.get("inspections", [])
+        if isinstance(item, dict) and str(item.get("skillKey") or "").strip()
+    } if isinstance(skill_inspections, dict) else {}
 
     def generated_exists(filename: str) -> bool:
         return (generated_root / filename).exists()
@@ -16061,6 +17525,21 @@ def build_coverage_audit(
                 status = "partial"
                 reasons.append("Some named WorkNet dossier coverage is missing.")
             evidence_files.extend(["topic-dossiers.json", "worknet-profiles.md"])
+        elif key == "active-worknet-source-depth":
+            thin_worknets = []
+            for worknet_key in ("tmr", "community"):
+                inspection = inspection_map.get(worknet_key, {})
+                inspection_status = str(inspection.get("status") or "").strip()
+                if inspection_status in {"remote-profile-only", "empty-official-repo"}:
+                    thin_worknets.append(worknet_key)
+            if thin_worknets:
+                status = "partial"
+                reasons.append("Some active WorkNets are still represented mainly by live IDs plus thin repo surfaces, so the encyclopedia should not treat them as fully documented yet.")
+                reasons.append("Thin active worknets: " + ", ".join(thin_worknets))
+            else:
+                status = "covered"
+                reasons.append("Every active WorkNet now has more than just a live ID and thin repo landing page in the encyclopedia.")
+            evidence_files.extend(["skill-inspections.json", "source-facts.json", "source-evidence.json", "topic-dossiers.json"])
         elif key == "glossary-coverage":
             required_terms = {"rootnet", "worknet", "skilluri", "epoch", "clob", "staking"}
             if required_terms.issubset(set(glossary_terms.keys())):
@@ -16070,6 +17549,108 @@ def build_coverage_audit(
                 status = "partial"
                 reasons.append("Some required terms are still missing from the generated glossary.")
             evidence_files.extend(["glossary.json", "glossary.md"])
+        elif key == "concept-workflows":
+            required_concepts = {
+                "registration",
+                "recipient-routing",
+                "allocation-and-delegation",
+                "qualification-gates",
+                "epoch-settlement",
+                "gov-auth-signing",
+                "ardi-command-journal",
+            }
+            if required_concepts.issubset(set(concept_records.keys())):
+                status = "covered"
+                thin = [
+                    str(item.get("key") or "").strip()
+                    for item in concept_records.values()
+                    if isinstance(item, dict) and item.get("coverageState") == "thin"
+                ]
+                reasons.append("Cross-worknet concept/workflow records now cover registration, routing, delegation, qualification, settlement, Gov signing, and Ardi command guidance.")
+                if thin:
+                    reasons.append("Concepts still marked thin: " + ", ".join(thin))
+            else:
+                status = "partial"
+                missing = sorted(required_concepts.difference(set(concept_records.keys())))
+                reasons.append("The concept/workflow layer is still missing some protocol-spanning encyclopedia records.")
+                if missing:
+                    reasons.append("Missing concepts: " + ", ".join(missing))
+            evidence_files.extend(["concept-catalog.json", "source-facts.json", "source-evidence.json"])
+        elif key == "official-guide-depth":
+            source_keys = {
+                str(item.get("key") or "").strip()
+                for item in inventory.get("officialWebSources", [])
+                if isinstance(item, dict) and str(item.get("key") or "").strip()
+            }
+            required_sources = {
+                "awp-blog",
+                "awp-blog-01-launch-worknet",
+                "awp-blog-02-what-is-awp",
+                "awp-blog-03-start-earning",
+                "awp-blog-04-fair-launch",
+                "awp-blog-05-worknet",
+            }
+            required_facts = {
+                "blog-facts",
+                "blog-onboarding-facts",
+                "blog-worknet-economics-facts",
+                "blog-fair-launch-facts",
+                "blog-worknet-launch-facts",
+                "blog-protocol-facts",
+            }
+            required_concepts = {
+                "agent-onboarding",
+                "worknet-economic-unit",
+                "fair-launch-and-emission",
+                "worknet-launch-lifecycle",
+            }
+            fact_keys = {
+                str(item.get("key") or "").strip()
+                for item in source_facts.get("facts", [])
+                if isinstance(item, dict) and str(item.get("key") or "").strip()
+            }
+            if required_sources.issubset(source_keys) and required_facts.issubset(fact_keys) and required_concepts.issubset(set(concept_records.keys())):
+                status = "covered"
+                reasons.append("Official AWP onboarding and explanatory guides are tracked as distinct source records, fact bundles, and encyclopedia concepts.")
+            else:
+                status = "partial"
+                missing_sources = sorted(required_sources.difference(source_keys))
+                missing_facts = sorted(required_facts.difference(fact_keys))
+                missing_concepts = sorted(required_concepts.difference(set(concept_records.keys())))
+                reasons.append("The official guide layer is still incomplete.")
+                if missing_sources:
+                    reasons.append("Missing guide sources: " + ", ".join(missing_sources))
+                if missing_facts:
+                    reasons.append("Missing guide fact sets: " + ", ".join(missing_facts))
+                if missing_concepts:
+                    reasons.append("Missing guide concepts: " + ", ".join(missing_concepts))
+            evidence_files.extend(["source-inventory.json", "source-facts.json", "concept-catalog.json", "encyclopedia.md", "source-map.md"])
+        elif key == "public-status-surfaces":
+            source_keys = {
+                str(item.get("key") or "").strip()
+                for item in inventory.get("officialWebSources", [])
+                if isinstance(item, dict) and str(item.get("key") or "").strip()
+            }
+            fact_keys = {
+                str(item.get("key") or "").strip()
+                for item in source_facts.get("facts", [])
+                if isinstance(item, dict) and str(item.get("key") or "").strip()
+            }
+            required_sources = {"awp-agents", "awp-testnet", "awp-live-query", "gov-markets-api", "awp-whitepaper-page"}
+            required_facts = {"agent-status-facts", "testnet-facts", "protocol-core", "gov-skill-facts"}
+            if required_sources.issubset(source_keys) and required_facts.issubset(fact_keys):
+                status = "covered"
+                reasons.append("Official public lookup and status surfaces are represented distinctly from execution runtimes, including agent status, testnet activity, live RPC, Gov markets, and the whitepaper landing page.")
+            else:
+                status = "partial"
+                missing_sources = sorted(required_sources.difference(source_keys))
+                missing_facts = sorted(required_facts.difference(fact_keys))
+                reasons.append("Some public lookup/status surfaces are still not modeled distinctly enough.")
+                if missing_sources:
+                    reasons.append("Missing public status sources: " + ", ".join(missing_sources))
+                if missing_facts:
+                    reasons.append("Missing public status fact sets: " + ", ".join(missing_facts))
+            evidence_files.extend(["source-inventory.json", "source-facts.json", "source-evidence.json", "source-map.md"])
         elif key == "source-traceability":
             if generated_exists("source-evidence.json") and evidence_records:
                 status = "covered"
@@ -16279,12 +17860,10 @@ def build_display_contract_audit(
     *,
     catalog: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
-    catalog = catalog if isinstance(catalog, dict) else (load_cached_knowledge_catalog() or build_knowledge_catalog())
-    mine_result = build_knowledge_query_result("mine", catalog=catalog)
-    protocol_result = build_knowledge_query_result("protocol-core", catalog=catalog)
-    awp_skill_result = build_source_query_result("awp-skill", catalog=catalog)
-    mine_skill_result = build_source_query_result("mine-skill-raw", catalog=catalog)
-    changed_sources_result = build_changed_sources_query_result(catalog=catalog)
+    if not isinstance(catalog, dict):
+        state = state_context()
+        seed_verification_state_from_reference_exports(state)
+        catalog = load_or_build_knowledge_catalog(state)
 
     def first_item(items: Any) -> Optional[dict[str, Any]]:
         if not isinstance(items, list):
@@ -16301,6 +17880,78 @@ def build_display_contract_audit(
             if isinstance(item, dict) and item.get("evidenceType") != "runtime-inspection":
                 return item
         return None
+
+    mine_result = build_knowledge_query_result("mine", catalog=catalog)
+    concept_result = build_knowledge_query_result("agent-onboarding", catalog=catalog)
+    protocol_result = build_knowledge_query_result("protocol-core", catalog=catalog)
+    awp_skill_result = build_source_query_result("awp-skill", catalog=catalog)
+    mine_skill_result = build_source_query_result("mine-skill-raw", catalog=catalog)
+    changed_sources_result = build_changed_sources_query_result(catalog=catalog)
+    awp_skill_source = awp_skill_result.get("source") if isinstance(awp_skill_result.get("source"), dict) else {
+        "key": "awp-skill",
+        "name": "awp-skill",
+        "kind": "skill",
+        "trustTier": 1,
+        "summary": "AWP skill repository source used for workstation registration and runtime guidance.",
+        "url": "https://github.com/awp-core/awp-skill",
+    }
+    synthetic_drift_item = {
+        "key": awp_skill_source.get("key"),
+        "name": awp_skill_source.get("name"),
+        "status": "content_changed",
+        "changedFields": ["sha256", "bytes"],
+        "note": "Synthetic verification sample for source-drift display coverage.",
+        "previous": {
+            "ok": True,
+            "status": 200,
+            "sha256": "old-awp-skill-hash",
+            "bytes": 1024,
+            "fetchedAt": "2026-05-20T00:00:00Z",
+        },
+        "current": {
+            "ok": True,
+            "status": 200,
+            "sha256": "new-awp-skill-hash",
+            "bytes": 1536,
+            "fetchedAt": "2026-05-22T00:00:00Z",
+        },
+    }
+    synthetic_drift_display = knowledge_display_drift_item(
+        synthetic_drift_item,
+        source_record=awp_skill_source,
+    )
+    synthetic_changed_source_display = first_item(
+        knowledge_display_changed_sources(
+            [synthetic_drift_item],
+            source_records={str(awp_skill_source.get("key") or ""): awp_skill_source},
+        )
+    )
+    synthetic_impact_item = {
+        "sourceKey": awp_skill_source.get("key"),
+        "sourceName": awp_skill_source.get("name"),
+        "priority": "high",
+        "driftStatus": "content_changed",
+        "changedFields": ["sha256", "bytes"],
+        "note": "Synthetic verification sample for source-impact display coverage.",
+        "impactedTopics": [
+            {"key": "protocol-core", "title": "Protocol Core"},
+            {"key": "staking", "title": "Staking"},
+        ],
+        "impactedFacts": [
+            {"key": "blog-facts", "topic": "Blog"},
+        ],
+        "impactedWorknets": ["mine", "predict"],
+        "reviewHint": "Re-read the source and re-check affected topics, facts, and worknets.",
+        "reviewCommands": [
+            query_source_command("awp-skill", rebuild=True),
+            query_knowledge_command("protocol-core", rebuild=True),
+            query_knowledge_command("mine", rebuild=True),
+        ],
+    }
+    synthetic_impact_display = knowledge_display_source_impact(
+        {"affected": True, "items": [synthetic_impact_item]},
+        catalog=catalog,
+    )
 
     def audit_item(
         key: str,
@@ -16358,6 +18009,13 @@ def build_display_contract_audit(
             sample_ref="build_knowledge_query_result('mine').dossierDisplay",
         ),
         audit_item(
+            "concept-display",
+            "Concept display contract",
+            concept_result.get("conceptDisplay"),
+            CONCEPT_DIRECTORY_ITEM_FIELDS,
+            sample_ref="build_knowledge_query_result('agent-onboarding').conceptDisplay",
+        ),
+        audit_item(
             "source-fact-display",
             "Topic source-fact display contract",
             mine_result.get("sourceFactDisplay"),
@@ -16402,30 +18060,31 @@ def build_display_contract_audit(
         audit_item(
             "drift-display",
             "Source drift display contract",
-            awp_skill_result.get("driftDisplay"),
+            awp_skill_result.get("driftDisplay") or synthetic_drift_display,
             DRIFT_DISPLAY_FIELDS,
-            sample_ref="build_source_query_result('awp-skill').driftDisplay",
+            sample_ref="build_source_query_result('awp-skill').driftDisplay || synthetic content_changed sample",
         ),
         audit_item(
             "changed-source-display",
             "Changed source list item contract",
-            first_item(changed_sources_result.get("changedSourcesDisplay")),
+            first_item(changed_sources_result.get("changedSourcesDisplay")) or synthetic_changed_source_display,
             DRIFT_DISPLAY_FIELDS,
-            sample_ref="build_changed_sources_query_result().changedSourcesDisplay[0]",
+            sample_ref="build_changed_sources_query_result().changedSourcesDisplay[0] || synthetic changed-source sample",
         ),
         audit_item(
             "source-impact-display",
             "Source impact display contract",
-            awp_skill_result.get("impactDisplay"),
+            awp_skill_result.get("impactDisplay") or synthetic_impact_display,
             SOURCE_IMPACT_DISPLAY_FIELDS,
-            sample_ref="build_source_query_result('awp-skill').impactDisplay",
+            sample_ref="build_source_query_result('awp-skill').impactDisplay || synthetic source-impact sample",
         ),
         audit_item(
             "source-impact-item-display",
             "Source impact item contract",
-            first_item((awp_skill_result.get("impactDisplay") or {}).get("items")),
+            first_item((awp_skill_result.get("impactDisplay") or {}).get("items"))
+            or first_item((synthetic_impact_display or {}).get("items")),
             SOURCE_IMPACT_ITEM_FIELDS,
-            sample_ref="build_source_query_result('awp-skill').impactDisplay.items[0]",
+            sample_ref="build_source_query_result('awp-skill').impactDisplay.items[0] || synthetic source-impact item",
         ),
         audit_item(
             "freshness-display",
@@ -16487,8 +18146,14 @@ def build_query_contract_audit(
     *,
     catalog: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
-    catalog = catalog if isinstance(catalog, dict) else (load_cached_knowledge_catalog() or build_knowledge_catalog())
+    if not isinstance(catalog, dict):
+        state = state_context()
+        seed_verification_state_from_reference_exports(state)
+        catalog = load_or_build_knowledge_catalog(state)
+    atlas_result = build_knowledge_query_result("atlas", catalog=catalog)
     knowledge_result = build_knowledge_query_result("mine", catalog=catalog)
+    concept_result = build_knowledge_query_result("agent-onboarding", catalog=catalog)
+    glossary_topic_result = build_knowledge_query_result("fair launch", catalog=catalog)
     review_queue_result = build_knowledge_query_result("review-queue", catalog=catalog)
     source_result = build_source_query_result("awp-skill", catalog=catalog)
     changed_result = build_changed_sources_query_result(catalog=catalog)
@@ -16551,11 +18216,88 @@ def build_query_contract_audit(
 
     items = [
         audit_item(
+            "knowledge-atlas-query",
+            "Knowledge atlas query contract",
+            atlas_result,
+            KNOWLEDGE_ATLAS_QUERY_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas')",
+        ),
+        audit_item(
+            "knowledge-atlas-overview",
+            "Knowledge atlas overview contract",
+            atlas_result.get("knowledgeOverview"),
+            KNOWLEDGE_OVERVIEW_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').knowledgeOverview",
+        ),
+        audit_item(
+            "knowledge-atlas-topic-directory-entry",
+            "Knowledge atlas topic-directory entry contract",
+            first_item(atlas_result.get("topicDirectory")),
+            KNOWLEDGE_DIRECTORY_ENTRY_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').topicDirectory[0]",
+        ),
+        audit_item(
+            "knowledge-atlas-worknet-directory-entry",
+            "Knowledge atlas worknet-directory entry contract",
+            first_item(atlas_result.get("worknetDirectory")),
+            KNOWLEDGE_DIRECTORY_ENTRY_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').worknetDirectory[0]",
+        ),
+        audit_item(
+            "knowledge-atlas-reference-directory-entry",
+            "Knowledge atlas reference-directory entry contract",
+            first_item(atlas_result.get("referenceDirectory")),
+            KNOWLEDGE_DIRECTORY_ENTRY_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').referenceDirectory[0]",
+        ),
+        audit_item(
+            "knowledge-atlas-source-directory-entry",
+            "Knowledge atlas source-directory entry contract",
+            first_item(atlas_result.get("sourceDirectory")),
+            SOURCE_DIRECTORY_ENTRY_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').sourceDirectory[0]",
+        ),
+        audit_item(
+            "knowledge-atlas-concept-directory-entry",
+            "Knowledge atlas concept-directory entry contract",
+            first_item(atlas_result.get("conceptDirectory")),
+            CONCEPT_DIRECTORY_ITEM_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').conceptDirectory[0]",
+        ),
+        audit_item(
+            "knowledge-atlas-glossary-directory-entry",
+            "Knowledge atlas glossary-directory entry contract",
+            first_item(atlas_result.get("glossaryDirectory")),
+            GLOSSARY_ITEM_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').glossaryDirectory[0]",
+        ),
+        audit_item(
+            "knowledge-atlas-gap-entry",
+            "Knowledge atlas gap entry contract",
+            first_item(atlas_result.get("atlasGaps")),
+            KNOWLEDGE_ATLAS_GAP_FIELDS,
+            sample_ref="build_knowledge_query_result('atlas').atlasGaps[0]",
+        ),
+        audit_item(
             "knowledge-query",
             "Primary knowledge query contract",
             knowledge_result,
             KNOWLEDGE_QUERY_FIELDS,
             sample_ref="build_knowledge_query_result('mine')",
+        ),
+        audit_item(
+            "knowledge-concept-query",
+            "Concept knowledge query contract",
+            concept_result,
+            KNOWLEDGE_QUERY_FIELDS,
+            sample_ref="build_knowledge_query_result('agent-onboarding')",
+        ),
+        audit_item(
+            "knowledge-glossary-topic-query",
+            "Glossary-backed knowledge query contract",
+            glossary_topic_result,
+            KNOWLEDGE_QUERY_FIELDS,
+            sample_ref="build_knowledge_query_result('fair launch')",
         ),
         audit_item(
             "knowledge-review-queue-query",
@@ -16623,16 +18365,424 @@ def build_query_contract_audit(
 
 
 def build_public_contract_audit() -> dict[str, Any]:
+    state = state_context()
+    seed_verification_state_from_reference_exports(state)
+    knowledge_catalog = load_or_build_knowledge_catalog(state)
     preflight = public_preflight_view(build_preflight_report())
     capability_bundle = build_capability_bundle()
     capability_reports = capability_bundle.get("reports", []) if isinstance(capability_bundle, dict) else []
     capability_public = public_capability_view(capability_reports[0]) if capability_reports and isinstance(capability_reports[0], dict) else None
+    capability_public_predict = next(
+        (
+            public_capability_view(item)
+            for item in capability_reports
+            if isinstance(item, dict) and str(item.get("name") or "") == "Predict WorkNet"
+        ),
+        None,
+    )
+    capability_public_gov = next(
+        (
+            public_capability_view(item)
+            for item in capability_reports
+            if isinstance(item, dict) and str(item.get("name") or "") == "GovNet"
+        ),
+        None,
+    )
+    capability_public_ardi = next(
+        (
+            public_capability_view(item)
+            for item in capability_reports
+            if isinstance(item, dict) and str(item.get("name") or "") == "Ardi"
+        ),
+        None,
+    )
+    capability_public_kya = next(
+        (
+            public_capability_view(item)
+            for item in capability_reports
+            if isinstance(item, dict) and str(item.get("name") or "") == "KYA"
+        ),
+        None,
+    )
     start_response = build_start_response()
+    predict_profile = resolve_worknet("predict") or {}
+    mine_profile = resolve_worknet("mine") or {}
+    gov_profile = resolve_worknet("gov") or {}
+
+    def synthetic_capability_report(
+        profile: dict[str, Any],
+        *,
+        name: Optional[str] = None,
+        runnable: bool = True,
+        can_start_without_stake: bool = False,
+        recommended_role: str = "operator",
+        automation_level: str = "semi-auto",
+        cli_status: str = "ready",
+        reason: Optional[str] = None,
+    ) -> dict[str, Any]:
+        return {
+            "worknetId": profile.get("worknet_id"),
+            "name": name or profile.get("name") or profile.get("key"),
+            "runnable": runnable,
+            "canStartWithoutStake": can_start_without_stake,
+            "recommendedRole": recommended_role,
+            "automationLevel": automation_level,
+            "cliStatus": cli_status,
+            "reason": reason,
+        }
+
+    synthetic_predict_start_response = build_start_response_from_preflight(
+        {
+            "nextAction": "scan_worknets",
+            "registered": True,
+            "registrationPlan": {},
+            "recovery": {},
+            "recoveryDecision": None,
+            "knowledgeReviewQueueSummary": {},
+            "userPreferences": {"preferredWorknet": "predict"},
+        },
+        state=state,
+        knowledge_catalog=knowledge_catalog,
+        cached_bundle={
+            "reports": [
+                synthetic_capability_report(predict_profile, can_start_without_stake=True, recommended_role="operator", automation_level="semi-auto"),
+                synthetic_capability_report(mine_profile, name="Mine WorkNet", can_start_without_stake=True, recommended_role="operator", automation_level="full-auto"),
+            ]
+        },
+    )
+    synthetic_gov_start_response = build_start_response_from_preflight(
+        {
+            "nextAction": "scan_worknets",
+            "registered": True,
+            "registrationPlan": {},
+            "recovery": {},
+            "recoveryDecision": None,
+            "knowledgeReviewQueueSummary": {},
+            "userPreferences": {"preferredWorknet": "gov"},
+        },
+        state=state,
+        knowledge_catalog=knowledge_catalog,
+        cached_bundle={
+            "reports": [
+                synthetic_capability_report(gov_profile, name="GovNet", can_start_without_stake=False, recommended_role="operator", automation_level="phase-aware"),
+                synthetic_capability_report(mine_profile, name="Mine WorkNet", can_start_without_stake=True, recommended_role="operator", automation_level="full-auto"),
+            ]
+        },
+    )
+    synthetic_ardi_start_response = build_start_response_from_preflight(
+        {
+            "nextAction": "resume_runtime_guidance",
+            "registered": True,
+            "registrationPlan": {},
+            "recovery": {
+                "lastWorknetKey": "ardi",
+                "runtimeGuidanceMessage": "Ardi runtime 已就绪，但现在先要补 Base gas，并满足 stake 资格，之后才能进 commit/reveal 循环。",
+                "runtimeGuidanceNextAction": "fund_gas_and_or_satisfy_stake",
+                "defaultFollowUpLabel": "重跑 Ardi preflight",
+                "defaultFollowUpCommand": "ardi-agent preflight",
+                "followUpActions": [
+                    {
+                        "label": "重跑 Ardi preflight",
+                        "command": "ardi-agent preflight",
+                        "argv": ["ardi-agent", "preflight"],
+                        "safeToAutoRun": True,
+                        "requiresConfirmation": False,
+                    }
+                ],
+                "followUpActionCount": 1,
+                "hasRuntimeGuidance": True,
+            },
+            "recoveryDecision": None,
+            "knowledgeReviewQueueSummary": {},
+            "userPreferences": {"preferredWorknet": "ardi"},
+        },
+        state=state,
+        knowledge_catalog=knowledge_catalog,
+        cached_bundle={},
+    )
     run_response = run_workstation(mode="autopilot", worknet_identifier="mine", execute=False)
     workstation_status_full = build_workstation_status(query="研究 Mine")
     workstation_status_public = public_workstation_status_view(workstation_status_full)
+    workstation_status_predict_full = build_workstation_status(query="研究 Predict", worknet_identifier="predict")
+    workstation_status_predict_public = public_workstation_status_view(workstation_status_predict_full)
+    workstation_status_gov_full = build_workstation_status(query="研究 Gov", worknet_identifier="gov")
+    workstation_status_gov_public = public_workstation_status_view(workstation_status_gov_full)
+    workstation_status_ardi_full = build_workstation_status(query="研究 Ardi", worknet_identifier="ardi")
+    workstation_status_ardi_public = public_workstation_status_view(workstation_status_ardi_full)
+    workstation_status_concept_full = build_workstation_status(query="agent onboarding", intent="research")
+    workstation_status_concept_public = public_workstation_status_view(workstation_status_concept_full)
+    workstation_status_glossary_full = build_workstation_status(query="fair launch", intent="research")
+    workstation_status_glossary_public = public_workstation_status_view(workstation_status_glossary_full)
     playbook_public = public_playbook_view(build_work_playbook("mine"))
+    playbook_public_predict = public_playbook_view(build_work_playbook("predict"))
+    playbook_public_gov = public_playbook_view(build_work_playbook("gov"))
+    playbook_public_ardi = public_playbook_view(build_work_playbook("ardi"))
+    playbook_public_kya = public_playbook_view(build_work_playbook("kya"))
     review_public = public_review_view(build_epoch_review())
+    synthetic_predict_run_response = finalize_run_response_payload(
+        annotate_runtime_action_payloads(
+            {
+                "mode": "autopilot",
+                "status": "needs_confirmation",
+                "executedSteps": [],
+                "confirmationQueue": [
+                    {
+                        "label": "准备 Predict 提交",
+                        "argv": ["predict-agent", "submit"],
+                    }
+                ],
+                "runtimeGuidance": None,
+                "followUpActions": [],
+                "resumedFromState": False,
+                "playbookSource": "worknet",
+                "selectedWorknetKey": "predict",
+                "selectedWorknetName": "Predict",
+                "warnings": [],
+                "nextAction": "await_confirmation",
+                "progress": "[4/5] Work loop",
+                "stateRoot": state["root"],
+            }
+        ),
+        preferences={"preferredWorknet": "predict"},
+        recovery={},
+    )
+    synthetic_gov_run_response = finalize_run_response_payload(
+        annotate_runtime_action_payloads(
+            {
+                "mode": "autopilot",
+                "status": "needs_runtime_input",
+                "executedSteps": [],
+                "confirmationQueue": [],
+                "runtimeGuidance": {
+                    "message": "Gov 当前 phase 是 Voting，但你的 principal 这期没有 AWP Power，所以签名交易和投票还不能做。",
+                    "userActions": ["查看 Gov 可做动作", "查看 Gov markets", "阅读 staking 说明"],
+                    "actionMap": {
+                        "查看 Gov 可做动作": "python3 scripts/helpers/what-can-i-do.py",
+                        "查看 Gov markets": "python3 scripts/public/markets.py",
+                        "阅读 staking 说明": "python3 scripts/query-knowledge.py --topic staking",
+                    },
+                    "nextAction": "acquire_awp_power_or_observe_gov",
+                    "state": "Voting",
+                },
+                "followUpActions": [],
+                "resumedFromState": False,
+                "playbookSource": "worknet",
+                "selectedWorknetKey": "gov",
+                "selectedWorknetName": "GovNet",
+                "warnings": [],
+                "nextAction": "follow_runtime_guidance",
+                "progress": "[4/5] Work loop",
+                "stateRoot": state["root"],
+            }
+        ),
+        preferences={"preferredWorknet": "gov"},
+        recovery={},
+    )
+    synthetic_ardi_run_response = finalize_run_response_payload(
+        annotate_runtime_action_payloads(
+            {
+                "mode": "autopilot",
+                "status": "needs_runtime_input",
+                "executedSteps": [],
+                "confirmationQueue": [],
+                "runtimeGuidance": {
+                    "message": "Ardi runtime 已就绪，但现在先要补 Base gas，并满足 stake 资格，之后才能进 commit/reveal 循环。",
+                    "userActions": ["补 Base Gas", "重跑 Ardi preflight"],
+                    "actionMap": {
+                        "补 Base Gas": "Send at least 0.002 ETH to 0xabc on Base",
+                        "重跑 Ardi preflight": "ardi-agent preflight",
+                    },
+                    "nextCommand": ["ardi-agent", "preflight"],
+                    "nextAction": "fund_gas_and_or_satisfy_stake",
+                    "state": None,
+                },
+                "followUpActions": [
+                    {
+                        "label": "重跑 Ardi preflight",
+                        "command": "ardi-agent preflight",
+                        "argv": ["ardi-agent", "preflight"],
+                        "safeToAutoRun": True,
+                        "requiresConfirmation": False,
+                    }
+                ],
+                "resumedFromState": False,
+                "playbookSource": "worknet",
+                "selectedWorknetKey": "ardi",
+                "selectedWorknetName": "Ardi",
+                "warnings": [],
+                "nextAction": "follow_runtime_guidance",
+                "progress": "[4/5] Work loop",
+                "stateRoot": state["root"],
+            }
+        ),
+        preferences={"preferredWorknet": "ardi"},
+        recovery={},
+    )
+    synthetic_predict_review = public_review_view(
+        build_epoch_review_from_run(
+            annotate_runtime_action_payloads(
+                {
+                    "playbook": {"worknetKey": "predict", "requiredSkill": "Predict"},
+                    "executedSteps": [
+                        {
+                            "label": "查看 Predict context",
+                            "status": "ok",
+                            "result": {
+                                "code": 0,
+                                "stdout": {
+                                    "state": "selection_required",
+                                    "message": "Context ready.",
+                                    "user_actions": ["prepare submission", "rerun context"],
+                                    "_internal": {
+                                        "action_map": {
+                                            "prepare submission": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                                            "rerun context": "predict-agent context",
+                                        },
+                                        "next_action": "confirm_predict_submission",
+                                        "next_command": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                                    },
+                                },
+                                "stderr": "",
+                            },
+                        }
+                    ],
+                    "followUpActions": [
+                        {
+                            "label": "准备 Predict 提交",
+                            "command": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                            "argv": ["predict-agent", "submit", "--market", "mkt-42", "--side", "<buy|sell>", "--tickets", "<tickets>", "--reasoning", "<reasoning>"],
+                            "safeToAutoRun": False,
+                            "requiresConfirmation": True,
+                        }
+                    ],
+                    "runtimeGuidance": {
+                        "message": "Predict context 已就绪，提交前先确认方向、tickets 和 reasoning。",
+                        "userActions": ["prepare submission", "rerun context"],
+                        "actionMap": {
+                            "prepare submission": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                            "rerun context": "predict-agent context",
+                        },
+                        "nextCommand": ["predict-agent", "submit", "--market", "mkt-42", "--side", "<buy|sell>", "--tickets", "<tickets>", "--reasoning", "<reasoning>"],
+                        "nextAction": "confirm_predict_submission",
+                        "state": "selection_required",
+                    },
+                }
+            ),
+            [],
+            state=state,
+            knowledge_catalog=knowledge_catalog,
+        )
+    )
+    synthetic_gov_review = public_review_view(
+        build_epoch_review_from_run(
+            annotate_runtime_action_payloads(
+                {
+                    "playbook": {"worknetKey": "gov", "requiredSkill": "GovNet"},
+                    "executedSteps": [
+                        {
+                            "label": "gov public markets",
+                            "status": "ok",
+                            "result": {
+                                "code": 0,
+                                "stdout": {"items": [{"name": "YES-1"}], "message": "markets loaded"},
+                                "stderr": "",
+                            },
+                        },
+                        {
+                            "label": "gov phase-aware helper",
+                            "status": "ok",
+                            "result": {
+                                "code": 0,
+                                "stdout": {"phase": "Voting", "message": "Voting"},
+                                "stderr": "",
+                            },
+                        },
+                        {
+                            "label": "gov private state",
+                            "status": "failed",
+                            "result": {
+                                "code": 1,
+                                "stdout": {
+                                    "error": "STATE_PRINCIPAL_NOT_IN_EPOCH",
+                                    "message": "Principal has no AWP Power this epoch",
+                                    "detail": "Principal has no AWP Power this epoch",
+                                    "user_actions": ["check status"],
+                                    "_internal": {
+                                        "action_map": {"check status": "python3 scripts/private/state.py"},
+                                        "next_action": "acquire_awp_power_or_observe_gov",
+                                    },
+                                },
+                                "stderr": "",
+                            },
+                        },
+                    ],
+                    "runtimeGuidance": {
+                        "message": "Gov 当前 phase 是 Voting，但你的 principal 这期没有 AWP Power，所以签名交易和投票还不能做。",
+                        "userActions": ["查看 Gov 可做动作", "查看 Gov markets", "阅读 staking 说明"],
+                        "actionMap": {
+                            "查看 Gov 可做动作": "python3 scripts/helpers/what-can-i-do.py",
+                            "查看 Gov markets": "python3 scripts/public/markets.py",
+                            "阅读 staking 说明": "python3 scripts/query-knowledge.py --topic staking",
+                        },
+                        "nextAction": "acquire_awp_power_or_observe_gov",
+                        "state": "Voting",
+                    },
+                }
+            ),
+            [],
+            state=state,
+            knowledge_catalog=knowledge_catalog,
+        )
+    )
+    synthetic_ardi_review = public_review_view(
+        build_epoch_review_from_run(
+            annotate_runtime_action_payloads(
+                {
+                    "playbook": {"worknetKey": "ardi", "requiredSkill": "Ardi"},
+                    "executedSteps": [
+                        {
+                            "label": "ardi gas check",
+                            "status": "failed",
+                            "result": {
+                                "code": 1,
+                                "stdout": {
+                                    "message": "gas low",
+                                    "data": {"suggestion": "Send at least 0.002 ETH to 0xabc on Base"},
+                                },
+                                "stderr": "",
+                            },
+                        },
+                        {
+                            "label": "ardi stake guidance",
+                            "status": "failed",
+                            "result": {
+                                "code": 1,
+                                "stdout": {
+                                    "message": "stake low",
+                                    "data": {"suggestion": "Reach the 10000 AWP threshold on EITHER Ardi or KYA"},
+                                },
+                                "stderr": "",
+                            },
+                        },
+                    ],
+                    "runtimeGuidance": {
+                        "message": "Ardi runtime 已就绪，但现在先要补 Base gas，并满足 stake 资格，之后才能进 commit/reveal 循环。",
+                        "userActions": ["补 Base Gas", "重跑 Ardi preflight", "走 KYA 委托路径"],
+                        "actionMap": {
+                            "补 Base Gas": "Send at least 0.002 ETH to 0xabc on Base",
+                            "重跑 Ardi preflight": "ardi-agent preflight",
+                            "走 KYA 委托路径": "https://kya.link/",
+                        },
+                        "nextCommand": ["ardi-agent", "preflight"],
+                        "nextAction": "fund_gas_and_or_satisfy_stake",
+                    },
+                }
+            ),
+            [],
+            state=state,
+            knowledge_catalog=knowledge_catalog,
+        )
+    )
 
     def first_item(items: Any) -> Optional[dict[str, Any]]:
         if not isinstance(items, list):
@@ -16705,11 +18855,67 @@ def build_public_contract_audit() -> dict[str, Any]:
             sample_ref="public_capability_view(build_capability_bundle().reports[0])",
         ),
         audit_item(
+            "public-capability-predict",
+            "Public capability-report contract for Predict",
+            capability_public_predict,
+            CAPABILITY_PUBLIC_FIELDS,
+            sample_ref="public_capability_view(Predict report)",
+        ),
+        audit_item(
+            "public-capability-gov",
+            "Public capability-report contract for Gov",
+            capability_public_gov,
+            CAPABILITY_PUBLIC_FIELDS,
+            sample_ref="public_capability_view(Gov report)",
+        ),
+        audit_item(
+            "public-capability-ardi",
+            "Public capability-report contract for Ardi",
+            capability_public_ardi,
+            CAPABILITY_PUBLIC_FIELDS,
+            sample_ref="public_capability_view(Ardi report)",
+        ),
+        audit_item(
+            "public-capability-kya",
+            "Public capability-report contract for KYA",
+            capability_public_kya,
+            CAPABILITY_PUBLIC_FIELDS,
+            sample_ref="public_capability_view(KYA report)",
+        ),
+        audit_item(
             "public-playbook",
             "Public playbook contract",
             playbook_public,
             PLAYBOOK_PUBLIC_FIELDS,
             sample_ref="public_playbook_view(build_work_playbook('mine'))",
+        ),
+        audit_item(
+            "public-playbook-predict",
+            "Public playbook contract for Predict",
+            playbook_public_predict,
+            PLAYBOOK_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('predict'))",
+        ),
+        audit_item(
+            "public-playbook-gov",
+            "Public playbook contract for Gov",
+            playbook_public_gov,
+            PLAYBOOK_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('gov'))",
+        ),
+        audit_item(
+            "public-playbook-ardi",
+            "Public playbook contract for Ardi",
+            playbook_public_ardi,
+            PLAYBOOK_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('ardi'))",
+        ),
+        audit_item(
+            "public-playbook-kya",
+            "Public playbook contract for KYA",
+            playbook_public_kya,
+            PLAYBOOK_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('kya'))",
         ),
         audit_item(
             "public-playbook-command",
@@ -16726,6 +18932,62 @@ def build_public_contract_audit() -> dict[str, Any]:
             sample_ref="public_playbook_view(build_work_playbook('mine')).userActionDetails[0]",
         ),
         audit_item(
+            "public-playbook-predict-command",
+            "Public playbook command-item contract for Predict",
+            first_item(playbook_public_predict.get("commands") if isinstance(playbook_public_predict, dict) else None),
+            PLAYBOOK_COMMAND_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('predict')).commands[0]",
+        ),
+        audit_item(
+            "public-playbook-gov-command",
+            "Public playbook command-item contract for Gov",
+            first_item(playbook_public_gov.get("commands") if isinstance(playbook_public_gov, dict) else None),
+            PLAYBOOK_COMMAND_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('gov')).commands[0]",
+        ),
+        audit_item(
+            "public-playbook-ardi-command",
+            "Public playbook command-item contract for Ardi",
+            first_item(playbook_public_ardi.get("commands") if isinstance(playbook_public_ardi, dict) else None),
+            PLAYBOOK_COMMAND_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('ardi')).commands[0]",
+        ),
+        audit_item(
+            "public-playbook-kya-command",
+            "Public playbook command-item contract for KYA",
+            first_item(playbook_public_kya.get("commands") if isinstance(playbook_public_kya, dict) else None),
+            PLAYBOOK_COMMAND_PUBLIC_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('kya')).commands[0]",
+        ),
+        audit_item(
+            "public-playbook-predict-user-action-detail",
+            "Public playbook user-action-detail contract for Predict",
+            first_item(playbook_public_predict.get("userActionDetails") if isinstance(playbook_public_predict, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('predict')).userActionDetails[0]",
+        ),
+        audit_item(
+            "public-playbook-gov-user-action-detail",
+            "Public playbook user-action-detail contract for Gov",
+            first_item(playbook_public_gov.get("userActionDetails") if isinstance(playbook_public_gov, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('gov')).userActionDetails[0]",
+        ),
+        audit_item(
+            "public-playbook-ardi-user-action-detail",
+            "Public playbook user-action-detail contract for Ardi",
+            first_item(playbook_public_ardi.get("userActionDetails") if isinstance(playbook_public_ardi, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('ardi')).userActionDetails[0]",
+        ),
+        audit_item(
+            "public-playbook-kya-user-action-detail",
+            "Public playbook user-action-detail contract for KYA",
+            first_item(playbook_public_kya.get("userActionDetails") if isinstance(playbook_public_kya, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_playbook_view(build_work_playbook('kya')).userActionDetails[0]",
+        ),
+        audit_item(
             "public-review",
             "Public review contract",
             review_public,
@@ -16738,6 +19000,48 @@ def build_public_contract_audit() -> dict[str, Any]:
             first_item(review_public.get("userActionDetails") if isinstance(review_public, dict) else None),
             USER_ACTION_DETAIL_FIELDS,
             sample_ref="public_review_view(build_epoch_review()).userActionDetails[0]",
+        ),
+        audit_item(
+            "public-review-predict",
+            "Public review contract for Predict synthetic latest-run",
+            synthetic_predict_review,
+            REVIEW_PUBLIC_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({predict latest-run}))",
+        ),
+        audit_item(
+            "public-review-predict-user-action-detail",
+            "Public review user-action-detail contract for Predict synthetic latest-run",
+            first_item(synthetic_predict_review.get("userActionDetails") if isinstance(synthetic_predict_review, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({predict latest-run})).userActionDetails[0]",
+        ),
+        audit_item(
+            "public-review-gov",
+            "Public review contract for Gov synthetic latest-run",
+            synthetic_gov_review,
+            REVIEW_PUBLIC_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({gov latest-run}))",
+        ),
+        audit_item(
+            "public-review-gov-user-action-detail",
+            "Public review user-action-detail contract for Gov synthetic latest-run",
+            first_item(synthetic_gov_review.get("userActionDetails") if isinstance(synthetic_gov_review, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({gov latest-run})).userActionDetails[0]",
+        ),
+        audit_item(
+            "public-review-ardi",
+            "Public review contract for Ardi synthetic latest-run",
+            synthetic_ardi_review,
+            REVIEW_PUBLIC_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({ardi latest-run}))",
+        ),
+        audit_item(
+            "public-review-ardi-user-action-detail",
+            "Public review user-action-detail contract for Ardi synthetic latest-run",
+            first_item(synthetic_ardi_review.get("userActionDetails") if isinstance(synthetic_ardi_review, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({ardi latest-run})).userActionDetails[0]",
         ),
         audit_item(
             "start-response",
@@ -16754,6 +19058,48 @@ def build_public_contract_audit() -> dict[str, Any]:
             sample_ref="build_start_response().user_actions[0]",
         ),
         audit_item(
+            "start-response-predict",
+            "Predict synthetic start-response contract",
+            synthetic_predict_start_response,
+            START_RESPONSE_FIELDS,
+            sample_ref="build_start_response_from_preflight({predict scan_worknets})",
+        ),
+        audit_item(
+            "start-response-predict-user-action",
+            "Predict synthetic start-response user-action contract",
+            first_item(synthetic_predict_start_response.get("user_actions") if isinstance(synthetic_predict_start_response, dict) else None),
+            PUBLIC_ACTION_FIELDS,
+            sample_ref="build_start_response_from_preflight({predict scan_worknets}).user_actions[0]",
+        ),
+        audit_item(
+            "start-response-gov",
+            "Gov synthetic start-response contract",
+            synthetic_gov_start_response,
+            START_RESPONSE_FIELDS,
+            sample_ref="build_start_response_from_preflight({gov scan_worknets})",
+        ),
+        audit_item(
+            "start-response-gov-user-action",
+            "Gov synthetic start-response user-action contract",
+            first_item(synthetic_gov_start_response.get("user_actions") if isinstance(synthetic_gov_start_response, dict) else None),
+            PUBLIC_ACTION_FIELDS,
+            sample_ref="build_start_response_from_preflight({gov scan_worknets}).user_actions[0]",
+        ),
+        audit_item(
+            "start-response-ardi",
+            "Ardi synthetic start-response contract",
+            synthetic_ardi_start_response,
+            START_RESPONSE_FIELDS,
+            sample_ref="build_start_response_from_preflight({ardi resume_runtime_guidance})",
+        ),
+        audit_item(
+            "start-response-ardi-user-action",
+            "Ardi synthetic start-response user-action contract",
+            first_item(synthetic_ardi_start_response.get("user_actions") if isinstance(synthetic_ardi_start_response, dict) else None),
+            PUBLIC_ACTION_FIELDS,
+            sample_ref="build_start_response_from_preflight({ardi resume_runtime_guidance}).user_actions[0]",
+        ),
+        audit_item(
             "run-response",
             "Run-response contract",
             run_response,
@@ -16766,6 +19112,48 @@ def build_public_contract_audit() -> dict[str, Any]:
             first_item(run_response.get("userActionDetails") if isinstance(run_response, dict) else None),
             USER_ACTION_DETAIL_FIELDS,
             sample_ref="run_workstation(...).userActionDetails[0]",
+        ),
+        audit_item(
+            "run-response-predict",
+            "Predict synthetic run-response contract",
+            synthetic_predict_run_response,
+            RUN_RESPONSE_FIELDS,
+            sample_ref="finalize_run_response_payload({predict confirmation})",
+        ),
+        audit_item(
+            "run-response-predict-user-action-detail",
+            "Predict synthetic run-response user-action-detail contract",
+            first_item(synthetic_predict_run_response.get("userActionDetails") if isinstance(synthetic_predict_run_response, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="finalize_run_response_payload({predict confirmation}).userActionDetails[0]",
+        ),
+        audit_item(
+            "run-response-gov",
+            "Gov synthetic run-response contract",
+            synthetic_gov_run_response,
+            RUN_RESPONSE_FIELDS,
+            sample_ref="finalize_run_response_payload({gov observe})",
+        ),
+        audit_item(
+            "run-response-gov-user-action-detail",
+            "Gov synthetic run-response user-action-detail contract",
+            first_item(synthetic_gov_run_response.get("userActionDetails") if isinstance(synthetic_gov_run_response, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="finalize_run_response_payload({gov observe}).userActionDetails[0]",
+        ),
+        audit_item(
+            "run-response-ardi",
+            "Ardi synthetic run-response contract",
+            synthetic_ardi_run_response,
+            RUN_RESPONSE_FIELDS,
+            sample_ref="finalize_run_response_payload({ardi remediation})",
+        ),
+        audit_item(
+            "run-response-ardi-user-action-detail",
+            "Ardi synthetic run-response user-action-detail contract",
+            first_item(synthetic_ardi_run_response.get("userActionDetails") if isinstance(synthetic_ardi_run_response, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="finalize_run_response_payload({ardi remediation}).userActionDetails[0]",
         ),
         audit_item(
             "workstation-status-full",
@@ -16795,6 +19183,76 @@ def build_public_contract_audit() -> dict[str, Any]:
             USER_ACTION_DETAIL_FIELDS,
             sample_ref="public_workstation_status_view(...).userActionDetails[0]",
         ),
+        audit_item(
+            "workstation-status-predict-full",
+            "Full workstation-status contract for Predict",
+            workstation_status_predict_full,
+            WORKSTATION_STATUS_INTERNAL_FIELDS,
+            sample_ref="build_workstation_status(query='研究 Predict', worknet_identifier='predict')",
+        ),
+        audit_item(
+            "workstation-status-predict-public",
+            "Public workstation-status contract for Predict",
+            workstation_status_predict_public,
+            WORKSTATION_STATUS_PUBLIC_FIELDS,
+            sample_ref="public_workstation_status_view(build_workstation_status(query='研究 Predict', worknet_identifier='predict'))",
+        ),
+        audit_item(
+            "workstation-status-gov-full",
+            "Full workstation-status contract for Gov",
+            workstation_status_gov_full,
+            WORKSTATION_STATUS_INTERNAL_FIELDS,
+            sample_ref="build_workstation_status(query='研究 Gov', worknet_identifier='gov')",
+        ),
+        audit_item(
+            "workstation-status-gov-public",
+            "Public workstation-status contract for Gov",
+            workstation_status_gov_public,
+            WORKSTATION_STATUS_PUBLIC_FIELDS,
+            sample_ref="public_workstation_status_view(build_workstation_status(query='研究 Gov', worknet_identifier='gov'))",
+        ),
+        audit_item(
+            "workstation-status-ardi-full",
+            "Full workstation-status contract for Ardi",
+            workstation_status_ardi_full,
+            WORKSTATION_STATUS_INTERNAL_FIELDS,
+            sample_ref="build_workstation_status(query='研究 Ardi', worknet_identifier='ardi')",
+        ),
+        audit_item(
+            "workstation-status-ardi-public",
+            "Public workstation-status contract for Ardi",
+            workstation_status_ardi_public,
+            WORKSTATION_STATUS_PUBLIC_FIELDS,
+            sample_ref="public_workstation_status_view(build_workstation_status(query='研究 Ardi', worknet_identifier='ardi'))",
+        ),
+        audit_item(
+            "workstation-status-concept-full",
+            "Full workstation-status contract for a concept research query",
+            workstation_status_concept_full,
+            WORKSTATION_STATUS_INTERNAL_FIELDS,
+            sample_ref="build_workstation_status(query='agent onboarding', intent='research')",
+        ),
+        audit_item(
+            "workstation-status-concept-public",
+            "Public workstation-status contract for a concept research query",
+            workstation_status_concept_public,
+            WORKSTATION_STATUS_PUBLIC_FIELDS,
+            sample_ref="public_workstation_status_view(build_workstation_status(query='agent onboarding', intent='research'))",
+        ),
+        audit_item(
+            "workstation-status-glossary-full",
+            "Full workstation-status contract for a glossary research query",
+            workstation_status_glossary_full,
+            WORKSTATION_STATUS_INTERNAL_FIELDS,
+            sample_ref="build_workstation_status(query='fair launch', intent='research')",
+        ),
+        audit_item(
+            "workstation-status-glossary-public",
+            "Public workstation-status contract for a glossary research query",
+            workstation_status_glossary_public,
+            WORKSTATION_STATUS_PUBLIC_FIELDS,
+            sample_ref="public_workstation_status_view(build_workstation_status(query='fair launch', intent='research'))",
+        ),
     ]
 
     covered_count = sum(1 for item in items if item["status"] == "covered")
@@ -16815,6 +19273,8 @@ def build_branch_contract_audit() -> dict[str, Any]:
     start_response = build_start_response()
     run_response = run_workstation(mode="autopilot", worknet_identifier="mine", execute=False)
     workstation_status = build_workstation_status(query="研究 Mine")
+    kya_knowledge = build_knowledge_query_result("kya")
+    ardi_knowledge = build_knowledge_query_result("ardi")
 
     synthetic_runtime_guidance = annotate_runtime_guidance_payload(
         {
@@ -16828,6 +19288,64 @@ def build_branch_contract_audit() -> dict[str, Any]:
             "nextCommand": ["python3", "scripts/run_tool.py", "agent-status"],
         },
         worknet_key="mine",
+    )
+    synthetic_mine_selection_guidance = annotate_runtime_guidance_payload(
+        {
+            "message": "Choose a dataset to start mining.",
+            "state": "selection_required",
+            "userActions": ["Basic Amazon Products Dataset", "Amazon Reviews Dataset"],
+            "actionMap": {
+                "Basic Amazon Products Dataset": "python3 scripts/run_tool.py agent-start --dataset basic_amazon_products",
+                "Amazon Reviews Dataset": "python3 scripts/run_tool.py agent-start --dataset amazon_reviews",
+            },
+            "nextCommand": ["python3", "scripts/run_tool.py", "agent-start", "--dataset", "basic_amazon_products"],
+        },
+        worknet_key="mine",
+    )
+    synthetic_predict_persona_guidance = annotate_runtime_guidance_payload(
+        {
+            "message": "Predict 已满足基础运行条件，但还没有 persona。先选一个分析风格，再启动循环。",
+            "state": "selection_required",
+            "userActions": ["设为 degen 风格", "设为 analyst 风格"],
+            "actionMap": {
+                "设为 degen 风格": "predict-agent set-persona '<PERSONA>'",
+                "设为 analyst 风格": "predict-agent set-persona '<PERSONA>'",
+            },
+            "nextCommand": ["predict-agent", "set-persona", "<PERSONA>"],
+            "nextAction": "select_predict_persona",
+        },
+        worknet_key="predict",
+    )
+    synthetic_gov_observe_guidance = annotate_runtime_guidance_payload(
+        {
+            "message": "Gov 当前 phase 是 Voting，但你的 principal 这期没有 AWP Power，所以签名交易和投票还不能做。",
+            "state": "Voting",
+            "userActions": ["查看 Gov 可做动作", "查看 Gov markets", "阅读 staking 说明"],
+            "actionMap": {
+                "查看 Gov 可做动作": "python3 scripts/helpers/what-can-i-do.py",
+                "查看 Gov markets": "python3 scripts/public/markets.py",
+                "阅读 staking 说明": "python3 scripts/query-knowledge.py --topic staking",
+            },
+            "nextAction": "acquire_awp_power_or_observe_gov",
+        },
+        worknet_key="gov",
+    )
+    synthetic_ardi_remediation_guidance = annotate_runtime_guidance_payload(
+        {
+            "message": "Ardi runtime 已就绪，但现在先要补 Base gas，并满足 stake 资格，之后才能进 commit/reveal 循环。",
+            "userActions": ["补 Base Gas", "重跑 Ardi preflight", "走 KYA 委托路径", "自动买并质押", "重跑 Ardi stake 检查"],
+            "actionMap": {
+                "补 Base Gas": "Send at least 0.002 ETH to 0xabc on Base",
+                "重跑 Ardi preflight": "ardi-agent preflight",
+                "走 KYA 委托路径": "https://kya.link/",
+                "自动买并质押": "ardi-agent buy-and-stake",
+                "重跑 Ardi stake 检查": "ardi-agent stake",
+            },
+            "nextCommand": ["ardi-agent", "preflight"],
+            "nextAction": "fund_gas_and_or_satisfy_stake",
+            "detail": "Send at least 0.002 ETH to 0xabc on Base; Reach the 10000 AWP threshold on EITHER Ardi or KYA.",
+        },
+        worknet_key="ardi",
     )
 
     synthetic_follow_up_items = annotate_raw_follow_up_actions([
@@ -16877,6 +19395,25 @@ def build_branch_contract_audit() -> dict[str, Any]:
             "summary": {"headline": "Mine 后台任务已停止。", "status": "stopped"},
         }
     )
+    synthetic_selected_background_preview = annotate_background_record(
+        {
+            "label": "mine-worker",
+            "pid": 123,
+            "logPath": "/tmp/mine.log",
+            "stopCommand": "kill -TERM 123",
+            "alive": False,
+        }
+    )
+    synthetic_selected_background_error = annotate_background_record(
+        {
+            "label": "mine-worker",
+            "pid": 123,
+            "logPath": "/tmp/mine.log",
+            "stopCommand": "kill -TERM 123",
+            "alive": True,
+            "error": "boom",
+        }
+    )
 
     synthetic_recovery_decision = humanize_public_recovery_decision(
         {
@@ -16909,6 +19446,77 @@ def build_branch_contract_audit() -> dict[str, Any]:
         [{"name": "amount", "prompt": "输入数量", "placeholder": "100"}]
     )
     synthetic_parameter_schema_item = parameter_schema_display[0] if parameter_schema_display else None
+    synthetic_background_summary = summarize_background_log(
+        {
+            "label": "mine-worker",
+            "logPath": "/tmp/mine.log",
+        },
+        ["line1", "line2"],
+    )
+    synthetic_runtime_action_payload = annotate_runtime_action_payloads(
+        {
+            "selectedBackground": {
+                "label": "mine-worker",
+                "pid": 123,
+                "logPath": "/tmp/mine.log",
+                "stopCommand": "kill -TERM 123",
+                "alive": False,
+            },
+            "selectedConfirmation": {
+                "label": "确认提交",
+                "requiredInputs": [
+                    {"name": "amount", "prompt": "输入数量", "placeholder": "100"},
+                ],
+            },
+            "sourceFollowUpAction": {
+                "label": "继续当前运行",
+                "description": "继续这条 runtime 建议动作。",
+                "command": "python3 scripts/run-workstation.py --mode autopilot --execute",
+                "argv": ["python3", "scripts/run-workstation.py", "--mode", "autopilot", "--execute"],
+                "safeToAutoRun": True,
+                "requiresConfirmation": False,
+            },
+            "confirmedAction": {
+                "label": "确认提交",
+                "command": "python3 scripts/run-workstation.py --confirm-label 确认提交",
+                "requiresConfirmation": True,
+                "requiredInputs": [
+                    {"name": "amount", "prompt": "输入数量", "placeholder": "100"},
+                ],
+            },
+        }
+    )
+    synthetic_runtime_action_selected_background = (
+        synthetic_runtime_action_payload.get("selectedBackground")
+        if isinstance(synthetic_runtime_action_payload, dict)
+        and isinstance(synthetic_runtime_action_payload.get("selectedBackground"), dict)
+        else None
+    )
+    synthetic_runtime_action_selected_confirmation = (
+        synthetic_runtime_action_payload.get("selectedConfirmation")
+        if isinstance(synthetic_runtime_action_payload, dict)
+        and isinstance(synthetic_runtime_action_payload.get("selectedConfirmation"), dict)
+        else None
+    )
+    synthetic_runtime_action_selected_confirmation_input = (
+        synthetic_runtime_action_selected_confirmation.get("requiredInputsDisplay")[0]
+        if isinstance(synthetic_runtime_action_selected_confirmation, dict)
+        and isinstance(synthetic_runtime_action_selected_confirmation.get("requiredInputsDisplay"), list)
+        and synthetic_runtime_action_selected_confirmation.get("requiredInputsDisplay")
+        else None
+    )
+    synthetic_runtime_action_source_follow_up = (
+        synthetic_runtime_action_payload.get("sourceFollowUpAction")
+        if isinstance(synthetic_runtime_action_payload, dict)
+        and isinstance(synthetic_runtime_action_payload.get("sourceFollowUpAction"), dict)
+        else None
+    )
+    synthetic_runtime_action_confirmed_action = (
+        synthetic_runtime_action_payload.get("confirmedAction")
+        if isinstance(synthetic_runtime_action_payload, dict)
+        and isinstance(synthetic_runtime_action_payload.get("confirmedAction"), dict)
+        else None
+    )
     synthetic_step = {
         "label": "gov private state",
         "status": "failed",
@@ -16983,6 +19591,289 @@ def build_branch_contract_audit() -> dict[str, Any]:
         if isinstance(synthetic_probe, dict)
         and isinstance(synthetic_probe.get("runtimeGuidanceDisplay"), dict)
         else None
+    )
+    synthetic_predict_run_briefing = build_run_response_briefing(
+        {
+            "status": "needs_confirmation",
+            "selectedWorknetKey": "predict",
+            "selectedWorknetName": "Predict",
+            "confirmationQueue": [
+                {
+                    "label": "准备 Predict 提交",
+                    "argv": ["predict-agent", "submit"],
+                }
+            ],
+            "runtimeGuidance": None,
+            "executedSteps": [],
+        },
+        preferences={"preferredWorknet": "predict"},
+        recovery={},
+    )
+    synthetic_gov_resume_briefing = build_resume_recovery_briefing(
+        {
+            "hasLatestPlaybook": True,
+            "lastWorknetKey": "gov",
+            "pendingConfirmations": 1,
+            "defaultConfirmationLabel": "确认 Gov 动作 提交限价单",
+        },
+        [
+            {
+                "label": "确认 Gov 动作 提交限价单",
+                "description": "确认并执行这条 Gov 动作。",
+                "command": "python3 scripts/run-workstation.py --confirm-label '确认 Gov 动作 提交限价单'",
+            }
+        ],
+        worknet_name="GovNet",
+        preferred_profile={"key": "gov", "name": "GovNet"},
+        action_map={
+            "确认 Gov 动作 提交限价单": "python3 scripts/run-workstation.py --confirm-label '确认 Gov 动作 提交限价单'",
+        },
+    )
+    synthetic_ardi_run_briefing = build_run_response_briefing(
+        {
+            "status": "needs_runtime_input",
+            "nextAction": "follow_runtime_guidance",
+            "selectedWorknetKey": "ardi",
+            "selectedWorknetName": "Ardi",
+            "runtimeGuidance": {
+                "message": "Ardi runtime 已就绪，但现在先要补 Base gas，并满足 stake 资格，之后才能进 commit/reveal 循环。",
+                "userActions": ["补 Base Gas", "重跑 Ardi preflight"],
+                "actionMap": {
+                    "补 Base Gas": "Send at least 0.002 ETH to 0xabc on Base",
+                    "重跑 Ardi preflight": "ardi-agent preflight",
+                },
+                "nextCommand": ["ardi-agent", "preflight"],
+                "nextAction": "fund_gas_and_or_satisfy_stake",
+                "state": None,
+            },
+            "followUpActions": [
+                {
+                    "label": "重跑 Ardi preflight",
+                    "command": "ardi-agent preflight",
+                    "argv": ["ardi-agent", "preflight"],
+                    "safeToAutoRun": True,
+                    "requiresConfirmation": False,
+                }
+            ],
+            "executedSteps": [],
+        },
+        preferences={"preferredWorknet": "ardi"},
+        recovery={},
+    )
+    synthetic_predict_review_run = annotate_runtime_action_payloads(
+        {
+            "playbook": {"worknetKey": "predict", "requiredSkill": "Predict"},
+            "executedSteps": [
+                {
+                    "label": "查看 Predict context",
+                    "status": "ok",
+                    "result": {
+                        "code": 0,
+                        "stdout": {
+                            "state": "selection_required",
+                            "message": "Context ready.",
+                            "data": {"recommendation": {"action": "submit"}},
+                            "user_actions": ["prepare submission", "rerun context"],
+                            "_internal": {
+                                "action_map": {
+                                    "prepare submission": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                                    "rerun context": "predict-agent context",
+                                },
+                                "next_action": "confirm_predict_submission",
+                                "next_command": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                            },
+                        },
+                        "stderr": "",
+                    },
+                }
+            ],
+            "followUpActions": [
+                {
+                    "label": "准备 Predict 提交",
+                    "command": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                    "argv": ["predict-agent", "submit", "--market", "mkt-42", "--side", "<buy|sell>", "--tickets", "<tickets>", "--reasoning", "<reasoning>"],
+                    "safeToAutoRun": False,
+                    "requiresConfirmation": True,
+                }
+            ],
+            "runtimeGuidance": {
+                "message": "Predict context 已就绪，提交前先确认方向、tickets 和 reasoning。",
+                "userActions": ["prepare submission", "rerun context"],
+                "actionMap": {
+                    "prepare submission": "predict-agent submit --market mkt-42 --side <buy|sell> --tickets <tickets> --reasoning <reasoning>",
+                    "rerun context": "predict-agent context",
+                },
+                "nextCommand": ["predict-agent", "submit", "--market", "mkt-42", "--side", "<buy|sell>", "--tickets", "<tickets>", "--reasoning", "<reasoning>"],
+                "nextAction": "confirm_predict_submission",
+                "state": "selection_required",
+            },
+        }
+    )
+    synthetic_predict_review = public_review_view(
+        build_epoch_review_from_run(
+            synthetic_predict_review_run,
+            [],
+            state=state_context(),
+        )
+    )
+    synthetic_gov_review_run = annotate_runtime_action_payloads(
+        {
+            "playbook": {"worknetKey": "gov", "requiredSkill": "GovNet"},
+            "executedSteps": [
+                {
+                    "label": "gov public markets",
+                    "status": "ok",
+                    "result": {
+                        "code": 0,
+                        "stdout": {"items": [{"name": "YES-1"}], "message": "markets loaded"},
+                        "stderr": "",
+                    },
+                },
+                {
+                    "label": "gov phase-aware helper",
+                    "status": "ok",
+                    "result": {
+                        "code": 0,
+                        "stdout": {"phase": "Voting", "message": "Voting"},
+                        "stderr": "",
+                    },
+                },
+                {
+                    "label": "gov private state",
+                    "status": "failed",
+                    "result": {
+                        "code": 1,
+                        "stdout": {
+                            "error": "STATE_PRINCIPAL_NOT_IN_EPOCH",
+                            "message": "Principal has no AWP Power this epoch",
+                            "detail": "Principal has no AWP Power this epoch",
+                            "user_actions": ["check status"],
+                            "_internal": {
+                                "action_map": {"check status": "python3 scripts/private/state.py"},
+                                "next_action": "acquire_awp_power_or_observe_gov",
+                            },
+                        },
+                        "stderr": "",
+                    },
+                },
+            ],
+            "runtimeGuidance": {
+                "message": "Gov 当前 phase 是 Voting，但你的 principal 这期没有 AWP Power，所以签名交易和投票还不能做。",
+                "userActions": ["查看 Gov 可做动作", "查看 Gov markets", "阅读 staking 说明"],
+                "actionMap": {
+                    "查看 Gov 可做动作": "python3 scripts/helpers/what-can-i-do.py",
+                    "查看 Gov markets": "python3 scripts/public/markets.py",
+                    "阅读 staking 说明": "python3 scripts/query-knowledge.py --topic staking",
+                },
+                "nextAction": "acquire_awp_power_or_observe_gov",
+                "state": "Voting",
+            },
+        }
+    )
+    synthetic_gov_review = public_review_view(
+        build_epoch_review_from_run(
+            synthetic_gov_review_run,
+            [],
+            state=state_context(),
+        )
+    )
+    synthetic_ardi_review_run = annotate_runtime_action_payloads(
+        {
+            "playbook": {"worknetKey": "ardi", "requiredSkill": "Ardi"},
+            "executedSteps": [
+                {
+                    "label": "ardi gas check",
+                    "status": "failed",
+                    "result": {
+                        "code": 1,
+                        "stdout": {
+                            "message": "gas low",
+                            "data": {"suggestion": "Send at least 0.002 ETH to 0xabc on Base"},
+                        },
+                        "stderr": "",
+                    },
+                },
+                {
+                    "label": "ardi stake guidance",
+                    "status": "failed",
+                    "result": {
+                        "code": 1,
+                        "stdout": {
+                            "message": "stake low",
+                            "data": {"suggestion": "Reach the 10000 AWP threshold on EITHER Ardi or KYA"},
+                        },
+                        "stderr": "",
+                    },
+                },
+            ],
+            "runtimeGuidance": {
+                "message": "Ardi runtime 已就绪，但现在先要补 Base gas，并满足 stake 资格，之后才能进 commit/reveal 循环。",
+                "userActions": ["补 Base Gas", "重跑 Ardi preflight", "走 KYA 委托路径"],
+                "actionMap": {
+                    "补 Base Gas": "Send at least 0.002 ETH to 0xabc on Base",
+                    "重跑 Ardi preflight": "ardi-agent preflight",
+                    "走 KYA 委托路径": "https://kya.link/",
+                },
+                "nextCommand": ["ardi-agent", "preflight"],
+                "nextAction": "fund_gas_and_or_satisfy_stake",
+            },
+        }
+    )
+    synthetic_ardi_review = public_review_view(
+        build_epoch_review_from_run(
+            synthetic_ardi_review_run,
+            [],
+            state=state_context(),
+        )
+    )
+    kya_runtime_probe_items = (kya_knowledge.get("runtimeProbeDisplay") or {}).get("items")
+    kya_runtime_probe_item = kya_runtime_probe_items[0] if isinstance(kya_runtime_probe_items, list) and kya_runtime_probe_items else None
+    ardi_runtime_probe_items = (ardi_knowledge.get("runtimeProbeDisplay") or {}).get("items")
+    ardi_runtime_probe_item = ardi_runtime_probe_items[0] if isinstance(ardi_runtime_probe_items, list) and ardi_runtime_probe_items else None
+    kya_result_display = (
+        kya_runtime_probe_item.get("resultDisplay")
+        if isinstance(kya_runtime_probe_item, dict)
+        and isinstance(kya_runtime_probe_item.get("resultDisplay"), dict)
+        else None
+    )
+    kya_stdout_display = (
+        kya_result_display.get("stdoutDisplay")
+        if isinstance(kya_result_display, dict)
+        and isinstance(kya_result_display.get("stdoutDisplay"), dict)
+        else None
+    )
+    ardi_result_display = (
+        ardi_runtime_probe_item.get("resultDisplay")
+        if isinstance(ardi_runtime_probe_item, dict)
+        and isinstance(ardi_runtime_probe_item.get("resultDisplay"), dict)
+        else None
+    )
+    ardi_stdout_display = (
+        ardi_result_display.get("stdoutDisplay")
+        if isinstance(ardi_result_display, dict)
+        and isinstance(ardi_result_display.get("stdoutDisplay"), dict)
+        else None
+    )
+    predict_background_summary = summarize_background_log(
+        {
+            "label": "启动 Predict 静默循环",
+            "argv": ["predict-agent", "loop"],
+        },
+        [
+            "persona=degen timeslot=42",
+            "target=BTC-USD",
+            "calling LLM via openclaw",
+        ],
+    )
+    predict_background_record = annotate_background_record(
+        {
+            "label": "启动 Predict 静默循环",
+            "pid": 456,
+            "argv": ["predict-agent", "loop"],
+            "logPath": "/tmp/predict.log",
+            "alive": True,
+            "summary": predict_background_summary,
+        }
     )
 
     def first_item(items: Any) -> Optional[dict[str, Any]]:
@@ -17098,6 +19989,20 @@ def build_branch_contract_audit() -> dict[str, Any]:
             sample_ref="annotate_background_record({...})",
         ),
         audit_item(
+            "synthetic-selected-background-preview",
+            "Synthetic selected-background preview contract",
+            synthetic_selected_background_preview,
+            SELECTED_BACKGROUND_PREVIEW_FIELDS,
+            sample_ref="annotate_background_record({preview})",
+        ),
+        audit_item(
+            "synthetic-selected-background-error",
+            "Synthetic selected-background error-preview contract",
+            synthetic_selected_background_error,
+            SELECTED_BACKGROUND_ERROR_FIELDS,
+            sample_ref="annotate_background_record({preview,error})",
+        ),
+        audit_item(
             "run-executed-step",
             "Run-response executed-step contract",
             first_item(run_response.get("executedSteps")),
@@ -17112,11 +20017,81 @@ def build_branch_contract_audit() -> dict[str, Any]:
             sample_ref="annotate_parameter_schema_items([...])[0]",
         ),
         audit_item(
+            "background-summary",
+            "Synthetic background-summary contract",
+            synthetic_background_summary,
+            BACKGROUND_SUMMARY_FIELDS,
+            sample_ref="summarize_background_log({...})",
+        ),
+        audit_item(
+            "runtime-action-selected-background",
+            "annotate_runtime_action_payloads selected-background contract",
+            synthetic_runtime_action_selected_background,
+            SELECTED_BACKGROUND_PREVIEW_FIELDS,
+            sample_ref="annotate_runtime_action_payloads({...}).selectedBackground",
+        ),
+        audit_item(
+            "runtime-action-selected-confirmation",
+            "annotate_runtime_action_payloads selected-confirmation contract",
+            synthetic_runtime_action_selected_confirmation,
+            SELECTED_CONFIRMATION_FIELDS,
+            sample_ref="annotate_runtime_action_payloads({...}).selectedConfirmation",
+        ),
+        audit_item(
+            "runtime-action-selected-confirmation-input",
+            "annotate_runtime_action_payloads selected-confirmation input contract",
+            synthetic_runtime_action_selected_confirmation_input,
+            PARAMETER_SCHEMA_ITEM_FIELDS,
+            sample_ref="annotate_runtime_action_payloads({...}).selectedConfirmation.requiredInputsDisplay[0]",
+        ),
+        audit_item(
+            "runtime-action-source-follow-up",
+            "annotate_runtime_action_payloads source-follow-up contract",
+            synthetic_runtime_action_source_follow_up,
+            FOLLOW_UP_ACTION_FIELDS,
+            sample_ref="annotate_runtime_action_payloads({...}).sourceFollowUpAction",
+        ),
+        audit_item(
+            "runtime-action-confirmed-action",
+            "annotate_runtime_action_payloads confirmed-action contract",
+            synthetic_runtime_action_confirmed_action,
+            CONFIRMED_ACTION_FIELDS,
+            sample_ref="annotate_runtime_action_payloads({...}).confirmedAction",
+        ),
+        audit_item(
             "runtime-guidance",
             "Synthetic runtime-guidance contract",
             synthetic_runtime_guidance,
-            RUNTIME_GUIDANCE_FIELDS,
+            RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
             sample_ref="annotate_runtime_guidance_payload({...})",
+        ),
+        audit_item(
+            "mine-selection-guidance",
+            "Mine selection-required runtime-guidance contract",
+            synthetic_mine_selection_guidance,
+            RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
+            sample_ref="annotate_runtime_guidance_payload({mine selection})",
+        ),
+        audit_item(
+            "predict-persona-guidance",
+            "Predict persona-selection runtime-guidance contract",
+            synthetic_predict_persona_guidance,
+            RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
+            sample_ref="annotate_runtime_guidance_payload({predict persona})",
+        ),
+        audit_item(
+            "gov-observe-guidance",
+            "Gov observe-only runtime-guidance contract",
+            synthetic_gov_observe_guidance,
+            RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
+            sample_ref="annotate_runtime_guidance_payload({gov observe})",
+        ),
+        audit_item(
+            "ardi-remediation-guidance",
+            "Ardi remediation runtime-guidance contract",
+            synthetic_ardi_remediation_guidance,
+            RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
+            sample_ref="annotate_runtime_guidance_payload({ardi remediation})",
         ),
         audit_item(
             "runtime-guidance-user-action-detail",
@@ -17167,6 +20142,104 @@ def build_branch_contract_audit() -> dict[str, Any]:
             RUNTIME_GUIDANCE_WITH_NEXT_ACTION_FIELDS,
             sample_ref="annotate_probe_result_display({...}).runtimeGuidanceDisplay",
         ),
+        audit_item(
+            "predict-run-briefing",
+            "Predict confirmation run-briefing contract",
+            synthetic_predict_run_briefing,
+            RUN_RESPONSE_BRIEFING_FIELDS,
+            sample_ref="build_run_response_briefing({predict confirmation})",
+        ),
+        audit_item(
+            "gov-resume-briefing",
+            "Gov resume-recovery briefing contract",
+            synthetic_gov_resume_briefing,
+            RESUME_RECOVERY_BRIEFING_FIELDS,
+            sample_ref="build_resume_recovery_briefing({gov confirmation})",
+        ),
+        audit_item(
+            "ardi-run-briefing",
+            "Ardi follow-up run-briefing contract",
+            synthetic_ardi_run_briefing,
+            RUN_RESPONSE_BRIEFING_FIELDS,
+            sample_ref="build_run_response_briefing({ardi follow-up})",
+        ),
+        audit_item(
+            "predict-review",
+            "Predict synthetic review contract",
+            synthetic_predict_review,
+            REVIEW_PUBLIC_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({predict latest-run}))",
+        ),
+        audit_item(
+            "predict-review-user-action-detail",
+            "Predict synthetic review user-action-detail contract",
+            first_item(synthetic_predict_review.get("userActionDetails") if isinstance(synthetic_predict_review, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({predict latest-run})).userActionDetails[0]",
+        ),
+        audit_item(
+            "gov-review",
+            "Gov synthetic review contract",
+            synthetic_gov_review,
+            REVIEW_PUBLIC_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({gov latest-run}))",
+        ),
+        audit_item(
+            "gov-review-user-action-detail",
+            "Gov synthetic review user-action-detail contract",
+            first_item(synthetic_gov_review.get("userActionDetails") if isinstance(synthetic_gov_review, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({gov latest-run})).userActionDetails[0]",
+        ),
+        audit_item(
+            "ardi-review",
+            "Ardi synthetic review contract",
+            synthetic_ardi_review,
+            REVIEW_PUBLIC_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({ardi latest-run}))",
+        ),
+        audit_item(
+            "ardi-review-user-action-detail",
+            "Ardi synthetic review user-action-detail contract",
+            first_item(synthetic_ardi_review.get("userActionDetails") if isinstance(synthetic_ardi_review, dict) else None),
+            USER_ACTION_DETAIL_FIELDS,
+            sample_ref="public_review_view(build_epoch_review_from_run({ardi latest-run})).userActionDetails[0]",
+        ),
+        audit_item(
+            "kya-actual-result-display",
+            "Actual KYA probe result-display contract",
+            kya_result_display,
+            EXECUTED_STEP_RESULT_DISPLAY_FIELDS,
+            sample_ref="build_knowledge_query_result('kya').runtimeProbeDisplay.items[0].resultDisplay",
+        ),
+        audit_item(
+            "kya-actual-stdout-display",
+            "Actual KYA probe stdout-display contract",
+            kya_stdout_display,
+            EXECUTED_STEP_STDOUT_DISPLAY_FIELDS,
+            sample_ref="build_knowledge_query_result('kya').runtimeProbeDisplay.items[0].resultDisplay.stdoutDisplay",
+        ),
+        audit_item(
+            "ardi-actual-result-display",
+            "Actual Ardi probe result-display contract",
+            ardi_result_display,
+            EXECUTED_STEP_RESULT_DISPLAY_FIELDS,
+            sample_ref="build_knowledge_query_result('ardi').runtimeProbeDisplay.items[0].resultDisplay",
+        ),
+        audit_item(
+            "ardi-actual-stdout-display",
+            "Actual Ardi probe stdout-display contract",
+            ardi_stdout_display,
+            EXECUTED_STEP_STDOUT_DISPLAY_FIELDS,
+            sample_ref="build_knowledge_query_result('ardi').runtimeProbeDisplay.items[0].resultDisplay.stdoutDisplay",
+        ),
+        audit_item(
+            "predict-background-summary",
+            "Predict background-summary display contract",
+            predict_background_record.get("summaryDisplay") if isinstance(predict_background_record, dict) else None,
+            BACKGROUND_SUMMARY_FIELDS,
+            sample_ref="annotate_background_record({predict loop}).summaryDisplay",
+        ),
     ]
 
     covered_count = sum(1 for item in items if item["status"] == "covered")
@@ -17181,6 +20254,195 @@ def build_branch_contract_audit() -> dict[str, Any]:
         },
         "items": items,
     }
+
+
+def build_meta_contract_audit() -> dict[str, Any]:
+    state = state_context()
+    seed_verification_state_from_reference_exports(state)
+    knowledge_catalog = load_or_build_knowledge_catalog(state)
+    suites = [
+        {
+            "key": "public-contract-audit",
+            "title": "Public contract audit",
+            "audit": build_public_contract_audit(),
+        },
+        {
+            "key": "branch-contract-audit",
+            "title": "Branch contract audit",
+            "audit": build_branch_contract_audit(),
+        },
+        {
+            "key": "query-contract-audit",
+            "title": "Query contract audit",
+            "audit": build_query_contract_audit(catalog=knowledge_catalog),
+        },
+        {
+            "key": "display-contract-audit",
+            "title": "Display contract audit",
+            "audit": build_display_contract_audit(catalog=knowledge_catalog),
+        },
+    ]
+
+    suite_items: list[dict[str, Any]] = []
+    unresolved: list[dict[str, Any]] = []
+    all_green = True
+    for suite in suites:
+        audit = suite["audit"] if isinstance(suite, dict) else {}
+        summary = audit.get("summary", {}) if isinstance(audit, dict) else {}
+        partial = int(summary.get("partial", 0) or 0)
+        missing = int(summary.get("missing", 0) or 0)
+        covered = int(summary.get("covered", 0) or 0)
+        status = "covered" if partial == 0 and missing == 0 else ("missing" if missing else "partial")
+        if status != "covered":
+            all_green = False
+        suite_items.append(
+            {
+                "key": suite["key"],
+                "title": suite["title"],
+                "status": status,
+                "summary": {
+                    "covered": covered,
+                    "partial": partial,
+                    "missing": missing,
+                },
+                "generatedAt": audit.get("generatedAt") if isinstance(audit, dict) else None,
+            }
+        )
+        for item in audit.get("items", []) if isinstance(audit, dict) and isinstance(audit.get("items"), list) else []:
+            if not isinstance(item, dict) or item.get("status") == "covered":
+                continue
+            unresolved.append(
+                {
+                    "suiteKey": suite["key"],
+                    "suiteTitle": suite["title"],
+                    "key": item.get("key"),
+                    "title": item.get("title"),
+                    "status": item.get("status"),
+                    "sampleRef": item.get("sampleRef"),
+                    "missingFields": item.get("missingFields", [])[:10],
+                    "extraFields": item.get("extraFields", [])[:10],
+                    "reasons": item.get("reasons", [])[:3],
+                    "evidenceFiles": item.get("evidenceFiles", [])[:5],
+                }
+            )
+
+    payload = {
+        "generatedAt": now_iso(),
+        "status": "covered" if all_green else "needs_attention",
+        "summary": {
+            "suiteCount": len(suite_items),
+            "coveredSuites": sum(1 for item in suite_items if item["status"] == "covered"),
+            "partialSuites": sum(1 for item in suite_items if item["status"] == "partial"),
+            "missingSuites": sum(1 for item in suite_items if item["status"] == "missing"),
+            "unresolvedCount": len(unresolved),
+        },
+        "suites": suite_items,
+        "unresolved": unresolved,
+    }
+    atomic_write_json(Path(state["cache"]) / "contract-audit.json", payload)
+    write_reference_export("contract-audit.json", payload)
+    return payload
+
+
+def build_python_compile_audit() -> dict[str, Any]:
+    scripts_root = SKILL_ROOT / "scripts"
+    records: list[dict[str, Any]] = []
+    failed: list[dict[str, Any]] = []
+    with tempfile.TemporaryDirectory(prefix="awp-workstation-pyc-") as temp_dir:
+        temp_root = Path(temp_dir)
+        for path in sorted(scripts_root.glob("*.py")):
+            rel = path.relative_to(SKILL_ROOT)
+            target = temp_root / rel.with_suffix(".pyc")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                py_compile.compile(str(path), cfile=str(target), doraise=True)
+                records.append(
+                    {
+                        "path": str(rel),
+                        "status": "covered",
+                        "error": None,
+                    }
+                )
+            except py_compile.PyCompileError as exc:
+                message = str(exc).strip()
+                item = {
+                    "path": str(rel),
+                    "status": "missing",
+                    "error": message,
+                }
+                records.append(item)
+                failed.append(item)
+    payload = {
+        "generatedAt": now_iso(),
+        "status": "covered" if not failed else "missing",
+        "summary": {
+            "covered": len(records) - len(failed),
+            "missing": len(failed),
+            "total": len(records),
+        },
+        "items": records,
+    }
+    return payload
+
+
+def build_verification_audit() -> dict[str, Any]:
+    state = state_context()
+    seed_verification_state_from_reference_exports(state)
+    compile_audit = build_python_compile_audit()
+    contract_audit = build_meta_contract_audit()
+    contract_suite_status = "covered" if contract_audit.get("status") == "covered" else "partial"
+    suites = [
+        {
+            "key": "python-compile",
+            "title": "Python compile audit",
+            "status": compile_audit.get("status"),
+            "summary": compile_audit.get("summary"),
+            "generatedAt": compile_audit.get("generatedAt"),
+        },
+        {
+            "key": "contract-audit",
+            "title": "Unified contract audit",
+            "status": contract_suite_status,
+            "summary": contract_audit.get("summary"),
+            "generatedAt": contract_audit.get("generatedAt"),
+        },
+    ]
+    unresolved: list[dict[str, Any]] = []
+    for item in compile_audit.get("items", []) if isinstance(compile_audit, dict) and isinstance(compile_audit.get("items"), list) else []:
+        if not isinstance(item, dict) or item.get("status") == "covered":
+            continue
+        unresolved.append(
+            {
+                "suiteKey": "python-compile",
+                "suiteTitle": "Python compile audit",
+                "key": item.get("path"),
+                "title": item.get("path"),
+                "status": item.get("status"),
+                "error": item.get("error"),
+            }
+        )
+    for item in contract_audit.get("unresolved", []) if isinstance(contract_audit, dict) and isinstance(contract_audit.get("unresolved"), list) else []:
+        if isinstance(item, dict):
+            unresolved.append(item)
+    status = "covered" if compile_audit.get("status") == "covered" and contract_audit.get("status") == "covered" else "needs_attention"
+    payload = {
+        "generatedAt": now_iso(),
+        "status": status,
+        "summary": {
+            "suiteCount": len(suites),
+            "coveredSuites": sum(1 for item in suites if item.get("status") == "covered"),
+            "partialSuites": sum(1 for item in suites if item.get("status") == "partial"),
+            "missingSuites": sum(1 for item in suites if item.get("status") == "missing"),
+            "unresolvedCount": len(unresolved),
+        },
+        "suites": suites,
+        "compileAudit": compile_audit,
+        "contractAudit": contract_audit,
+        "unresolved": unresolved,
+    }
+    atomic_write_json(Path(state["cache"]) / "verification-audit.json", payload)
+    write_reference_export("verification-audit.json", payload)
+    return payload
 
 
 def build_topic_dossier_catalog() -> dict[str, Any]:
@@ -17213,6 +20475,7 @@ def build_knowledge_catalog(*, rebuild_derived: bool = False) -> dict[str, Any]:
     source_facts = build_source_fact_catalog()
     source_evidence = build_source_evidence_catalog()
     glossary = build_glossary_catalog()
+    concept_catalog = build_concept_catalog()
     topic_dossiers = build_topic_dossier_catalog()
     coverage_audit = build_coverage_audit(
         state=state,
@@ -17221,6 +20484,7 @@ def build_knowledge_catalog(*, rebuild_derived: bool = False) -> dict[str, Any]:
         source_evidence=source_evidence,
         topic_dossiers=topic_dossiers,
         glossary=glossary,
+        concept_catalog=concept_catalog,
         skill_inspections=skill_inspections,
     )
     if rebuild_derived:
@@ -17283,6 +20547,7 @@ def build_knowledge_catalog(*, rebuild_derived: bool = False) -> dict[str, Any]:
         "sourceFacts": source_facts["facts"],
         "sourceEvidence": source_evidence["records"],
         "glossary": glossary["terms"],
+        "concepts": concept_catalog["concepts"],
         "topicDossiers": topic_dossiers["dossiers"],
         "coverageAudit": coverage_audit,
         "skills": skill_registry,
@@ -17309,6 +20574,11 @@ def build_knowledge_catalog(*, rebuild_derived: bool = False) -> dict[str, Any]:
     topic_directory = build_knowledge_topic_directory(topic_index)
     reference_index = build_knowledge_reference_index(topic_index)
     source_directory = build_knowledge_source_directory(catalog)
+    concept_directory = [
+        project_fields(item, CONCEPT_DIRECTORY_ITEM_FIELDS)
+        for item in catalog.get("concepts", [])
+        if isinstance(item, dict)
+    ]
     catalog["knowledgeOverview"] = build_knowledge_overview(
         catalog,
         topic_index=topic_index,
@@ -17320,6 +20590,7 @@ def build_knowledge_catalog(*, rebuild_derived: bool = False) -> dict[str, Any]:
     catalog["topicDirectory"] = topic_directory
     catalog["referenceIndex"] = reference_index
     catalog["sourceDirectory"] = source_directory
+    catalog["conceptDirectory"] = concept_directory
     catalog = annotate_knowledge_catalog_runtime_summaries(catalog)
     atomic_write_json(Path(state["cache"]) / "knowledge-catalog.json", catalog)
     write_reference_export("knowledge-catalog.json", catalog)
@@ -17339,12 +20610,14 @@ def load_cached_knowledge_catalog(state: Optional[dict[str, Any]] = None) -> Opt
         "topicFreshness",
         "sourceFacts",
         "sourceEvidence",
+        "concepts",
         "topicDossiers",
         "knowledgeOverview",
         "topicIndex",
         "topicDirectory",
         "referenceIndex",
         "sourceDirectory",
+        "conceptDirectory",
     )
     if any(section not in payload for section in required_sections):
         return None
@@ -17838,6 +21111,13 @@ SOURCE_RECORD_DISPLAY_FIELDS = [
     "trustTier",
     "trustTierDisplay",
     "worknetKey",
+    "canonicalWorknetId",
+    "predecessorWorknetIds",
+    "officialSkillUri",
+    "minStakeHint",
+    "minStakeHintDisplay",
+    "runtimeSpecState",
+    "runtimeSpecStateDisplay",
     "headline",
     "summary",
     "summaryDisplay",
@@ -17873,6 +21153,13 @@ DOSSIER_DISPLAY_FIELDS = [
     "risks",
     "sourceKeys",
     "officialUrls",
+    "canonicalWorknetId",
+    "predecessorWorknetIds",
+    "officialSkillUri",
+    "minStakeHint",
+    "minStakeHintDisplay",
+    "runtimeSpecState",
+    "runtimeSpecStateDisplay",
 ]
 
 SOURCE_FACT_DISPLAY_FIELDS = [
@@ -17881,6 +21168,13 @@ SOURCE_FACT_DISPLAY_FIELDS = [
     "summary",
     "facts",
     "sourceKeys",
+    "canonicalWorknetId",
+    "predecessorWorknetIds",
+    "officialSkillUri",
+    "minStakeHint",
+    "minStakeHintDisplay",
+    "runtimeSpecState",
+    "runtimeSpecStateDisplay",
     "runtimeSummary",
     "runtimeProbeCount",
 ]
@@ -17895,6 +21189,13 @@ WORKNET_DISPLAY_FIELDS = [
     "installUri",
     "sourceKeys",
     "sourceKeysDisplay",
+    "canonicalWorknetId",
+    "predecessorWorknetIds",
+    "officialSkillUri",
+    "minStakeHint",
+    "minStakeHintDisplay",
+    "runtimeSpecState",
+    "runtimeSpecStateDisplay",
     "goal",
     "goalDisplay",
     "loop",
@@ -17931,6 +21232,24 @@ GLOSSARY_QUERY_MATCH_FIELDS = [
     "sourceKeys",
 ]
 
+CONCEPT_DIRECTORY_ITEM_FIELDS = [
+    "key",
+    "title",
+    "kind",
+    "aliases",
+    "plainLanguage",
+    "whyItMatters",
+    "summary",
+    "operatorLoop",
+    "sourceKeys",
+    "evidenceKeys",
+    "relatedTopics",
+    "relatedWorknets",
+    "coverageState",
+    "coverageStateDisplay",
+    "coverageNote",
+]
+
 REVIEW_SCOPE_FIELDS = [
     "topicCount",
     "factCount",
@@ -17960,6 +21279,8 @@ KNOWLEDGE_QUERY_FIELDS = [
     "citations",
     "citationsDisplay",
     "glossary",
+    "concept",
+    "conceptDisplay",
     "dossier",
     "dossierDisplay",
     "sourceFact",
@@ -17976,6 +21297,143 @@ KNOWLEDGE_QUERY_FIELDS = [
     "freshnessDisplay",
     "relatedSourceHighlights",
     "relatedReferenceHighlights",
+]
+
+KNOWLEDGE_OVERVIEW_FIELDS = [
+    "generatedAt",
+    "headline",
+    "summary",
+    "topicCount",
+    "rawTopicIndexCount",
+    "referenceEntryCount",
+    "sourceDirectoryCount",
+    "affectedSourceDirectoryCount",
+    "stableTopicCount",
+    "affectedTopicCount",
+    "worknetTopicCount",
+    "glossaryTermCount",
+    "officialSourceCount",
+    "pendingReviewCount",
+    "changedSourceCount",
+    "highestPriority",
+    "primaryActionLabel",
+    "primaryActionCommand",
+]
+
+KNOWLEDGE_DIRECTORY_ENTRY_FIELDS = [
+    "key",
+    "rawKey",
+    "canonicalTopicKey",
+    "label",
+    "kind",
+    "headline",
+    "summary",
+    "summaryPreview",
+    "plainLanguage",
+    "runtimeSummary",
+    "runtimeProbeCount",
+    "canonicalWorknetId",
+    "predecessorWorknetIds",
+    "officialSkillUri",
+    "minStakeHint",
+    "minStakeHintDisplay",
+    "runtimeSpecState",
+    "runtimeSpecStateDisplay",
+    "queryCommand",
+    "primaryCommand",
+    "freshnessStatus",
+    "highestPriority",
+    "affectedSourceKeys",
+    "sourceKeys",
+    "officialUrls",
+    "aliases",
+    "worknetKey",
+    "worknetName",
+    "automationLevel",
+    "riskLevel",
+    "recommendedRole",
+    "surfaceLevel",
+    "recommendations",
+    "citations",
+]
+
+SOURCE_DIRECTORY_ENTRY_FIELDS = [
+    "key",
+    "label",
+    "name",
+    "headline",
+    "summary",
+    "summaryPreview",
+    "queryCommand",
+    "primaryCommand",
+    "url",
+    "kind",
+    "kindDisplay",
+    "trustTier",
+    "trustTierDisplay",
+    "worknetKey",
+    "canonicalWorknetId",
+    "predecessorWorknetIds",
+    "officialSkillUri",
+    "minStakeHint",
+    "minStakeHintDisplay",
+    "runtimeSpecState",
+    "runtimeSpecStateDisplay",
+    "freshnessStatus",
+    "highestPriority",
+    "runtimeSummary",
+    "runtimeProbeCount",
+    "driftStatus",
+    "driftStatusDisplay",
+    "changedFieldsDisplay",
+    "impactedTopicsDisplay",
+    "impactedWorknetsDisplay",
+    "reviewHint",
+]
+
+KNOWLEDGE_ATLAS_GAP_FIELDS = [
+    "key",
+    "label",
+    "category",
+    "status",
+    "summary",
+    "worknetKey",
+    "worknetName",
+    "sourceKey",
+    "sourceName",
+    "recommendedActionLabel",
+    "recommendedActionCommand",
+]
+
+KNOWLEDGE_ATLAS_QUERY_FIELDS = [
+    "topic",
+    "status",
+    "resolvedTopicKey",
+    "resolvedTopicLabel",
+    "progress",
+    "headline",
+    "summary",
+    "plainLanguage",
+    "executionState",
+    "executionStateDisplay",
+    "executionHeadline",
+    "primaryCommand",
+    "primaryUserAction",
+    "primaryUserActionDisplay",
+    "primaryUserActionCommand",
+    "userActionDetails",
+    "researchActionGroups",
+    "recommendations",
+    "knowledgeOverview",
+    "reviewQueueSummary",
+    "focusTopics",
+    "worknetDirectory",
+    "topicDirectory",
+    "referenceDirectory",
+    "sourceDirectory",
+    "glossaryDirectory",
+    "conceptDirectory",
+    "atlasGaps",
 ]
 
 KNOWLEDGE_REVIEW_QUEUE_QUERY_FIELDS = [
@@ -18158,6 +21616,11 @@ def normalize_glossary_query_match_payload(record: Any) -> dict[str, Any]:
     return project_fields(source, GLOSSARY_QUERY_MATCH_FIELDS)
 
 
+def normalize_concept_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, CONCEPT_DIRECTORY_ITEM_FIELDS)
+
+
 def normalize_review_scope_payload(record: Any) -> dict[str, Any]:
     source = record if isinstance(record, dict) else {}
     return project_fields(source, REVIEW_SCOPE_FIELDS)
@@ -18166,6 +21629,131 @@ def normalize_review_scope_payload(record: Any) -> dict[str, Any]:
 def normalize_query_payload(record: Any, fields: list[str]) -> dict[str, Any]:
     source = record if isinstance(record, dict) else {}
     return project_fields(source, fields)
+
+
+def find_concept_match(concepts: Any, query: str) -> Optional[dict[str, Any]]:
+    normalized_query = safe_slug(str(query or "").strip())
+    if not normalized_query or not isinstance(concepts, list):
+        return None
+    for item in concepts:
+        if not isinstance(item, dict):
+            continue
+        candidates = {
+            safe_slug(str(item.get("key") or "").strip()),
+            safe_slug(str(item.get("title") or "").strip()),
+        }
+        candidates.update(
+            safe_slug(str(alias).strip())
+            for alias in item.get("aliases", [])
+            if str(alias).strip()
+        )
+        if normalized_query in candidates:
+            return item
+    return None
+
+
+def find_glossary_match(terms: Any, query: str) -> Optional[dict[str, Any]]:
+    normalized_query = safe_slug(str(query or "").strip())
+    if not normalized_query or not isinstance(terms, list):
+        return None
+    for item in terms:
+        if not isinstance(item, dict):
+            continue
+        candidates = {
+            safe_slug(str(item.get("term") or "").strip()),
+        }
+        candidates.update(
+            safe_slug(str(alias).strip())
+            for alias in item.get("aliases", [])
+            if str(alias).strip()
+        )
+        if normalized_query in candidates:
+            return item
+    return None
+
+
+def research_query_match_candidates(query: Optional[str]) -> list[str]:
+    raw = str(query or "").strip()
+    if not raw:
+        return []
+    candidates: list[str] = []
+    seen: set[str] = set()
+
+    def add(value: Any) -> None:
+        text = str(value or "").strip(" \t\r\n:：-?？")
+        if not text:
+            return
+        key = safe_slug(text)
+        if key in seen:
+            return
+        seen.add(key)
+        candidates.append(text)
+
+    add(raw)
+    lowered = raw.lower()
+    prefixes = [
+        "研究",
+        "了解",
+        "查询",
+        "百科",
+        "资料",
+        "文档",
+        "来源",
+        "research",
+        "learn",
+        "what is",
+        "what's",
+        "tell me about",
+        "guide",
+        "docs",
+        "documentation",
+        "source",
+    ]
+    for prefix in prefixes:
+        if lowered.startswith(prefix):
+            add(raw[len(prefix):])
+    return candidates
+
+
+def direct_knowledge_topic_from_research_text(
+    catalog: Any,
+    query: Optional[str],
+) -> Optional[str]:
+    if not isinstance(catalog, dict):
+        return None
+    concepts = catalog.get("conceptDirectory", catalog.get("concepts", []))
+    if not isinstance(concepts, list):
+        concepts = []
+    glossary_terms = catalog.get("glossary", [])
+    if not isinstance(glossary_terms, list):
+        glossary_terms = []
+    for candidate in research_query_match_candidates(query):
+        if find_concept_match(concepts, candidate):
+            return candidate
+    for candidate in research_query_match_candidates(query):
+        if find_glossary_match(glossary_terms, candidate):
+            return candidate
+    return None
+
+
+def normalize_knowledge_overview_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, KNOWLEDGE_OVERVIEW_FIELDS)
+
+
+def normalize_knowledge_directory_entry_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, KNOWLEDGE_DIRECTORY_ENTRY_FIELDS)
+
+
+def normalize_source_directory_entry_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, SOURCE_DIRECTORY_ENTRY_FIELDS)
+
+
+def normalize_knowledge_atlas_gap_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, KNOWLEDGE_ATLAS_GAP_FIELDS)
 
 
 def normalize_knowledge_review_queue_summary(record: Any) -> dict[str, Any]:
@@ -18580,34 +22168,36 @@ KNOWLEDGE_DOSSIER_DISPLAY_OVERRIDES: dict[str, dict[str, Any]] = {
         ],
     },
     "tmr": {
-        "summary": "TMR 是已激活的官方 WorkNet，但当前公开操作说明仍然偏薄。",
-        "whyItExists": "即使运行细节还不完整，工作站也应该先把它作为官方已发现 WorkNet 暴露出来。",
+        "summary": "TMR 是已激活的官方 WorkNet，当前 canonical Base ID 是 `845300000013`，但公开操作说明仍然偏薄。",
+        "whyItExists": "即使运行细节还不完整，工作站也应该先把这条 canonical live 路径暴露出来，避免把旧 predecessor 条目误当成主入口。",
         "operatorLoop": [
-            "先确认实时 WorkNet ID 和官方技能仓库地址。",
+            "先确认实时 WorkNet ID `845300000013` 和官方技能仓库地址。",
             "执行前先安装或检查官方 skill。",
             "在本地运行时核验前，先把任务语义当作未知。",
         ],
         "economics": [
-            "当前公开实时查询显示它的最低质押提示是 0。",
+            "当前公开实时查询显示它的最低质押提示是 0，但这只是 live metadata hint。",
         ],
         "risks": [
-            "公开任务说明仍然稀薄。",
+            "公开任务说明仍然稀薄，而且旧 predecessor 条目 `845300000008` 仍然可见。",
+            "官方 repo 截至 2026-05-22 仍然只有 LICENSE，没有 README、SKILL.md 或运行时说明。",
             "在本地 skill 没审过前，workstation 不该自动跑 TMR。",
         ],
     },
     "community": {
-        "summary": "Community 是已激活的官方 WorkNet，但当前公开操作说明仍然偏薄。",
-        "whyItExists": "它让工作站能在不假装理解完整任务闭环的前提下，仍把官方 Community 路径暴露出来。",
+        "summary": "Community 是已激活的官方 WorkNet，当前 canonical Base ID 是 `845300000011`，但公开操作资料仍然偏薄。",
+        "whyItExists": "它让工作站能在不假装理解完整任务闭环的前提下，仍把官方 Community live 路径和 community hub 一起暴露出来。",
         "operatorLoop": [
-            "先确认实时 WorkNet ID 和官方技能仓库地址。",
+            "先确认实时 WorkNet ID `845300000011` 和官方技能仓库地址。",
             "执行前先安装或检查官方 skill。",
             "在本地运行时说明补齐前，只按受监督的方式对待这条工作流。",
         ],
         "economics": [
-            "当前公开实时查询显示它的最低质押提示是 0。",
+            "当前公开实时查询显示它的最低质押提示是 0，但这只是 live metadata hint。",
         ],
         "risks": [
-            "公开任务说明仍然稀薄。",
+            "公开任务说明仍然稀薄，而且旧 predecessor 条目 `845300000006` 仍然可见。",
+            "官方 repo 截至 2026-05-22 仍然只有 LICENSE，而 `awp.community` 是 hub，不是 runtime spec。",
             "在本地 skill 没审过前，workstation 不该自动跑 Community。",
         ],
     },
@@ -19000,11 +22590,13 @@ def knowledge_display_dossier(
     *,
     summary: Optional[str] = None,
     why: Optional[str] = None,
+    worknet_metadata: Optional[dict[str, Any]] = None,
 ) -> Optional[dict[str, Any]]:
     if not isinstance(dossier, dict):
         return None
     key = str(dossier.get("key") or "").strip().lower()
     override = KNOWLEDGE_DOSSIER_DISPLAY_OVERRIDES.get(key, {})
+    worknet_metadata = worknet_metadata if isinstance(worknet_metadata, dict) else {}
     return normalize_dossier_payload({
         "key": dossier.get("key"),
         "kind": dossier.get("kind"),
@@ -19017,6 +22609,7 @@ def knowledge_display_dossier(
         "risks": humanize_knowledge_display_list(override.get("risks") or []),
         "sourceKeys": dossier.get("sourceKeys", []),
         "officialUrls": dossier.get("officialUrls", []),
+        **worknet_metadata,
     })
 
 
@@ -19041,6 +22634,7 @@ def knowledge_display_source_fact(
     *,
     summary: Optional[str] = None,
     runtime_probe_display: Any = None,
+    worknet_metadata: Optional[dict[str, Any]] = None,
 ) -> Optional[dict[str, Any]]:
     if not isinstance(source_fact, dict):
         return None
@@ -19050,12 +22644,14 @@ def knowledge_display_source_fact(
     summary_display = humanize_knowledge_display_text(summary)
     if runtime_summary:
         summary_display = join_product_sentences([summary_display, runtime_summary]) or runtime_summary
+    worknet_metadata = worknet_metadata if isinstance(worknet_metadata, dict) else {}
     return normalize_source_fact_payload({
         "key": source_fact.get("key"),
         "topic": source_fact.get("topic"),
         "summary": summary_display,
         "facts": humanize_knowledge_display_list(override_facts),
         "sourceKeys": source_fact.get("sourceKeys", []),
+        **worknet_metadata,
         "runtimeSummary": runtime_summary,
         "runtimeProbeCount": knowledge_runtime_probe_count(runtime_probe_display) or None,
     })
@@ -19166,6 +22762,7 @@ def knowledge_display_citations(
 def knowledge_source_summary_display(source_record: Any) -> Optional[str]:
     if not isinstance(source_record, dict):
         return None
+    key = str(source_record.get("key") or "").strip().lower()
     kind = str(source_record.get("kind") or "").strip()
     worknet_key = str(source_record.get("worknetKey") or "").strip().lower()
     worknet_name = None
@@ -19173,6 +22770,26 @@ def knowledge_source_summary_display(source_record: Any) -> Optional[str]:
         profile = resolve_worknet(worknet_key)
         if isinstance(profile, dict):
             worknet_name = str(profile.get("name") or "").strip() or None
+    if key == "tmr-skill":
+        return "这是 TMR 的官方 skill 仓库入口，但截至 2026-05-22 公开仓库仍然只有 LICENSE，没有 README、SKILL.md 或运行时说明，所以它现在只能证明来源地址，不能证明可安全执行。"
+    if key == "community-skill":
+        return "这是 Community 的官方 skill 仓库入口，但截至 2026-05-22 公开仓库仍然只有 LICENSE，没有 README、SKILL.md 或运行时说明，所以它现在只能证明来源地址，不能当成可运行 contract。"
+    if key == "awp-community":
+        return "这是 AWP 官方社区入口，用来补足社区讨论、工具和资料汇总，但它不是 WorkNet 运行时说明，也不该被当成自动执行依据。"
+    if key == "awp-agents":
+        return "这是 AWP 官方 agent 状态查询页，用来按 agent work wallet 地址查看跨网络状态；它是公开查询面，不是执行 runtime。"
+    if key == "awp-whitepaper-page":
+        return "这是 AWP 官方白皮书的网页入口，用来在浏览器里阅读协议摘要并跳转下载 PDF；它比纯 PDF 更适合做公开 surface 追踪。"
+    if key == "awp-blog-01-launch-worknet":
+        return "这是官方博客里解释如何启动一条新 WorkNet 的文章，重点是设计、gasless 注册、Guardian 激活、manager 配置和奖励分发节奏。"
+    if key == "awp-blog-02-what-is-awp":
+        return "这是官方博客里用人话解释 AWP 是什么的文章，重点是把 AWP 讲成 agent 的劳动市场，并强调 fair launch、proof of useful work 和 permissionless WorkNets。"
+    if key == "awp-blog-03-start-earning":
+        return "这是官方博客里的新手上手指南，重点是安装 awp-skill、创建工作钱包、免 gas 注册、选 WorkNet，然后开始工作。"
+    if key == "awp-blog-04-fair-launch":
+        return "这是官方博客里解释 AWP fair launch 的文章，重点是 10B emission 曲线、零预挖、以及 WorkNet wages 与 DAO Treasury 的公开分配。"
+    if key == "awp-blog-05-worknet":
+        return "这是官方博客里解释 WorkNet 是什么的文章，重点是把 WorkNet 讲成带有 payroll、equity、评分和市场价格的 agent 经济单元。"
     if kind == "protocol":
         return "这是 AWP 协议主入口来源，用来确认官网入口和高层协议说明。"
     if kind == "directory":
@@ -19209,12 +22826,151 @@ def knowledge_source_summary_display(source_record: Any) -> Optional[str]:
     return summary or None
 
 
+KNOWLEDGE_RUNTIME_SPEC_STATE_LABELS = {
+    "local-runtime-evidence": "已有本地运行证据",
+    "runtime-doc-available": "已有官方运行说明",
+    "thin-repo-only": "只有薄仓库入口",
+    "thin-repo-plus-hub": "只有薄仓库入口和社区入口",
+    "unknown": "资料待补",
+}
+
+
+def knowledge_worknet_metadata(
+    *,
+    worknet_key: Any = None,
+    worknet_id: Any = None,
+    source_keys: Any = None,
+    install_uri: Any = None,
+    capability_report: Any = None,
+) -> dict[str, Any]:
+    resolved_key = str(worknet_key or "").strip().lower()
+    profile = resolve_worknet(resolved_key or str(worknet_id or ""))
+    if not resolved_key and isinstance(profile, dict):
+        resolved_key = str(profile.get("key") or "").strip().lower()
+    source_key_items = source_keys if isinstance(source_keys, list) else []
+    source_key_set = {
+        str(item).strip()
+        for item in source_key_items
+        if str(item).strip()
+    }
+    if isinstance(profile, dict):
+        source_key_set.update(
+            str(item).strip()
+            for item in profile.get("source_keys", [])
+            if str(item).strip()
+        )
+    canonical_worknet_id = knowledge_first_non_empty(
+        worknet_id,
+        profile.get("worknet_id") if isinstance(profile, dict) else None,
+    )
+    predecessor_worknet_ids = [
+        str(item).strip()
+        for item in (profile.get("predecessor_worknet_ids", []) if isinstance(profile, dict) else [])
+        if str(item).strip()
+    ]
+    official_skill_uri = knowledge_first_non_empty(
+        install_uri,
+        profile.get("skills_uri") if isinstance(profile, dict) else None,
+        profile.get("install_uri") if isinstance(profile, dict) else None,
+    )
+    min_stake_hint = None
+    if isinstance(capability_report, dict) and capability_report.get("minStake") not in {None, ""}:
+        min_stake_hint = capability_report.get("minStake")
+    elif isinstance(profile, dict) and profile.get("min_stake") not in {None, ""}:
+        min_stake_hint = profile.get("min_stake")
+
+    inspection_state = str(capability_report.get("cliStatus") or "").strip() if isinstance(capability_report, dict) else ""
+    runtime_spec_state = "unknown"
+    if inspection_state in {"ready", "installed-needs-bootstrap", "network-blocked", "runtime-error"}:
+        runtime_spec_state = "local-runtime-evidence"
+    elif any(key.endswith("-skill-raw") for key in source_key_set):
+        runtime_spec_state = "runtime-doc-available"
+    elif resolved_key == "community" and "awp-community" in source_key_set:
+        runtime_spec_state = "thin-repo-plus-hub"
+    elif official_skill_uri:
+        runtime_spec_state = "thin-repo-only"
+
+    min_stake_hint_display = None
+    if min_stake_hint not in {None, ""}:
+        min_stake_hint_display = str(min_stake_hint)
+        if resolved_key in {"tmr", "community"} and str(min_stake_hint) == "0":
+            min_stake_hint_display = "0（仅实时提示）"
+
+    return {
+        "canonicalWorknetId": str(canonical_worknet_id).strip() if str(canonical_worknet_id or "").strip() else None,
+        "predecessorWorknetIds": predecessor_worknet_ids,
+        "officialSkillUri": str(official_skill_uri).strip() if str(official_skill_uri or "").strip() else None,
+        "minStakeHint": min_stake_hint,
+        "minStakeHintDisplay": min_stake_hint_display,
+        "runtimeSpecState": runtime_spec_state if runtime_spec_state != "unknown" or resolved_key in {"tmr", "community"} else None,
+        "runtimeSpecStateDisplay": KNOWLEDGE_RUNTIME_SPEC_STATE_LABELS.get(runtime_spec_state) if runtime_spec_state != "unknown" or resolved_key in {"tmr", "community"} else None,
+    }
+
+
+def preferred_worknet_source_keys_for_runtime_state(
+    source_keys: list[str],
+    *,
+    runtime_spec_state: Optional[str],
+    source_records: Optional[dict[str, dict[str, Any]]] = None,
+) -> list[str]:
+    source_records = source_records or {}
+    deduped: list[str] = []
+    for item in source_keys:
+        text = str(item or "").strip()
+        if text and text not in deduped and text != "awp-live-query":
+            deduped.append(text)
+    if not deduped:
+        return deduped
+
+    state = str(runtime_spec_state or "").strip()
+    def source_kind(key: str) -> str:
+        record = source_records.get(key, {})
+        return str(record.get("kind") or "").strip()
+
+    if state == "thin-repo-plus-hub":
+        preferred_order = {"docs": 0, "service": 1, "worknet": 2, "skill-doc": 3, "skill": 4}
+        return sorted(deduped, key=lambda key: (preferred_order.get(source_kind(key), 9), deduped.index(key)))
+    if state == "thin-repo-only":
+        preferred_order = {"skill": 0, "skill-doc": 1, "docs": 2, "service": 3, "worknet": 4}
+        return sorted(deduped, key=lambda key: (preferred_order.get(source_kind(key), 9), deduped.index(key)))
+    if state == "runtime-doc-available":
+        preferred_order = {"skill-doc": 0, "worknet": 1, "skill": 2, "docs": 3, "service": 4, "aip": 5}
+        return sorted(deduped, key=lambda key: (preferred_order.get(source_kind(key), 9), deduped.index(key)))
+    return deduped
+
+
+def runtime_spec_reason_parts(
+    *,
+    runtime_spec_state: Optional[str],
+    runtime_spec_state_display: Optional[str],
+    canonical_worknet_id: Optional[str],
+    min_stake_hint_display: Optional[str],
+) -> list[str]:
+    state = str(runtime_spec_state or "").strip()
+    display = str(runtime_spec_state_display or "").strip()
+    parts: list[str] = []
+    if state == "runtime-doc-available":
+        parts.append("official runtime docs and operator surfaces are already captured locally")
+    elif state == "thin-repo-only":
+        parts.append("only a thin official repo surface is available so far")
+    elif state == "thin-repo-plus-hub":
+        parts.append("only a thin official repo surface plus a community hub are available so far")
+    if canonical_worknet_id:
+        parts.append(f"canonical worknet id: {canonical_worknet_id}")
+    if min_stake_hint_display:
+        parts.append(f"live minStake hint: {min_stake_hint_display}")
+    if display and display not in parts:
+        parts.append(f"runtime maturity: {display}")
+    return parts
+
+
 def knowledge_display_source_record(
     source_record: Any,
     *,
     drift_item: Any = None,
     impact_item: Any = None,
     runtime_probe_display: Any = None,
+    capability_report: Any = None,
 ) -> Optional[dict[str, Any]]:
     if not isinstance(source_record, dict):
         return None
@@ -19251,6 +23007,12 @@ def knowledge_display_source_record(
         max_chars=140,
         max_sentences=2,
     )
+    worknet_metadata = knowledge_worknet_metadata(
+        worknet_key=source_record.get("worknetKey"),
+        source_keys=[source_record.get("key")] if source_record.get("key") else None,
+        install_uri=source_record.get("url") if kind == "skill" else None,
+        capability_report=capability_report,
+    )
     return normalize_source_record_payload({
         "key": source_record.get("key"),
         "name": source_record.get("name"),
@@ -19261,6 +23023,7 @@ def knowledge_display_source_record(
         "trustTier": trust_tier,
         "trustTierDisplay": humanize_knowledge_trust_tier(trust_tier),
         "worknetKey": source_record.get("worknetKey"),
+        **worknet_metadata,
         "headline": headline,
         "summary": source_record.get("summary"),
         "summaryDisplay": summary_display,
@@ -19967,6 +23730,24 @@ def knowledge_display_worknet(
     caution_display = humanize_knowledge_display_text((narrative or {}).get("caution"))
     if runtime_summary:
         caution_display = join_product_sentences([caution_display, runtime_summary]) or runtime_summary
+    profile = resolve_worknet(str(worknet.get("key") or worknet.get("worknetId") or ""))
+    merged_source_keys: list[str] = []
+    for source_key in worknet.get("sourceKeys", []) if isinstance(worknet.get("sourceKeys"), list) else []:
+        text = str(source_key).strip()
+        if text and text not in merged_source_keys:
+            merged_source_keys.append(text)
+    if isinstance(profile, dict):
+        for source_key in profile.get("source_keys", []):
+            text = str(source_key).strip()
+            if text and text not in merged_source_keys:
+                merged_source_keys.append(text)
+    worknet_metadata = knowledge_worknet_metadata(
+        worknet_key=worknet.get("key"),
+        worknet_id=worknet.get("worknetId"),
+        source_keys=merged_source_keys,
+        install_uri=worknet.get("installUri"),
+        capability_report=capability_report,
+    )
     rendered = {
         "key": worknet.get("key"),
         "worknetId": worknet.get("worknetId"),
@@ -19975,12 +23756,13 @@ def knowledge_display_worknet(
         "statusDisplay": KNOWLEDGE_WORKNET_STATUS_LABELS.get(str(worknet.get("status") or "").strip()),
         "symbol": worknet.get("symbol"),
         "installUri": worknet.get("installUri"),
-        "sourceKeys": worknet.get("sourceKeys", []),
+        "sourceKeys": merged_source_keys,
         "sourceKeysDisplay": [
             humanize_knowledge_source_label(item)
-            for item in worknet.get("sourceKeys", [])
+            for item in merged_source_keys
             if str(item).strip()
         ],
+        **worknet_metadata,
         "goal": worknet.get("goal"),
         "goalDisplay": humanize_knowledge_display_text((narrative or {}).get("plain") or worknet.get("goal")),
         "loop": worknet.get("loop"),
@@ -20230,6 +24012,7 @@ def knowledge_topic_recommendations(
     capability_report: Optional[dict[str, Any]],
     freshness: Any,
     impact_matches: list[dict[str, Any]],
+    source_records: Optional[dict[str, dict[str, Any]]] = None,
 ) -> list[dict[str, Any]]:
     recommendations: list[dict[str, Any]] = []
     seen: set[str] = set()
@@ -20284,6 +24067,18 @@ def knowledge_topic_recommendations(
 
     if isinstance(worknet, dict) and worknet.get("key"):
         worknet_key = str(worknet["key"])
+        worknet_source_keys = [
+            str(source_key).strip()
+            for source_key in worknet.get("sourceKeys", [])
+            if str(source_key).strip()
+        ] if isinstance(worknet.get("sourceKeys"), list) else []
+        worknet_metadata = knowledge_worknet_metadata(
+            worknet_key=worknet_key,
+            worknet_id=worknet.get("worknetId") if isinstance(worknet, dict) else None,
+            source_keys=worknet_source_keys,
+            install_uri=worknet.get("installUri") if isinstance(worknet, dict) else None,
+            capability_report=capability_report,
+        )
         if not affected and isinstance(capability_report, dict):
             runnable = bool(capability_report.get("runnable"))
             cli_status = str(capability_report.get("cliStatus") or "").strip()
@@ -20314,7 +24109,45 @@ def knowledge_topic_recommendations(
                     "先确认当前身份、收款地址和委托权限，再决定要不要继续绑定或签名。",
                     run_worknet_command(worknet_key, execute=True, auto_advance=True),
                 )
+            elif str(worknet_metadata.get("runtimeSpecState") or "").strip() == "runtime-doc-available":
+                preferred_source_keys = preferred_worknet_source_keys_for_runtime_state(
+                    worknet_source_keys,
+                    runtime_spec_state=str(worknet_metadata.get("runtimeSpecState") or "").strip() or None,
+                    source_records=source_records,
+                )
+                if not preferred_source_keys and worknet_source_keys:
+                    preferred_source_keys = [key for key in worknet_source_keys if key != "awp-live-query"] or worknet_source_keys[:]
+                for source_key in preferred_source_keys[:2]:
+                    add(
+                        f"查看来源 {humanize_knowledge_source_label(source_key)}",
+                        f"先回到 {label} 当前最关键的官方运行说明或操作页面，再决定后面要不要去做本地 inspection。",
+                        query_source_command(source_key),
+                    )
+                inspect_command = build_skill_inspect_command(worknet_key)
+                add(
+                    f"检查 {label} skill",
+                    f"{label} 已经有官方运行说明，但真正缺的是本地 checkout 和 inspection 证据。",
+                    render_argv([str(part) for part in inspect_command.get("argv", [])]) if isinstance(inspect_command.get("argv"), list) else None,
+                )
+                add(
+                    "查看 WorkNet 扫描",
+                    f"如果你想回到全局可运行性和风险对比，再看 {label} 的扫描状态。",
+                    scan_worknets_command(),
+                )
             elif role == "observer" or automation == "manual-only" or cli_status in {"remote-profile-only", "empty-official-repo"}:
+                preferred_source_keys = preferred_worknet_source_keys_for_runtime_state(
+                    worknet_source_keys,
+                    runtime_spec_state=str(worknet_metadata.get("runtimeSpecState") or "").strip() or None,
+                    source_records=source_records,
+                )
+                if not preferred_source_keys and worknet_source_keys:
+                    preferred_source_keys = [key for key in worknet_source_keys if key != "awp-live-query"] or worknet_source_keys[:]
+                for source_key in preferred_source_keys[:2]:
+                    add(
+                        f"查看来源 {humanize_knowledge_source_label(source_key)}",
+                        f"先回到 {label} 当前最关键的官方来源，确认它到底是可运行 skill、社区入口，还是只有登记地址。",
+                        query_source_command(source_key),
+                    )
                 add(
                     "查看 WorkNet 扫描",
                     f"先看 {label} 当前为什么只建议观察、哪里还不适合自动执行。",
@@ -20365,6 +24198,15 @@ def knowledge_topic_recommendations(
         resume_status=None,
         worknet_key=worknet_key or None,
     )
+    if worknet_key in {"tmr", "community"}:
+        recommendations = frontload_user_action_labels(
+            recommendations,
+            [
+                item.get("label")
+                for item in recommendations
+                if isinstance(item, dict) and str(item.get("label") or "").strip().startswith("查看来源 ")
+            ],
+        )
     return recommendations[:5]
 
 
@@ -20381,6 +24223,386 @@ def build_knowledge_query_result(
     knowledge_review_queue = catalog.get("knowledgeReviewQueue", {}) if isinstance(catalog.get("knowledgeReviewQueue"), dict) else {}
     if not knowledge_review_queue:
         knowledge_review_queue = load_cached_knowledge_review_queue() or build_knowledge_review_queue()
+
+    if topic in {"atlas", "overview", "knowledge-atlas", "encyclopedia", "network-map"}:
+        state = state_context()
+        knowledge_overview = (
+            catalog.get("knowledgeOverview", {})
+            if isinstance(catalog.get("knowledgeOverview"), dict)
+            else {}
+        )
+        queue_summary = summarize_knowledge_review_queue(knowledge_review_queue)
+        focus_topics = knowledge_overview.get("focusTopics") if isinstance(knowledge_overview.get("focusTopics"), list) else knowledge_focus_topics_payload(catalog, limit=6)
+        topic_directory = [
+            normalize_knowledge_directory_entry_payload(item)
+            for item in catalog.get("topicDirectory", [])
+            if isinstance(item, dict)
+        ] if isinstance(catalog.get("topicDirectory"), list) else []
+        worknet_directory = [
+            item
+            for item in topic_directory
+            if isinstance(item, dict)
+            and (
+                str(item.get("worknetKey") or "").strip()
+                or str(item.get("kind") or "").strip() in {"worknet", "worknet-service", "testnet"}
+            )
+        ]
+        reference_directory = [
+            normalize_knowledge_directory_entry_payload(item)
+            for item in catalog.get("referenceIndex", [])
+            if isinstance(item, dict)
+        ] if isinstance(catalog.get("referenceIndex"), list) else []
+        source_directory = [
+            normalize_source_directory_entry_payload(item)
+            for item in catalog.get("sourceDirectory", [])
+            if isinstance(item, dict)
+        ] if isinstance(catalog.get("sourceDirectory"), list) else []
+        concept_directory = [
+            normalize_concept_payload(item)
+            for item in catalog.get("conceptDirectory", catalog.get("concepts", []))
+            if isinstance(item, dict)
+        ] if isinstance(catalog.get("conceptDirectory", catalog.get("concepts", [])), list) else []
+        glossary_directory = [
+            normalize_glossary_item_payload(item)
+            for item in catalog.get("glossary", [])
+            if isinstance(item, dict)
+        ] if isinstance(catalog.get("glossary"), list) else []
+
+        capability_reports = capability_reports_by_worknet_key(
+            state=state,
+            bundle=load_cached_capability_bundle(state),
+        )
+        skill_registry = {
+            str(item.get("key") or "").strip(): item
+            for item in catalog.get("skills", [])
+            if isinstance(item, dict) and str(item.get("key") or "").strip()
+        } if isinstance(catalog.get("skills"), list) else {}
+        source_records = knowledge_source_records_from_catalog(catalog)
+        atlas_gaps: list[dict[str, Any]] = []
+
+        def add_gap(
+            *,
+            key: str,
+            label: str,
+            category: str,
+            status: str,
+            summary: str,
+            worknet_key: Optional[str],
+            worknet_name: Optional[str],
+            source_key: Optional[str],
+            recommended_action_label: Optional[str],
+            recommended_action_command: Optional[str],
+        ) -> None:
+            atlas_gaps.append(
+                normalize_knowledge_atlas_gap_payload(
+                    {
+                        "key": key,
+                        "label": label,
+                        "category": category,
+                        "status": status,
+                        "summary": summary,
+                        "worknetKey": worknet_key,
+                        "worknetName": worknet_name,
+                        "sourceKey": source_key,
+                        "sourceName": (
+                            source_records.get(source_key, {}).get("name")
+                            if isinstance(source_records.get(source_key), dict)
+                            else source_key
+                        ) if source_key else None,
+                        "recommendedActionLabel": recommended_action_label,
+                        "recommendedActionCommand": recommended_action_command,
+                    }
+                )
+            )
+
+        for worknet_item in catalog.get("worknets", []) if isinstance(catalog.get("worknets"), list) else []:
+            if not isinstance(worknet_item, dict):
+                continue
+            worknet_key = str(worknet_item.get("key") or "").strip()
+            if not worknet_key:
+                continue
+            worknet_name = str(worknet_item.get("name") or worknet_key).strip()
+            skill_record = skill_registry.get(worknet_key, {})
+            capability = capability_reports.get(worknet_key, {})
+            worknet_metadata = knowledge_worknet_metadata(
+                worknet_key=worknet_key,
+                worknet_id=worknet_item.get("worknetId"),
+                source_keys=worknet_item.get("sourceKeys", []),
+                install_uri=worknet_item.get("installUri"),
+                capability_report=capability,
+            )
+            runtime_spec_state = str(worknet_metadata.get("runtimeSpecState") or "").strip()
+            runtime_spec_state_display = str(worknet_metadata.get("runtimeSpecStateDisplay") or "").strip()
+            source_keys = [
+                str(value).strip()
+                for value in worknet_item.get("sourceKeys", [])
+                if str(value).strip()
+            ]
+            preferred_source_keys = preferred_worknet_source_keys_for_runtime_state(
+                source_keys,
+                runtime_spec_state=runtime_spec_state or None,
+                source_records=source_records,
+            )
+            preferred_source_key = next(
+                (
+                    key_name
+                    for key_name in preferred_source_keys
+                ),
+                (
+                    next((key_name for key_name in source_keys if key_name not in {"awp-live-query"}), None)
+                    or (source_keys[0] if source_keys else None)
+                ),
+            )
+            cli_status = str(capability.get("cliStatus") or "").strip()
+            registry_status = str(skill_record.get("status") or "").strip()
+            if runtime_spec_state in {"thin-repo-only", "thin-repo-plus-hub"}:
+                summary = "当前主要只有 live worknet ID 和官方 skill URI，公开 operator 资料仍然偏薄，所以百科只能把它标成已发现、不可自动运行。"
+                if runtime_spec_state == "thin-repo-plus-hub":
+                    summary = "当前只有 live worknet ID、官方 skill URI 和 community hub，资料层仍不足以证明可安全自动运行。"
+                add_gap(
+                    key=f"{worknet_key}-{runtime_spec_state or 'thin-public-sources'}",
+                    label=f"{worknet_name} 资料仍偏薄",
+                    category="thin-public-sources",
+                    status=runtime_spec_state or "thin",
+                    summary=join_product_sentences(
+                        [
+                            summary,
+                            f"当前结构化状态是 {runtime_spec_state_display}。" if runtime_spec_state_display else None,
+                            (
+                                f"canonical ID 是 {worknet_metadata.get('canonicalWorknetId')}，"
+                                f"minStake hint 是 {worknet_metadata.get('minStakeHintDisplay')}。"
+                                if worknet_metadata.get("canonicalWorknetId") or worknet_metadata.get("minStakeHintDisplay")
+                                else None
+                            ),
+                        ]
+                    ) or summary,
+                    worknet_key=worknet_key,
+                    worknet_name=worknet_name,
+                    source_key=preferred_source_key,
+                    recommended_action_label=f"查看来源 {humanize_knowledge_source_label(preferred_source_key)}" if preferred_source_key else "查看 WorkNet 扫描",
+                    recommended_action_command=query_source_command(preferred_source_key) if preferred_source_key else scan_worknets_command(),
+                )
+                continue
+            if runtime_spec_state == "runtime-doc-available" and registry_status in {"official-remote", "missing"}:
+                inspect_command = build_skill_inspect_command(worknet_key)
+                add_gap(
+                    key=f"{worknet_key}-runtime-doc-available",
+                    label=f"{worknet_name} 已有官方运行说明，但仍缺本地执行证据",
+                    category="runtime-evidence",
+                    status=runtime_spec_state,
+                    summary=join_product_sentences(
+                        [
+                            "这条 WorkNet 已经不只是 live ID 或 skill URI 占位，官方运行说明和关键资格信息都已经进入本地百科。",
+                            f"当前结构化状态是 {runtime_spec_state_display}。" if runtime_spec_state_display else None,
+                            (
+                                f"canonical ID 是 {worknet_metadata.get('canonicalWorknetId')}，"
+                                f"minStake hint 是 {worknet_metadata.get('minStakeHintDisplay')}。"
+                                if worknet_metadata.get("canonicalWorknetId") or worknet_metadata.get("minStakeHintDisplay")
+                                else None
+                            ),
+                            "真正缺的是本地 runtime checkout 或 inspection 证据，所以执行层仍然不能把它当成已稳定就绪。",
+                        ]
+                    ),
+                    worknet_key=worknet_key,
+                    worknet_name=worknet_name,
+                    source_key=preferred_source_key,
+                    recommended_action_label=f"检查 {worknet_name} skill",
+                    recommended_action_command=render_argv([str(part) for part in inspect_command.get('argv', [])]) if isinstance(inspect_command.get("argv"), list) else None,
+                )
+                continue
+            if registry_status in {"official-remote", "missing"}:
+                inspect_command = build_skill_inspect_command(worknet_key)
+                add_gap(
+                    key=f"{worknet_key}-runtime-install-gap",
+                    label=f"{worknet_name} 缺少本地 runtime 证据",
+                    category="runtime-evidence",
+                    status=registry_status,
+                    summary="协议和来源层已经有基础资料，但当前没有稳定的本地 runtime checkout 或 inspection 证据，百科对执行细节仍然偏依赖远程说明。",
+                    worknet_key=worknet_key,
+                    worknet_name=worknet_name,
+                    source_key=preferred_source_key,
+                    recommended_action_label=f"检查 {worknet_name} skill",
+                    recommended_action_command=render_argv([str(part) for part in inspect_command.get("argv", [])]) if isinstance(inspect_command.get("argv"), list) else None,
+                )
+                continue
+            if cli_status in {"remote-profile-only", "empty-official-repo", "installed-needs-bootstrap", "runtime-error", "network-blocked"}:
+                inspect_command = build_skill_inspect_command(worknet_key)
+                add_gap(
+                    key=f"{worknet_key}-{cli_status or 'runtime-gap'}",
+                    label=f"{worknet_name} runtime 仍需补证",
+                    category="runtime-evidence",
+                    status=cli_status or "runtime-gap",
+                    summary="这条 WorkNet 的高层资料已经有了，但本地 runtime 证据还不稳定，工作站还不能把它当成像 Mine 那样的成熟长期路径。",
+                    worknet_key=worknet_key,
+                    worknet_name=worknet_name,
+                    source_key=preferred_source_key,
+                    recommended_action_label=f"检查 {worknet_name} skill",
+                    recommended_action_command=render_argv([str(part) for part in inspect_command.get("argv", [])]) if isinstance(inspect_command.get("argv"), list) else None,
+                )
+
+        status = "knowledge_review_needed" if atlas_gaps or queue_summary.get("hasPendingReviews") else "knowledge_ready"
+        execution_payload = execution_state_payload(
+            "review_required" if atlas_gaps or queue_summary.get("hasPendingReviews") else "knowledge_ready",
+            headline=(
+                "当前 AWP 百科总览里还有资料薄弱区，需要继续补概念或 WorkNet 证据。"
+                if atlas_gaps or queue_summary.get("hasPendingReviews")
+                else "当前 AWP 百科总览可直接作为总入口使用。"
+            ),
+        )
+        summary = (
+            f"当前本地百科收录 {len(topic_directory)} 个主题、"
+            f"{len(reference_directory)} 条底层参考、"
+            f"{len(source_directory)} 条来源目录、"
+            f"{len(glossary_directory)} 个术语和 {len(concept_directory)} 个跨 WorkNet 概念/流程条目。"
+        )
+        if atlas_gaps:
+            summary += f" 另外还有 {len(atlas_gaps)} 个显式资料薄弱区，主要集中在资料偏薄或 runtime 证据不足的 WorkNet。"
+        else:
+            summary += " 当前没有显式资料薄弱区。"
+
+        recommendations: list[dict[str, Any]] = []
+        for gap in atlas_gaps[:5]:
+            if not isinstance(gap, dict):
+                continue
+            label = str(gap.get("recommendedActionLabel") or "").strip()
+            command = str(gap.get("recommendedActionCommand") or "").strip()
+            if not label or not command:
+                continue
+            recommendations.append(
+                {
+                    "label": label,
+                    "description": str(gap.get("summary") or "先处理当前最薄弱的资料区。").strip(),
+                    "command": command,
+                }
+            )
+        recommendations.extend(
+            [
+                {
+                    "label": "查看 AWP Protocol Core",
+                    "description": "从协议总览开始，回到百科最上层入口。",
+                    "command": query_knowledge_command("protocol-core"),
+                },
+                {
+                    "label": "查看 WorkNet 扫描",
+                    "description": "回到所有 WorkNet 的当前可运行性和风险对比。",
+                    "command": scan_worknets_command(),
+                },
+                {
+                    "label": "查看知识待重审队列",
+                    "description": "看当前有哪些来源、主题或事实需要重审。",
+                    "command": query_knowledge_command("review-queue"),
+                },
+                {
+                    "label": "刷新 AWP Knowledge Atlas",
+                    "description": "重新生成百科总览，确认目录、来源和概念层仍然一致。",
+                    "command": query_knowledge_command("atlas", rebuild=True),
+                },
+            ]
+        )
+        recommendations = prioritize_action_entries(
+            recommendations,
+            execution_state=execution_payload.get("executionState"),
+            resume_status=None,
+            worknet_key=None,
+        )
+        action_map = {
+            str(item.get("label") or "").strip(): str(item.get("command") or "").strip()
+            for item in recommendations
+            if isinstance(item, dict) and str(item.get("label") or "").strip() and str(item.get("command") or "").strip()
+        }
+        user_action_details = action_details_from_ui_actions(recommendations, action_map)
+        current_labels: list[str] = []
+        worknet_labels: list[str] = []
+        source_labels: list[str] = []
+        control_labels: list[str] = []
+        topic_labels: list[str] = []
+        for index, item in enumerate(user_action_details):
+            if not isinstance(item, dict):
+                continue
+            label_text = str(item.get("label") or "").strip()
+            if not label_text:
+                continue
+            if index == 0 or label_text.startswith("刷新 "):
+                current_labels.append(label_text)
+            elif label_text.startswith("查看来源 "):
+                source_labels.append(label_text)
+            elif label_text.startswith("查看 WorkNet") or label_text.startswith("检查 "):
+                worknet_labels.append(label_text)
+            elif label_text in {"查看知识待重审队列"}:
+                control_labels.append(label_text)
+            else:
+                topic_labels.append(label_text)
+        user_action_details = annotate_research_action_details(
+            user_action_details,
+            current_labels=current_labels,
+            control_labels=control_labels,
+            source_labels=source_labels,
+            topic_labels=topic_labels,
+            worknet_labels=worknet_labels,
+            reference_labels=[],
+            current_tier="current",
+            control_tier="queued",
+            source_tier="queued",
+            topic_tier="overview",
+            worknet_tier="overview",
+        )
+        research_action_groups = build_research_action_groups(
+            user_action_details,
+            current_labels=current_labels,
+            control_labels=control_labels,
+            source_labels=source_labels,
+            topic_labels=topic_labels,
+            worknet_labels=worknet_labels,
+            reference_labels=[],
+            control_first=False,
+        )
+        recommendations = annotate_research_action_details(
+            recommendations,
+            current_labels=current_labels,
+            control_labels=control_labels,
+            source_labels=source_labels,
+            topic_labels=topic_labels,
+            worknet_labels=worknet_labels,
+            reference_labels=[],
+            current_tier="current",
+            control_tier="queued",
+            source_tier="queued",
+            topic_tier="overview",
+            worknet_tier="overview",
+        )
+        return normalize_query_payload(
+            {
+                "topic": topic,
+                "status": status,
+                "resolvedTopicKey": "atlas",
+                "resolvedTopicLabel": "AWP Knowledge Atlas",
+                "progress": "[1/5] Knowledge Atlas",
+                "headline": "AWP Knowledge Atlas 当前可作为整张资料总入口使用。",
+                "summary": summary,
+                "plainLanguage": "这是 AWP 的本地知识总览：把协议、WorkNet、来源、术语、概念流程和当前资料薄弱区收在一个稳定入口里。",
+                "executionState": execution_payload.get("executionState"),
+                "executionStateDisplay": execution_payload.get("executionStateDisplay"),
+                "executionHeadline": execution_payload.get("executionHeadline"),
+                "primaryCommand": user_action_details[0]["command"] if user_action_details else None,
+                "primaryUserAction": user_action_details[0]["label"] if user_action_details else None,
+                "primaryUserActionDisplay": user_action_details[0]["displayLabel"] if user_action_details else None,
+                "primaryUserActionCommand": user_action_details[0]["command"] if user_action_details else None,
+                "userActionDetails": user_action_details,
+                "researchActionGroups": research_action_groups,
+                "recommendations": recommendations,
+                "knowledgeOverview": normalize_knowledge_overview_payload(knowledge_overview),
+                "reviewQueueSummary": normalize_knowledge_review_queue_summary(queue_summary),
+                "focusTopics": focus_topics,
+                "worknetDirectory": worknet_directory,
+                "topicDirectory": topic_directory,
+                "referenceDirectory": reference_directory,
+                "sourceDirectory": source_directory,
+                "glossaryDirectory": glossary_directory,
+                "conceptDirectory": concept_directory,
+                "atlasGaps": atlas_gaps,
+            },
+            KNOWLEDGE_ATLAS_QUERY_FIELDS,
+        )
 
     if topic in {"upstream-drift", "source-drift", "source-impact", "stale", "outdated", "review-queue", "knowledge-review-queue", "stale-queue"}:
         source_records: dict[str, dict[str, Any]] = {}
@@ -20562,11 +24784,25 @@ def build_knowledge_query_result(
     source_facts = list(catalog.get("sourceFacts", []))
     source_evidence = list(catalog.get("sourceEvidence", []))
     glossary_terms = list(catalog.get("glossary", []))
+    concepts = list(catalog.get("conceptDirectory", catalog.get("concepts", []))) if isinstance(catalog.get("conceptDirectory", catalog.get("concepts", [])), list) else []
     worknets = catalog.get("worknets", []) if isinstance(catalog.get("worknets"), list) else []
+    concept_match = find_concept_match(concepts, topic)
+    if isinstance(concept_match, dict):
+        return build_concept_query_result(
+            topic,
+            concept_match,
+            catalog=catalog,
+            source_impact=source_impact,
+            topic_freshness_catalog=topic_freshness_catalog,
+            knowledge_review_queue=knowledge_review_queue,
+        )
 
     dossier = next((item for item in dossiers if item.get("key") == topic), None)
     source_fact = next((item for item in source_facts if item.get("key") == topic), None)
     worknet = next((item for item in worknets if item.get("key") == topic), None)
+    direct_dossier_match = isinstance(dossier, dict)
+    direct_source_fact_match = isinstance(source_fact, dict)
+    direct_worknet_match = isinstance(worknet, dict)
     if source_fact is None:
         related_source_keys: set[str] = set()
         if isinstance(dossier, dict) and dossier.get("sourceKeys"):
@@ -20645,6 +24881,12 @@ def build_knowledge_query_result(
         ranked_source_facts.sort(key=lambda pair: pair[0], reverse=True)
         if ranked_source_facts:
             source_fact = ranked_source_facts[0][1]
+    glossary_primary_match = (
+        isinstance(glossary_match, dict)
+        and not direct_dossier_match
+        and not direct_source_fact_match
+        and not direct_worknet_match
+    )
 
     related_topic_keys = {topic}
     related_source_keys = set()
@@ -20725,21 +24967,48 @@ def build_knowledge_query_result(
     worknet_context = knowledge_topic_worknet_context(topic, dossier=dossier, worknet=worknet)
     narrative = canonical_topic_narrative(
         topic,
-        dossier_key=str(dossier.get("key") or "") if isinstance(dossier, dict) else None,
+        dossier_key=(
+            None
+            if glossary_primary_match
+            else str(dossier.get("key") or "") if isinstance(dossier, dict) else None
+        ),
         worknet_key=str(worknet_context.get("key") or "") if isinstance(worknet_context, dict) else None,
         glossary_term=str(glossary_match.get("term") or "") if isinstance(glossary_match, dict) else None,
     )
-    label = knowledge_display_topic_label(
-        topic,
-        glossary_match=glossary_match,
-        dossier=dossier,
-        source_fact=source_fact,
-        worknet=worknet_context,
+    label = (
+        str(glossary_match.get("term") or topic).strip()
+        if glossary_primary_match and isinstance(glossary_match, dict)
+        else knowledge_display_topic_label(
+            topic,
+            glossary_match=glossary_match,
+            dossier=dossier,
+            source_fact=source_fact,
+            worknet=worknet_context,
+        )
     )
     capability_reports = capability_reports_by_worknet_key()
     capability_report = None
     if isinstance(worknet_context, dict) and str(worknet_context.get("key") or "").strip():
         capability_report = capability_reports.get(str(worknet_context.get("key") or "").strip())
+    worknet_metadata = knowledge_worknet_metadata(
+        worknet_key=worknet_context.get("key") if isinstance(worknet_context, dict) else None,
+        worknet_id=worknet_context.get("worknetId") if isinstance(worknet_context, dict) else None,
+        source_keys=(
+            worknet_context.get("sourceKeys", [])
+            if isinstance(worknet_context, dict)
+            else (
+                dossier.get("sourceKeys", [])
+                if isinstance(dossier, dict)
+                else (
+                    source_fact.get("sourceKeys", [])
+                    if isinstance(source_fact, dict)
+                    else []
+                )
+            )
+        ),
+        install_uri=worknet_context.get("installUri") if isinstance(worknet_context, dict) else None,
+        capability_report=capability_report,
+    )
     freshness = {"status": freshness_status, "highestPriority": highest_priority, "items": freshness_matches}
     summary = knowledge_topic_summary(
         label,
@@ -20765,7 +25034,10 @@ def build_knowledge_query_result(
         capability_report=capability_report,
         freshness=freshness,
         impact_matches=impact_matches,
+        source_records=source_records,
     )
+    if glossary_primary_match:
+        recommendations = frontload_user_action_labels(recommendations, [f"刷新 {label}"])
     status = "knowledge_review_needed" if freshness_status == "affected" else "knowledge_ready"
     citations = knowledge_topic_citations(
         evidence_matches,
@@ -20819,24 +25091,24 @@ def build_knowledge_query_result(
     )
     queue_summary = summarize_knowledge_review_queue(knowledge_review_queue)
     topic_directory = catalog.get("topicDirectory", []) if isinstance(catalog.get("topicDirectory"), list) else []
-    current_context = find_topic_directory_entry(
-        topic_directory,
-        key=str(knowledge_resolved_topic_key(
+    resolved_topic_key = (
+        str(glossary_match.get("term") or topic).strip()
+        if glossary_primary_match and isinstance(glossary_match, dict)
+        else knowledge_resolved_topic_key(
             topic,
             glossary_match=glossary_match,
             dossier=dossier,
             worknet=worknet_context,
-        ) or "").strip(),
+        )
+    )
+    current_context = find_topic_directory_entry(
+        topic_directory,
+        key=str(resolved_topic_key or "").strip(),
         worknet_key=str(worknet_context.get("key") or "").strip() if isinstance(worknet_context, dict) else None,
     )
     if not isinstance(current_context, dict):
         current_context = {
-            "key": knowledge_resolved_topic_key(
-                topic,
-                glossary_match=glossary_match,
-                dossier=dossier,
-                worknet=worknet_context,
-            ),
+            "key": resolved_topic_key,
             "label": label,
             "summary": summary,
             "summaryPreview": compact_preview_text(
@@ -20846,15 +25118,7 @@ def build_knowledge_query_result(
             ),
             "headline": knowledge_topic_headline(label, freshness),
             "queryCommand": query_knowledge_command(
-                str(
-                    knowledge_resolved_topic_key(
-                        topic,
-                        glossary_match=glossary_match,
-                        dossier=dossier,
-                        worknet=worknet_context,
-                    )
-                    or topic
-                ).strip()
+                str(resolved_topic_key or topic).strip()
             ),
             "primaryCommand": primary_command,
             "freshnessStatus": freshness_status,
@@ -20966,12 +25230,7 @@ def build_knowledge_query_result(
     return normalize_query_payload({
         "topic": topic,
         "status": status,
-        "resolvedTopicKey": knowledge_resolved_topic_key(
-            topic,
-            glossary_match=glossary_match,
-            dossier=dossier,
-            worknet=worknet_context,
-        ),
+        "resolvedTopicKey": resolved_topic_key,
         "resolvedTopicLabel": label,
         "progress": "[2/5] Knowledge Query",
         "headline": knowledge_topic_headline(label, freshness),
@@ -20990,17 +25249,21 @@ def build_knowledge_query_result(
         "citations": citations,
         "citationsDisplay": citations_display,
         "glossary": glossary_match,
+        "concept": None,
+        "conceptDisplay": None,
         "dossier": dossier,
         "dossierDisplay": knowledge_display_dossier(
             dossier,
             summary=summary,
             why=(narrative or {}).get("why") if isinstance(narrative, dict) else None,
+            worknet_metadata=worknet_metadata,
         ),
         "sourceFact": source_fact,
         "sourceFactDisplay": knowledge_display_source_fact(
             source_fact,
             summary=summary,
             runtime_probe_display=runtime_probe_display,
+            worknet_metadata=worknet_metadata,
         ),
         "evidence": evidence_matches,
         "evidenceDisplay": evidence_display,
@@ -21025,6 +25288,361 @@ def build_knowledge_query_result(
         "relatedSourceHighlights": related_source_highlights,
         "relatedReferenceHighlights": related_reference_highlights,
     }, KNOWLEDGE_QUERY_FIELDS)
+
+
+def build_concept_query_result(
+    topic: str,
+    concept_match: dict[str, Any],
+    *,
+    catalog: Optional[dict[str, Any]] = None,
+    source_impact: Optional[dict[str, Any]] = None,
+    topic_freshness_catalog: Optional[dict[str, Any]] = None,
+    knowledge_review_queue: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    catalog = catalog if isinstance(catalog, dict) else (load_cached_knowledge_catalog() or build_knowledge_catalog())
+    source_impact = source_impact if isinstance(source_impact, dict) else (
+        catalog.get("sourceImpact", {}) if isinstance(catalog.get("sourceImpact"), dict) else {}
+    )
+    topic_freshness_catalog = topic_freshness_catalog if isinstance(topic_freshness_catalog, dict) else (
+        catalog.get("topicFreshness", {}) if isinstance(catalog.get("topicFreshness"), dict) else {}
+    )
+    knowledge_review_queue = knowledge_review_queue if isinstance(knowledge_review_queue, dict) else (
+        catalog.get("knowledgeReviewQueue", {}) if isinstance(catalog.get("knowledgeReviewQueue"), dict) else {}
+    )
+    if not knowledge_review_queue:
+        knowledge_review_queue = load_cached_knowledge_review_queue() or build_knowledge_review_queue()
+
+    concept_key = str(concept_match.get("key") or topic).strip()
+    concept_title = str(concept_match.get("title") or concept_key).strip()
+    related_topics = [
+        str(item).strip().lower()
+        for item in concept_match.get("relatedTopics", [])
+        if str(item).strip()
+    ]
+    related_worknets = [
+        str(item).strip().lower()
+        for item in concept_match.get("relatedWorknets", [])
+        if str(item).strip()
+    ]
+    source_keys = [
+        str(item).strip()
+        for item in concept_match.get("sourceKeys", [])
+        if str(item).strip()
+    ]
+    evidence_keys = {
+        str(item).strip()
+        for item in concept_match.get("evidenceKeys", [])
+        if str(item).strip()
+    }
+    source_records = knowledge_source_records_from_catalog(catalog)
+    source_evidence = list(catalog.get("sourceEvidence", []))
+    topic_directory = catalog.get("topicDirectory", []) if isinstance(catalog.get("topicDirectory"), list) else []
+    queue_summary = summarize_knowledge_review_queue(knowledge_review_queue)
+
+    ranked_evidence: list[tuple[int, dict[str, Any]]] = []
+    for item in source_evidence:
+        if not isinstance(item, dict):
+            continue
+        score = 0
+        item_key = str(item.get("key") or "").strip()
+        topic_key = str(item.get("topicKey") or "").strip().lower()
+        source_key = str(item.get("sourceKey") or "").strip()
+        if item_key in evidence_keys:
+            score += 100
+        if topic_key in related_topics or topic_key in related_worknets:
+            score += 40
+        if source_key in source_keys:
+            score += 20
+        if score > 0:
+            ranked_evidence.append((score, item))
+    ranked_evidence.sort(key=lambda pair: pair[0], reverse=True)
+    evidence_matches = [item for _, item in ranked_evidence]
+    citations = knowledge_topic_citations(
+        evidence_matches,
+        source_records=source_records,
+        dossier=None,
+    )
+    evidence_display, evidence_display_index = knowledge_display_evidence(evidence_matches)
+    citations_display = knowledge_display_citations(
+        citations,
+        evidence_display_index=evidence_display_index,
+    )
+
+    related_topic_keys = {concept_key.lower(), *related_topics, *related_worknets}
+    related_source_keys = set(source_keys)
+    impact_matches: list[dict[str, Any]] = []
+    for item in source_impact.get("impacts", []):
+        if not isinstance(item, dict):
+            continue
+        impacted_topics = {
+            str(entry.get("key", "")).strip().lower()
+            for entry in item.get("impactedTopics", [])
+            if isinstance(entry, dict) and entry.get("key")
+        }
+        impacted_facts = {
+            str(entry.get("key", "")).strip().lower()
+            for entry in item.get("impactedFacts", [])
+            if isinstance(entry, dict) and entry.get("key")
+        }
+        impacted_worknets = {
+            str(entry).strip().lower()
+            for entry in item.get("impactedWorknets", [])
+            if str(entry).strip()
+        }
+        source_key = str(item.get("sourceKey") or "").strip()
+        if (
+            impacted_topics.intersection(related_topic_keys)
+            or impacted_facts.intersection(related_topic_keys)
+            or impacted_worknets.intersection(related_topic_keys)
+            or source_key in related_source_keys
+        ):
+            impact_matches.append(
+                {
+                    "sourceKey": item.get("sourceKey"),
+                    "sourceName": item.get("sourceName"),
+                    "priority": item.get("priority"),
+                    "driftStatus": item.get("driftStatus"),
+                    "reviewHint": item.get("reviewHint"),
+                    "reviewCommands": item.get("reviewCommands"),
+                }
+            )
+
+    freshness_matches: list[dict[str, Any]] = []
+    for bucket in ("topics", "facts", "worknets"):
+        for item in topic_freshness_catalog.get(bucket, []):
+            if not isinstance(item, dict):
+                continue
+            key = str(item.get("key", "")).strip().lower()
+            if key in related_topic_keys:
+                freshness_matches.append(item)
+    freshness_status = "stable"
+    highest_priority = "low"
+    for item in freshness_matches:
+        if item.get("status") == "affected":
+            freshness_status = "affected"
+        priority = str(item.get("highestPriority") or "low")
+        if KNOWLEDGE_QUEUE_PRIORITY_RANK.get(priority, 0) > KNOWLEDGE_QUEUE_PRIORITY_RANK.get(highest_priority, 0):
+            highest_priority = priority
+    freshness = {"status": freshness_status, "highestPriority": highest_priority, "items": freshness_matches}
+
+    current_context = {
+        "key": concept_key,
+        "label": concept_title,
+        "kind": "concept",
+        "summary": concept_match.get("summary"),
+        "summaryPreview": compact_preview_text(
+            concept_match.get("plainLanguage") or concept_match.get("summary"),
+            max_chars=140,
+            max_sentences=2,
+        ),
+        "headline": f"{concept_title} 当前资料可直接参考。" if freshness_status != "affected" else f"{concept_title} 当前有上游变更待复核。",
+        "queryCommand": query_knowledge_command(concept_key),
+        "primaryCommand": query_knowledge_command(concept_key, rebuild=True),
+        "freshnessStatus": freshness_status,
+        "sourceKeys": source_keys,
+    }
+    related_source_highlights = knowledge_related_source_highlights(catalog, current_context, limit=3)
+    related_reference_highlights = knowledge_related_reference_highlights(catalog, current_context, limit=2)
+    impact_display = knowledge_display_source_impact(
+        {"affected": bool(impact_matches), "items": impact_matches},
+        catalog=catalog,
+    )
+    freshness_display = knowledge_display_freshness(freshness)
+    execution_payload = execution_state_payload(
+        "review_required" if freshness_status == "affected" else "knowledge_ready",
+        headline=(
+            f"{concept_title} 当前有上游变更待复核。"
+            if freshness_status == "affected"
+            else f"{concept_title} 当前资料可直接参考。"
+        ),
+    )
+
+    recommendations: list[dict[str, Any]] = [
+        {
+            "label": f"刷新 {concept_title}",
+            "description": "重新生成这条概念条目，确认来源、证据和相关主题仍然一致。",
+            "command": query_knowledge_command(concept_key, rebuild=True),
+        }
+    ]
+    topic_action_labels: list[str] = []
+    worknet_action_labels: list[str] = []
+    for related_key in [*related_topics, *related_worknets]:
+        topic_entry = find_topic_directory_entry(topic_directory, key=related_key, worknet_key=related_key)
+        if not isinstance(topic_entry, dict):
+            continue
+        label_text = str(topic_entry.get("label") or topic_entry.get("key") or related_key).strip()
+        command = str(topic_entry.get("queryCommand") or query_knowledge_command(related_key)).strip()
+        if not label_text or not command:
+            continue
+        action_label = f"查看 {label_text}"
+        description = knowledge_action_description(topic_entry)
+        if any(str(item.get("label") or "").strip() == action_label for item in recommendations if isinstance(item, dict)):
+            continue
+        recommendations.append(
+            {
+                "label": action_label,
+                "description": description,
+                "command": command,
+            }
+        )
+        if str(topic_entry.get("worknetKey") or "").strip():
+            worknet_action_labels.append(action_label)
+        else:
+            topic_action_labels.append(action_label)
+    source_action_labels: list[str] = []
+    for item in related_source_highlights[:3]:
+        if not isinstance(item, dict):
+            continue
+        source_label = str(item.get("label") or item.get("key") or "").strip()
+        command = str(item.get("queryCommand") or "").strip()
+        if not source_label or not command:
+            continue
+        label_text = f"查看来源 {source_label}"
+        if any(str(entry.get("label") or "").strip() == label_text for entry in recommendations if isinstance(entry, dict)):
+            continue
+        recommendations.append(
+            {
+                "label": label_text,
+                "description": knowledge_source_action_description(item),
+                "command": command,
+            }
+        )
+        source_action_labels.append(label_text)
+    reference_action_labels: list[str] = []
+    for item in related_reference_highlights[:2]:
+        if not isinstance(item, dict):
+            continue
+        reference_label = str(item.get("label") or item.get("key") or "").strip()
+        command = str(item.get("queryCommand") or "").strip()
+        if not reference_label or not command:
+            continue
+        label_text = f"查看参考 {reference_label}"
+        if any(str(entry.get("label") or "").strip() == label_text for entry in recommendations if isinstance(entry, dict)):
+            continue
+        recommendations.append(
+            {
+                "label": label_text,
+                "description": "如果你要追底层规则、运行时约束或协议细节，就直接看这条参考条目。",
+                "command": command,
+            }
+        )
+        reference_action_labels.append(label_text)
+    control_action_labels: list[str] = []
+    queue_label = str(queue_summary.get("primaryActionLabel") or "").strip()
+    queue_command = str(queue_summary.get("primaryActionCommand") or "").strip()
+    if queue_summary.get("hasPendingReviews") and queue_label and queue_command:
+        recommendations.append(
+            {
+                "label": queue_label,
+                "description": "查看最近哪些官方资料发生变化，以及哪些知识条目需要重审。",
+                "command": queue_command,
+            }
+        )
+        control_action_labels.append(queue_label)
+
+    action_map = {
+        str(item.get("label") or "").strip(): str(item.get("command") or "").strip()
+        for item in recommendations
+        if isinstance(item, dict) and str(item.get("label") or "").strip() and str(item.get("command") or "").strip()
+    }
+    user_action_details = action_details_from_ui_actions(recommendations, action_map)
+    current_action_labels = [f"刷新 {concept_title}"]
+    research_action_groups = build_research_action_groups(
+        user_action_details,
+        current_labels=current_action_labels,
+        control_labels=control_action_labels,
+        source_labels=source_action_labels,
+        topic_labels=topic_action_labels,
+        worknet_labels=worknet_action_labels,
+        reference_labels=reference_action_labels,
+        control_first=False,
+    )
+    recommendations = annotate_research_action_details(
+        recommendations,
+        current_labels=current_action_labels,
+        control_labels=control_action_labels,
+        source_labels=source_action_labels,
+        topic_labels=topic_action_labels,
+        worknet_labels=worknet_action_labels,
+        reference_labels=reference_action_labels,
+        current_tier="current",
+        control_tier="queued",
+        source_tier="related",
+        topic_tier="related",
+        worknet_tier="related",
+        reference_tier="related",
+    )
+    user_action_details = annotate_research_action_details(
+        user_action_details,
+        current_labels=current_action_labels,
+        control_labels=control_action_labels,
+        source_labels=source_action_labels,
+        topic_labels=topic_action_labels,
+        worknet_labels=worknet_action_labels,
+        reference_labels=reference_action_labels,
+        current_tier="current",
+        control_tier="queued",
+        source_tier="related",
+        topic_tier="related",
+        worknet_tier="related",
+        reference_tier="related",
+    )
+    user_action_details = frontload_user_action_labels(
+        user_action_details,
+        [
+            *current_action_labels,
+            *source_action_labels,
+            *topic_action_labels,
+            *worknet_action_labels,
+            *control_action_labels,
+            *reference_action_labels,
+        ],
+    )
+
+    return normalize_query_payload(
+        {
+            "topic": topic,
+            "status": "knowledge_review_needed" if freshness_status == "affected" else "knowledge_ready",
+            "resolvedTopicKey": concept_key,
+            "resolvedTopicLabel": concept_title,
+            "progress": "[2/5] Knowledge Query",
+            "headline": execution_payload.get("executionHeadline"),
+            "summary": str(concept_match.get("summary") or concept_match.get("plainLanguage") or "").strip() or None,
+            "plainLanguage": concept_match.get("plainLanguage"),
+            "executionState": execution_payload.get("executionState"),
+            "executionStateDisplay": execution_payload.get("executionStateDisplay"),
+            "executionHeadline": execution_payload.get("executionHeadline"),
+            "primaryCommand": query_knowledge_command(concept_key, rebuild=True),
+            "primaryUserAction": user_action_details[0]["label"] if user_action_details else None,
+            "primaryUserActionDisplay": user_action_details[0]["displayLabel"] if user_action_details else None,
+            "primaryUserActionCommand": user_action_details[0]["command"] if user_action_details else None,
+            "userActionDetails": user_action_details,
+            "researchActionGroups": research_action_groups,
+            "recommendations": recommendations,
+            "citations": citations,
+            "citationsDisplay": citations_display,
+            "glossary": None,
+            "concept": concept_match,
+            "conceptDisplay": normalize_concept_payload(concept_match),
+            "dossier": None,
+            "dossierDisplay": None,
+            "sourceFact": None,
+            "sourceFactDisplay": None,
+            "evidence": evidence_matches,
+            "evidenceDisplay": evidence_display,
+            "worknet": None,
+            "worknetDisplay": None,
+            "runtimeProbeDisplay": None,
+            "runtimeProbeHighlights": [],
+            "sourceImpact": {"affected": bool(impact_matches), "items": impact_matches},
+            "sourceImpactDisplay": impact_display,
+            "freshness": freshness,
+            "freshnessDisplay": freshness_display,
+            "relatedSourceHighlights": related_source_highlights,
+            "relatedReferenceHighlights": related_reference_highlights,
+        },
+        KNOWLEDGE_QUERY_FIELDS,
+    )
 
 
 def knowledge_display_glossary_items(items: Any) -> list[dict[str, Any]]:
@@ -21141,6 +25759,7 @@ def build_source_query_result(
         drift_item=drift_item,
         impact_item=impact_item,
         runtime_probe_display=source_runtime_probe_display,
+        capability_report=capability_reports.get(str(source_record.get("worknetKey") or "").strip()) if isinstance(source_record, dict) and str(source_record.get("worknetKey") or "").strip() else None,
     )
     if isinstance(source_display, dict):
         source_display = dict(source_display)
@@ -21868,6 +26487,18 @@ def build_knowledge_topic_index(catalog: Optional[dict[str, Any]] = None) -> lis
                 runtime_summary,
             ]
         ) or result.get("summary")
+        metadata_source = next(
+            (
+                payload
+                for payload in (
+                    result.get("worknetDisplay"),
+                    result.get("dossierDisplay"),
+                    result.get("sourceFactDisplay"),
+                )
+                if isinstance(payload, dict)
+            ),
+            {},
+        )
         kind = knowledge_first_non_empty(
             dossier.get("kind"),
             ("worknet" if worknet else None),
@@ -21894,6 +26525,13 @@ def build_knowledge_topic_index(catalog: Optional[dict[str, Any]] = None) -> lis
                 "plainLanguage": result.get("plainLanguage"),
                 "runtimeSummary": runtime_summary,
                 "runtimeProbeCount": knowledge_runtime_probe_count(runtime_probe_display) or None,
+                "canonicalWorknetId": metadata_source.get("canonicalWorknetId") if isinstance(metadata_source, dict) else None,
+                "predecessorWorknetIds": metadata_source.get("predecessorWorknetIds", []) if isinstance(metadata_source, dict) else [],
+                "officialSkillUri": metadata_source.get("officialSkillUri") if isinstance(metadata_source, dict) else None,
+                "minStakeHint": metadata_source.get("minStakeHint") if isinstance(metadata_source, dict) else None,
+                "minStakeHintDisplay": metadata_source.get("minStakeHintDisplay") if isinstance(metadata_source, dict) else None,
+                "runtimeSpecState": metadata_source.get("runtimeSpecState") if isinstance(metadata_source, dict) else None,
+                "runtimeSpecStateDisplay": metadata_source.get("runtimeSpecStateDisplay") if isinstance(metadata_source, dict) else None,
                 "queryCommand": query_knowledge_command(topic_key),
                 "primaryCommand": result.get("primaryCommand"),
                 "freshnessStatus": freshness.get("status"),
@@ -21981,6 +26619,7 @@ def knowledge_source_directory_sort_key(item: Any) -> tuple[int, int, int, int, 
 
 def build_knowledge_source_directory(catalog: Optional[dict[str, Any]] = None) -> list[dict[str, Any]]:
     catalog = catalog if isinstance(catalog, dict) else (load_cached_knowledge_catalog() or build_knowledge_catalog())
+    capability_reports = capability_reports_by_worknet_key(bundle=load_cached_capability_bundle(state_context()))
     source_records = knowledge_source_records_from_catalog(catalog)
     source_drift = catalog.get("sourceDrift", {}) if isinstance(catalog.get("sourceDrift"), dict) else {}
     source_impact = catalog.get("sourceImpact", {}) if isinstance(catalog.get("sourceImpact"), dict) else {}
@@ -22008,6 +26647,7 @@ def build_knowledge_source_directory(catalog: Optional[dict[str, Any]] = None) -
             drift_item=drift_item,
             impact_item=impact_item,
             runtime_probe_display=runtime_probe_display,
+            capability_report=capability_reports.get(str(source_record.get("worknetKey") or "").strip()) if isinstance(source_record, dict) and str(source_record.get("worknetKey") or "").strip() else None,
         )
         drift_display = knowledge_display_drift_item(
             drift_item,
@@ -22069,6 +26709,13 @@ def build_knowledge_source_directory(catalog: Optional[dict[str, Any]] = None) -
                 "trustTier": source_record.get("trustTier") if isinstance(source_record, dict) else None,
                 "trustTierDisplay": source_display.get("trustTierDisplay") if isinstance(source_display, dict) else None,
                 "worknetKey": source_record.get("worknetKey") if isinstance(source_record, dict) else None,
+                "canonicalWorknetId": source_display.get("canonicalWorknetId") if isinstance(source_display, dict) else None,
+                "predecessorWorknetIds": source_display.get("predecessorWorknetIds", []) if isinstance(source_display, dict) else [],
+                "officialSkillUri": source_display.get("officialSkillUri") if isinstance(source_display, dict) else None,
+                "minStakeHint": source_display.get("minStakeHint") if isinstance(source_display, dict) else None,
+                "minStakeHintDisplay": source_display.get("minStakeHintDisplay") if isinstance(source_display, dict) else None,
+                "runtimeSpecState": source_display.get("runtimeSpecState") if isinstance(source_display, dict) else None,
+                "runtimeSpecStateDisplay": source_display.get("runtimeSpecStateDisplay") if isinstance(source_display, dict) else None,
                 "freshnessStatus": freshness_status,
                 "highestPriority": highest_priority,
                 "runtimeSummary": source_display.get("runtimeSummary") if isinstance(source_display, dict) else None,
@@ -22680,6 +27327,7 @@ def knowledge_related_reference_highlights(
     }
     topic_label = str(knowledge_context.get("label") or "").strip().lower()
     topic_key = str(knowledge_context.get("key") or "").strip().lower()
+    worknet_key = str(knowledge_context.get("worknetKey") or "").strip().lower()
     references = catalog.get("referenceIndex", [])
     ranked: list[tuple[tuple[int, int, str], dict[str, Any]]] = []
     for item in references:
@@ -22695,8 +27343,10 @@ def knowledge_related_reference_highlights(
         overlap = len(topic_source_keys.intersection(item_source_keys))
         same_label = 1 if topic_label and item_label == topic_label else 0
         key_hint = 1 if topic_key and topic_key in item_key else 0
-        score = same_label + key_hint + overlap
-        if score <= 0:
+        special_canonical = 1 if worknet_key and item_key == "live-worknet-canonical" and "awp-live-query" in topic_source_keys else 0
+        score = same_label + key_hint + overlap + special_canonical
+        strong_match = bool(same_label or key_hint or overlap >= 2 or special_canonical)
+        if score <= 0 or not strong_match:
             continue
         ranked.append(((-score, -overlap, item_key), item))
     ranked.sort(key=lambda pair: pair[0])

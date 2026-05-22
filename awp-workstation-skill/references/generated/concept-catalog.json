@@ -1,0 +1,481 @@
+{
+  "generatedAt": "2026-05-22T06:24:59Z",
+  "concepts": [
+    {
+      "key": "registration",
+      "title": "AWP Registration",
+      "kind": "workflow",
+      "aliases": [
+        "agent registration",
+        "gasless onboarding",
+        "register agent"
+      ],
+      "plainLanguage": "\u5148\u88c5 awp-skill \u548c awp-wallet\uff0c\u518d\u7528\u514d gas \u6d41\u7a0b\u628a agent \u5de5\u4f5c\u8d26\u53f7\u6ce8\u518c\u8fdb AWP\u3002",
+      "whyItMatters": "\u8fd9\u662f\u6240\u6709\u540e\u7eed WorkNet \u6267\u884c\u3001\u8d44\u683c\u5224\u65ad\u548c\u5956\u52b1\u8def\u7531\u7684\u5165\u53e3\uff0c\u4e0d\u5e94\u8be5\u8ba9\u7528\u6237\u81ea\u5df1\u7406\u89e3\u534f\u8bae\u7ec6\u8282\u3002",
+      "summary": "Workstation \u9ed8\u8ba4\u8981\u628a\u6ce8\u518c\u89e3\u91ca\u6210\u4e00\u4e2a\u5b89\u5168 onboarding \u6d41\u7a0b\uff1a\u521b\u5efa\u5de5\u4f5c\u94b1\u5305\u3001\u68c0\u67e5 PATH\u3001\u8dd1 official preflight\uff0c\u7136\u540e\u6309 awp-skill \u7684 gasless \u6d41\u7a0b\u5b8c\u6210\u6ce8\u518c\u3002",
+      "operatorLoop": [
+        "install awp-skill and awp-wallet",
+        "initialize a fresh agent work wallet",
+        "run official preflight and detect missing prerequisites",
+        "complete gasless registration before starting WorkNet work"
+      ],
+      "sourceKeys": [
+        "awp-skill",
+        "awp-skill-readme-raw",
+        "awp-testnet",
+        "kya-skill-raw"
+      ],
+      "evidenceKeys": [
+        "awp-skill-install-sequence",
+        "awp-skill-gasless-ops",
+        "testnet-gasless-start",
+        "kya-registration-handoff"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "benchmark-testnet",
+        "kya"
+      ],
+      "relatedWorknets": [
+        "kya"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "\u8d44\u6599\u5b8c\u6574",
+      "coverageNote": "Official RootNet skill docs plus testnet/KYA handoff rules make this one of the clearest cross-worknet workflows."
+    },
+    {
+      "key": "recipient-routing",
+      "title": "Recipient Routing",
+      "kind": "workflow",
+      "aliases": [
+        "reward recipient",
+        "resolved recipient",
+        "set recipient"
+      ],
+      "plainLanguage": "\u786e\u8ba4\u5956\u52b1\u6700\u540e\u6253\u5230\u54ea\u4e2a\u5730\u5740\uff0c\u800c\u4e0d\u662f\u9ed8\u8ba4\u5047\u8bbe\u4f1a\u56de\u5230\u7528\u6237\u4e3b\u94b1\u5305\u3002",
+      "whyItMatters": "\u6536\u6b3e\u5730\u5740\u914d\u9519\u65f6\uff0c\u5de5\u4f5c\u7167\u6837\u8dd1\uff0c\u4f46\u5956\u52b1\u53ef\u80fd\u8def\u7531\u5230\u9519\u8bef\u5730\u5740\uff0c\u662f\u6700\u9690\u853d\u7684\u534f\u8bae\u98ce\u9669\u4e4b\u4e00\u3002",
+      "summary": "Recipient routing \u8fde\u63a5 RootNet \u7ed1\u5b9a\u3001KYA handoff \u548c\u540e\u7eed WorkNet \u6536\u76ca\u5f52\u96c6\u3002Workstation \u5fc5\u987b\u628a\u5b83\u5f53\u6210\u4e00\u6761\u660e\u786e\u7684\u7528\u6237\u786e\u8ba4\u6d41\u7a0b\uff0c\u800c\u4e0d\u662f\u9690\u85cf\u5b9e\u73b0\u7ec6\u8282\u3002",
+      "operatorLoop": [
+        "check the current resolved recipient during preflight",
+        "compare recipient intent with the agent work wallet and principal",
+        "route any recipient-changing action through confirmation",
+        "re-check recipient after registration or delegate handoff"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-skill-readme-raw",
+        "kya-skill-raw"
+      ],
+      "evidenceKeys": [
+        "awp-skill-gasless-ops",
+        "kya-handoff-url-plain-text"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "kya"
+      ],
+      "relatedWorknets": [
+        "kya"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "\u8d44\u6599\u504f\u8584",
+      "coverageNote": "Core semantics are clear, but the encyclopedia still lacks a first-class dedicated dossier for recipient misrouting and recovery paths."
+    },
+    {
+      "key": "allocation-and-delegation",
+      "title": "Allocation And Delegation",
+      "kind": "workflow",
+      "aliases": [
+        "allocation",
+        "delegate staking",
+        "delegated staking",
+        "reallocate"
+      ],
+      "plainLanguage": "\u628a stake \u6216\u6743\u9650\u6307\u5411\u67d0\u4e2a agent / WorkNet\uff0c\u5fc5\u8981\u65f6\u8d70 KYA \u59d4\u6258\u8def\u5f84\uff0c\u800c\u4e0d\u662f\u76f4\u63a5\u8ba9\u7528\u6237\u78b0\u5e95\u5c42\u5408\u7ea6\u3002",
+      "whyItMatters": "\u8fd9\u662f Predict\u3001Gov\u3001Ardi \u7b49\u8d44\u683c\u8def\u5f84\u7684\u5171\u7528\u5e95\u5c42\u52a8\u4f5c\uff0c\u65e2\u7275\u6d89\u4ef7\u503c\uff0c\u53c8\u5f71\u54cd\u53ef\u8fd0\u884c\u6027\u3002",
+      "summary": "Workstation \u9700\u8981\u628a allocation\u3001delegation \u548c KYA \u8f85\u52a9\u8def\u5f84\u8bb2\u6210\u4e00\u6761\u53ef\u6bd4\u8f83\u7684\u8d44\u683c\u5de5\u4f5c\u6d41\uff1a\u4ec0\u4e48\u65f6\u5019\u5fc5\u987b stake\u3001\u4ec0\u4e48\u65f6\u5019\u53ef\u4ee5\u8d70 delegated path\u3001\u4ec0\u4e48\u65f6\u5019\u53ea\u80fd\u5148\u89c2\u5bdf\u3002",
+      "operatorLoop": [
+        "check whether the target WorkNet truly needs stake or delegation",
+        "compare direct AWP stake against KYA delegated paths",
+        "confirm any allocate, deallocate, or reallocate action",
+        "re-run qualification checks after delegation changes"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "kya-skill-raw",
+        "predict-skill-raw",
+        "awp-staking"
+      ],
+      "evidenceKeys": [
+        "awp-skill-gasless-ops",
+        "kya-registration-handoff",
+        "predict-official-runtime",
+        "staking-awp-power"
+      ],
+      "relatedTopics": [
+        "awp-skill",
+        "kya",
+        "predict",
+        "ardi",
+        "staking"
+      ],
+      "relatedWorknets": [
+        "predict",
+        "ardi",
+        "kya"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "\u8d44\u6599\u504f\u8584",
+      "coverageNote": "The workstation knows the main paths, but the cross-worknet decision logic is still spread across facts instead of one reusable concept dossier."
+    },
+    {
+      "key": "qualification-gates",
+      "title": "Qualification Gates",
+      "kind": "concept",
+      "aliases": [
+        "min stake",
+        "awp power gate",
+        "eligibility gate",
+        "qualification"
+      ],
+      "plainLanguage": "\u4e0d\u540c WorkNet \u4f1a\u7528 stake\u3001AWP Power\u3001KYA\u3001Base gas \u6216\u8d28\u91cf\u95e8\u69db\u6765\u51b3\u5b9a\u4f60\u73b0\u5728\u80fd\u4e0d\u80fd\u771f\u6b63\u5f00\u8dd1\u3002",
+      "whyItMatters": "\u8fd9\u662f\u7528\u6237\u6700\u5bb9\u6613\u56f0\u60d1\u7684\u5730\u65b9\uff1a\u4e3a\u4ec0\u4e48 Mine \u80fd\u76f4\u63a5\u8dd1\uff0c\u800c Predict / Gov / Ardi \u5e38\u5e38\u8fd8\u8981\u5148\u8865\u8d44\u683c\u3002",
+      "summary": "Qualification gates \u4e0d\u662f\u4e00\u4e2a\u534f\u8bae\u53c2\u6570\uff0c\u800c\u662f\u4e00\u7ec4\u8de8 WorkNet \u6761\u4ef6\uff1aMine \u7684 validator stake\u3001Predict \u7684 allocation / KYA path\u3001Gov \u7684 AWP Power\u3001Ardi \u7684 Base gas \u4e0e\u8d44\u683c\u8def\u5f84\uff0c\u90fd\u5c5e\u4e8e\u540c\u4e00\u7c7b\u77e5\u8bc6\u3002",
+      "operatorLoop": [
+        "read the worknet-specific gate from capability scan or official runtime docs",
+        "separate hard blockers from enhancement paths",
+        "surface gas, stake, and identity prerequisites in plain language",
+        "refresh the gate after any funding, staking, or delegation action"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "predict-skill-raw",
+        "awp-staking",
+        "gov-skill-raw",
+        "ardi-skill-raw"
+      ],
+      "evidenceKeys": [
+        "mine-emission-and-stake",
+        "predict-official-runtime",
+        "staking-awp-power",
+        "gov-public-vs-signed",
+        "ardi-operational-caps"
+      ],
+      "relatedTopics": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "staking"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "\u8d44\u6599\u504f\u8584",
+      "coverageNote": "The ingredients exist, but the encyclopedia still needs a stronger unified view of qualification semantics across worknets."
+    },
+    {
+      "key": "epoch-settlement",
+      "title": "Epoch Settlement",
+      "kind": "workflow",
+      "aliases": [
+        "epoch review",
+        "settlement window",
+        "reward settlement"
+      ],
+      "plainLanguage": "\u5f88\u591a WorkNet \u4e0d\u662f\u505a\u5b8c\u5c31\u7acb\u523b\u62ff\u7ed3\u679c\uff0c\u800c\u662f\u8981\u7b49\u4e00\u4e2a\u7ed3\u7b97\u7a97\u53e3\u7edf\u4e00\u7b97\u5206\u3001\u7ed3\u7b97\u548c\u53d1\u5956\u52b1\u3002",
+      "whyItMatters": "\u5982\u679c\u4e0d\u7406\u89e3 epoch\uff0c\u5c31\u4f1a\u8bef\u5224\u6536\u76ca\u3001\u5931\u8d25\u539f\u56e0\u548c\u590d\u76d8\u8282\u594f\u3002",
+      "summary": "Mine\u3001Predict\u3001Gov\u3001Ardi \u90fd\u5e26\u6709\u67d0\u79cd\u7a97\u53e3\u6216\u9636\u6bb5\u8282\u594f\u3002Workstation \u5fc5\u987b\u628a\u6267\u884c\u3001\u7b49\u5f85\u3001\u590d\u76d8\u548c\u4e0b\u4e00\u6b65\u786e\u8ba4\u52a8\u4f5c\u90fd\u5bf9\u9f50\u5230 settlement \u8282\u594f\uff0c\u800c\u4e0d\u662f\u53ea\u76ef\u5355\u6b21\u547d\u4ee4\u8f93\u51fa\u3002",
+      "operatorLoop": [
+        "align task submission to the current epoch or phase",
+        "track what still needs waiting, reveal, settlement, or review",
+        "generate an epoch review instead of relying on raw command logs",
+        "feed failures and strategy changes into the next run"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "aip-002-raw",
+        "gov-skill-raw",
+        "ardi-skill-raw"
+      ],
+      "evidenceKeys": [
+        "mine-emission-and-stake",
+        "predict-worknet-summary",
+        "gov-public-vs-signed",
+        "ardi-operational-caps"
+      ],
+      "relatedTopics": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "\u8d44\u6599\u504f\u8584",
+      "coverageNote": "Epoch language appears across the major worknets, but it is still modeled as repeated facts rather than one shared settlement concept."
+    },
+    {
+      "key": "gov-auth-signing",
+      "title": "Gov Auth And Signing",
+      "kind": "workflow",
+      "aliases": [
+        "EIP-712",
+        "EMG-SIG-V1",
+        "signed reads",
+        "signed writes"
+      ],
+      "plainLanguage": "Gov \u91cc\u516c\u5f00\u8bfb\u548c\u7b7e\u540d\u52a8\u4f5c\u662f\u4e24\u5957\u4e16\u754c\uff1a\u524d\u8005\u8c01\u90fd\u80fd\u770b\uff0c\u540e\u8005\u5fc5\u987b\u901a\u8fc7 awp-wallet \u548c\u7b7e\u540d\u7eaa\u5f8b\u3002",
+      "whyItMatters": "\u8fd9\u76f4\u63a5\u51b3\u5b9a\u54ea\u4e9b Gov \u52a8\u4f5c\u53ef\u4ee5\u81ea\u52a8\u89c2\u5bdf\uff0c\u54ea\u4e9b\u5fc5\u987b\u5148\u786e\u8ba4\u5e76\u4e14\u5904\u7406 nonce / time skew / domain mismatch \u4e4b\u7c7b\u7684\u95ee\u9898\u3002",
+      "summary": "Gov \u7684\u8ba4\u8bc1\u6a21\u578b\u5e94\u8be5\u88ab\u770b\u6210\u4e00\u4e2a\u5355\u72ec workflow\uff1apublic reads \u65e0\u94b1\u5305\u3001signed reads and writes \u8d70 awp-wallet\u3001\u6240\u6709\u6295\u7968\u548c\u4ea4\u6613\u52a8\u4f5c\u90fd\u8fdb confirmation queue\uff0c\u5e76\u4e14\u8981\u6709\u91cd\u8bd5\u4e0e\u9519\u8bef\u5206\u7c7b discipline\u3002",
+      "operatorLoop": [
+        "separate public reads from signed reads and writes",
+        "resolve principal and wallet context before any signed action",
+        "route trade, vote, and order actions through confirmation",
+        "classify auth failures such as nonce drift or time skew before retrying"
+      ],
+      "sourceKeys": [
+        "gov-skill-raw",
+        "gov-works",
+        "awp-skill-readme-raw"
+      ],
+      "evidenceKeys": [
+        "gov-public-vs-signed",
+        "gov-auth-discipline"
+      ],
+      "relatedTopics": [
+        "gov",
+        "awp-skill",
+        "protocol-core"
+      ],
+      "relatedWorknets": [
+        "gov"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "\u8d44\u6599\u5b8c\u6574",
+      "coverageNote": "The official Gov runtime is explicit about signed vs public flows and failure handling, so this concept is already strong."
+    },
+    {
+      "key": "ardi-command-journal",
+      "title": "Ardi Command Journal",
+      "kind": "workflow",
+      "aliases": [
+        "_internal.next_command",
+        "ardi journal",
+        "command journal"
+      ],
+      "plainLanguage": "Ardi \u4e0d\u662f\u8ba9\u5de5\u4f5c\u7ad9\u81ea\u5df1\u731c\u4e0b\u4e00\u6b65\uff0c\u800c\u662f\u8981\u6c42\u4e25\u683c\u8ddf\u7740\u5b98\u65b9 runtime \u7ed9\u51fa\u7684\u4e0b\u4e00\u6761\u547d\u4ee4\u8d70\u3002",
+      "whyItMatters": "\u8fd9\u51b3\u5b9a\u4e86 Ardi \u7684\u5b89\u5168\u8fb9\u754c\uff1a\u5982\u679c\u504f\u79bb\u5b98\u65b9 command journal\uff0c\u6700\u5bb9\u6613\u5728 commit / reveal \u8fd9\u79cd\u65f6\u95f4\u7a97\u52a8\u4f5c\u4e0a\u51fa\u9519\u3002",
+      "summary": "Ardi \u8981\u88ab\u5efa\u6a21\u6210 command-journal-driven worknet\uff1a\u4ece preflight \u5230 commit\u3001reveal\u3001inscribe\uff0c\u90fd\u5e94\u8be5\u56f4\u7ed5 `_internal.next_command` \u548c\u5b98\u65b9 ardi-agent CLI \u5c55\u5f00\uff0c\u800c\u4e0d\u662f\u8ba9\u5de5\u4f5c\u7ad9\u4e34\u573a\u81ea\u7531\u62fc\u88c5\u547d\u4ee4\u3002",
+      "operatorLoop": [
+        "run ardi-agent preflight first",
+        "read runtime guidance and _internal.next_command",
+        "follow commit and reveal windows exactly",
+        "avoid handcrafted loops when official auto-mine or next-command guidance exists"
+      ],
+      "sourceKeys": [
+        "ardi-skill-raw",
+        "ardinals-agents"
+      ],
+      "evidenceKeys": [
+        "ardi-agent-only",
+        "ardi-operational-caps"
+      ],
+      "relatedTopics": [
+        "ardi"
+      ],
+      "relatedWorknets": [
+        "ardi"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "\u8d44\u6599\u5b8c\u6574",
+      "coverageNote": "The official Ardi runtime already documents the command-journal discipline clearly; the encyclopedia can treat this as a stable operator rule."
+    },
+    {
+      "key": "agent-onboarding",
+      "title": "Agent Onboarding",
+      "kind": "workflow",
+      "aliases": [
+        "quickstart",
+        "start earning",
+        "new user flow"
+      ],
+      "plainLanguage": "\u628a\u201c\u88c5 skill\u3001\u5efa\u5de5\u4f5c\u94b1\u5305\u3001\u514d gas \u6ce8\u518c\u3001\u9009 WorkNet\u3001\u5f00\u59cb\u5de5\u4f5c\u201d\u8bb2\u6210\u4e00\u6761\u5bf9\u8bdd\u5f0f\u65b0\u624b\u8def\u5f84\uff0c\u800c\u4e0d\u662f\u534f\u8bae\u624b\u518c\u3002",
+      "whyItMatters": "\u8fd9\u662f workstation \u6700\u63a5\u8fd1\u4ea7\u54c1\u9996\u9875\u7684\u4e00\u5c42\uff1b\u5982\u679c\u5b83\u4e0d\u7a33\uff0c\u7528\u6237\u5c31\u4f1a\u88ab RootNet\u3001wallet\u3001stake \u7b49\u5e95\u5c42\u7ec6\u8282\u6df9\u6ca1\u3002",
+      "summary": "\u5b98\u65b9\u535a\u5ba2\u548c awp-skill README \u5df2\u7ecf\u7ed9\u51fa\u4e86\u8db3\u591f\u6e05\u6670\u7684 quickstart \u8f6e\u5ed3\u3002Workstation \u5e94\u8be5\u628a\u5b83\u6536\u6210\u7a33\u5b9a onboarding\uff1a\u4f18\u5148 agent \u81ea\u5df1\u7684\u5de5\u4f5c\u94b1\u5305\u3001\u9ed8\u8ba4 gasless registration\u3001\u5148\u9009\u4f4e\u95e8\u69db WorkNet\uff0c\u518d\u7528\u590d\u76d8\u89e3\u91ca\u6536\u76ca\u548c\u5931\u8d25\u3002",
+      "operatorLoop": [
+        "start from a SKILL.md-capable agent runtime",
+        "install awp-skill and let it bootstrap a work wallet",
+        "complete gasless registration before discussing advanced protocol knobs",
+        "show available WorkNets and recommend the safest first loop",
+        "translate epoch rewards and failures back into user language"
+      ],
+      "sourceKeys": [
+        "awp-home",
+        "awp-skill-readme-raw",
+        "awp-blog-03-start-earning",
+        "awp-testnet"
+      ],
+      "evidenceKeys": [
+        "awp-skill-install-sequence",
+        "blog-agent-quickstart",
+        "testnet-gasless-start"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "blog",
+        "benchmark-testnet"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "benchmark-testnet"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "\u8d44\u6599\u5b8c\u6574",
+      "coverageNote": "The quickstart path is now backed by both formal skill docs and an official onboarding guide, so the encyclopedia can present it as a stable default user journey."
+    },
+    {
+      "key": "worknet-economic-unit",
+      "title": "WorkNet As Economic Unit",
+      "kind": "concept",
+      "aliases": [
+        "worknet as company",
+        "economic unit",
+        "autonomous economic unit"
+      ],
+      "plainLanguage": "WorkNet \u4e0d\u53ea\u662f\u4e00\u4e2a\u5408\u7ea6\u5730\u5740\uff0c\u800c\u662f\u4e00\u79cd\u6709\u5de5\u8d44\u3001\u80a1\u6743\u3001\u8bc4\u5206\u548c\u5e02\u573a\u4ef7\u683c\u7684 agent \u7ecf\u6d4e\u5355\u5143\u3002",
+      "whyItMatters": "\u8fd9\u51b3\u5b9a\u4e86 workstation \u5e94\u8be5\u600e\u4e48\u89e3\u91ca WorkNet\uff1a\u4e0d\u662f\u53eb\u7528\u6237\u80cc\u534f\u8bae\u540d\u8bcd\uff0c\u800c\u662f\u7406\u89e3\u201c\u4f60\u52a0\u5165\u7684\u662f\u54ea\u79cd\u5de5\u4f5c\u5e02\u573a\uff0c\u5b83\u5982\u4f55\u4ed8\u94b1\u548c\u7b5b\u9009\u4ea7\u51fa\u201d\u3002",
+      "summary": "\u5b98\u65b9\u535a\u5ba2\u628a WorkNet \u8bb2\u6210\u6709 payroll\u3001equity\u3001performance reviews\u3001market price \u7684\u7ecf\u6d4e\u4f53\uff0c\u8fd9\u6bd4\u53ea\u8bf4\u2018\u6709 work token\u2019\u66f4\u9002\u5408\u505a\u767e\u79d1\u5e95\u5c42\u89e3\u91ca\u3002\u5b83\u8fd8\u80fd\u7edf\u4e00 Mine\u3001Predict\u3001Gov\u3001Ardi \u8fd9\u4e9b\u4e0d\u540c\u4efb\u52a1\u7f51\u7edc\u7684\u53d9\u4e8b\u53e3\u5f84\u3002",
+      "operatorLoop": [
+        "identify what work the WorkNet buys",
+        "read how that WorkNet scores accepted output",
+        "separate AWP reserve economics from the WorkNet's own token economics",
+        "explain why agents earn through WorkNets rather than directly from RootNet emission"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-worknets",
+        "awp-blog-05-worknet"
+      ],
+      "evidenceKeys": [
+        "protocol-two-layer",
+        "blog-worknet-company-model",
+        "mine-worknet-summary",
+        "predict-worknet-summary"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "blog",
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "tmr",
+        "community"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "\u8d44\u6599\u5b8c\u6574",
+      "coverageNote": "The combination of whitepaper structure plus the Apr 30, 2026 WorkNet explainer makes this one of the strongest plain-language protocol concepts now available."
+    },
+    {
+      "key": "fair-launch-and-emission",
+      "title": "Fair Launch And Emission",
+      "kind": "concept",
+      "aliases": [
+        "emission-only launch",
+        "zero premine",
+        "treasury split"
+      ],
+      "plainLanguage": "AWP \u7684\u53d1\u884c\u903b\u8f91\u8981\u88ab\u89e3\u91ca\u6210\u516c\u5f00 emission \u66f2\u7ebf\uff0c\u800c\u4e0d\u662f\u4f20\u7edf\u56e2\u961f/\u6295\u8d44\u4eba\u5206\u4ed3\u6a21\u578b\u3002",
+      "whyItMatters": "\u8fd9\u4f1a\u76f4\u63a5\u5f71\u54cd workstation \u600e\u4e48\u89e3\u91ca\u957f\u671f\u4f9b\u7ed9\u3001DAO Treasury\u3001\u7528\u6237\u6536\u76ca\u9884\u671f\uff0c\u4ee5\u53ca\u4e3a\u4ec0\u4e48 AWP \u6587\u6863\u53cd\u590d\u5f3a\u8c03 fair launch\u3002",
+      "summary": "\u767d\u76ae\u4e66\u7ed9\u4e86\u89c4\u8303\u5c42\uff0c\u5b98\u65b9 fair-launch \u535a\u5ba2\u7ed9\u4e86\u4eba\u8bdd\u5c42\u3002Workstation \u5e94\u8be5\u628a\u4e24\u8005\u5408\u5e76\u6210\u4e00\u6761\u7a33\u5b9a\u77e5\u8bc6\uff1a10B AWP \u53ea\u9760 emission \u8fdb\u5165\u6d41\u901a\uff0c\u6ca1\u6709 insider unlock cliff\uff0cTreasury \u4e5f\u4e0d\u662f\u56e2\u961f\u540e\u95e8\u8d44\u91d1\u6c60\u3002",
+      "operatorLoop": [
+        "distinguish public emission from insider allocation models",
+        "explain the visible split between WorkNet wages and DAO Treasury",
+        "separate future emission curve risk from hidden unlock risk",
+        "tie treasury governance back to veAWP holders rather than a team-controlled reserve"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-dao",
+        "awp-blog-04-fair-launch"
+      ],
+      "evidenceKeys": [
+        "blog-fair-launch-emission",
+        "dao-public-params"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "dao",
+        "staking",
+        "blog"
+      ],
+      "relatedWorknets": [],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "\u8d44\u6599\u5b8c\u6574",
+      "coverageNote": "The fair-launch story is now anchored by both normative and user-facing official sources, so the encyclopedia can explain it without leaning on marketing shorthand."
+    },
+    {
+      "key": "worknet-launch-lifecycle",
+      "title": "WorkNet Launch Lifecycle",
+      "kind": "workflow",
+      "aliases": [
+        "launch worknet",
+        "register worknet",
+        "guardian activation"
+      ],
+      "plainLanguage": "\u65b0 WorkNet \u4ece\u6784\u601d\u5230\u771f\u6b63 active\uff0c\u8981\u7ecf\u5386\u8bbe\u8ba1\u3001gasless \u6ce8\u518c\u3001Guardian \u5ba1\u6838\u3001manager \u914d\u7f6e\u548c\u6301\u7eed\u5206\u53d1\uff0c\u4e0d\u662f\u6ce8\u518c\u5b8c\u5c31\u4e07\u4e8b\u4ff1\u5907\u3002",
+      "whyItMatters": "\u8fd9\u80fd\u89e3\u91ca\u4e3a\u4ec0\u4e48\u7f51\u7edc\u91cc\u4f1a\u51fa\u73b0\u8d44\u6599\u539a\u5ea6\u4e0d\u540c\u3001\u6210\u719f\u5ea6\u4e0d\u540c\u7684 WorkNet\uff0c\u4e5f\u89e3\u91ca\u4e86\u4e3a\u4ec0\u4e48 workstation \u4e0d\u8be5\u628a\u6bcf\u4e2a live worknet \u90fd\u5f53\u6210\u540c\u6837\u53ef\u81ea\u52a8\u8fd0\u884c\u3002",
+      "summary": "\u5b98\u65b9 launch guide \u9996\u6b21\u628a WorkNet builder \u8def\u5f84\u8bb2\u6e05\u695a\u4e86\u3002\u5bf9\u767e\u79d1\u6765\u8bf4\uff0c\u8fd9\u4e0d\u53ea\u662f\u7ed9 builder \u770b\uff0c\u4e5f\u662f\u5728\u89e3\u91ca\u6574\u4e2a\u7f51\u7edc\u4e3a\u4ec0\u4e48\u4f1a\u51fa\u73b0 pending predecessor\u3001thin repo\u3001\u4ee5\u53ca\u2018\u5df2\u6fc0\u6d3b\u4f46\u8d44\u6599\u4ecd\u8584\u2019\u8fd9\u7c7b\u6210\u719f\u5ea6\u5dee\u5f02\u3002",
+      "operatorLoop": [
+        "define work, public scoring, and anti-sybil logic",
+        "register the WorkNet through the official gasless flow",
+        "wait for Guardian activation review before treating it as mature",
+        "configure manager roles and distribution operations",
+        "expect public runtime quality to improve over time rather than at one instant"
+      ],
+      "sourceKeys": [
+        "awp-blog-01-launch-worknet",
+        "awp-aip",
+        "awp-skill-readme-raw"
+      ],
+      "evidenceKeys": [
+        "blog-worknet-launch-sequence",
+        "awp-skill-gasless-ops"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "blog",
+        "awp-skill",
+        "tmr",
+        "community"
+      ],
+      "relatedWorknets": [
+        "tmr",
+        "community"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "\u8d44\u6599\u504f\u8584",
+      "coverageNote": "The public builder lifecycle is finally explicit, but the workstation still lacks the same depth of official launch/ops material for many thinner worknets."
+    }
+  ]
+}

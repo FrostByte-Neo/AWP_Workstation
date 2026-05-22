@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T02:55:09Z",
+  "generatedAt": "2026-05-22T06:24:59Z",
   "dossiers": [
     {
       "key": "protocol-core",
@@ -272,11 +272,13 @@
       ],
       "sourceKeys": [
         "awp-live-query",
-        "community-skill"
+        "community-skill",
+        "awp-community"
       ],
       "officialUrls": [
         "https://api.awp.sh/v2",
-        "https://github.com/awp-worknet/com-skill"
+        "https://github.com/awp-worknet/com-skill",
+        "https://awp.community/"
       ]
     },
     {
@@ -367,7 +369,7 @@
       "key": "blog",
       "kind": "docs",
       "title": "AWP Official Guides",
-      "summary": "Official practical and conceptual writing that explains WorkNets and onboarding in plain language.",
+      "summary": "Official practical and conceptual writing that explains onboarding, protocol framing, WorkNet economics, fair launch, and WorkNet creation in plain language.",
       "defaultEntrypoint": "awp.pro/blog",
       "whyItExists": "Complements specs with product-facing guidance and onboarding narratives.",
       "operatorLoop": [
@@ -381,10 +383,20 @@
         "editorial guidance can drift faster than normative specs"
       ],
       "sourceKeys": [
-        "awp-blog"
+        "awp-blog",
+        "awp-blog-01-launch-worknet",
+        "awp-blog-02-what-is-awp",
+        "awp-blog-03-start-earning",
+        "awp-blog-04-fair-launch",
+        "awp-blog-05-worknet"
       ],
       "officialUrls": [
-        "https://awp.pro/blog"
+        "https://awp.pro/blog",
+        "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-01-or-how-to-launch-a-worknet",
+        "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-02-or-what-is-agent-work-protocol",
+        "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-03-or-how-your-agent-starts-earning-in-5-minutes",
+        "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-04-or-why-awp-fair-launch",
+        "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-05-or-what-is-a-worknet"
       ]
     }
   ]

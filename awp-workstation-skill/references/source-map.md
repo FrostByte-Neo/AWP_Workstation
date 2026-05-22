@@ -1,6 +1,6 @@
 # AWP Source Map
 
-Last reviewed: 2026-05-20
+Last reviewed: 2026-05-22
 
 This workstation keeps its own stable interface and treats upstream AWP docs,
 sites, and skill repos as inputs. The goal is to keep workstation behavior
@@ -12,11 +12,16 @@ Tier 1 is official public network context.
 
 - `https://awp.pro/`
   High-level protocol entry point and quickstart.
+- `https://awp.pro/agents`
+  Public agent-status lookup surface for checking one agent wallet address
+  across visible networks.
 - `https://awp.pro/worknet`
   Public worknet directory. Current public page shows Mine and Predict as
   active worknets.
 - `https://awp.pro/aip`
   AIP registry for worknet-level specs.
+- `https://awp.pro/whitepaper`
+  Public whitepaper landing page with in-browser summary and PDF download.
 - `https://github.com/awp-core/awp-skill`
   RootNet skill covering wallet onboarding, registration, staking, allocation,
   governance, worknet management, and the official JSON-RPC endpoint.
@@ -39,10 +44,30 @@ Tier 1 is official public network context.
   Raw official Mine skill spec.
 - `https://raw.githubusercontent.com/awp-worknet/prediction-skill/main/SKILL.md`
   Raw official Predict skill spec.
+- `https://awp.community/`
+  Official community hub linked from awp.pro.
+- `https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-01-or-how-to-launch-a-worknet`
+  Official AWP BLOG 01 builder guide covering WorkNet design, gasless
+  registration, Guardian activation, and reward operations.
+- `https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-02-or-what-is-agent-work-protocol`
+  Official AWP BLOG 02 product explainer framing AWP as an agent labor market
+  and emphasizing fair launch, proof of useful work, and permissionless
+  WorkNets.
+- `https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-03-or-how-your-agent-starts-earning-in-5-minutes`
+  Official AWP BLOG 03 onboarding guide for agent runtime, awp-skill install,
+  work wallet creation, gasless registration, and first WorkNet selection.
+- `https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-04-or-why-awp-fair-launch`
+  Official AWP BLOG 04 explanation of emission-only launch, zero premine, and
+  the public WorkNet / Treasury split.
+- `https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-05-or-what-is-a-worknet`
+  Official AWP BLOG 05 explanation of WorkNets as autonomous economic units
+  with payroll, work tokens, scoring, and market pricing.
 - `https://github.com/awp-worknet/tmr-skill`
-  Official live skill URI currently returned for TMR.
+  Official live skill URI currently returned for TMR. As of May 22, 2026 the
+  public repository surface still only exposes a `LICENSE` file.
 - `https://github.com/awp-worknet/com-skill`
-  Official live skill URI currently returned for Community.
+  Official live skill URI currently returned for Community. As of May 22, 2026
+  the public repository surface still only exposes a `LICENSE` file.
 
 Tier 2 is local machine evidence.
 
@@ -91,7 +116,8 @@ Tier 3 is workstation-owned derived knowledge.
 - No local Gov skill was found in this workstation.
 - No local Ardi skill was found in this workstation.
 - No local TMR or Community skill clone is installed yet, and their public
-  operator docs are still sparse.
+  operator docs are still sparse; their official repos are currently too thin
+  to treat as runnable workstation contracts.
 - `awp-data` needs curation before it is useful as a workstation knowledge
   source.
 

@@ -1,0 +1,257 @@
+{
+  "generatedAt": "2026-05-22T07:01:09Z",
+  "status": "covered",
+  "summary": {
+    "suiteCount": 2,
+    "coveredSuites": 2,
+    "partialSuites": 0,
+    "missingSuites": 0,
+    "unresolvedCount": 0
+  },
+  "suites": [
+    {
+      "key": "python-compile",
+      "title": "Python compile audit",
+      "status": "covered",
+      "summary": {
+        "covered": 30,
+        "missing": 0,
+        "total": 30
+      },
+      "generatedAt": "2026-05-22T07:00:02Z"
+    },
+    {
+      "key": "contract-audit",
+      "title": "Unified contract audit",
+      "status": "covered",
+      "summary": {
+        "suiteCount": 4,
+        "coveredSuites": 4,
+        "partialSuites": 0,
+        "missingSuites": 0,
+        "unresolvedCount": 0
+      },
+      "generatedAt": "2026-05-22T07:01:09Z"
+    }
+  ],
+  "compileAudit": {
+    "generatedAt": "2026-05-22T07:00:02Z",
+    "status": "covered",
+    "summary": {
+      "covered": 30,
+      "missing": 0,
+      "total": 30
+    },
+    "items": [
+      {
+        "path": "scripts/awp_workstation_lib.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/branch-contract-audit.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/build-playbook.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/contract-audit.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/coverage-audit.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/display-contract-audit.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/export-knowledge.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/inspect-skill.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/knowledge-review-queue.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/manage-dependency.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/manage-skill.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/public-contract-audit.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/query-contract-audit.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/query-glossary.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/query-knowledge.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/query-source.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/refresh-sources.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/register-agent.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/review-epoch.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/run-workstation.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/scan-worknets.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/source-drift.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/source-impact.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/start-workstation.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/sync-live-worknets.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/sync-official-preflight.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/verify-workstation.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/workstation-preferences.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/workstation-preflight.py",
+        "status": "covered",
+        "error": null
+      },
+      {
+        "path": "scripts/workstation-status.py",
+        "status": "covered",
+        "error": null
+      }
+    ]
+  },
+  "contractAudit": {
+    "generatedAt": "2026-05-22T07:01:09Z",
+    "status": "covered",
+    "summary": {
+      "suiteCount": 4,
+      "coveredSuites": 4,
+      "partialSuites": 0,
+      "missingSuites": 0,
+      "unresolvedCount": 0
+    },
+    "suites": [
+      {
+        "key": "public-contract-audit",
+        "title": "Public contract audit",
+        "status": "covered",
+        "summary": {
+          "covered": 59,
+          "partial": 0,
+          "missing": 0
+        },
+        "generatedAt": "2026-05-22T07:00:56Z"
+      },
+      {
+        "key": "branch-contract-audit",
+        "title": "Branch contract audit",
+        "status": "covered",
+        "summary": {
+          "covered": 44,
+          "partial": 0,
+          "missing": 0
+        },
+        "generatedAt": "2026-05-22T07:01:09Z"
+      },
+      {
+        "key": "query-contract-audit",
+        "title": "Query contract audit",
+        "status": "covered",
+        "summary": {
+          "covered": 19,
+          "partial": 0,
+          "missing": 0
+        },
+        "generatedAt": "2026-05-22T07:01:09Z"
+      },
+      {
+        "key": "display-contract-audit",
+        "title": "Display contract audit",
+        "status": "covered",
+        "summary": {
+          "covered": 14,
+          "partial": 0,
+          "missing": 0
+        },
+        "generatedAt": "2026-05-22T07:01:09Z"
+      }
+    ],
+    "unresolved": []
+  },
+  "unresolved": []
+}

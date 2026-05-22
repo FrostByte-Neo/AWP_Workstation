@@ -1,6 +1,6 @@
 # Worknet Profiles
 
-Last reviewed: 2026-05-20
+Last reviewed: 2026-05-22
 
 This file is the workstation's stable summary layer for AWP jobs. It does not
 replace upstream specs. It translates them into operator-facing defaults.
@@ -87,6 +87,12 @@ replace upstream specs. It translates them into operator-facing defaults.
 ## TMR
 
 - Status: active via official live AWP query, but public operator docs are thin
+- Canonical Base ID: `845300000013`
+- Pending predecessor entry still visible in live API: `845300000008`
+- Official live skill URI: `https://github.com/awp-worknet/tmr-skill`
+- Current live metadata hint: `minStake: 0`
+- Current public repo reality: only `LICENSE`, no `README`, `SKILL.md`, or
+  runtime docs as of 2026-05-22
 - User-facing job: not yet stable enough to summarize beyond official
   discovery and skill URI
 - Default role: observer until the official skill is inspected locally
@@ -97,6 +103,14 @@ replace upstream specs. It translates them into operator-facing defaults.
 ## Community
 
 - Status: active via official live AWP query, but public operator docs are thin
+- Canonical Base ID: `845300000011`
+- Pending predecessor entry still visible in live API: `845300000006`
+- Official live skill URI: `https://github.com/awp-worknet/com-skill`
+- Current live metadata hint: `minStake: 0`
+- Current public repo reality: only `LICENSE`, no `README`, `SKILL.md`, or
+  runtime docs as of 2026-05-22
+- Related official surface: `https://awp.community/` is a community hub, not a
+  runtime specification
 - User-facing job: not yet stable enough to summarize beyond official
   discovery and skill URI
 - Default role: observer until the official skill is inspected locally

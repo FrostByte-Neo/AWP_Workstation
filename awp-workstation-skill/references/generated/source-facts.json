@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T02:55:09Z",
+  "generatedAt": "2026-05-22T06:24:59Z",
   "facts": [
     {
       "key": "protocol-core",
@@ -7,6 +7,7 @@
       "sourceKeys": [
         "awp-home",
         "awp-whitepaper",
+        "awp-whitepaper-page",
         "awp-skill",
         "awp-skill-readme-raw"
       ],
@@ -136,7 +137,22 @@
       ],
       "facts": [
         "As of May 20, 2026, official live queries resolve TMR to Base worknetId 845300000013 with skill URI https://github.com/awp-worknet/tmr-skill.",
+        "As of May 22, 2026, the public awp-worknet/tmr-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
         "Compared with Mine, Predict, Gov, Ardi, and KYA, the current official TMR source surface is still thin, so the workstation treats it as discoverable but not yet safe to auto-run."
+      ]
+    },
+    {
+      "key": "tmr-runtime-facts",
+      "topic": "TMR Runtime Surface",
+      "sourceKeys": [
+        "awp-live-query",
+        "tmr-skill"
+      ],
+      "facts": [
+        "The active canonical TMR worknet currently resolves to Base worknetId 845300000013, while 845300000008 remains visible as a pending predecessor entry in the live API.",
+        "The official live skill URI for TMR is https://github.com/awp-worknet/tmr-skill.",
+        "As of May 22, 2026, the public awp-worknet/tmr-skill repository surface still exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
+        "The live API currently shows a zero minimum-stake hint for TMR, but that is only live metadata and not proof the task loop is well understood enough to auto-run."
       ]
     },
     {
@@ -144,11 +160,30 @@
       "topic": "Community",
       "sourceKeys": [
         "awp-live-query",
-        "community-skill"
+        "community-skill",
+        "awp-community"
       ],
       "facts": [
         "As of May 20, 2026, official live queries resolve Community to Base worknetId 845300000011 with skill URI https://github.com/awp-worknet/com-skill.",
+        "As of May 22, 2026, the public awp-worknet/com-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
+        "The broader AWP site links Community to awp.community as a community hub for guides, tools, translations, memes, and analysis rather than a concrete operator runtime spec.",
         "The current official Community source surface is still thinner than the major worknets, so the workstation keeps it in discover-but-don't-auto-run mode until upstream runtime detail improves."
+      ]
+    },
+    {
+      "key": "community-runtime-facts",
+      "topic": "Community Runtime Surface",
+      "sourceKeys": [
+        "awp-live-query",
+        "community-skill",
+        "awp-community"
+      ],
+      "facts": [
+        "The active canonical Community worknet currently resolves to Base worknetId 845300000011, while 845300000006 remains visible as a pending predecessor entry in the live API.",
+        "The official live skill URI for Community is https://github.com/awp-worknet/com-skill.",
+        "As of May 22, 2026, the public awp-worknet/com-skill repository surface still exposes only a LICENSE file and no README, SKILL.md, or runtime docs.",
+        "The broader AWP site links Community to awp.community as a hub for guides, tools, translations, memes, and analysis rather than a concrete operator runtime specification.",
+        "The live API currently shows a zero minimum-stake hint for Community, but that is only live metadata and not proof the work loop is ready for unattended execution."
       ]
     },
     {
@@ -193,11 +228,96 @@
       "key": "blog-facts",
       "topic": "Official Guides",
       "sourceKeys": [
-        "awp-blog"
+        "awp-blog",
+        "awp-blog-01-launch-worknet",
+        "awp-blog-02-what-is-awp",
+        "awp-blog-03-start-earning",
+        "awp-blog-04-fair-launch",
+        "awp-blog-05-worknet"
       ],
       "facts": [
         "The official blog contains practical onboarding and conceptual WorkNet explanations.",
-        "The published guide sequence includes articles on launching a WorkNet, what AWP is, getting an agent earning quickly, fair launch, and what a WorkNet is."
+        "The published guide sequence currently includes launching a WorkNet, what AWP is, getting an agent earning quickly, fair launch, and what a WorkNet is."
+      ]
+    },
+    {
+      "key": "agent-status-facts",
+      "topic": "Protocol Core",
+      "sourceKeys": [
+        "awp-agents"
+      ],
+      "facts": [
+        "The public AWP agents surface lets a user enter an agent wallet address and check its status across all visible networks.",
+        "This surface is a public status lookup tool, not a signing or execution runtime."
+      ]
+    },
+    {
+      "key": "blog-onboarding-facts",
+      "topic": "Official Guides",
+      "sourceKeys": [
+        "awp-blog-03-start-earning",
+        "awp-skill-readme-raw",
+        "awp-home"
+      ],
+      "facts": [
+        "The official Apr 24, 2026 onboarding guide presents a six-step path: get an agent runtime, install awp-skill, create a work wallet, register gaslessly, pick a WorkNet, then start working.",
+        "The same guide distinguishes the default agent-owned work wallet from linking a personal wallet directly, which matches the workstation's safer agent-wallet-first default.",
+        "The onboarding guide says rewards accumulate in the wallet across daily epochs and can be claimed on-chain later rather than being pushed after every single task."
+      ]
+    },
+    {
+      "key": "blog-worknet-economics-facts",
+      "topic": "Official Guides",
+      "sourceKeys": [
+        "awp-blog-05-worknet",
+        "awp-worknets",
+        "awp-whitepaper"
+      ],
+      "facts": [
+        "The official Apr 30, 2026 WorkNet explainer frames a WorkNet as an autonomous economic unit with payroll, equity, performance reviews, and market price.",
+        "That same guide explains why agents are paid through WorkNets rather than directly from RootNet emission: accountability and market selection sit at the WorkNet layer.",
+        "The user-facing takeaway is that agents earn both the WorkNet token and a share of AWP, then decide whether to hold, sell, or move to a different WorkNet next epoch."
+      ]
+    },
+    {
+      "key": "blog-fair-launch-facts",
+      "topic": "Official Guides",
+      "sourceKeys": [
+        "awp-blog-04-fair-launch",
+        "awp-whitepaper",
+        "awp-dao"
+      ],
+      "facts": [
+        "The official Apr 29, 2026 fair-launch guide says AWP has a 10 billion supply released entirely through emission, with zero premine and zero investor, team, advisor, or foundation allocation.",
+        "The same guide explains the visible 50/50 split between WorkNet wages and the DAO Treasury, rather than treating treasury balance as an insider reserve.",
+        "For workstation users, the practical message is that there are no separate insider unlock cliffs to model; future supply changes come from the public emission curve."
+      ]
+    },
+    {
+      "key": "blog-worknet-launch-facts",
+      "topic": "Official Guides",
+      "sourceKeys": [
+        "awp-blog-01-launch-worknet",
+        "awp-aip",
+        "awp-skill-readme-raw"
+      ],
+      "facts": [
+        "The official Apr 21, 2026 WorkNet launch guide says builders first define the work, public scoring contract, and anti-sybil posture before touching registration.",
+        "It then describes a gasless worknet registration flow, human Guardian activation review, manager role configuration, daily reward distribution, and weekly emission competition.",
+        "This builder flow is important encyclopedia context because it explains why not every live worknet immediately has the same depth of public runtime material."
+      ]
+    },
+    {
+      "key": "blog-protocol-facts",
+      "topic": "Official Guides",
+      "sourceKeys": [
+        "awp-blog-02-what-is-awp",
+        "awp-home",
+        "awp-whitepaper"
+      ],
+      "facts": [
+        "The official Apr 23, 2026 protocol explainer frames AWP as an open labor market where agents discover work, produce verifiable output, and get paid without per-task human intervention.",
+        "That guide also makes three user-facing protocol claims explicit: fair launch, proof of useful work, and permissionless WorkNets."
       ]
     }
   ]

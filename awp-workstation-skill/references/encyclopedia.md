@@ -1,6 +1,6 @@
 # AWP Encyclopedia
 
-Last reviewed: 2026-05-20
+Last reviewed: 2026-05-22
 
 This is the workstation's local, stable knowledge layer for AWP. It is meant to
 survive upstream prompt churn and skill rewrites.
@@ -14,12 +14,16 @@ survive upstream prompt churn and skill rewrites.
 - The official public protocol endpoints currently documented are:
   `POST https://api.awp.sh/v2`, `wss://api.awp.sh/ws/live`, and
   `GET https://api.awp.sh/api/health`.
+- `awp.pro/whitepaper` is also an official public whitepaper landing page,
+  useful as a more diffable human-readable surface than the PDF alone.
 
 ## Tooling
 
 - `awp-skill` is the protocol dependency skill for registration, staking,
   allocation, governance, and worknet management.
 - `awp-wallet` is the workstation's work-wallet bridge.
+- `awp.pro/agents` is the public cross-network agent status surface; it is
+  useful for lookups and sanity checks, but it is not a signing runtime.
 - The official install sequence published by `awp-skill` is:
   install `awp-skill`, install `awp-wallet`, ensure `awp-wallet` is on `PATH`,
   then initialize a fresh agent work wallet.
@@ -75,13 +79,34 @@ survive upstream prompt churn and skill rewrites.
 - Messaging runtimes must emit handoff URLs as plain text and must not collect
   wallet secrets in chat.
 
-## TMR and Community
+## TMR
 
-- TMR and Community now have active canonical Base worknet IDs and official
-  skill URIs in the live AWP API.
-- Their public operator docs are still thinner than Mine, Predict, Gov, Ardi,
-  and KYA, so the workstation should expose them conservatively and avoid
-  auto-running them before local inspection.
+- TMR currently resolves to canonical Base worknet ID `845300000013`.
+- The live API still shows predecessor entry `845300000008`, but the
+  workstation should prefer the active canonical ID.
+- The official live skill URI is `https://github.com/awp-worknet/tmr-skill`.
+- As of 2026-05-22, the public repo surface still exposes only `LICENSE` and
+  no `README`, `SKILL.md`, or runtime docs.
+- The live API currently shows a `minStake: 0` hint, but that is only live
+  metadata, not proof the work loop is understood well enough to auto-run.
+- Result: expose TMR as discovered, keep it manual-only, and treat source
+  verification as the real task for now.
+
+## Community
+
+- Community currently resolves to canonical Base worknet ID `845300000011`.
+- The live API still shows predecessor entry `845300000006`, but the
+  workstation should prefer the active canonical ID.
+- The official live skill URI is `https://github.com/awp-worknet/com-skill`.
+- As of 2026-05-22, the public repo surface still exposes only `LICENSE` and
+  no `README`, `SKILL.md`, or runtime docs.
+- The broader official surface also links Community to `https://awp.community/`
+  as a hub for guides, tools, translations, memes, and analysis. That is
+  useful ecosystem context, but it is not a runtime spec.
+- The live API currently shows a `minStake: 0` hint, but that still does not
+  justify auto-running the work loop.
+- Result: expose Community as discovered, use it as a source/hub entry, and
+  keep execution conservative until upstream runtime docs improve.
 
 ## Staking
 
@@ -109,9 +134,22 @@ survive upstream prompt churn and skill rewrites.
 ## Official Guides
 
 - `awp.pro/blog` is part of the official documentation surface.
-- The current visible guide set includes topics such as launching a WorkNet,
-  what AWP is, getting an agent earning quickly, fair launch, and what a
-  WorkNet is.
+- AWP BLOG 01 (published Apr 21, 2026) explains the builder path for a new
+  WorkNet: define the work and public scoring contract, register gaslessly,
+  pass Guardian activation, configure manager roles, and distribute rewards by
+  epoch.
+- AWP BLOG 02 (published Apr 23, 2026) frames AWP as an open labor market for
+  agents and makes the user-facing protocol pillars explicit: fair launch,
+  proof of useful work, and permissionless WorkNets.
+- AWP BLOG 03 (published Apr 24, 2026) gives the clearest onboarding sequence:
+  install `awp-skill`, let it create a work wallet, register gaslessly, pick a
+  WorkNet, then say `start working`.
+- AWP BLOG 04 (published Apr 29, 2026) translates tokenomics into plain
+  language: 10B AWP, zero premine, zero investor/team/foundation allocation,
+  and a visible split between WorkNet wages and the DAO Treasury.
+- AWP BLOG 05 (published Apr 30, 2026) explains a WorkNet as an autonomous
+  economic unit with payroll, equity, performance review, and market price,
+  which is the best current plain-language framing for the encyclopedia.
 
 ## Stability policy
 

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T02:50:13Z",
-  "sourceImpactGeneratedAt": "2026-05-22T02:50:13Z",
+  "generatedAt": "2026-05-22T06:24:55Z",
+  "sourceImpactGeneratedAt": "2026-05-22T06:24:55Z",
   "summary": {
     "affectedTopics": 0,
     "affectedFacts": 0,
@@ -140,6 +140,16 @@
   ],
   "facts": [
     {
+      "key": "agent-status-facts",
+      "label": "Protocol Core",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
       "key": "ardi-skill-facts",
       "label": "Ardi",
       "bucket": "fact",
@@ -170,8 +180,68 @@
       "reviewHints": []
     },
     {
+      "key": "blog-fair-launch-facts",
+      "label": "Official Guides",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "blog-onboarding-facts",
+      "label": "Official Guides",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "blog-protocol-facts",
+      "label": "Official Guides",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "blog-worknet-economics-facts",
+      "label": "Official Guides",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "blog-worknet-launch-facts",
+      "label": "Official Guides",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
       "key": "community",
       "label": "Community",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "community-runtime-facts",
+      "label": "Community Runtime Surface",
       "bucket": "fact",
       "status": "stable",
       "highestPriority": "low",
@@ -282,6 +352,16 @@
     {
       "key": "tmr",
       "label": "TMR",
+      "bucket": "fact",
+      "status": "stable",
+      "highestPriority": "low",
+      "changedSourceKeys": [],
+      "impactItems": [],
+      "reviewHints": []
+    },
+    {
+      "key": "tmr-runtime-facts",
+      "label": "TMR Runtime Surface",
       "bucket": "fact",
       "status": "stable",
       "highestPriority": "low",
