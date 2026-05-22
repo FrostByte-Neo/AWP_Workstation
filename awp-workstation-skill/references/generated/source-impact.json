@@ -1,20 +1,176 @@
 {
-  "generatedAt": "2026-05-21T09:25:07Z",
+  "generatedAt": "2026-05-21T11:33:37Z",
   "schemaVersion": 2,
-  "driftGeneratedAt": "2026-05-21T09:25:07Z",
+  "driftGeneratedAt": "2026-05-21T11:33:37Z",
   "summary": {
-    "changedSources": 0,
-    "impactedTopics": 0,
-    "impactedFacts": 0,
-    "impactedEvidence": 0,
-    "impactedWorknets": 0,
-    "highestPriority": "low"
+    "changedSources": 3,
+    "impactedTopics": 4,
+    "impactedFacts": 4,
+    "impactedEvidence": 2,
+    "impactedWorknets": 2,
+    "highestPriority": "high"
   },
-  "impacts": [],
+  "impacts": [
+    {
+      "sourceKey": "awp-skill",
+      "sourceName": "awp-core/awp-skill",
+      "sourceKind": "skill",
+      "driftStatus": "content_changed",
+      "priority": "high",
+      "changedFields": [
+        "sha256",
+        "bytes"
+      ],
+      "note": "\u548c\u4e0a\u4e00\u7248\u5feb\u7167\u76f8\u6bd4\uff0c\u6293\u53d6\u5185\u5bb9\u7684\u54c8\u5e0c\u6216\u5b57\u8282\u5927\u5c0f\u53d1\u751f\u4e86\u53d8\u5316\u3002",
+      "impactedTopics": [
+        {
+          "key": "protocol-core",
+          "title": "AWP Protocol Core"
+        },
+        {
+          "key": "awp-skill",
+          "title": "AWP RootNet Skill"
+        }
+      ],
+      "impactedFacts": [
+        {
+          "key": "protocol-core",
+          "topic": "Protocol Core"
+        },
+        {
+          "key": "awp-skill-ops",
+          "topic": "AWP RootNet Skill"
+        }
+      ],
+      "impactedEvidence": [],
+      "impactedWorknets": [],
+      "reviewHint": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
+      "reviewCommands": {
+        "source": "python3 scripts/query-source.py --source-key awp-skill --rebuild",
+        "topics": {
+          "protocol-core": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild",
+          "awp-skill": "python3 scripts/query-knowledge.py --topic awp-skill --rebuild"
+        },
+        "facts": {
+          "protocol-core": "python3 scripts/query-knowledge.py --topic protocol-core --rebuild",
+          "awp-skill-ops": "python3 scripts/query-knowledge.py --topic awp-skill-ops --rebuild"
+        },
+        "worknets": {}
+      }
+    },
+    {
+      "sourceKey": "community-skill",
+      "sourceName": "Community skill URI",
+      "sourceKind": "skill",
+      "driftStatus": "content_changed",
+      "priority": "high",
+      "changedFields": [
+        "sha256",
+        "bytes"
+      ],
+      "note": "\u548c\u4e0a\u4e00\u7248\u5feb\u7167\u76f8\u6bd4\uff0c\u6293\u53d6\u5185\u5bb9\u7684\u54c8\u5e0c\u6216\u5b57\u8282\u5927\u5c0f\u53d1\u751f\u4e86\u53d8\u5316\u3002",
+      "impactedTopics": [
+        {
+          "key": "community",
+          "title": "Community"
+        }
+      ],
+      "impactedFacts": [
+        {
+          "key": "community",
+          "topic": "Community"
+        }
+      ],
+      "impactedEvidence": [
+        {
+          "key": "community-live-skill-uri",
+          "topicKey": "community"
+        }
+      ],
+      "impactedWorknets": [
+        "community"
+      ],
+      "reviewHint": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
+      "reviewCommands": {
+        "source": "python3 scripts/query-source.py --source-key community-skill --rebuild",
+        "topics": {
+          "community": "python3 scripts/query-knowledge.py --topic community --rebuild"
+        },
+        "facts": {
+          "community": "python3 scripts/query-knowledge.py --topic community --rebuild"
+        },
+        "worknets": {
+          "community": "python3 scripts/query-knowledge.py --topic community --rebuild"
+        }
+      }
+    },
+    {
+      "sourceKey": "tmr-skill",
+      "sourceName": "TMR skill URI",
+      "sourceKind": "skill",
+      "driftStatus": "content_changed",
+      "priority": "high",
+      "changedFields": [
+        "sha256",
+        "bytes"
+      ],
+      "note": "\u548c\u4e0a\u4e00\u7248\u5feb\u7167\u76f8\u6bd4\uff0c\u6293\u53d6\u5185\u5bb9\u7684\u54c8\u5e0c\u6216\u5b57\u8282\u5927\u5c0f\u53d1\u751f\u4e86\u53d8\u5316\u3002",
+      "impactedTopics": [
+        {
+          "key": "tmr",
+          "title": "TMR"
+        }
+      ],
+      "impactedFacts": [
+        {
+          "key": "tmr",
+          "topic": "TMR"
+        }
+      ],
+      "impactedEvidence": [
+        {
+          "key": "tmr-live-skill-uri",
+          "topicKey": "tmr"
+        }
+      ],
+      "impactedWorknets": [
+        "tmr"
+      ],
+      "reviewHint": "\u91cd\u8bfb\u53d7\u5f71\u54cd\u7684\u4e0a\u6e38\u6765\u6e90\uff0c\u5e76\u91cd\u65b0\u6838\u5bf9\u5173\u8054\u4e3b\u9898\u3001\u4e8b\u5b9e\u548c\u8fd0\u884c\u65f6\u6307\u5f15\u3002",
+      "reviewCommands": {
+        "source": "python3 scripts/query-source.py --source-key tmr-skill --rebuild",
+        "topics": {
+          "tmr": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+        },
+        "facts": {
+          "tmr": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+        },
+        "worknets": {
+          "tmr": "python3 scripts/query-knowledge.py --topic tmr --rebuild"
+        }
+      }
+    }
+  ],
   "reviewQueue": {
-    "topicKeys": [],
-    "factKeys": [],
-    "evidenceKeys": [],
-    "worknetKeys": []
+    "topicKeys": [
+      "awp-skill",
+      "community",
+      "protocol-core",
+      "tmr"
+    ],
+    "factKeys": [
+      "awp-skill-ops",
+      "community",
+      "protocol-core",
+      "tmr"
+    ],
+    "evidenceKeys": [
+      "community-live-skill-uri",
+      "tmr-live-skill-uri"
+    ],
+    "worknetKeys": [
+      "community",
+      "tmr"
+    ]
   }
 }

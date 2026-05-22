@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T10:00:40Z",
+  "generatedAt": "2026-05-22T02:32:43Z",
   "summary": {
     "covered": 11,
     "partial": 0,
@@ -79,7 +79,7 @@
       "intent": "The workstation should understand and eventually execute awp-skill gasless registration.",
       "status": "covered",
       "reasons": [
-        "The workstation has a concrete awp-skill registration command path.",
+        "The workstation already recognizes that awp-skill registration is complete and still preserves the official onboarding command path.",
         "Available registration-plan commands: run awp-skill gasless onboarding"
       ],
       "evidenceFiles": [

@@ -7,9 +7,13 @@ import argparse
 
 from awp_workstation_lib import (
     build_knowledge_review_queue,
+    knowledge_display_review_queue_entries,
+    knowledge_review_queue_summary_text,
+    load_cached_knowledge_catalog,
     load_cached_knowledge_review_queue,
     print_json,
     refresh_official_sources,
+    summarize_knowledge_review_queue,
 )
 
 
@@ -43,10 +47,25 @@ def main() -> None:
             source_keys=args.source_keys,
             timeout=max(1, int(args.timeout)),
         )
-        print_json(build_knowledge_review_queue())
+        payload = build_knowledge_review_queue()
+        catalog = load_cached_knowledge_catalog()
+        summary = summarize_knowledge_review_queue(payload)
+        enriched = dict(payload)
+        enriched["headline"] = summary.get("headline")
+        enriched["summaryText"] = knowledge_review_queue_summary_text(summary)
+        enriched["summaryDisplay"] = summary
+        enriched["entriesDisplay"] = knowledge_display_review_queue_entries(payload.get("entries", []), catalog=catalog)
+        print_json(enriched)
         return
     payload = build_knowledge_review_queue() if args.rebuild else (load_cached_knowledge_review_queue() or build_knowledge_review_queue())
-    print_json(payload)
+    catalog = load_cached_knowledge_catalog()
+    summary = summarize_knowledge_review_queue(payload)
+    enriched = dict(payload)
+    enriched["headline"] = summary.get("headline")
+    enriched["summaryText"] = knowledge_review_queue_summary_text(summary)
+    enriched["summaryDisplay"] = summary
+    enriched["entriesDisplay"] = knowledge_display_review_queue_entries(payload.get("entries", []), catalog=catalog)
+    print_json(enriched)
 
 
 if __name__ == "__main__":
