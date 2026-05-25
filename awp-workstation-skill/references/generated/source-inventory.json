@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T04:12:46Z",
+  "generatedAt": "2026-05-25T11:20:16Z",
   "officialWebSources": [
     {
       "key": "awp-home",
@@ -294,7 +294,7 @@
     {
       "key": "awp-wallet",
       "name": "awp-wallet",
-      "path": "\\root\\.nanobot\\workspace\\awp-wallet",
+      "path": "/root/.nanobot/workspace/awp-wallet",
       "upstream": "https://github.com/awp-core/awp-wallet",
       "summary": "Local AWP wallet CLI clone.",
       "important_files": [
@@ -304,12 +304,13 @@
         "scripts/wallet-cli.js"
       ],
       "available": false,
+      "warning": "legacy nanobot workspace path ignored; set AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1 to opt in",
       "present_files": []
     },
     {
       "key": "mine",
       "name": "mine",
-      "path": "\\root\\.nanobot\\workspace\\mine",
+      "path": "/root/.nanobot/workspace/mine",
       "upstream": "https://minework.net/",
       "summary": "Local Mine runtime and skill.",
       "important_files": [
@@ -319,12 +320,13 @@
         "scripts/run_tool.py"
       ],
       "available": false,
+      "warning": "legacy nanobot workspace path ignored; set AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1 to opt in",
       "present_files": []
     },
     {
       "key": "kya",
       "name": "kya-skill",
-      "path": "\\root\\.nanobot\\workspace\\kya-skill",
+      "path": "/root/.nanobot/workspace/kya-skill",
       "upstream": "https://github.com/awp-worknet/kya-skill",
       "summary": "Local KYA skill clone.",
       "important_files": [
@@ -334,18 +336,20 @@
         "scripts/relay-set-recipient.py"
       ],
       "available": false,
+      "warning": "legacy nanobot workspace path ignored; set AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1 to opt in",
       "present_files": []
     },
     {
       "key": "awp-data",
       "name": "awp-data",
-      "path": "\\root\\.nanobot\\workspace\\awp-data",
+      "path": "/root/.nanobot/workspace/awp-data",
       "upstream": "https://git.basevec.com/sp-demand/awp-data.git",
       "summary": "Local AWP data workspace with limited docs.",
       "important_files": [
         "README.md"
       ],
       "available": false,
+      "warning": "legacy nanobot workspace path ignored; set AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1 to opt in",
       "present_files": []
     }
   ],

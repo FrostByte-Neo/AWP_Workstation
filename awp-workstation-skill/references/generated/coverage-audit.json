@@ -1,0 +1,222 @@
+{
+  "generatedAt": "2026-05-25T11:19:41Z",
+  "summary": {
+    "covered": 10,
+    "partial": 4,
+    "missing": 1
+  },
+  "items": [
+    {
+      "key": "trigger-surface",
+      "title": "Skill Trigger Surface",
+      "intent": "The workstation should be discoverable from English user prompts.",
+      "status": "covered",
+      "reasons": [
+        "SKILL metadata includes English trigger phrases."
+      ],
+      "evidenceFiles": [
+        "SKILL.md",
+        "agents/openai.yaml"
+      ]
+    },
+    {
+      "key": "protocol-encyclopedia",
+      "title": "Protocol Encyclopedia",
+      "intent": "RootNet, WorkNet, staking, DAO, recipient, and endpoint knowledge should be captured locally.",
+      "status": "covered",
+      "reasons": [
+        "Protocol core, staking, DAO, facts, and evidence are all present locally."
+      ],
+      "evidenceFiles": [
+        "topic-dossiers.json",
+        "source-facts.json",
+        "source-evidence.json",
+        "glossary.json"
+      ]
+    },
+    {
+      "key": "worknet-coverage",
+      "title": "WorkNet Coverage",
+      "intent": "Mine, Predict, KYA, Ardi, Gov, TMR, and Community should all be represented.",
+      "status": "covered",
+      "reasons": [
+        "All named WorkNets have local dossiers, including the thinner TMR and Community entries."
+      ],
+      "evidenceFiles": [
+        "topic-dossiers.json",
+        "worknet-profiles.md"
+      ]
+    },
+    {
+      "key": "active-worknet-source-depth",
+      "title": "Active WorkNet Source Depth",
+      "intent": "Active WorkNets should not be treated as fully documented if the public source surface is still only a live ID plus a thin repo landing page.",
+      "status": "partial",
+      "reasons": [
+        "Some active WorkNets are still represented mainly by live IDs plus thin repo surfaces, so the encyclopedia should not treat them as fully documented yet.",
+        "Thin active worknets: tmr, community"
+      ],
+      "evidenceFiles": [
+        "skill-inspections.json",
+        "source-facts.json",
+        "source-evidence.json",
+        "topic-dossiers.json"
+      ]
+    },
+    {
+      "key": "glossary-coverage",
+      "title": "Glossary Coverage",
+      "intent": "Key terms from the goal such as RootNet, WorkNet, skillURI, epoch, CLOB, and staking must be explainable.",
+      "status": "covered",
+      "reasons": [
+        "Required AWP terms are defined in the generated glossary."
+      ],
+      "evidenceFiles": [
+        "glossary.json",
+        "glossary.md"
+      ]
+    },
+    {
+      "key": "concept-workflows",
+      "title": "Concept Workflow Layer",
+      "intent": "Cross-worknet concepts such as registration, recipient routing, delegation, qualification, settlement, Gov signing, and Ardi command guidance should be first-class encyclopedia records.",
+      "status": "covered",
+      "reasons": [
+        "Cross-worknet concept/workflow records now cover registration, routing, delegation, qualification, settlement, Gov signing, and Ardi command guidance.",
+        "Concepts still marked thin: recipient-routing, allocation-and-delegation, qualification-gates, epoch-settlement, worknet-launch-lifecycle"
+      ],
+      "evidenceFiles": [
+        "concept-catalog.json",
+        "source-facts.json",
+        "source-evidence.json"
+      ]
+    },
+    {
+      "key": "official-guide-depth",
+      "title": "Official Guide Depth",
+      "intent": "Official onboarding and plain-language AWP guides should be tracked as first-class sources, facts, and concepts instead of only being implied by top-level indexes.",
+      "status": "covered",
+      "reasons": [
+        "Official AWP onboarding and explanatory guides are tracked as distinct source records, fact bundles, and encyclopedia concepts."
+      ],
+      "evidenceFiles": [
+        "source-inventory.json",
+        "source-facts.json",
+        "concept-catalog.json",
+        "encyclopedia.md",
+        "source-map.md"
+      ]
+    },
+    {
+      "key": "public-status-surfaces",
+      "title": "Public Status Surfaces",
+      "intent": "Official public lookup and status surfaces should be modeled distinctly from execution runtimes so the encyclopedia can explain what is safe to inspect versus what can actually act.",
+      "status": "covered",
+      "reasons": [
+        "Official public lookup and status surfaces are represented distinctly from execution runtimes, including agent status, testnet activity, live RPC, Gov markets, and the whitepaper landing page."
+      ],
+      "evidenceFiles": [
+        "source-inventory.json",
+        "source-facts.json",
+        "source-evidence.json",
+        "source-map.md"
+      ]
+    },
+    {
+      "key": "source-traceability",
+      "title": "Source Traceability",
+      "intent": "Derived claims should link back to official source keys, locators, and stability labels.",
+      "status": "covered",
+      "reasons": [
+        "Derived claims map to official source keys, locators, evidence types, and stability labels."
+      ],
+      "evidenceFiles": [
+        "source-evidence.json",
+        "evidence-model.md"
+      ]
+    },
+    {
+      "key": "registration-flow",
+      "title": "Registration Flow",
+      "intent": "The workstation should understand and eventually execute awp-skill gasless registration.",
+      "status": "partial",
+      "reasons": [
+        "The workstation now probes runtime and emits install/register commands, but full registration execution still depends on awp-skill availability.",
+        "Available registration-plan commands: ensure awp-skill dependency"
+      ],
+      "evidenceFiles": [
+        "source-facts.json",
+        "source-evidence.json",
+        "skill-registry.json"
+      ]
+    },
+    {
+      "key": "live-rpc-scan",
+      "title": "Live RPC Scan",
+      "intent": "The workstation should know the AWP RPC methods and report when live access is unavailable.",
+      "status": "partial",
+      "reasons": [
+        "RPC methods are documented and modeled, but current environment still falls back to catalog mode."
+      ],
+      "evidenceFiles": [
+        "capability-catalog.json",
+        "source-evidence.json"
+      ]
+    },
+    {
+      "key": "skill-inspector",
+      "title": "Skill Inspector",
+      "intent": "Official worknet skills should have install, preflight, and dry-run guidance even before the runtime is locally installed.",
+      "status": "covered",
+      "reasons": [
+        "Predict, Gov, and Ardi expose runtime-specific install/inspection guidance.",
+        "TMR/Community expose remote runtime profiles."
+      ],
+      "evidenceFiles": [
+        "skill-inspections.json",
+        "skill-registry.json"
+      ]
+    },
+    {
+      "key": "recovery-state",
+      "title": "Recovery State",
+      "intent": "The workstation should persist and restore playbooks, runs, and pending confirmations.",
+      "status": "covered",
+      "reasons": [
+        "Run state and confirmation queue files exist and are reused by preflight/review."
+      ],
+      "evidenceFiles": [
+        "runs/latest-run.json",
+        "runs/pending-confirmations.json"
+      ]
+    },
+    {
+      "key": "live-canonical-quality",
+      "title": "Live Canonical Quality",
+      "intent": "Live WorkNet entries should resolve to canonical IDs and official skills with clear confidence.",
+      "status": "partial",
+      "reasons": [
+        "No cached live worknet snapshot is available yet."
+      ],
+      "evidenceFiles": [
+        "official-live-worknets.json",
+        "capability-catalog.json"
+      ]
+    },
+    {
+      "key": "upstream-drift-watch",
+      "title": "Upstream Drift Watch",
+      "intent": "Official docs and skill sources should be refreshable and diffable so workstation knowledge can track upstream changes.",
+      "status": "missing",
+      "reasons": [
+        "No official source snapshot exists yet."
+      ],
+      "evidenceFiles": [
+        "source-snapshot.json",
+        "source-drift.json",
+        "source-impact.json",
+        "knowledge-review-queue.json"
+      ]
+    }
+  ]
+}

@@ -56,6 +56,13 @@ def update_user_preferences(
     autopilot_mode: Optional[str] = None,
     allow_third_party_skills: Optional[bool] = None,
     observe_before_predict_hours: Optional[int] = None,
+    notification_cooldown_minutes: Optional[int] = None,
+    quiet_hours_start: Optional[str] = None,
+    quiet_hours_end: Optional[str] = None,
+    remind_on_earnings_change: Optional[bool] = None,
+    remind_on_failure: Optional[bool] = None,
+    remind_on_stall: Optional[bool] = None,
+    background_auto_recovery: Optional[str] = None,
     risk_profile: Optional[str] = None,
 ) -> dict[str, Any]:
     state = state or state_context()
@@ -94,6 +101,32 @@ def update_user_preferences(
         if hours < 0:
             raise ValueError("observeBeforePredictHours must be >= 0")
         apply_change("observeBeforePredictHours", hours)
+    if notification_cooldown_minutes is not None:
+        minutes = int(notification_cooldown_minutes)
+        if minutes < 1:
+            raise ValueError("notificationCooldownMinutes must be >= 1")
+        apply_change("notificationCooldownMinutes", minutes)
+    if quiet_hours_start is not None:
+        text = str(quiet_hours_start).strip()
+        if len(text) != 5 or text[2] != ":":
+            raise ValueError("quietHoursStart must use HH:MM")
+        apply_change("quietHoursStart", text)
+    if quiet_hours_end is not None:
+        text = str(quiet_hours_end).strip()
+        if len(text) != 5 or text[2] != ":":
+            raise ValueError("quietHoursEnd must use HH:MM")
+        apply_change("quietHoursEnd", text)
+    if remind_on_earnings_change is not None:
+        apply_change("remindOnEarningsChange", bool(remind_on_earnings_change))
+    if remind_on_failure is not None:
+        apply_change("remindOnFailure", bool(remind_on_failure))
+    if remind_on_stall is not None:
+        apply_change("remindOnStall", bool(remind_on_stall))
+    if background_auto_recovery is not None:
+        text = str(background_auto_recovery).strip()
+        if text not in {"manual", "pause", "restart"}:
+            raise ValueError("backgroundAutoRecovery must be one of: manual, pause, restart")
+        apply_change("backgroundAutoRecovery", text)
     if risk_profile is not None:
         text = str(risk_profile).strip()
         if not text:
@@ -123,6 +156,8 @@ def update_user_preferences(
         message_parts.append("Autopilot remains limited to non-financial actions.")
     if allow_asset_actions is True:
         message_parts.append("Asset actions are allowed only when an explicit confirmation gate is present.")
+    if notification_cooldown_minutes is not None or quiet_hours_start is not None or quiet_hours_end is not None:
+        message_parts.append("Reminder timing preferences were updated.")
     if not message_parts:
         message_parts.append("Workstation preferences updated." if applied_changes else "Workstation preferences unchanged.")
 

@@ -11,6 +11,10 @@ from awp_workstation.runtime_payloads import runtime_message, runtime_payload_er
 
 def background_strategy_change_from_summary(summary: dict[str, Any], *, alive: bool) -> Optional[str]:
     state = str(summary.get("state") or "")
+    if state == "selection_required":
+        return "Mine is waiting for dataset selection before the worker can continue."
+    if state == "auth_required":
+        return "Mine needs a refreshed wallet session before the worker can continue."
     if state == "llm_error":
         return "Predict loop paused because the LLM call failed; inspect logs before restarting."
     if not alive:

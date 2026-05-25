@@ -4,6 +4,13 @@
   "autopilotMode": "non-financial-only",
   "preferredWorknet": "mine",
   "observeBeforePredictHours": 24,
+  "notificationCooldownMinutes": 60,
+  "quietHoursStart": "23:00",
+  "quietHoursEnd": "08:00",
+  "remindOnEarningsChange": true,
+  "remindOnFailure": true,
+  "remindOnStall": true,
+  "backgroundAutoRecovery": "manual",
   "riskProfile": "conservative",
   "updatedAt": null
 }

@@ -223,6 +223,7 @@ WORKSTATION_STATUS_INTERNAL_FIELDS = [
     "sourceKey",
     "sourceName",
     "sourceRecord",
+    "stateSummary",
     "sourceTopicHighlights",
     "sourceWorknetHighlights",
     "status",
@@ -590,11 +591,37 @@ WORKSTATION_STATUS_PUBLIC_FIELDS = [
     "sourceWorknetHighlights",
     "sourceEvidenceHighlights",
     "researchActionGroups",
+    "stateSummary",
     "primaryUserAction",
     "primaryUserActionDisplay",
     "primaryUserActionCommand",
     "userActions",
     "userActionDetails",
+]
+
+WORKSTATION_STATE_SUMMARY_FIELDS = [
+    "generatedAt",
+    "currentTask",
+    "currentWorknetKey",
+    "currentWorknetName",
+    "currentExecutionPhase",
+    "currentExecutionPhaseDisplay",
+    "status",
+    "resumeStatus",
+    "hasActiveBackgroundProcesses",
+    "activeBackgroundCount",
+    "activeBackgroundLabel",
+    "activeBackgroundState",
+    "activeBackgroundHeadline",
+    "waitingForConfirmation",
+    "pendingConfirmationCount",
+    "latestSuccess",
+    "latestFailure",
+    "nextRecommendedAction",
+    "nextRecommendedActionCommand",
+    "needsReminder",
+    "reminderType",
+    "nextCheckAt",
 ]
 
 RESEARCH_HIGHLIGHT_GROUP_LABELS = {
@@ -714,3 +741,8 @@ def normalize_executed_step_stdout_display_payload(record: Any) -> dict[str, Any
 def normalize_background_summary_payload(record: Any) -> dict[str, Any]:
     source = record if isinstance(record, dict) else {}
     return project_fields(source, BACKGROUND_SUMMARY_FIELDS)
+
+
+def normalize_workstation_state_summary_payload(record: Any) -> dict[str, Any]:
+    source = record if isinstance(record, dict) else {}
+    return project_fields(source, WORKSTATION_STATE_SUMMARY_FIELDS)

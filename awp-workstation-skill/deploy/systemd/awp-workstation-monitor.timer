@@ -1,0 +1,11 @@
+[Unit]
+Description=Run AWP Workstation monitor every 15 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=15min
+Unit=awp-workstation-monitor.service
+Persistent=true
+
+[Install]
+WantedBy=timers.target

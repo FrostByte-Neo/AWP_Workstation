@@ -6,6 +6,213 @@ from pathlib import Path
 from typing import Any, Optional
 
 
+def _snapshot_answer(state_summary: dict[str, Any]) -> str:
+    task = str(state_summary.get("currentTask") or "Workstation state").strip()
+    phase = str(state_summary.get("currentExecutionPhaseDisplay") or state_summary.get("currentExecutionPhase") or "").strip()
+    worknet = str(state_summary.get("currentWorknetName") or state_summary.get("currentWorknetKey") or "").strip()
+    next_action = str(state_summary.get("nextRecommendedAction") or "").strip()
+    parts = [task]
+    if worknet:
+        parts.append(f"Current WorkNet: {worknet}.")
+    if phase:
+        parts.append(f"Phase: {phase}.")
+    if next_action:
+        parts.append(f"Suggested action: {next_action}.")
+    return " ".join(part for part in parts if part).strip()
+
+
+def _snapshot_action_bundle(state_summary: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    label = str(state_summary.get("nextRecommendedAction") or "").strip()
+    command = str(state_summary.get("nextRecommendedActionCommand") or "").strip()
+    if not label:
+        return [], []
+    user_actions = [{"label": label, "description": "Continue from the cached workstation snapshot."}]
+    user_action_details = [
+        {
+            "label": label,
+            "displayLabel": label,
+            "description": "Continue from the cached workstation snapshot.",
+            "command": command or None,
+        }
+    ]
+    return user_actions, user_action_details
+
+
+def _snapshot_fallback_report(
+    *,
+    state_summary: dict[str, Any],
+    query: Optional[str],
+    intent: str,
+    now_iso: Any,
+    recovery_status_display: Any,
+) -> dict[str, Any]:
+    user_actions, user_action_details = _snapshot_action_bundle(state_summary)
+    resume_status = state_summary.get("resumeStatus")
+    return {
+        "generatedAt": now_iso(),
+        "query": query,
+        "intent": intent,
+        "progress": "[5/5] Workstation Status",
+        "headline": str(state_summary.get("currentTask") or "Cached workstation snapshot").strip(),
+        "answer": _snapshot_answer(state_summary),
+        "status": state_summary.get("status") or "snapshot_available",
+        "error": None,
+        "missingCaches": [],
+        "resumeStatus": resume_status,
+        "resumeStatusDisplay": recovery_status_display(resume_status) if resume_status else None,
+        "executionState": state_summary.get("currentExecutionPhase"),
+        "executionStateDisplay": state_summary.get("currentExecutionPhaseDisplay"),
+        "executionHeadline": state_summary.get("currentTask"),
+        "worknetKey": state_summary.get("currentWorknetKey"),
+        "worknetName": state_summary.get("currentWorknetName"),
+        "sourceKey": None,
+        "sourceName": None,
+        "readOnly": True,
+        "knowledgeCaveat": "Using the cached workstation-state snapshot because richer status caches are missing.",
+        "recoveryDecision": None,
+        "knowledgeReviewQueueSummary": {},
+        "knowledgeOverview": {},
+        "knowledgeFocusTopics": [],
+        "knowledgeReferenceHighlights": [],
+        "knowledgeSourceHighlights": [],
+        "sourceTopicHighlights": [],
+        "sourceFactHighlights": [],
+        "sourceWorknetHighlights": [],
+        "sourceEvidenceHighlights": [],
+        "knowledgeRecord": None,
+        "sourceRecord": None,
+        "targetWorknetDisplay": None,
+        "stateSummary": state_summary,
+        "primaryUserAction": label if (label := state_summary.get("nextRecommendedAction")) else None,
+        "primaryUserActionDisplay": label if label else None,
+        "primaryUserActionCommand": state_summary.get("nextRecommendedActionCommand"),
+        "userActions": user_actions,
+        "userActionDetails": user_action_details,
+        "latestReview": {},
+        "_internal": {
+            "action_map": {
+                detail["label"]: detail.get("command")
+                for detail in user_action_details
+                if isinstance(detail, dict) and detail.get("command")
+            },
+            "stateRoot": None,
+            "snapshotFallback": True,
+        },
+        "researchActionGroups": [],
+    }
+
+
+def _predict_live_earnings_hint(record: dict[str, Any]) -> Optional[str]:
+    payload = record.get("statusPayload") if isinstance(record.get("statusPayload"), dict) else {}
+    data = payload.get("data") if isinstance(payload.get("data"), dict) else {}
+    recent_results = [item for item in data.get("recent_results", []) if isinstance(item, dict)] if isinstance(data.get("recent_results"), list) else []
+    open_orders = [item for item in data.get("open_orders", []) if isinstance(item, dict)] if isinstance(data.get("open_orders"), list) else []
+    balance = str(data.get("balance") or "").strip()
+    total_predictions = data.get("total_predictions")
+    parts: list[str] = []
+
+    if recent_results:
+        wins = sum(1 for item in recent_results if item.get("won") is True)
+        payout_total = 0
+        for item in recent_results:
+            try:
+                payout_total += int(item.get("payout_chips") or 0)
+            except (TypeError, ValueError):
+                continue
+        result_text = f"Recent Predict results: {len(recent_results)} result(s), {wins} win(s), payout {payout_total} chips"
+        latest = recent_results[0]
+        latest_market = " ".join(
+            part
+            for part in (
+                str(latest.get("asset") or "").strip(),
+                str(latest.get("window") or "").strip(),
+                str(latest.get("direction") or "").strip().upper(),
+            )
+            if part
+        ).strip()
+        if latest_market:
+            result_text += f"; latest {latest_market}"
+        parts.append(result_text + ".")
+
+    if balance:
+        balance_text = f"Current Predict balance: {balance} chips"
+        if total_predictions not in (None, ""):
+            balance_text += f" after {total_predictions} total prediction(s)"
+        parts.append(balance_text + ".")
+
+    if open_orders:
+        total_tickets = 0
+        total_filled = 0
+        for item in open_orders:
+            try:
+                total_tickets += int(item.get("tickets") or 0)
+            except (TypeError, ValueError):
+                continue
+            try:
+                total_filled += int(item.get("tickets_filled") or 0)
+            except (TypeError, ValueError):
+                continue
+        parts.append(f"Open orders: {len(open_orders)} active, {total_filled}/{total_tickets} tickets filled.".strip())
+
+    return " ".join(part for part in parts if part).strip() or None
+
+
+def _mine_live_earnings_hint(record: dict[str, Any]) -> Optional[str]:
+    payload = record.get("statusPayload") if isinstance(record.get("statusPayload"), dict) else {}
+    internal = payload.get("_internal") if isinstance(payload.get("_internal"), dict) else {}
+    runtime_status = internal.get("status") if isinstance(internal.get("status"), dict) else {}
+    earnings_summary = runtime_status.get("earnings_summary") if isinstance(runtime_status.get("earnings_summary"), dict) else {}
+    progress = runtime_status.get("progress") if isinstance(runtime_status.get("progress"), dict) else {}
+
+    parts: list[str] = []
+    submitted = earnings_summary.get("submitted")
+    target = earnings_summary.get("target")
+    percent = earnings_summary.get("progress_percent") or progress.get("epoch_completion_percent")
+    remaining = earnings_summary.get("remaining") or progress.get("epoch_remaining")
+    eta = earnings_summary.get("estimated_completion") or progress.get("estimated_completion")
+    if submitted not in (None, "") or target not in (None, ""):
+        progress_text = f"Mine epoch progress: {submitted or 0}/{target or '?'}"
+        if percent not in (None, ""):
+            progress_text += f" ({percent}% complete)"
+        if remaining not in (None, ""):
+            progress_text += f", {remaining} remaining"
+        if eta not in (None, ""):
+            progress_text += f", ETA {eta}"
+        parts.append(progress_text + ".")
+
+    credit_score = runtime_status.get("credit_score")
+    credit_tier = str(runtime_status.get("credit_tier") or "").strip()
+    if credit_score not in (None, "") or credit_tier:
+        credit_text = "Mine credit"
+        if credit_score not in (None, ""):
+            credit_text += f" score {credit_score}"
+        if credit_tier:
+            credit_text += f", tier {credit_tier}"
+        parts.append(credit_text + ".")
+
+    summary = record.get("summary", {}) if isinstance(record.get("summary"), dict) else {}
+    detail = str(summary.get("detail") or "").strip()
+    if detail and not parts:
+        parts.append(detail if detail.endswith(".") else detail + ".")
+    return " ".join(part for part in parts if part).strip() or None
+
+
+def _background_earnings_hints(active_background_records: list[dict[str, Any]]) -> list[str]:
+    hints: list[str] = []
+    for item in active_background_records:
+        if not isinstance(item, dict):
+            continue
+        worknet_key = str(item.get("worknetKey") or "").strip().lower()
+        hint = None
+        if worknet_key == "predict":
+            hint = _predict_live_earnings_hint(item)
+        elif worknet_key == "mine":
+            hint = _mine_live_earnings_hint(item)
+        if hint and hint not in hints:
+            hints.append(hint)
+    return hints
+
+
 def build_workstation_status_payload(
     *,
     query: Optional[str] = None,
@@ -18,11 +225,13 @@ def build_workstation_status_payload(
     if dependencies is None:
         raise ValueError("workstation status dependencies are required")
     action_details_from_ui_actions = dependencies["action_details_from_ui_actions"]
+    aggregate_background_supervisor_view = dependencies["aggregate_background_supervisor_view"]
     align_run_execution_user_message = dependencies["align_run_execution_user_message"]
     annotate_execution_actions = dependencies["annotate_execution_actions"]
     annotate_research_action_details = dependencies["annotate_research_action_details"]
     append_user_action = dependencies["append_user_action"]
     atomic_write_json = dependencies["atomic_write_json"]
+    background_supervisor_view = dependencies["background_supervisor_view"]
     build_capability_bundle = dependencies["build_capability_bundle"]
     build_epoch_review = dependencies["build_epoch_review"]
     build_knowledge_query_result = dependencies["build_knowledge_query_result"]
@@ -32,6 +241,7 @@ def build_workstation_status_payload(
     build_resume_recovery_briefing = dependencies["build_resume_recovery_briefing"]
     build_source_query_result = dependencies["build_source_query_result"]
     build_start_response = dependencies["build_start_response"]
+    build_workstation_state_summary = dependencies["build_workstation_state_summary"]
     derive_execution_state = dependencies["derive_execution_state"]
     detect_source_from_text = dependencies["detect_source_from_text"]
     detect_worknet_from_text = dependencies["detect_worknet_from_text"]
@@ -55,6 +265,7 @@ def build_workstation_status_payload(
     load_cached_capability_bundle = dependencies["load_cached_capability_bundle"]
     load_cached_knowledge_catalog = dependencies["load_cached_knowledge_catalog"]
     load_cached_knowledge_review_queue = dependencies["load_cached_knowledge_review_queue"]
+    load_cached_workstation_state_summary = dependencies["load_cached_workstation_state_summary"]
     load_json = dependencies["load_json"]
     load_or_build_knowledge_catalog = dependencies["load_or_build_knowledge_catalog"]
     load_user_preferences = dependencies["load_user_preferences"]
@@ -63,7 +274,9 @@ def build_workstation_status_payload(
     merge_payload_user_actions = dependencies["merge_payload_user_actions"]
     merge_recovery_decision_actions = dependencies["merge_recovery_decision_actions"]
     now_iso = dependencies["now_iso"]
+    persist_background_observation = dependencies["persist_background_observation"]
     prioritize_ui_actions = dependencies["prioritize_ui_actions"]
+    public_earnings_hint_for_worknet = dependencies["public_earnings_hint_for_worknet"]
     query_knowledge_command = dependencies["query_knowledge_command"]
     recommend_worknet_actions = dependencies["recommend_worknet_actions"]
     recovery_status_display = dependencies["recovery_status_display"]
@@ -83,6 +296,19 @@ def build_workstation_status_payload(
     workstation_preflight_command = dependencies["workstation_preflight_command"]
 
     state = state_context()
+    latest_run = load_json(Path(state["runs"]) / "latest-run.json", {})
+    pending_confirmations = load_json(Path(state["runs"]) / "pending-confirmations.json", [])
+    cached_monitor = load_json(Path(state["cache"]) / "workstation-monitor.json", {})
+    cached_state_summary = load_cached_workstation_state_summary(state=state) if read_only else {}
+    active_background_records = [
+        persist_background_observation(
+            state,
+            summarize_background_record(item, tail_lines=30),
+        )
+        for item in load_active_processes(state)
+        if isinstance(item, dict)
+    ]
+    aggregate_background = aggregate_background_supervisor_view(active_background_records) if len(active_background_records) > 1 else {}
     preferences = load_user_preferences(state) if read_only else ensure_user_preferences(state)
     knowledge_catalog = load_cached_knowledge_catalog(state) if read_only else load_or_build_knowledge_catalog(state)
     start_response = (
@@ -111,10 +337,22 @@ def build_workstation_status_payload(
         if not isinstance(knowledge_review_queue, dict) or not knowledge_review_queue:
             missing_caches.append("knowledge-review-queue.json")
         if missing_caches:
+            resolved_intent = resolve_workstation_status_intent(query, explicit_intent=intent)
+            if isinstance(cached_state_summary, dict) and cached_state_summary:
+                report = _snapshot_fallback_report(
+                    state_summary=cached_state_summary,
+                    query=query,
+                    intent=resolved_intent,
+                    now_iso=now_iso,
+                    recovery_status_display=recovery_status_display,
+                )
+                report["missingCaches"] = missing_caches
+                report["_internal"]["stateRoot"] = state["root"]
+                return report
             return {
                 "generatedAt": now_iso(),
                 "query": query,
-                "intent": resolve_workstation_status_intent(query, explicit_intent=intent),
+                "intent": resolved_intent,
                 "progress": "[5/5] Workstation Status",
                 "headline": "Cached workstation status is not available.",
                 "answer": "Read-only status cannot rebuild missing caches: " + ", ".join(missing_caches) + ".",
@@ -240,6 +478,8 @@ def build_workstation_status_payload(
     research_topic_labels: list[str] = []
     research_worknet_labels: list[str] = []
     research_reference_labels: list[str] = []
+    pause_priority_labels: list[str] = []
+    status_priority_labels: list[str] = []
 
     if resolved_intent == "status":
         merge_payload_user_actions(user_actions, action_map, start_response)
@@ -283,15 +523,39 @@ def build_workstation_status_payload(
             merge_recovery_decision_actions(user_actions, action_map, recovery_decision, prefer_front=True)
     elif resolved_intent == "earnings":
         rewards = [str(item).strip() for item in review.get("estimatedRewards", []) if str(item).strip()]
+        live_hints = _background_earnings_hints(active_background_records)
+        public_hint = public_earnings_hint_for_worknet(state, worknet_key or current_worknet_key or "")
         headline = "Earnings"
-        if rewards:
-            answer = f"Latest review {review_generated_at}: {rewards[0]}"
-            if len(rewards) > 1:
-                answer += " " + rewards[1]
+        answer_parts: list[str] = []
+        if live_hints:
+            answer_parts.append(live_hints[0])
+            if len(live_hints) > 1:
+                answer_parts.append(f"{len(live_hints) - 1} additional live earnings context item(s) are available from other background tasks.")
             status = "estimated"
+        if rewards:
+            review_text = f"Latest review {review_generated_at}: {rewards[0]}"
+            if len(rewards) > 1:
+                review_text += " " + rewards[1]
+            answer_parts.append(review_text)
+            status = "estimated"
+        if public_hint:
+            answer_parts.append(public_hint)
+            status = "estimated"
+        if answer_parts:
+            answer = " ".join(part for part in answer_parts if part).strip()
         else:
             answer = f"Latest review {review_generated_at}: no reward estimate is available yet."
             status = "unavailable"
+        if len(active_background_records) == 1 and isinstance(active_background_records[0], dict):
+            label = str(active_background_records[0].get("label") or "").strip()
+            if label:
+                append_user_action(
+                    user_actions,
+                    action_map,
+                    label=f"Inspect {label}",
+                    description="Inspect the active background task for the latest live earnings context.",
+                    command=workstation_background_command(label, tail_lines=80),
+                )
         append_user_action(
             user_actions,
             action_map,
@@ -327,7 +591,13 @@ def build_workstation_status_payload(
         if isinstance(recovery_decision, dict):
             merge_recovery_decision_actions(user_actions, action_map, recovery_decision)
     elif resolved_intent == "pause":
-        active = [summarize_background_record(item, tail_lines=30) for item in load_active_processes(state)]
+        active = [
+            persist_background_observation(
+                state,
+                summarize_background_record(item, tail_lines=30),
+            )
+            for item in load_active_processes(state)
+        ]
         if not active:
             headline = "Idle"
             answer = "No active background process is registered."
@@ -337,14 +607,37 @@ def build_workstation_status_payload(
                 maybe_promote_recovery_decision(user_actions, action_map, recovery_decision)
         elif len(active) == 1:
             item = active[0]
-            summary = item.get("summary", {}) if isinstance(item.get("summary"), dict) else {}
-            background_headline = str(summary.get("headline") or "Background process is running.").strip()
-            headline = "Background running"
-            answer = f"One background process is running: {background_headline}"
-            status = "background_running"
+            supervisor = background_supervisor_view(item)
+            background_headline = str(
+                supervisor.get("headline")
+                or (item.get("summary", {}) if isinstance(item.get("summary"), dict) else {}).get("headline")
+                or "Background process is running."
+            ).strip()
+            headline = str(supervisor.get("display") or "Background running")
+            answer = str(supervisor.get("message") or f"One background process is running: {background_headline}")
+            status = str(supervisor.get("status") or "background_running")
             if isinstance(recovery_decision, dict) and str(recovery_decision.get("status") or "").strip() == "background_running":
                 merge_recovery_decision_actions(user_actions, action_map, recovery_decision, prefer_front=True)
             if not user_actions:
+                next_action_label = str(supervisor.get("nextActionLabel") or "").strip()
+                next_action_command = str(supervisor.get("nextActionCommand") or "").strip()
+                if next_action_label and next_action_command:
+                    append_user_action(
+                        user_actions,
+                        action_map,
+                        label=next_action_label,
+                        description="Continue from the background runtime's next required step.",
+                        command=next_action_command,
+                    )
+                    pause_priority_labels.append(next_action_label)
+                if status == "awaiting_dataset":
+                    append_user_action(
+                        user_actions,
+                        action_map,
+                        label=f"Inspect {item.get('label')}",
+                        description="Inspect Mine dataset selection guidance and recent log tail.",
+                        command=workstation_background_command(str(item.get("label")), tail_lines=80),
+                    )
                 append_user_action(
                     user_actions,
                     action_map,
@@ -538,6 +831,109 @@ def build_workstation_status_payload(
         queue_refresh_label = str(knowledge_review_queue_summary.get("refreshActionLabel") or "").strip()
         if queue_refresh_label:
             research_control_labels.append(queue_refresh_label)
+
+    if (
+        resolved_intent in {"status", "continue"}
+        and len(active_background_records) == 1
+        and not pending_confirmations
+        and target_source is None
+        and not target_knowledge_topic
+        and (target_profile is None or str(target_profile.get("key") or "").strip() == str(active_background_records[0].get("worknetKey") or "").strip())
+    ):
+        background_record = active_background_records[0]
+        supervisor = background_supervisor_view(background_record)
+        if isinstance(supervisor, dict):
+            headline = str(
+                supervisor.get("display")
+                or supervisor.get("headline")
+                or headline
+            ).strip() or headline
+            answer = str(
+                supervisor.get("message")
+                or supervisor.get("headline")
+                or answer
+            ).strip() or answer
+            status = str(supervisor.get("status") or status).strip() or status
+            if background_record.get("worknetKey"):
+                worknet_key = str(background_record.get("worknetKey") or "").strip() or worknet_key
+            if background_record.get("worknetName"):
+                worknet_name = str(background_record.get("worknetName") or "").strip() or worknet_name
+
+            next_action_label = str(supervisor.get("nextActionLabel") or "").strip()
+            next_action_command = str(supervisor.get("nextActionCommand") or "").strip()
+            if next_action_label and next_action_command:
+                append_user_action(
+                    user_actions,
+                    action_map,
+                    label=next_action_label,
+                    description="Continue from the active background runtime's next required step.",
+                    command=next_action_command,
+                )
+                status_priority_labels.append(next_action_label)
+
+            inspect_label = f"Inspect {background_record.get('label')}"
+            append_user_action(
+                user_actions,
+                action_map,
+                label=inspect_label,
+                description="Inspect the active background process status and log tail.",
+                command=workstation_background_command(str(background_record.get("label")), tail_lines=80),
+            )
+            status_priority_labels.append(inspect_label)
+
+            if background_record.get("alive"):
+                append_user_action(
+                    user_actions,
+                    action_map,
+                    label="Pause background work",
+                    description="Pause the active background process.",
+                    command=workstation_pause_command(execute=True),
+                )
+                status_priority_labels.append("Pause background work")
+    elif (
+        resolved_intent in {"status", "continue"}
+        and len(active_background_records) > 1
+        and not pending_confirmations
+        and target_source is None
+        and not target_knowledge_topic
+        and isinstance(aggregate_background, dict)
+        and aggregate_background.get("count")
+    ):
+        headline = str(aggregate_background.get("headline") or headline).strip() or headline
+        answer = str(aggregate_background.get("message") or answer).strip() or answer
+        status = str(aggregate_background.get("status") or status).strip() or status
+        if target_profile is None:
+            worknet_key = None
+            worknet_name = "Multiple WorkNets"
+
+        next_action_label = str(aggregate_background.get("nextActionLabel") or "").strip()
+        next_action_command = str(aggregate_background.get("nextActionCommand") or "").strip()
+        if next_action_label and next_action_command:
+            append_user_action(
+                user_actions,
+                action_map,
+                label=next_action_label,
+                description="Continue from the most urgent background runtime step.",
+                command=next_action_command,
+            )
+            status_priority_labels.append(next_action_label)
+
+        ordered_items = aggregate_background.get("items", []) if isinstance(aggregate_background.get("items"), list) else []
+        for item in ordered_items[:3]:
+            if not isinstance(item, dict):
+                continue
+            label = str(item.get("label") or "").strip()
+            if not label:
+                continue
+            inspect_label = f"Inspect {label}"
+            append_user_action(
+                user_actions,
+                action_map,
+                label=inspect_label,
+                description="Inspect this background process status and log tail.",
+                command=workstation_background_command(label, tail_lines=80),
+            )
+            status_priority_labels.append(inspect_label)
     elif resolved_intent == "research":
         status = "stale_knowledge_pending" if knowledge_review_queue_summary.get("hasPendingReviews") else "knowledge_ready"
         if target_source is not None:
@@ -801,7 +1197,11 @@ def build_workstation_status_payload(
             elif resolved_intent in {"research", "review-queue"} and queue_label not in research_control_labels and queue_label not in research_current_labels:
                 research_control_labels.append(queue_label)
 
-    resume_status = str(recovery_decision.get("status") or start_response.get("resumeStatus") or "").strip() or None
+    resume_status = str(
+        (recovery_decision.get("status") if isinstance(recovery_decision, dict) else None)
+        or start_response.get("resumeStatus")
+        or ""
+    ).strip() or None
     runtime_execution_state = derive_execution_state(
         review=review,
         recovery=preflight.get("recovery"),
@@ -841,6 +1241,10 @@ def build_workstation_status_payload(
             resume_status=action_priority_resume,
             worknet_key=worknet_key or current_worknet_key,
         )
+    if resolved_intent in {"status", "continue"} and status_priority_labels:
+        user_actions = frontload_user_action_labels(user_actions, status_priority_labels)
+    if resolved_intent == "pause" and pause_priority_labels:
+        user_actions = frontload_user_action_labels(user_actions, pause_priority_labels)
     if resolved_intent == "research":
         if target_source is None and target_profile is None and not target_knowledge_topic:
             ordered_research_labels = [
@@ -1119,6 +1523,37 @@ def build_workstation_status_payload(
     report["researchActionGroups"] = research_action_groups
     report["primaryUserActionDisplay"] = user_action_details[0]["displayLabel"] if user_action_details else None
     report["primaryUserActionCommand"] = user_action_details[0]["command"] if user_action_details else None
+    monitor_context = dict(cached_monitor) if isinstance(cached_monitor, dict) else {}
+    if len(active_background_records) == 1:
+        supervisor = background_supervisor_view(active_background_records[0])
+        if isinstance(supervisor, dict):
+            monitor_context.setdefault("activeBackgroundSupervisorState", supervisor.get("state"))
+            monitor_context.setdefault("activeBackgroundSupervisorHeadline", supervisor.get("headline"))
+    elif isinstance(aggregate_background, dict) and aggregate_background.get("count"):
+        monitor_context.setdefault("activeBackgroundSupervisorState", aggregate_background.get("state"))
+        monitor_context.setdefault("activeBackgroundSupervisorHeadline", aggregate_background.get("headline"))
+        monitor_context.setdefault("latestSuccess", aggregate_background.get("latestSuccess"))
+        monitor_context.setdefault("latestFailure", aggregate_background.get("latestFailure"))
+    report["stateSummary"] = build_workstation_state_summary(
+        latest_run=latest_run if isinstance(latest_run, dict) else {},
+        latest_review=review if isinstance(review, dict) else {},
+        status_report={
+            "headline": headline,
+            "status": status,
+            "resumeStatus": report_resume_status,
+            "executionState": report_execution_state.get("executionState"),
+            "executionStateDisplay": report_execution_state.get("executionStateDisplay"),
+            "executionHeadline": report_execution_state.get("executionHeadline"),
+            "worknetKey": worknet_key,
+            "worknetName": worknet_name,
+            "primaryUserAction": report.get("primaryUserAction"),
+            "primaryUserActionCommand": report.get("primaryUserActionCommand"),
+            "userActions": [item.get("label") for item in user_actions if isinstance(item, dict)],
+        },
+        active_background=active_background_records,
+        pending_confirmations=pending_confirmations if isinstance(pending_confirmations, list) else [],
+        monitor_report=monitor_context,
+    )
     if not read_only:
         atomic_write_json(Path(state["cache"]) / "workstation-status.json", report)
     return report

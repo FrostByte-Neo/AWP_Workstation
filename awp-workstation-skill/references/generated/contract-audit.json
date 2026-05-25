@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T04:13:37Z",
+  "generatedAt": "2026-05-25T11:20:19Z",
   "status": "covered",
   "summary": {
     "suiteCount": 4,
@@ -18,7 +18,7 @@
         "partial": 0,
         "missing": 0
       },
-      "generatedAt": "2026-05-25T04:11:55Z"
+      "generatedAt": "2026-05-25T11:20:13Z"
     },
     {
       "key": "branch-contract-audit",
@@ -29,7 +29,7 @@
         "partial": 0,
         "missing": 0
       },
-      "generatedAt": "2026-05-25T04:13:37Z"
+      "generatedAt": "2026-05-25T11:20:18Z"
     },
     {
       "key": "query-contract-audit",
@@ -40,7 +40,7 @@
         "partial": 0,
         "missing": 0
       },
-      "generatedAt": "2026-05-25T04:13:37Z"
+      "generatedAt": "2026-05-25T11:20:19Z"
     },
     {
       "key": "display-contract-audit",
@@ -51,7 +51,7 @@
         "partial": 0,
         "missing": 0
       },
-      "generatedAt": "2026-05-25T04:13:37Z"
+      "generatedAt": "2026-05-25T11:20:19Z"
     }
   ],
   "unresolved": []

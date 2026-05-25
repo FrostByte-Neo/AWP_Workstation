@@ -1,0 +1,481 @@
+{
+  "generatedAt": "2026-05-25T11:19:41Z",
+  "concepts": [
+    {
+      "key": "registration",
+      "title": "AWP Registration",
+      "kind": "workflow",
+      "aliases": [
+        "agent registration",
+        "gasless onboarding",
+        "register agent"
+      ],
+      "plainLanguage": "Install awp-skill and awp-wallet, then use the gasless path to register the agent account in AWP.",
+      "whyItMatters": "Registration is the entry point for later WorkNet execution, qualification checks, and reward routing.",
+      "summary": "The workstation treats registration as a safe onboarding flow: create a work wallet, check PATH, run official preflight, then complete gasless registration through awp-skill.",
+      "operatorLoop": [
+        "install awp-skill and awp-wallet",
+        "initialize a fresh agent work wallet",
+        "run official preflight and detect missing prerequisites",
+        "complete gasless registration before starting WorkNet work"
+      ],
+      "sourceKeys": [
+        "awp-skill",
+        "awp-skill-readme-raw",
+        "awp-testnet",
+        "kya-skill-raw"
+      ],
+      "evidenceKeys": [
+        "awp-skill-install-sequence",
+        "awp-skill-gasless-ops",
+        "testnet-gasless-start",
+        "kya-registration-handoff"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "benchmark-testnet",
+        "kya"
+      ],
+      "relatedWorknets": [
+        "kya"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "well defined",
+      "coverageNote": "Official RootNet skill docs plus testnet/KYA handoff rules make this one of the clearest cross-worknet workflows."
+    },
+    {
+      "key": "recipient-routing",
+      "title": "Recipient Routing",
+      "kind": "workflow",
+      "aliases": [
+        "reward recipient",
+        "resolved recipient",
+        "set recipient"
+      ],
+      "plainLanguage": "Confirm which address receives rewards instead of assuming they return to the user's main wallet.",
+      "whyItMatters": "A wrong recipient can let work keep running while rewards are routed to the wrong address.",
+      "summary": "Recipient routing links RootNet bindings, KYA handoff, and later WorkNet reward collection, so the workstation keeps it as an explicit confirmation flow.",
+      "operatorLoop": [
+        "check the current resolved recipient during preflight",
+        "compare recipient intent with the agent work wallet and principal",
+        "route any recipient-changing action through confirmation",
+        "re-check recipient after registration or delegate handoff"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-skill-readme-raw",
+        "kya-skill-raw"
+      ],
+      "evidenceKeys": [
+        "awp-skill-gasless-ops",
+        "kya-handoff-url-plain-text"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "kya"
+      ],
+      "relatedWorknets": [
+        "kya"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "thin coverage",
+      "coverageNote": "Core semantics are clear, but the encyclopedia still lacks a first-class dedicated dossier for recipient misrouting and recovery paths."
+    },
+    {
+      "key": "allocation-and-delegation",
+      "title": "Allocation And Delegation",
+      "kind": "workflow",
+      "aliases": [
+        "allocation",
+        "delegate staking",
+        "delegated staking",
+        "reallocate"
+      ],
+      "plainLanguage": "Assign stake or authority to an agent or WorkNet, often through KYA delegated paths instead of direct low-level contract actions.",
+      "whyItMatters": "This shared qualification path affects Predict, Gov, Ardi, and other value-sensitive WorkNet flows.",
+      "summary": "The workstation explains allocation, delegation, and KYA assistance as one comparable qualification workflow covering direct stake, delegated paths, and observe-only fallbacks.",
+      "operatorLoop": [
+        "check whether the target WorkNet truly needs stake or delegation",
+        "compare direct AWP stake against KYA delegated paths",
+        "confirm any allocate, deallocate, or reallocate action",
+        "re-run qualification checks after delegation changes"
+      ],
+      "sourceKeys": [
+        "awp-skill-readme-raw",
+        "kya-skill-raw",
+        "predict-skill-raw",
+        "awp-staking"
+      ],
+      "evidenceKeys": [
+        "awp-skill-gasless-ops",
+        "kya-registration-handoff",
+        "predict-official-runtime",
+        "staking-awp-power"
+      ],
+      "relatedTopics": [
+        "awp-skill",
+        "kya",
+        "predict",
+        "ardi",
+        "staking"
+      ],
+      "relatedWorknets": [
+        "predict",
+        "ardi",
+        "kya"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "thin coverage",
+      "coverageNote": "The workstation knows the main paths, but the cross-worknet decision logic is still spread across facts instead of one reusable concept dossier."
+    },
+    {
+      "key": "qualification-gates",
+      "title": "Qualification Gates",
+      "kind": "concept",
+      "aliases": [
+        "min stake",
+        "awp power gate",
+        "eligibility gate",
+        "qualification"
+      ],
+      "plainLanguage": "Different WorkNets use stake, AWP Power, KYA, Base gas, or quality gates to decide whether work can start.",
+      "whyItMatters": "Users need to know why Mine can often start directly while Predict, Gov, or Ardi may need more setup.",
+      "summary": "Qualification gates are a cross-WorkNet condition set: Mine validator stake, Predict allocation or KYA paths, Gov AWP Power, and Ardi Base gas all belong to the same operator decision surface.",
+      "operatorLoop": [
+        "read the worknet-specific gate from capability scan or official runtime docs",
+        "separate hard blockers from enhancement paths",
+        "surface gas, stake, and identity prerequisites in plain language",
+        "refresh the gate after any funding, staking, or delegation action"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "predict-skill-raw",
+        "awp-staking",
+        "gov-skill-raw",
+        "ardi-skill-raw"
+      ],
+      "evidenceKeys": [
+        "mine-emission-and-stake",
+        "predict-official-runtime",
+        "staking-awp-power",
+        "gov-public-vs-signed",
+        "ardi-operational-caps"
+      ],
+      "relatedTopics": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "staking"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "thin coverage",
+      "coverageNote": "The ingredients exist, but the encyclopedia still needs a stronger unified view of qualification semantics across worknets."
+    },
+    {
+      "key": "epoch-settlement",
+      "title": "Epoch Settlement",
+      "kind": "workflow",
+      "aliases": [
+        "epoch review",
+        "settlement window",
+        "reward settlement"
+      ],
+      "plainLanguage": "Many WorkNets score and settle work in windows rather than immediately after a command finishes.",
+      "whyItMatters": "Without epoch context, users can misread rewards, failures, waiting periods, and review timing.",
+      "summary": "Mine, Predict, Gov, and Ardi all have phase or window semantics, so the workstation aligns execution, waiting, review, and follow-up actions to settlement timing.",
+      "operatorLoop": [
+        "align task submission to the current epoch or phase",
+        "track what still needs waiting, reveal, settlement, or review",
+        "generate an epoch review instead of relying on raw command logs",
+        "feed failures and strategy changes into the next run"
+      ],
+      "sourceKeys": [
+        "aip-001-raw",
+        "aip-002-raw",
+        "gov-skill-raw",
+        "ardi-skill-raw"
+      ],
+      "evidenceKeys": [
+        "mine-emission-and-stake",
+        "predict-worknet-summary",
+        "gov-public-vs-signed",
+        "ardi-operational-caps"
+      ],
+      "relatedTopics": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "thin coverage",
+      "coverageNote": "Epoch language appears across the major worknets, but it is still modeled as repeated facts rather than one shared settlement concept."
+    },
+    {
+      "key": "gov-auth-signing",
+      "title": "Gov Auth And Signing",
+      "kind": "workflow",
+      "aliases": [
+        "EIP-712",
+        "EMG-SIG-V1",
+        "signed reads",
+        "signed writes"
+      ],
+      "plainLanguage": "Gov public reads and signed actions are separate paths: public data is open, protected actions require awp-wallet signing discipline.",
+      "whyItMatters": "This decides which Gov actions can be observed automatically and which require confirmation plus auth error handling.",
+      "summary": "Gov authentication is modeled as its own workflow: public reads need no wallet, signed reads and writes use awp-wallet, votes and trades enter the confirmation queue, and nonce/time/domain failures are classified before retry.",
+      "operatorLoop": [
+        "separate public reads from signed reads and writes",
+        "resolve principal and wallet context before any signed action",
+        "route trade, vote, and order actions through confirmation",
+        "classify auth failures such as nonce drift or time skew before retrying"
+      ],
+      "sourceKeys": [
+        "gov-skill-raw",
+        "gov-works",
+        "awp-skill-readme-raw"
+      ],
+      "evidenceKeys": [
+        "gov-public-vs-signed",
+        "gov-auth-discipline"
+      ],
+      "relatedTopics": [
+        "gov",
+        "awp-skill",
+        "protocol-core"
+      ],
+      "relatedWorknets": [
+        "gov"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "well defined",
+      "coverageNote": "The official Gov runtime is explicit about signed vs public flows and failure handling, so this concept is already strong."
+    },
+    {
+      "key": "ardi-command-journal",
+      "title": "Ardi Command Journal",
+      "kind": "workflow",
+      "aliases": [
+        "_internal.next_command",
+        "ardi journal",
+        "command journal"
+      ],
+      "plainLanguage": "Ardi should follow official runtime guidance instead of letting the workstation guess the next step.",
+      "whyItMatters": "Ardi's safety boundary depends on the command journal, especially around commit and reveal windows.",
+      "summary": "Ardi is modeled as a command-journal-driven WorkNet: preflight, commit, reveal, and inscribe actions should follow `_internal.next_command` and the official ardi-agent CLI.",
+      "operatorLoop": [
+        "run ardi-agent preflight first",
+        "read runtime guidance and _internal.next_command",
+        "follow commit and reveal windows exactly",
+        "avoid handcrafted loops when official auto-mine or next-command guidance exists"
+      ],
+      "sourceKeys": [
+        "ardi-skill-raw",
+        "ardinals-agents"
+      ],
+      "evidenceKeys": [
+        "ardi-agent-only",
+        "ardi-operational-caps"
+      ],
+      "relatedTopics": [
+        "ardi"
+      ],
+      "relatedWorknets": [
+        "ardi"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "well defined",
+      "coverageNote": "The official Ardi runtime already documents the command-journal discipline clearly; the encyclopedia can treat this as a stable operator rule."
+    },
+    {
+      "key": "agent-onboarding",
+      "title": "Agent Onboarding",
+      "kind": "workflow",
+      "aliases": [
+        "quickstart",
+        "start earning",
+        "new user flow"
+      ],
+      "plainLanguage": "Turn skill installation, work-wallet creation, gasless registration, WorkNet selection, and first work into one conversational onboarding path.",
+      "whyItMatters": "This is the product-facing layer that keeps users from being overwhelmed by RootNet, wallet, and stake details.",
+      "summary": "The official blog and awp-skill README define a stable quickstart shape, so the workstation defaults to an agent work wallet, gasless registration, low-friction WorkNet selection, and plain-language review.",
+      "operatorLoop": [
+        "start from a SKILL.md-capable agent runtime",
+        "install awp-skill and let it bootstrap a work wallet",
+        "complete gasless registration before discussing advanced protocol knobs",
+        "show available WorkNets and recommend the safest first loop",
+        "translate epoch rewards and failures back into user language"
+      ],
+      "sourceKeys": [
+        "awp-home",
+        "awp-skill-readme-raw",
+        "awp-blog-03-start-earning",
+        "awp-testnet"
+      ],
+      "evidenceKeys": [
+        "awp-skill-install-sequence",
+        "blog-agent-quickstart",
+        "testnet-gasless-start"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "awp-skill",
+        "blog",
+        "benchmark-testnet"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "benchmark-testnet"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "well defined",
+      "coverageNote": "The quickstart path is now backed by both formal skill docs and an official onboarding guide, so the encyclopedia can present it as a stable default user journey."
+    },
+    {
+      "key": "worknet-economic-unit",
+      "title": "WorkNet As Economic Unit",
+      "kind": "concept",
+      "aliases": [
+        "worknet as company",
+        "economic unit",
+        "autonomous economic unit"
+      ],
+      "plainLanguage": "A WorkNet is not just a contract address; it is an agent economy with pay, scoring, token incentives, and market feedback.",
+      "whyItMatters": "The workstation should explain which labor market the user is joining, how it pays, and how it filters output.",
+      "summary": "Official WorkNet material frames WorkNets as economies with payroll, equity-like incentives, performance reviews, and market prices, which gives Mine, Predict, Gov, and Ardi a shared explanation layer.",
+      "operatorLoop": [
+        "identify what work the WorkNet buys",
+        "read how that WorkNet scores accepted output",
+        "separate AWP reserve economics from the WorkNet's own token economics",
+        "explain why agents earn through WorkNets rather than directly from RootNet emission"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-worknets",
+        "awp-blog-05-worknet"
+      ],
+      "evidenceKeys": [
+        "protocol-two-layer",
+        "blog-worknet-company-model",
+        "mine-worknet-summary",
+        "predict-worknet-summary"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "blog",
+        "mine",
+        "predict",
+        "gov",
+        "ardi"
+      ],
+      "relatedWorknets": [
+        "mine",
+        "predict",
+        "gov",
+        "ardi",
+        "tmr",
+        "community"
+      ],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "well defined",
+      "coverageNote": "The combination of whitepaper structure plus the Apr 30, 2026 WorkNet explainer makes this one of the strongest plain-language protocol concepts now available."
+    },
+    {
+      "key": "fair-launch-and-emission",
+      "title": "Fair Launch And Emission",
+      "kind": "concept",
+      "aliases": [
+        "emission-only launch",
+        "zero premine",
+        "treasury split"
+      ],
+      "plainLanguage": "AWP issuance should be explained as a public emission curve, not a traditional team or investor allocation model.",
+      "whyItMatters": "This affects how the workstation explains supply, DAO Treasury, reward expectations, and the fair-launch claim.",
+      "summary": "The workstation combines the whitepaper and fair-launch blog into one stable explanation: 10B AWP enters through emission, without insider unlock cliffs, and Treasury is part of visible governance rather than a hidden team reserve.",
+      "operatorLoop": [
+        "distinguish public emission from insider allocation models",
+        "explain the visible split between WorkNet wages and DAO Treasury",
+        "separate future emission curve risk from hidden unlock risk",
+        "tie treasury governance back to veAWP holders rather than a team-controlled reserve"
+      ],
+      "sourceKeys": [
+        "awp-whitepaper",
+        "awp-dao",
+        "awp-blog-04-fair-launch"
+      ],
+      "evidenceKeys": [
+        "blog-fair-launch-emission",
+        "dao-public-params"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "dao",
+        "staking",
+        "blog"
+      ],
+      "relatedWorknets": [],
+      "coverageState": "well-defined",
+      "coverageStateDisplay": "well defined",
+      "coverageNote": "The fair-launch story is now anchored by both normative and user-facing official sources, so the encyclopedia can explain it without leaning on marketing shorthand."
+    },
+    {
+      "key": "worknet-launch-lifecycle",
+      "title": "WorkNet Launch Lifecycle",
+      "kind": "workflow",
+      "aliases": [
+        "launch worknet",
+        "register worknet",
+        "guardian activation"
+      ],
+      "plainLanguage": "A new WorkNet moves through design, gasless registration, Guardian review, manager setup, and distribution before it is operationally mature.",
+      "whyItMatters": "This explains why live WorkNets can differ in documentation depth and automation readiness.",
+      "summary": "The launch guide clarifies the builder path and helps the workstation distinguish active mature WorkNets from pending predecessors, thin repos, and newly activated but under-documented entries.",
+      "operatorLoop": [
+        "define work, public scoring, and anti-sybil logic",
+        "register the WorkNet through the official gasless flow",
+        "wait for Guardian activation review before treating it as mature",
+        "configure manager roles and distribution operations",
+        "expect public runtime quality to improve over time rather than at one instant"
+      ],
+      "sourceKeys": [
+        "awp-blog-01-launch-worknet",
+        "awp-aip",
+        "awp-skill-readme-raw"
+      ],
+      "evidenceKeys": [
+        "blog-worknet-launch-sequence",
+        "awp-skill-gasless-ops"
+      ],
+      "relatedTopics": [
+        "protocol-core",
+        "blog",
+        "awp-skill",
+        "tmr",
+        "community"
+      ],
+      "relatedWorknets": [
+        "tmr",
+        "community"
+      ],
+      "coverageState": "thin",
+      "coverageStateDisplay": "thin coverage",
+      "coverageNote": "The public builder lifecycle is finally explicit, but the workstation still lacks the same depth of official launch/ops material for many thinner worknets."
+    }
+  ]
+}

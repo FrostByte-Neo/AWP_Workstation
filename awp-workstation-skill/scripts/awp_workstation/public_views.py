@@ -10,8 +10,10 @@ from awp_workstation.contracts import (
     PLAYBOOK_PUBLIC_FIELDS,
     PREFLIGHT_PUBLIC_FIELDS,
     REVIEW_PUBLIC_FIELDS,
+    WORKSTATION_STATE_SUMMARY_FIELDS,
     WORKSTATION_PREFERENCES_PUBLIC_FIELDS,
     WORKSTATION_STATUS_PUBLIC_FIELDS,
+    normalize_workstation_state_summary_payload,
     project_fields,
 )
 from awp_workstation.knowledge_contracts import (
@@ -151,7 +153,9 @@ def public_review_view(review: dict[str, Any]) -> dict[str, Any]:
 
 
 def public_workstation_status_view(report: dict[str, Any]) -> dict[str, Any]:
-    return project_fields(report, WORKSTATION_STATUS_PUBLIC_FIELDS)
+    normalized = project_fields(report, WORKSTATION_STATUS_PUBLIC_FIELDS)
+    normalized["stateSummary"] = normalize_workstation_state_summary_payload(report.get("stateSummary"))
+    return normalized
 
 
 def public_workstation_preferences_view(report: dict[str, Any]) -> dict[str, Any]:

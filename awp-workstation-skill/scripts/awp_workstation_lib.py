@@ -60,6 +60,8 @@ from awp_workstation.audit import (
     first_dict_item,
     first_non_runtime_evidence_item,
 )
+from awp_workstation.background_supervisor import background_supervisor_snapshot
+from awp_workstation.background_supervisor import aggregate_background_supervisors
 from awp_workstation.action_groups import (
     annotate_execution_actions,
     annotate_recovery_actions,
@@ -197,6 +199,10 @@ from awp_workstation.manifest_commands import (
     planned_skill_root,
     rewrite_command_for_skill_root,
 )
+from awp_workstation.monitor import (
+    build_workstation_monitor_payload,
+    record_workstation_monitor_delivery_payload,
+)
 from awp_workstation.messaging import (
     append_runtime_maturity_note,
     build_preflight_plain_language_summary,
@@ -209,6 +215,10 @@ from awp_workstation.narratives import (
     canonical_worknet_plain_text,
     canonical_worknet_scan_reason,
     canonical_worknet_switch_summary_text,
+)
+from awp_workstation.notification_adapters import (
+    build_notification_delivery_payload,
+    dispatch_monitor_notification_payload,
 )
 from awp_workstation.parameters import (
     build_confirmation_execute_command,
@@ -238,6 +248,7 @@ from awp_workstation.processes import (
     launch_background_command,
     load_active_processes,
     process_is_alive,
+    persist_background_observation,
     record_command_argv,
     register_active_process,
     remove_active_process,
@@ -372,6 +383,12 @@ from awp_workstation.state import (
 )
 from awp_workstation.start_response import build_start_response_from_preflight_payload
 from awp_workstation.storage import append_jsonl, atomic_write_json, load_json
+from awp_workstation.status_views import (
+    workstation_actions_only_view,
+    workstation_monitor_view,
+    workstation_status_brief_view,
+    workstation_timeline_view,
+)
 from awp_workstation.text import (
     compact_preview_text,
     join_product_sentences,
@@ -385,13 +402,26 @@ from awp_workstation.utils import (
     normalize_worknet_id,
     normalize_worknet_token,
     now_iso,
+    parse_iso_datetime,
     print_json,
     repository_file_is_metadata,
     repository_files,
     repository_is_effectively_empty,
     safe_slug,
 )
+from awp_workstation.timeline import (
+    append_timeline_event_payload,
+    build_timeline_view_payload,
+    timeline_event_from_monitor_payload,
+    timeline_event_from_review_payload,
+    timeline_event_from_run_payload,
+)
 from awp_workstation.workstation_status import build_workstation_status_payload
+from awp_workstation.workstation_state import (
+    build_workstation_state_summary_payload,
+    load_cached_workstation_state_summary_payload,
+    persist_workstation_state_summary_payload,
+)
 from awp_workstation.worknets import (
     detect_worknet_from_text,
     load_worknet_profiles,
@@ -1956,7 +1986,395 @@ def inspect_background_process(
     record = find_active_process(state, label)
     if record is None:
         raise ValueError(f"unknown background label: {label}")
-    return summarize_background_record(record, tail_lines=tail_lines)
+    return persist_background_observation(
+        state,
+        summarize_background_record(record, tail_lines=tail_lines),
+    )
+
+
+def _managed_payload_internal(payload: Any) -> dict[str, Any]:
+    internal = payload.get("_internal") if isinstance(payload, dict) else None
+    return internal if isinstance(internal, dict) else {}
+
+
+def _managed_runtime_status(payload: Any) -> dict[str, Any]:
+    status = _managed_payload_internal(payload).get("status")
+    return status if isinstance(status, dict) else {}
+
+
+def _append_unique_detail(details: list[str], value: Optional[str]) -> None:
+    text = str(value or "").strip()
+    if not text or text in details:
+        return
+    details.append(text)
+
+
+_MINE_PROGRESS_PHASE_RE = re.compile(r"\bphase ([a-z_]+)\b", re.IGNORECASE)
+
+
+def _mine_runtime_phase_state(runtime_status: dict[str, Any]) -> Optional[str]:
+    queues = runtime_status.get("queues") if isinstance(runtime_status.get("queues"), dict) else {}
+    current_batch = runtime_status.get("current_batch") if isinstance(runtime_status.get("current_batch"), dict) else {}
+    last_summary = runtime_status.get("last_summary") if isinstance(runtime_status.get("last_summary"), dict) else {}
+    messages = last_summary.get("messages") if isinstance(last_summary.get("messages"), list) else []
+
+    for message in reversed(messages):
+        text = str(message or "").strip()
+        if not text:
+            continue
+        match = _MINE_PROGRESS_PHASE_RE.search(text)
+        if not match:
+            continue
+        phase = match.group(1).strip().lower()
+        mapping = {
+            "discovery": "discovering",
+            "dedup": "deduplicating",
+            "pow": "preparing_proof",
+            "crawling": "collecting",
+            "structuring": "structuring",
+            "submitting": "submitting",
+        }
+        mapped = mapping.get(phase)
+        if mapped:
+            return mapped
+
+    if int(queues.get("submit_pending") or 0) > 0:
+        return "submitting"
+    if int(last_summary.get("submitted_items") or 0) > 0:
+        return "submitting"
+    if int(last_summary.get("processed_items") or 0) > 0:
+        return "structuring"
+    if int(last_summary.get("discovery_items") or 0) > 0 or int(last_summary.get("discovered_followups") or 0) > 0:
+        return "discovering"
+    if str(current_batch.get("state") or "").strip().lower() == "running" and int(current_batch.get("size") or 0) > 0:
+        return "collecting"
+    return None
+
+
+def _mine_phase_headline(phase_state: Optional[str], *, dataset_text: str, fallback_message: str, recent_errors: list[Any]) -> str:
+    if recent_errors:
+        return "Mine worker is running with recent errors."
+    mapping = {
+        "discovering": "Mine is discovering new URLs.",
+        "deduplicating": "Mine is deduplicating the active batch.",
+        "preparing_proof": "Mine is preparing proof for the active batch.",
+        "collecting": "Mine is collecting pages from the active dataset.",
+        "structuring": "Mine is structuring collected records.",
+        "submitting": "Mine is submitting processed records.",
+    }
+    if phase_state in mapping:
+        return mapping[phase_state]
+    if dataset_text:
+        return f"Mine worker is running on {dataset_text}."
+    return fallback_message or "Mine worker is running."
+
+
+def _mine_managed_summary_from_payload(
+    payload: dict[str, Any],
+    *,
+    fallback_state: str,
+    fallback_message: str,
+) -> dict[str, Any]:
+    internal = _managed_payload_internal(payload)
+    runtime_status = _managed_runtime_status(payload)
+    if not runtime_status:
+        return {
+            "state": fallback_state,
+            "headline": fallback_message,
+            "detail": None,
+            "alive": fallback_state.lower() not in {"stopped", "failed", "complete", "completed", "idle"},
+        }
+
+    mining_state = str(runtime_status.get("mining_state") or fallback_state or "running").strip().lower() or "running"
+    progress = runtime_status.get("progress") if isinstance(runtime_status.get("progress"), dict) else {}
+    earnings_summary = runtime_status.get("earnings_summary") if isinstance(runtime_status.get("earnings_summary"), dict) else {}
+    queues = runtime_status.get("queues") if isinstance(runtime_status.get("queues"), dict) else {}
+    handoff = queues.get("agent_handoff") if isinstance(queues.get("agent_handoff"), dict) else {}
+    recent_errors = internal.get("recent_errors") if isinstance(internal.get("recent_errors"), list) else []
+
+    selected_dataset_ids = [str(item).strip() for item in runtime_status.get("selected_dataset_ids", []) if str(item).strip()]
+    dataset_text = ", ".join(selected_dataset_ids[:2]) if selected_dataset_ids else ""
+    if len(selected_dataset_ids) > 2:
+        dataset_text += f" (+{len(selected_dataset_ids) - 2} more)"
+    phase_state = _mine_runtime_phase_state(runtime_status) if mining_state == "running" else None
+
+    if mining_state == "running":
+        headline = _mine_phase_headline(
+            phase_state,
+            dataset_text=dataset_text,
+            fallback_message="Mine worker is running.",
+            recent_errors=recent_errors,
+        )
+    elif mining_state == "paused":
+        headline = "Mine worker is paused."
+    elif mining_state == "stopped":
+        headline = "Mine worker has stopped."
+    elif mining_state == "idle":
+        headline = "Mine worker is idle."
+    else:
+        headline = fallback_message or f"Mine worker is {mining_state}."
+
+    details: list[str] = []
+    _append_unique_detail(details, f"Datasets: {dataset_text}" if dataset_text else None)
+
+    epoch_submitted = earnings_summary.get("submitted")
+    epoch_target = earnings_summary.get("target")
+    epoch_percent = earnings_summary.get("progress_percent")
+    epoch_remaining = earnings_summary.get("remaining")
+    epoch_eta = earnings_summary.get("estimated_completion") or progress.get("estimated_completion")
+    epoch_parts: list[str] = []
+    if epoch_submitted not in (None, "") or epoch_target not in (None, ""):
+        epoch_parts.append(f"Epoch progress {epoch_submitted or 0}/{epoch_target or '?'}")
+    if epoch_percent not in (None, ""):
+        try:
+            epoch_value = float(epoch_percent)
+            epoch_parts.append(f"{epoch_value:.0f}% complete" if epoch_value.is_integer() else f"{epoch_value:.1f}% complete")
+        except (TypeError, ValueError):
+            epoch_parts.append(f"{epoch_percent}% complete")
+    if epoch_remaining not in (None, ""):
+        epoch_parts.append(f"{epoch_remaining} remaining")
+    if epoch_eta not in (None, ""):
+        epoch_parts.append(f"ETA {epoch_eta}")
+    _append_unique_detail(details, ", ".join(epoch_parts) if epoch_parts else None)
+
+    processed = progress.get("session_processed_items")
+    submitted = progress.get("session_submitted_items")
+    failed = progress.get("session_failed_items")
+    progress_bits: list[str] = []
+    if processed not in (None, ""):
+        progress_bits.append(f"{processed} processed")
+    if submitted not in (None, ""):
+        progress_bits.append(f"{submitted} submitted")
+    if failed not in (None, ""):
+        progress_bits.append(f"{failed} failed")
+    _append_unique_detail(details, f"Session {', '.join(progress_bits)}" if progress_bits else None)
+
+    queue_bits: list[str] = []
+    for key, label in (("backlog", "backlog"), ("auth_pending", "auth"), ("submit_pending", "submit")):
+        value = queues.get(key)
+        if value not in (None, "", 0):
+            queue_bits.append(f"{label}={value}")
+    if isinstance(handoff, dict):
+        handoff_total = sum(int(value or 0) for value in handoff.values())
+        if handoff_total > 0:
+            queue_bits.append(f"handoff={handoff_total}")
+    _append_unique_detail(details, f"Queues {', '.join(queue_bits)}" if queue_bits else None)
+
+    if phase_state:
+        _append_unique_detail(details, f"Work phase: {phase_state.replace('_', ' ')}")
+    phase = str(runtime_status.get("phase") or "").strip()
+    _append_unique_detail(details, f"Phase: {phase}" if phase else None)
+
+    current_batch = runtime_status.get("current_batch") if isinstance(runtime_status.get("current_batch"), dict) else {}
+    if current_batch:
+        batch_state = str(current_batch.get("state") or "").strip()
+        batch_size = current_batch.get("size")
+        batch_datasets = current_batch.get("dataset_ids") if isinstance(current_batch.get("dataset_ids"), list) else []
+        batch_bits: list[str] = []
+        if batch_state:
+            batch_bits.append(batch_state)
+        if batch_size not in (None, ""):
+            batch_bits.append(f"{batch_size} item(s)")
+        if batch_datasets:
+            batch_bits.append("datasets " + ", ".join(str(item).strip() for item in batch_datasets[:2] if str(item).strip()))
+        _append_unique_detail(details, f"Current batch: {', '.join(batch_bits)}" if batch_bits else None)
+
+    last_summary = runtime_status.get("last_summary") if isinstance(runtime_status.get("last_summary"), dict) else {}
+    summary_bits: list[str] = []
+    for key, label in (
+        ("discovery_items", "discovery"),
+        ("discovered_followups", "follow-ups"),
+        ("retry_pending", "retry pending"),
+    ):
+        value = last_summary.get(key)
+        if value not in (None, "", 0):
+            summary_bits.append(f"{label}={value}")
+    _append_unique_detail(details, f"Last iteration summary: {', '.join(summary_bits)}" if summary_bits else None)
+
+    last_iteration = runtime_status.get("last_iteration")
+    _append_unique_detail(details, f"Last iteration {last_iteration}" if last_iteration not in (None, "", 0) else None)
+
+    if recent_errors:
+        _append_unique_detail(details, f"Last error: {str(recent_errors[-1])[:180].strip()}")
+
+    detail = ". ".join(details) + "." if details else None
+    return {
+        "state": phase_state or mining_state,
+        "headline": headline,
+        "detail": detail,
+        "alive": mining_state not in {"stopped", "failed", "complete", "completed", "idle"},
+    }
+
+
+def _predict_local_summary_from_probe(
+    payload: dict[str, Any],
+    *,
+    fallback_state: str,
+    fallback_headline: str,
+    fallback_detail: Optional[str],
+) -> dict[str, Any]:
+    data = payload.get("data") if isinstance(payload.get("data"), dict) else {}
+    error = payload.get("error") if isinstance(payload.get("error"), dict) else {}
+    internal = payload.get("_internal") if isinstance(payload.get("_internal"), dict) else {}
+    timeslot = data.get("timeslot") if isinstance(data.get("timeslot"), dict) else {}
+    open_orders = [item for item in data.get("open_orders", []) if isinstance(item, dict)] if isinstance(data.get("open_orders"), list) else []
+    recent_results = [item for item in data.get("recent_results", []) if isinstance(item, dict)] if isinstance(data.get("recent_results"), list) else []
+    state = str(fallback_state or "").strip().lower()
+    error_code = str(error.get("code") or "").strip().lower()
+    retryable = bool(error.get("retryable"))
+
+    submissions_remaining = timeslot.get("submissions_remaining")
+    submissions_used = timeslot.get("submissions_used")
+    slot_limit = timeslot.get("slot_limit")
+    slot_resets_in = timeslot.get("slot_resets_in") or timeslot.get("resets_in_seconds")
+
+    if not state or state == "running":
+        try:
+            if submissions_remaining is not None and int(submissions_remaining) <= 0:
+                state = "waiting_for_timeslot_reset"
+        except (TypeError, ValueError):
+            pass
+    if error_code == "status_failed" and retryable:
+        state = "waiting_for_service"
+    elif error_code == "status_failed" and not state:
+        state = "error"
+    elif state in {"running", ""} and open_orders:
+        state = "orders_open"
+    elif state in {"running", ""} and recent_results:
+        state = "recent_result_recorded"
+    if not state:
+        state = "running"
+
+    if state == "waiting_for_timeslot_reset":
+        headline = "Predict loop is waiting for the next timeslot."
+    elif state == "waiting_for_service":
+        headline = "Predict status probe is waiting for coordinator connectivity."
+    elif state == "orders_open":
+        headline = f"Predict has {len(open_orders)} open order(s) working."
+    elif state == "recent_result_recorded":
+        headline = "Predict recorded a recent market result."
+    elif fallback_headline and fallback_headline != "Background process is running.":
+        headline = fallback_headline
+    else:
+        headline = "Predict loop is running."
+
+    detail_bits: list[str] = []
+    persona = str(data.get("persona") or "").strip()
+    total_predictions = data.get("total_predictions")
+    balance = str(data.get("balance") or "").strip()
+    if persona or total_predictions not in (None, "") or balance:
+        persona_bits: list[str] = []
+        if persona:
+            persona_bits.append(f"Persona {persona}")
+        if total_predictions not in (None, ""):
+            persona_bits.append(f"{total_predictions} total predictions")
+        if balance:
+            persona_bits.append(f"{balance} chips")
+        _append_unique_detail(detail_bits, ", ".join(persona_bits))
+
+    timeslot_bits: list[str] = []
+    if submissions_used not in (None, "") and slot_limit not in (None, ""):
+        timeslot_bits.append(f"Timeslot {submissions_used}/{slot_limit} used")
+    elif submissions_remaining not in (None, ""):
+        timeslot_bits.append(f"{submissions_remaining} submissions remaining")
+    if submissions_remaining not in (None, "") and submissions_used not in (None, "") and slot_limit in (None, ""):
+        timeslot_bits.append(f"{submissions_remaining} submissions remaining")
+    if slot_resets_in not in (None, ""):
+        timeslot_bits.append(f"reset in {slot_resets_in}s")
+    _append_unique_detail(detail_bits, ", ".join(timeslot_bits) if timeslot_bits else None)
+
+    if open_orders:
+        total_tickets = 0
+        total_filled = 0
+        for order in open_orders:
+            try:
+                total_tickets += int(order.get("tickets") or 0)
+            except (TypeError, ValueError):
+                pass
+            try:
+                total_filled += int(order.get("tickets_filled") or 0)
+            except (TypeError, ValueError):
+                pass
+        first = open_orders[0]
+        fill_phrase = f"{total_filled}/{total_tickets} filled" if total_tickets > 0 else None
+        first_market = " ".join(
+            part
+            for part in (
+                str(first.get("asset") or "").strip(),
+                str(first.get("window") or "").strip(),
+                str(first.get("direction") or "").strip().upper(),
+            )
+            if part
+        ).strip()
+        first_bits = []
+        if first_market:
+            first_bits.append(first_market)
+        if first.get("tickets") not in (None, ""):
+            first_bits.append(
+                f"{first.get('tickets_filled') or 0}/{first.get('tickets')} filled"
+            )
+        if first.get("close_at") not in (None, ""):
+            first_bits.append(f"closes {first.get('close_at')}")
+        orders_phrase = f"Open orders {len(open_orders)}"
+        if fill_phrase:
+            orders_phrase += f", {fill_phrase}"
+        if first_bits:
+            orders_phrase += f"; first: {', '.join(str(item) for item in first_bits)}"
+        _append_unique_detail(detail_bits, orders_phrase)
+
+    if recent_results:
+        wins = sum(1 for item in recent_results if item.get("won") is True)
+        payout_total = 0
+        for item in recent_results:
+            try:
+                payout_total += int(item.get("payout_chips") or 0)
+            except (TypeError, ValueError):
+                pass
+        latest = recent_results[0]
+        latest_market = " ".join(
+            part
+            for part in (
+                str(latest.get("asset") or "").strip(),
+                str(latest.get("window") or "").strip(),
+                str(latest.get("direction") or "").strip().upper(),
+            )
+            if part
+        ).strip()
+        result_phrase = f"Recent results {len(recent_results)}, {wins} win(s), payout {payout_total} chips"
+        latest_bits = []
+        if latest_market:
+            latest_bits.append(latest_market)
+        latest_bits.append("WON" if latest.get("won") is True else "LOST")
+        if latest.get("payout_chips") not in (None, ""):
+            latest_bits.append(f"payout {latest.get('payout_chips')}")
+        if latest_bits:
+            result_phrase += f"; latest: {', '.join(str(item) for item in latest_bits)}"
+        _append_unique_detail(detail_bits, result_phrase)
+
+    next_action = str(internal.get("next_action") or "").strip()
+    next_command = str(internal.get("next_command") or "").strip()
+    if next_action or next_command:
+        guidance_bits = []
+        if next_action:
+            guidance_bits.append(f"next action {next_action}")
+        if next_command:
+            guidance_bits.append(next_command)
+        _append_unique_detail(detail_bits, "Guidance: " + " | ".join(guidance_bits))
+
+    message = runtime_message(payload)
+    if error_code == "status_failed":
+        _append_unique_detail(detail_bits, message or str(error.get("suggestion") or "").strip())
+    elif fallback_detail:
+        _append_unique_detail(detail_bits, fallback_detail)
+    elif message and message != headline:
+        _append_unique_detail(detail_bits, message)
+
+    detail = ". ".join(detail_bits) + "." if detail_bits else fallback_detail
+    return {
+        "state": state,
+        "headline": headline,
+        "detail": detail,
+    }
 
 
 def summarize_managed_external_record(
@@ -1966,10 +2384,35 @@ def summarize_managed_external_record(
 ) -> dict[str, Any]:
     status_argv = record_command_argv(record, "statusArgv")
     status_result: Optional[dict[str, Any]] = None
-    status_payload: Any = None
+    status_payload: Any = (
+        record.get("statusPayload")
+        if isinstance(record.get("statusPayload"), (dict, list))
+        else None
+    )
     message = str(record.get("lastMessage") or "Managed external process is controlled outside Workstation.").strip()
     state = str(record.get("runtimeState") or "running").strip() or "running"
     alive = state not in {"stopped", "failed", "complete", "completed"}
+    if isinstance(status_payload, dict):
+        payload_state = str(status_payload.get("state") or status_payload.get("status") or "").strip()
+        if payload_state:
+            state = payload_state
+            alive = payload_state.lower() not in {"stopped", "failed", "complete", "completed", "idle"}
+        guidance = extract_runtime_guidance_from_payload(
+            status_payload,
+            worknet_key=str(record.get("worknetKey") or "") or None,
+        )
+        guidance_message = guidance.get("message") if isinstance(guidance, dict) else None
+        payload_message = runtime_message(status_payload)
+        message = str(guidance_message or payload_message or message).strip()
+        if str(record.get("worknetKey") or "").strip().lower() == "mine":
+            mine_summary = _mine_managed_summary_from_payload(
+                status_payload,
+                fallback_state=state,
+                fallback_message=message,
+            )
+            state = str(mine_summary.get("state") or state).strip() or state
+            alive = bool(mine_summary.get("alive")) if mine_summary.get("alive") is not None else alive
+            message = str(mine_summary.get("headline") or message).strip()
     if status_argv:
         result = run_command(
             status_argv,
@@ -1994,14 +2437,34 @@ def summarize_managed_external_record(
             guidance_message = guidance.get("message") if isinstance(guidance, dict) else None
             payload_message = runtime_message(status_payload)
             message = str(guidance_message or payload_message or message).strip()
+            if str(record.get("worknetKey") or "").strip().lower() == "mine":
+                mine_summary = _mine_managed_summary_from_payload(
+                    status_payload,
+                    fallback_state=state,
+                    fallback_message=message,
+                )
+                state = str(mine_summary.get("state") or state).strip() or state
+                alive = bool(mine_summary.get("alive")) if mine_summary.get("alive") is not None else alive
+                message = str(mine_summary.get("headline") or message).strip()
         elif result.get("ok") is False:
             alive = False
             error = trim_output(result.get("stderr", "")) or "status command failed"
             message = f"Status command failed: {error}"
+    detail = status_result.get("stderr") if isinstance(status_result, dict) and status_result.get("stderr") else None
+    if isinstance(status_payload, dict) and str(record.get("worknetKey") or "").strip().lower() == "mine":
+        mine_summary = _mine_managed_summary_from_payload(
+            status_payload,
+            fallback_state=state,
+            fallback_message=message,
+        )
+        state = str(mine_summary.get("state") or state).strip() or state
+        alive = bool(mine_summary.get("alive")) if mine_summary.get("alive") is not None else alive
+        message = str(mine_summary.get("headline") or message).strip()
+        detail = str(mine_summary.get("detail") or detail or "").strip() or detail
     summary = {
         "state": state,
         "headline": message,
-        "detail": status_result.get("stderr") if isinstance(status_result, dict) and status_result.get("stderr") else None,
+        "detail": detail,
     }
     return {
         "label": str(record.get("label") or ""),
@@ -2033,16 +2496,44 @@ def summarize_background_record(
     if str(record.get("kind") or "") == "managed-external":
         return summarize_managed_external_record(record, tail_lines=tail_lines)
     log_tail = tail_text(record.get("logPath"), lines=tail_lines)
+    summary = summarize_background_log(record, log_tail)
+    status_argv = record_command_argv(record, "statusArgv")
+    status_result: Optional[dict[str, Any]] = None
+    status_payload: Any = None
+    if status_argv:
+        result = run_command(
+            status_argv,
+            cwd=str(record.get("cwd")) if record.get("cwd") else None,
+            timeout=30,
+        )
+        status_result = {
+            "ok": result.get("ok"),
+            "code": result.get("code"),
+            "stderr": trim_output(result.get("stderr", "")),
+        }
+        status_payload = parse_json_loose(result.get("stdout", ""))
+        if isinstance(status_payload, dict) and str(record.get("worknetKey") or "").strip().lower() == "predict":
+            summary = _predict_local_summary_from_probe(
+                status_payload,
+                fallback_state=str(summary.get("state") or ""),
+                fallback_headline=str(summary.get("headline") or ""),
+                fallback_detail=str(summary.get("detail") or "").strip() or None,
+            )
     return {
         "label": str(record.get("label") or ""),
+        "worknetKey": record.get("worknetKey"),
+        "worknetName": record.get("worknetName"),
         "pid": record.get("pid"),
         "cwd": record.get("cwd"),
         "argv": record.get("argv"),
+        "statusCommand": render_argv(status_argv) if status_argv else None,
         "logPath": record.get("logPath"),
         "startedAt": record.get("startedAt"),
         "alive": process_is_alive(int(record["pid"])) if isinstance(record.get("pid"), int) else False,
         "logTail": log_tail,
-        "summary": summarize_background_log(record, log_tail),
+        "summary": summary,
+        "statusResult": status_result,
+        "statusPayload": status_payload if isinstance(status_payload, (dict, list)) else None,
     }
 
 
@@ -2722,6 +3213,7 @@ def build_start_response_from_preflight(
         dependencies={
             "action_details_from_ui_actions": action_details_from_ui_actions,
             "align_run_execution_user_message": align_run_execution_user_message,
+            "aggregate_background_supervisor_view": aggregate_background_supervisor_view,
             "annotate_execution_actions": annotate_execution_actions,
             "append_user_action": append_user_action,
             "atomic_write_json": atomic_write_json,
@@ -2768,13 +3260,44 @@ def build_start_response() -> dict[str, Any]:
     preflight = build_preflight_report()
     knowledge_catalog = load_or_build_knowledge_catalog(state)
     cached_bundle = load_cached_capability_bundle(state)
-    return build_start_response_from_preflight(
+    payload = build_start_response_from_preflight(
         preflight,
         state=state,
         knowledge_catalog=knowledge_catalog,
         cached_bundle=cached_bundle,
         persist=True,
     )
+    latest_run = load_json(Path(state["runs"]) / "latest-run.json", {})
+    latest_review = load_json(Path(state["reviews"]) / "latest-review.json", {})
+    pending_queue = load_json(Path(state["runs"]) / "pending-confirmations.json", [])
+    persist_workstation_state_summary(
+        build_workstation_state_summary(
+            latest_run=latest_run,
+            latest_review=latest_review,
+            status_report={
+                "headline": payload.get("user_message"),
+                "status": preflight.get("nextAction"),
+                "resumeStatus": payload.get("resumeStatus"),
+                "executionState": payload.get("executionState"),
+                "executionStateDisplay": payload.get("executionStateDisplay"),
+                "executionHeadline": payload.get("executionHeadline"),
+                "worknetKey": preflight.get("recovery", {}).get("lastWorknetKey") if isinstance(preflight.get("recovery"), dict) else None,
+                "worknetName": preflight.get("recovery", {}).get("lastWorknetName") if isinstance(preflight.get("recovery"), dict) else None,
+                "primaryUserAction": payload.get("primaryUserAction"),
+                "primaryUserActionCommand": payload.get("primaryUserActionCommand"),
+                "userActions": [item.get("label") for item in payload.get("user_actions", []) if isinstance(item, dict)],
+            },
+            active_background=[
+                summarize_background_record(item, tail_lines=30)
+                for item in load_active_processes(state)
+                if isinstance(item, dict)
+            ],
+            pending_confirmations=pending_queue,
+            monitor_report=load_json(Path(state["cache"]) / "workstation-monitor.json", {}),
+        ),
+        state=state,
+    )
+    return payload
 
 
 def build_work_playbook(worknet_identifier: str) -> dict[str, Any]:
@@ -3019,7 +3542,10 @@ def background_observations_from_run(
     tail_lines: int = 60,
 ) -> list[dict[str, Any]]:
     active_records = {
-        str(item.get("label")): summarize_background_record(item, tail_lines=tail_lines)
+        str(item.get("label")): persist_background_observation(
+            state,
+            summarize_background_record(item, tail_lines=tail_lines),
+        )
         for item in load_active_processes(state)
         if isinstance(item, dict) and item.get("label")
     }
@@ -3277,28 +3803,92 @@ def continue_background_runs(
         ]
         atomic_write_json(active_processes_path(state), remaining)
     summary_message = f"{len(inspected)} background process(es) inspected."
+    response_status = "background_running" if inspected else "planned"
+    follow_up_actions: list[dict[str, Any]] = []
+    runtime_guidance_state = None
+    runtime_guidance_actions: list[str] = []
+    runtime_guidance_action_map: dict[str, str] = {}
+    next_action = "monitor_background_run" if inspected else "execute_when_ready"
+    selected_background: Optional[dict[str, Any]] = None
     if len(inspected) == 1:
         info = inspected[0].get("summary", {})
         headline = info.get("headline") if isinstance(info, dict) else None
         if isinstance(headline, str) and headline.strip():
             summary_message = headline.strip()
+        supervisor = background_supervisor_view(inspected[0])
+        if isinstance(supervisor, dict):
+            response_status = str(supervisor.get("status") or response_status).strip() or response_status
+            runtime_guidance_state = supervisor.get("state")
+            supervisor_message = str(supervisor.get("message") or supervisor.get("headline") or "").strip()
+            if supervisor_message:
+                summary_message = supervisor_message
+            next_label = str(supervisor.get("nextActionLabel") or "").strip()
+            next_command = str(supervisor.get("nextActionCommand") or "").strip()
+            if next_label and next_command:
+                runtime_guidance_actions = [next_label]
+                runtime_guidance_action_map = {next_label: next_command}
+                follow_up_actions = [
+                    {
+                        "label": next_label,
+                        "command": next_command,
+                        "safeToAutoRun": False,
+                        "requiresConfirmation": False,
+                    }
+                ]
+                next_action = "follow_runtime_guidance"
+        selected_background = inspected[0]
+    elif len(inspected) > 1:
+        aggregate = aggregate_background_supervisor_view(inspected)
+        if isinstance(aggregate, dict):
+            response_status = str(aggregate.get("status") or response_status).strip() or response_status
+            runtime_guidance_state = aggregate.get("state")
+            aggregate_message = str(aggregate.get("message") or aggregate.get("headline") or "").strip()
+            if aggregate_message:
+                summary_message = aggregate_message
+            next_label = str(aggregate.get("nextActionLabel") or "").strip()
+            next_command = str(aggregate.get("nextActionCommand") or "").strip()
+            selected_label = str(aggregate.get("selectedLabel") or "").strip()
+            if selected_label and not next_command:
+                next_label = next_label or f"Inspect {selected_label}"
+                next_command = workstation_background_command(selected_label, tail_lines=80)
+            if next_label and next_command:
+                runtime_guidance_actions = [next_label]
+                runtime_guidance_action_map = {next_label: next_command}
+                follow_up_actions = [
+                    {
+                        "label": next_label,
+                        "command": next_command,
+                        "safeToAutoRun": False,
+                        "requiresConfirmation": False,
+                    }
+                ]
+                next_action = "follow_runtime_guidance"
+            if selected_label:
+                selected_background = next(
+                    (
+                        item for item in inspected
+                        if isinstance(item, dict) and str(item.get("label") or "").strip() == selected_label
+                    ),
+                    None,
+                )
     return annotate_runtime_action_payloads({
         "mode": latest_run.get("mode") if isinstance(latest_run, dict) else "autopilot",
-        "status": "background_running" if inspected else "planned",
+        "status": response_status,
         "executedSteps": [],
         "confirmationQueue": [],
         "runtimeGuidance": {
             "message": summary_message if inspected else "No background process is running.",
-            "userActions": [str(item.get("label")) for item in inspected if item.get("label")],
-            "actionMap": {},
+            "userActions": runtime_guidance_actions,
+            "actionMap": runtime_guidance_action_map,
             "nextCommand": None,
-            "nextAction": "monitor_background_run" if inspected else "execute_when_ready",
-            "state": None,
+            "nextAction": next_action,
+            "state": runtime_guidance_state,
         },
-        "followUpActions": [],
+        "followUpActions": follow_up_actions,
         "activeBackgroundProcesses": inspected,
+        **({"selectedBackground": selected_background} if isinstance(selected_background, dict) else {}),
         "resumedFromState": True,
-        "nextAction": "monitor_background_run" if inspected else "execute_when_ready",
+        "nextAction": next_action,
         "progress": "[4/5] Work loop",
         "stateRoot": state["root"],
     })
@@ -3387,6 +3977,43 @@ def persist_final_run_record(
     atomic_write_json(Path(state["runs"]) / "latest-run.json", persisted)
     atomic_write_json(Path(state["runs"]) / "pending-confirmations.json", confirmation_queue)
     append_jsonl(Path(state["runs"]) / "history.jsonl", persisted)
+    append_timeline_event_payload(
+        state,
+        timeline_event_from_run_payload(
+            run_record,
+            final_payload,
+            confirmation_queue,
+            dependencies={"now_iso": now_iso},
+        ),
+        dependencies={
+            "append_jsonl": append_jsonl,
+            "now_iso": now_iso,
+        },
+    )
+    latest_review = load_json(Path(state["reviews"]) / "latest-review.json", {})
+    persist_workstation_state_summary(
+        build_workstation_state_summary(
+            latest_run=persisted,
+            latest_review=latest_review if isinstance(latest_review, dict) else {},
+            status_report={
+                "headline": final_payload.get("headline"),
+                "status": final_payload.get("status"),
+                "resumeStatus": final_payload.get("resumeStatus"),
+                "executionState": final_payload.get("executionState"),
+                "executionStateDisplay": final_payload.get("executionStateDisplay"),
+                "executionHeadline": final_payload.get("executionHeadline"),
+                "worknetKey": final_payload.get("selectedWorknetKey"),
+                "worknetName": final_payload.get("selectedWorknetName"),
+                "primaryUserAction": final_payload.get("primaryUserAction"),
+                "primaryUserActionCommand": final_payload.get("primaryUserActionCommand"),
+                "userActions": [item.get("label") for item in final_payload.get("userActions", []) if isinstance(item, dict)],
+            },
+            active_background=final_payload.get("activeBackgroundProcesses", []),
+            pending_confirmations=confirmation_queue,
+            monitor_report=load_json(Path(state["cache"]) / "workstation-monitor.json", {}),
+        ),
+        state=state,
+    )
     return persisted
 
 
@@ -3419,6 +4046,7 @@ def run_workstation(
         execute=execute,
         dependencies={
             "annotate_runtime_action_payloads": annotate_runtime_action_payloads,
+            "background_supervisor_view": background_supervisor_view,
             "build_recovery_state": build_recovery_state,
             "choose_default_background_process": choose_default_background_process,
             "choose_default_follow_up_action": choose_default_follow_up_action,
@@ -3520,6 +4148,7 @@ def build_epoch_review() -> dict[str, Any]:
     knowledge_catalog = load_or_build_knowledge_catalog(state)
     latest_run = load_json(Path(state["runs"]) / "latest-run.json", {})
     pending_queue = load_json(Path(state["runs"]) / "pending-confirmations.json", [])
+    previous_review = load_json(Path(state["reviews"]) / "latest-review.json", {})
     review = build_epoch_review_from_run(
         latest_run,
         pending_queue,
@@ -3527,7 +4156,208 @@ def build_epoch_review() -> dict[str, Any]:
         knowledge_catalog=knowledge_catalog,
     )
     atomic_write_json(Path(state["reviews"]) / "latest-review.json", review)
+    if {
+        key: review.get(key)
+        for key in ("status", "headline", "dailySummary", "primaryUserAction", "workDone", "failures", "strategyChanges")
+    } != {
+        key: previous_review.get(key)
+        for key in ("status", "headline", "dailySummary", "primaryUserAction", "workDone", "failures", "strategyChanges")
+    }:
+        append_timeline_event_payload(
+            state,
+            timeline_event_from_review_payload(
+                review,
+                dependencies={"now_iso": now_iso},
+            ),
+            dependencies={
+                "append_jsonl": append_jsonl,
+                "now_iso": now_iso,
+            },
+        )
+    persist_workstation_state_summary(
+        build_workstation_state_summary(
+            latest_run=latest_run,
+            latest_review=review,
+            status_report={
+                "headline": review.get("headline"),
+                "status": review.get("status"),
+                "resumeStatus": review.get("resumeStatus"),
+                "executionState": review.get("executionState"),
+                "executionStateDisplay": review.get("executionStateDisplay"),
+                "executionHeadline": review.get("executionHeadline"),
+                "worknetKey": review.get("worknetKey"),
+                "worknetName": review.get("worknetName"),
+                "primaryUserAction": review.get("primaryUserAction"),
+                "primaryUserActionCommand": review.get("primaryUserActionCommand"),
+                "userActions": review.get("userActions"),
+            },
+            active_background=background_observations_from_run(latest_run, state=state),
+            pending_confirmations=pending_queue,
+            monitor_report=load_json(Path(state["cache"]) / "workstation-monitor.json", {}),
+        ),
+        state=state,
+    )
     return review
+
+
+def build_timeline_view(*, limit: int = 20, state: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    state = state or state_context()
+    return build_timeline_view_payload(
+        state=state,
+        limit=limit,
+        dependencies={"now_iso": now_iso},
+    )
+
+
+def build_workstation_monitor(
+    *,
+    read_only: bool = False,
+    timeline_limit: int = 12,
+) -> dict[str, Any]:
+    report = build_workstation_monitor_payload(
+        read_only=read_only,
+        timeline_limit=timeline_limit,
+        dependencies={
+            "atomic_write_json": atomic_write_json,
+            "aggregate_background_supervisor_view": aggregate_background_supervisor_view,
+            "background_supervisor_view": background_supervisor_view,
+            "build_epoch_review": build_epoch_review,
+            "build_timeline_view": build_timeline_view,
+            "build_workstation_state_summary": build_workstation_state_summary,
+            "build_workstation_status": build_workstation_status,
+            "ensure_user_preferences": ensure_user_preferences,
+            "load_active_processes": load_active_processes,
+            "load_cached_workstation_state_summary": load_cached_workstation_state_summary,
+            "load_json": load_json,
+            "load_user_preferences": load_user_preferences,
+            "now_iso": now_iso,
+            "parse_iso_datetime": parse_iso_datetime,
+            "persist_background_observation": persist_background_observation,
+            "state_context": state_context,
+            "summarize_background_record": summarize_background_record,
+        },
+    )
+    if not read_only and isinstance(report.get("stateSummary"), dict):
+        persist_workstation_state_summary(report["stateSummary"])
+    return report
+
+
+def record_workstation_monitor_delivery(
+    report: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    state = state_context()
+    updated = record_workstation_monitor_delivery_payload(
+        report,
+        state=state,
+        dependencies={
+            "atomic_write_json": atomic_write_json,
+            "load_json": load_json,
+            "now_iso": now_iso,
+            "state_context": state_context,
+        },
+    )
+    append_timeline_event_payload(
+        state,
+        timeline_event_from_monitor_payload(
+            updated,
+            dependencies={"now_iso": now_iso},
+        ),
+        dependencies={
+            "append_jsonl": append_jsonl,
+            "now_iso": now_iso,
+        },
+    )
+    return updated
+
+
+def build_workstation_notification_delivery(
+    report: dict[str, Any],
+    *,
+    adapter_key: str,
+    webhook_url: Optional[str] = None,
+    email_to: Optional[str] = None,
+) -> dict[str, Any]:
+    return build_notification_delivery_payload(
+        report,
+        adapter_key=adapter_key,
+        webhook_url=webhook_url,
+        email_to=email_to,
+    )
+
+
+def dispatch_workstation_notification(
+    report: dict[str, Any],
+    *,
+    adapter_key: str,
+    webhook_url: Optional[str] = None,
+    email_to: Optional[str] = None,
+    dry_run: bool = False,
+) -> dict[str, Any]:
+    return dispatch_monitor_notification_payload(
+        report,
+        adapter_key=adapter_key,
+        webhook_url=webhook_url,
+        email_to=email_to,
+        dry_run=dry_run,
+    )
+
+
+def build_workstation_state_summary(
+    *,
+    latest_run: Any,
+    latest_review: Any,
+    status_report: Any,
+    active_background: Any,
+    pending_confirmations: Any,
+    monitor_report: Any = None,
+) -> dict[str, Any]:
+    return build_workstation_state_summary_payload(
+        latest_run=latest_run,
+        latest_review=latest_review,
+        status_report=status_report,
+        active_background=active_background,
+        pending_confirmations=pending_confirmations,
+        monitor_report=monitor_report,
+        dependencies={"now_iso": now_iso},
+    )
+
+
+def background_supervisor_view(record: Any) -> dict[str, Any]:
+    return background_supervisor_snapshot(
+        record,
+        parse_iso_datetime=parse_iso_datetime,
+    )
+
+
+def aggregate_background_supervisor_view(records: Any) -> dict[str, Any]:
+    return aggregate_background_supervisors(
+        records,
+        parse_iso_datetime=parse_iso_datetime,
+    )
+
+
+def load_cached_workstation_state_summary(
+    *,
+    state: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    state = state or state_context()
+    return load_cached_workstation_state_summary_payload(
+        state,
+        dependencies={"load_json": load_json},
+    )
+
+
+def persist_workstation_state_summary(
+    summary: dict[str, Any],
+    *,
+    state: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    state = state or state_context()
+    return persist_workstation_state_summary_payload(
+        state,
+        summary,
+        dependencies={"atomic_write_json": atomic_write_json},
+    )
 
 
 def build_workstation_status(
@@ -3538,7 +4368,7 @@ def build_workstation_status(
     source_identifier: Optional[str] = None,
     read_only: bool = False,
 ) -> dict[str, Any]:
-    return build_workstation_status_payload(
+    report = build_workstation_status_payload(
         query=query,
         intent=intent,
         worknet_identifier=worknet_identifier,
@@ -3546,11 +4376,13 @@ def build_workstation_status(
         read_only=read_only,
         dependencies={
             "action_details_from_ui_actions": action_details_from_ui_actions,
+            "aggregate_background_supervisor_view": aggregate_background_supervisor_view,
             "align_run_execution_user_message": align_run_execution_user_message,
             "annotate_execution_actions": annotate_execution_actions,
             "annotate_research_action_details": annotate_research_action_details,
             "append_user_action": append_user_action,
             "atomic_write_json": atomic_write_json,
+            "background_supervisor_view": background_supervisor_view,
             "build_capability_bundle": build_capability_bundle,
             "build_epoch_review": build_epoch_review,
             "build_knowledge_query_result": build_knowledge_query_result,
@@ -3560,6 +4392,7 @@ def build_workstation_status(
             "build_resume_recovery_briefing": build_resume_recovery_briefing,
             "build_source_query_result": build_source_query_result,
             "build_start_response": build_start_response,
+            "build_workstation_state_summary": build_workstation_state_summary,
             "derive_execution_state": derive_execution_state,
             "detect_source_from_text": detect_source_from_text,
             "detect_worknet_from_text": detect_worknet_from_text,
@@ -3583,6 +4416,7 @@ def build_workstation_status(
             "load_cached_capability_bundle": load_cached_capability_bundle,
             "load_cached_knowledge_catalog": load_cached_knowledge_catalog,
             "load_cached_knowledge_review_queue": load_cached_knowledge_review_queue,
+            "load_cached_workstation_state_summary": load_cached_workstation_state_summary,
             "load_json": load_json,
             "load_or_build_knowledge_catalog": load_or_build_knowledge_catalog,
             "load_user_preferences": load_user_preferences,
@@ -3591,7 +4425,9 @@ def build_workstation_status(
             "merge_payload_user_actions": merge_payload_user_actions,
             "merge_recovery_decision_actions": merge_recovery_decision_actions,
             "now_iso": now_iso,
+            "persist_background_observation": persist_background_observation,
             "prioritize_ui_actions": prioritize_ui_actions,
+            "public_earnings_hint_for_worknet": public_earnings_hint_for_worknet,
             "query_knowledge_command": query_knowledge_command,
             "recommend_worknet_actions": recommend_worknet_actions,
             "recovery_status_display": recovery_status_display,
@@ -3611,6 +4447,9 @@ def build_workstation_status(
             "workstation_preflight_command": workstation_preflight_command,
         },
     )
+    if not read_only and isinstance(report.get("stateSummary"), dict):
+        persist_workstation_state_summary(report["stateSummary"])
+    return report
 
 
 def build_coverage_audit(

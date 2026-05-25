@@ -128,6 +128,10 @@ def workstation_status_command(
     query: Optional[str] = None,
     intent: Optional[str] = None,
     worknet: Optional[str] = None,
+    brief: bool = False,
+    actions_only: bool = False,
+    timeline: bool = False,
+    monitor: bool = False,
     full: bool = False,
 ) -> str:
     argv = ["python3", "scripts/workstation-status.py"]
@@ -137,6 +141,14 @@ def workstation_status_command(
         argv.extend(["--intent", intent])
     if worknet is not None:
         argv.extend(["--worknet", worknet])
+    if brief:
+        argv.append("--brief")
+    if actions_only:
+        argv.append("--actions-only")
+    if timeline:
+        argv.append("--timeline")
+    if monitor:
+        argv.append("--monitor")
     if full:
         argv.append("--full")
     return render_argv(argv)
@@ -193,6 +205,13 @@ def workstation_preferences_command(
     autopilot_mode: Optional[str] = None,
     allow_third_party_skills: Optional[bool] = None,
     observe_before_predict_hours: Optional[int] = None,
+    notification_cooldown_minutes: Optional[int] = None,
+    quiet_hours_start: Optional[str] = None,
+    quiet_hours_end: Optional[str] = None,
+    remind_on_earnings_change: Optional[bool] = None,
+    remind_on_failure: Optional[bool] = None,
+    remind_on_stall: Optional[bool] = None,
+    background_auto_recovery: Optional[str] = None,
     risk_profile: Optional[str] = None,
 ) -> str:
     argv = [
@@ -209,6 +228,36 @@ def workstation_preferences_command(
         argv.extend(["--allow-third-party-skills", "true" if allow_third_party_skills else "false"])
     if observe_before_predict_hours is not None:
         argv.extend(["--observe-before-predict-hours", str(observe_before_predict_hours)])
+    if notification_cooldown_minutes is not None:
+        argv.extend(["--notification-cooldown-minutes", str(notification_cooldown_minutes)])
+    if quiet_hours_start is not None:
+        argv.extend(["--quiet-hours-start", quiet_hours_start])
+    if quiet_hours_end is not None:
+        argv.extend(["--quiet-hours-end", quiet_hours_end])
+    if remind_on_earnings_change is not None:
+        argv.extend(["--remind-on-earnings-change", "true" if remind_on_earnings_change else "false"])
+    if remind_on_failure is not None:
+        argv.extend(["--remind-on-failure", "true" if remind_on_failure else "false"])
+    if remind_on_stall is not None:
+        argv.extend(["--remind-on-stall", "true" if remind_on_stall else "false"])
+    if background_auto_recovery is not None:
+        argv.extend(["--background-auto-recovery", background_auto_recovery])
     if risk_profile is not None:
         argv.extend(["--risk-profile", risk_profile])
+    return render_argv(argv)
+
+
+def workstation_monitor_command(
+    *,
+    read_only: bool = False,
+    record_delivery: bool = False,
+    timeline_limit: Optional[int] = None,
+) -> str:
+    argv = ["python3", "scripts/workstation-monitor.py"]
+    if read_only:
+        argv.append("--read-only")
+    if record_delivery:
+        argv.append("--record-delivery")
+    if timeline_limit is not None:
+        argv.extend(["--timeline-limit", str(timeline_limit)])
     return render_argv(argv)

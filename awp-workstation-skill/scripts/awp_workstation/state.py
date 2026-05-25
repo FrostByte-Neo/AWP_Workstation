@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import tempfile
 from pathlib import Path
 from typing import Any, Optional
 
@@ -40,6 +41,8 @@ def looks_like_state_root(root: Path) -> bool:
     markers = [
         root / "skills" / "install-status.json",
         root / "cache" / "preflight.json",
+        root / "cache" / "workstation-monitor.json",
+        root / "cache" / "workstation-state.json",
         root / "runs" / "latest-run.json",
         root / "user" / "preferences.json",
     ]
@@ -201,6 +204,8 @@ def repair_adopted_state_references(target_root: Path, source_root: str) -> None
         "runs/pending-confirmations.json",
         "runs/active-processes.json",
         "reviews/latest-review.json",
+        "cache/workstation-monitor.json",
+        "cache/workstation-state.json",
         "playbooks/last-selected.json",
     ):
         rewrite_json_state_paths(target_root / rel, source_root, target_root_str)
@@ -209,6 +214,7 @@ def repair_adopted_state_references(target_root: Path, source_root: str) -> None
         for item in playbooks_root.glob("*.json"):
             rewrite_json_state_paths(item, source_root, target_root_str)
     rewrite_jsonl_state_paths(target_root / "runs" / "history.jsonl", source_root, target_root_str)
+    rewrite_jsonl_state_paths(target_root / "runs" / "timeline.jsonl", source_root, target_root_str)
 
 
 def select_state_bootstrap_candidate(preferred: Path) -> Optional[dict[str, Any]]:
@@ -252,6 +258,9 @@ def adopt_state_root(source_root: Path, target_root: Path, source_summary: dict[
     for rel in (
         "cache/official-awp-skill-preflight.json",
         "cache/official-live-worknets.json",
+        "cache/workstation-status.json",
+        "cache/workstation-monitor.json",
+        "cache/workstation-state.json",
         "user/preferences.json",
     ):
         source = source_root / rel
@@ -292,47 +301,69 @@ def maybe_bootstrap_preferred_state(preferred: Path) -> Optional[dict[str, Any]]
 
 def state_context() -> dict[str, Any]:
     preferred = Path(os.environ.get(STATE_ENV_VAR, str(DEFAULT_STATE_ROOT))).expanduser()
-    root = preferred
     warnings: list[str] = []
-    try:
+
+    def build_layout(root: Path) -> dict[str, Any]:
         root.mkdir(parents=True, exist_ok=True)
+        layout = {
+            "root": root,
+            "cache": root / "cache",
+            "skills": root / "skills",
+            "playbooks": root / "playbooks",
+            "runs": root / "runs",
+            "reviews": root / "reviews",
+            "user": root / "user",
+        }
+        for path in layout.values():
+            if isinstance(path, Path):
+                path.mkdir(parents=True, exist_ok=True)
+        # Probe write access up front so later bootstrap/repair logic does not
+        # fail deep inside atomic JSON writes on read-only homes or containers.
+        with tempfile.NamedTemporaryFile(dir=layout["runs"], delete=True):
+            pass
+        return layout
+
+    try:
+        layout = build_layout(preferred)
+        root = preferred
     except OSError:
         root = DEFAULT_FALLBACK_STATE_ROOT
-        root.mkdir(parents=True, exist_ok=True)
+        layout = build_layout(root)
         warnings.append(
-            f"state root {preferred} was not writable; using fallback {root}"
+            f"state root {preferred} was not fully writable; using fallback {root}"
         )
-    layout = {
-        "root": root,
-        "cache": root / "cache",
-        "skills": root / "skills",
-        "playbooks": root / "playbooks",
-        "runs": root / "runs",
-        "reviews": root / "reviews",
-        "user": root / "user",
-    }
-    for path in layout.values():
-        if isinstance(path, Path):
-            path.mkdir(parents=True, exist_ok=True)
-    bootstrap = maybe_bootstrap_preferred_state(root)
-    if isinstance(bootstrap, dict):
-        layout["bootstrap"] = bootstrap
-        warnings.append(
-            f"adopted richer workstation state from {bootstrap.get('sourceRoot')} into {bootstrap.get('targetRoot')}"
-        )
-    else:
-        cached_bootstrap = load_json(Path(root) / "cache" / "state-bootstrap.json", None)
-        if (
-            isinstance(cached_bootstrap, dict)
-            and str(cached_bootstrap.get("targetRoot") or "") == str(root)
-        ):
-            layout["bootstrap"] = cached_bootstrap
+
+    try:
+        bootstrap = maybe_bootstrap_preferred_state(root)
+        if isinstance(bootstrap, dict):
+            layout["bootstrap"] = bootstrap
+            warnings.append(
+                f"adopted richer workstation state from {bootstrap.get('sourceRoot')} into {bootstrap.get('targetRoot')}"
+            )
         else:
+            cached_bootstrap = load_json(Path(root) / "cache" / "state-bootstrap.json", None)
+            if (
+                isinstance(cached_bootstrap, dict)
+                and str(cached_bootstrap.get("targetRoot") or "") == str(root)
+            ):
+                layout["bootstrap"] = cached_bootstrap
+            else:
+                layout["bootstrap"] = None
+        if isinstance(layout.get("bootstrap"), dict):
+            source_root = layout["bootstrap"].get("sourceRoot")
+            if isinstance(source_root, str) and source_root:
+                repair_adopted_state_references(Path(root), source_root)
+    except OSError:
+        if root != DEFAULT_FALLBACK_STATE_ROOT:
+            warnings.append(
+                f"state root {root} could not complete bootstrap/repair writes; using fallback {DEFAULT_FALLBACK_STATE_ROOT}"
+            )
+            root = DEFAULT_FALLBACK_STATE_ROOT
+            layout = build_layout(root)
             layout["bootstrap"] = None
-    if isinstance(layout.get("bootstrap"), dict):
-        source_root = layout["bootstrap"].get("sourceRoot")
-        if isinstance(source_root, str) and source_root:
-            repair_adopted_state_references(Path(root), source_root)
+        else:
+            raise
+
     layout["warnings"] = warnings
     layout["preferredRoot"] = str(preferred)
     layout["root"] = str(root)

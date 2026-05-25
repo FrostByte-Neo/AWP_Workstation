@@ -54,12 +54,15 @@ Primary trigger phrases include:
 3. When the user asks a free-form status question such as `今天赚了多少`,
    `为什么失败`, `暂停`, `继续`, `只跑 Mine`, or `不要动资金`, run
    `python3 scripts/workstation-status.py --query "<user question>"`.
-4. Run `python3 scripts/workstation-preflight.py --json` when you need the raw
+4. When you need proactive reminder judgement, quiet-hours handling, cooldown
+   behaviour, or adapter-facing notification payloads, run
+   `python3 scripts/workstation-monitor.py`.
+5. Run `python3 scripts/workstation-preflight.py --json` when you need the raw
    preflight contract.
-5. Run `python3 scripts/scan-worknets.py`.
-6. Pick a worknet, then run `python3 scripts/build-playbook.py --worknet <id>`.
-7. Start the loop with `python3 scripts/run-workstation.py --mode autopilot`.
-8. At the end of an epoch or task window, run `python3 scripts/review-epoch.py`.
+6. Run `python3 scripts/scan-worknets.py`.
+7. Pick a worknet, then run `python3 scripts/build-playbook.py --worknet <id>`.
+8. Start the loop with `python3 scripts/run-workstation.py --mode autopilot`.
+9. At the end of an epoch or task window, run `python3 scripts/review-epoch.py`.
 
 To refresh official upstream source snapshots into workstation-owned cache, run
 `python3 scripts/refresh-sources.py`.

@@ -24,6 +24,7 @@ def run_workstation_payload(
     if dependencies is None:
         raise ValueError("runner dependencies are required")
     annotate_runtime_action_payloads = dependencies["annotate_runtime_action_payloads"]
+    background_supervisor_view = dependencies["background_supervisor_view"]
     build_recovery_state = dependencies["build_recovery_state"]
     choose_default_background_process = dependencies["choose_default_background_process"]
     choose_default_follow_up_action = dependencies["choose_default_follow_up_action"]
@@ -85,25 +86,48 @@ def run_workstation_payload(
             }), preferences=preferences, recovery=recovery_snapshot)
         if background_label:
             inspected = inspect_background_process(state, background_label, tail_lines=tail_lines)
+            supervisor = background_supervisor_view(inspected) if isinstance(inspected, dict) else {}
+            next_action_label = str(supervisor.get("nextActionLabel") or "").strip() if isinstance(supervisor, dict) else ""
+            next_action_command = str(supervisor.get("nextActionCommand") or "").strip() if isinstance(supervisor, dict) else ""
+            follow_up_actions = (
+                [
+                    {
+                        "label": next_action_label,
+                        "command": next_action_command,
+                        "safeToAutoRun": False,
+                        "requiresConfirmation": False,
+                    }
+                ]
+                if next_action_label and next_action_command
+                else []
+            )
             return finalize_run_response_payload(annotate_runtime_action_payloads({
                 "mode": latest_run.get("mode") if isinstance(latest_run, dict) else "autopilot",
-                "status": "background_running" if inspected.get("alive") else "planned",
+                "status": (
+                    str(supervisor.get("status") or "").strip()
+                    if isinstance(supervisor, dict) and str(supervisor.get("status") or "").strip()
+                    else ("background_running" if inspected.get("alive") else "planned")
+                ),
                 "executedSteps": [],
                 "confirmationQueue": [],
                 "runtimeGuidance": {
                     "message": (
-                        f"{background_label} is running."
-                        if inspected.get("alive")
-                        else f"{background_label} is not running."
+                        str(supervisor.get("message") or supervisor.get("headline")).strip()
+                        if isinstance(supervisor, dict) and (supervisor.get("message") or supervisor.get("headline"))
+                        else (
+                            f"{background_label} is running."
+                            if inspected.get("alive")
+                            else f"{background_label} is not running."
+                        )
                     ),
-                    "userActions": [],
-                    "actionMap": {},
+                    "userActions": [next_action_label] if next_action_label else [],
+                    "actionMap": {next_action_label: next_action_command} if next_action_label and next_action_command else {},
                     "nextCommand": None,
                     "nextAction": "monitor_background_run" if inspected.get("alive") else "execute_when_ready",
-                    "state": None,
+                    "state": supervisor.get("state") if isinstance(supervisor, dict) else None,
                     "detail": inspected.get("logPath"),
                 },
-                "followUpActions": [],
+                "followUpActions": follow_up_actions,
                 "activeBackgroundProcesses": [inspected],
                 "resumedFromState": True,
                 "nextAction": "monitor_background_run" if inspected.get("alive") else "execute_when_ready",
@@ -630,6 +654,7 @@ def execute_follow_up_action_payload(
         "parameterSchema": action.get("parameterSchema", []),
         "longRunning": bool(action.get("longRunning", False)),
     }
+    playbook = latest_run.get("playbook", {}) if isinstance(latest_run, dict) else {}
     runtime_guidance: Optional[dict[str, Any]] = None
     follow_up_actions: list[dict[str, Any]] = []
     if action.get("requiresConfirmation"):
@@ -649,23 +674,51 @@ def execute_follow_up_action_payload(
         })
     elif execute and (action.get("safeToAutoRun") or explicit_selection) and action.get("argv"):
         if action.get("longRunning"):
+            background_metadata: dict[str, Any] = {}
+            worknet_key = str(playbook.get("worknetKey") or "").strip().lower()
+            worknet_name = (
+                str(latest_run.get("selectedWorknetName") or "").strip()
+                or str(playbook.get("requiredSkill") or "").strip()
+                or (worknet_key.title() if worknet_key else "")
+            )
+            if worknet_key:
+                background_metadata["worknetKey"] = worknet_key
+            if worknet_name:
+                background_metadata["worknetName"] = worknet_name
+            action_argv = [str(part) for part in action["argv"]]
+            if action_argv[:2] == ["predict-agent", "loop"]:
+                background_metadata["statusArgv"] = ["predict-agent", "status"]
             launched = launch_background_command(
-                [str(part) for part in action["argv"]],
+                action_argv,
                 cwd=action.get("cwd"),
                 state=state,
                 label=str(action.get("label")),
+                metadata=background_metadata or None,
             )
-            step["status"] = "started_background"
-            step["backgroundProcess"] = launched
-            runtime_guidance = {
-                "message": f"{action.get('label')} started in the background.",
-                "userActions": [],
-                "actionMap": {},
-                "nextCommand": None,
-                "nextAction": "monitor_background_run",
-                "state": None,
-                "detail": launched.get("logPath"),
-            }
+            if launched.get("alreadyRunning"):
+                step["status"] = "background_running"
+                step["backgroundProcess"] = launched
+                runtime_guidance = {
+                    "message": f"{action.get('label')} is already running in the background.",
+                    "userActions": [],
+                    "actionMap": {},
+                    "nextCommand": None,
+                    "nextAction": "monitor_background_run",
+                    "state": "running",
+                    "detail": launched.get("logPath"),
+                }
+            else:
+                step["status"] = "started_background"
+                step["backgroundProcess"] = launched
+                runtime_guidance = {
+                    "message": f"{action.get('label')} started in the background.",
+                    "userActions": [],
+                    "actionMap": {},
+                    "nextCommand": None,
+                    "nextAction": "monitor_background_run",
+                    "state": None,
+                    "detail": launched.get("logPath"),
+                }
             step["runtimeGuidance"] = runtime_guidance
         else:
             result = run_command([str(part) for part in action["argv"]], cwd=action.get("cwd"))
@@ -675,7 +728,6 @@ def execute_follow_up_action_payload(
                 "stdout": trim_output(parse_json_loose(result.get("stdout", ""))),
                 "stderr": trim_output(result.get("stderr", "")),
             }
-            playbook = latest_run.get("playbook", {}) if isinstance(latest_run, dict) else {}
             worknet_key = str(playbook.get("worknetKey") or "").strip().lower()
             guidance = extract_runtime_guidance_from_payload(
                 step["result"]["stdout"],
@@ -684,7 +736,6 @@ def execute_follow_up_action_payload(
             if guidance:
                 step["runtimeGuidance"] = guidance
     executed_steps = [step]
-    playbook = latest_run.get("playbook", {}) if isinstance(latest_run, dict) else {}
     if runtime_guidance is None:
         runtime_guidance, follow_up_actions = synthesize_run_guidance(playbook, executed_steps)
     else:
@@ -704,7 +755,7 @@ def execute_follow_up_action_payload(
     })
     active_processes = sync_managed_external_processes_from_run(state, run_record)
     has_managed_external = bool(run_record.get("managedExternalProcess"))
-    has_background_process = has_managed_external or step.get("status") == "started_background"
+    has_background_process = has_managed_external or step.get("status") in {"started_background", "background_running"}
     response_payload = annotate_runtime_action_payloads({
         "mode": run_record["mode"],
         "status": (
@@ -916,4 +967,3 @@ def execute_confirmation_action_payload(
     }
     persist_final_run_record(state, run_record, final_like_payload, remaining_queue)
     return final_like_payload
-
