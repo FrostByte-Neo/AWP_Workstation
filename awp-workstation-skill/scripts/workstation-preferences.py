@@ -59,7 +59,7 @@ def main() -> None:
         preferences = ensure_user_preferences(state)
         report = {
             "generatedAt": now_iso(),
-            "message": "当前 Workstation 偏好。",
+            "message": "Current Workstation preferences.",
             "appliedChanges": [],
             "userPreferences": preferences,
             "stateRoot": state["root"],

@@ -1,0 +1,270 @@
+{
+  "awp-skill": {
+    "runtimeName": "awp-skill python scripts",
+    "summary": "Official RootNet runtime for registration, status, staking, allocation, and worknet queries.",
+    "sourceKeys": ["awp-skill-readme-raw", "awp-live-query"],
+    "requiredBins": ["python3", "awp-wallet"],
+    "optionalBins": [],
+    "env": ["EVM_CHAIN"],
+    "bootstrapCommands": [],
+    "inspectionCommands": [
+      {
+        "label": "awp-skill preflight",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/preflight.py"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "awp-skill query worknet 2",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/query-worknet.py", "--worknet", "2"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": false
+      }
+    ]
+  },
+  "mine": {
+    "runtimeName": "mine run_tool runtime",
+    "summary": "Local Mine runtime with worker status, control, and platform-mediated autonomous crawl/submit loops.",
+    "sourceKeys": ["minework-home", "mine-skill-raw"],
+    "requiredBins": ["python3"],
+    "optionalBins": [],
+    "env": [],
+    "bootstrapCommands": [
+      {
+        "label": "bootstrap mine runtime",
+        "cwdKind": "skill-root",
+        "argv": ["bash", "./scripts/bootstrap.sh"],
+        "category": "install",
+        "requires_confirmation": false
+      }
+    ],
+    "inspectionCommands": [
+      {
+        "label": "mine agent status",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/run_tool.py", "agent-status"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "mine control status",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/run_tool.py", "agent-control", "status"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      }
+    ]
+  },
+  "kya": {
+    "runtimeName": "kya signing scripts",
+    "summary": "KYA identity and matchmaking runtime for claim, KYC, set-recipient, and grant-delegate signing flows.",
+    "sourceKeys": ["kya-skill-raw", "kya-human"],
+    "requiredBins": ["python3"],
+    "optionalBins": ["awp-wallet"],
+    "env": ["KYA_API_BASE", "KYA_KYC_BASE", "KYA_CHAIN_ID", "AWP_RELAY_BASE", "BASE_RPC_URL"],
+    "bootstrapCommands": [],
+    "inspectionCommands": [
+      {
+        "label": "kya sign claim help",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/sign-claim.py", "--help"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "kya relay recipient help",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/relay-set-recipient.py", "--help"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "kya kyc help",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/sign-kyc.py", "--help"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": false
+      }
+    ]
+  },
+  "ardi": {
+    "runtimeName": "ardi-agent",
+    "summary": "Official Ardi runtime that owns preflight, stake guidance, context, commit/reveal/inscribe flow, and the Linux auto-mine bootstrap.",
+    "sourceKeys": ["ardi-skill-raw", "ardinals-agents"],
+    "requiredBins": ["ardi-agent", "awp-wallet"],
+    "optionalBins": [],
+    "env": ["ARDI_COORDINATOR_URL", "ARDI_BASE_RPC", "AWP_WALLET_BIN", "ARDI_DEBUG"],
+    "bootstrapCommands": [
+      {
+        "label": "bootstrap ardi-agent runtime",
+        "cwdKind": "skill-root",
+        "argv": ["bash", "./scripts/bootstrap.sh"],
+        "category": "install",
+        "requires_confirmation": false
+      }
+    ],
+    "inspectionCommands": [
+      {
+        "label": "ardi status",
+        "cwdKind": "state-root",
+        "argv": ["ardi-agent", "status"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "ardi gas check",
+        "cwdKind": "state-root",
+        "argv": ["ardi-agent", "gas"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "ardi preflight",
+        "cwdKind": "state-root",
+        "argv": ["ardi-agent", "preflight"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": false
+      },
+      {
+        "label": "ardi stake guidance",
+        "cwdKind": "state-root",
+        "argv": ["ardi-agent", "stake"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      }
+    ]
+  },
+  "predict": {
+    "runtimeName": "predict-agent",
+    "summary": "Official Rust-based Predict runtime that owns preflight, stake checks, context, loop mode, and manual submissions.",
+    "binaryRuntime": true,
+    "sourceKeys": ["predict-skill-raw", "awp-live-query"],
+    "requiredBins": ["predict-agent", "awp-wallet"],
+    "optionalBins": ["openclaw"],
+    "env": ["PREDICT_SERVER_URL"],
+    "bootstrapCommands": [
+      {
+        "label": "install predict-agent binary",
+        "cwdKind": "skill-root",
+        "argv": ["bash", "install.sh"],
+        "category": "install",
+        "requires_confirmation": false
+      }
+    ],
+    "inspectionCommands": [
+      {
+        "label": "predict wallet safety",
+        "cwdKind": "state-root",
+        "argv": ["predict-agent", "wallet"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "predict status",
+        "cwdKind": "state-root",
+        "argv": ["predict-agent", "status"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "predict preflight",
+        "cwdKind": "state-root",
+        "argv": ["predict-agent", "preflight"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": false
+      },
+      {
+        "label": "predict stake eligibility",
+        "cwdKind": "state-root",
+        "argv": ["predict-agent", "stake"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      }
+    ]
+  },
+  "gov": {
+    "runtimeName": "gov-skill python scripts",
+    "summary": "Official GovNet runtime with public readers, signed reads, order entry, voting, and phase-aware helpers.",
+    "sourceKeys": ["gov-skill-raw", "gov-markets-api"],
+    "requiredBins": ["python3"],
+    "optionalBins": ["awp-wallet"],
+    "env": ["GOVNET_NONCE_DIR", "GOVNET_API_BASE", "GOVNET_WS_URL", "GOVNET_VOTE_TYPED_DATA_VARIANT"],
+    "bootstrapCommands": [
+      {
+        "label": "create gov skill venv",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "-m", "venv", ".venv"],
+        "category": "install",
+        "requires_confirmation": false
+      },
+      {
+        "label": "install gov skill deps",
+        "cwdKind": "skill-root",
+        "argv": [".venv/bin/pip", "install", "eth-hash", "eth-account", "websockets", "pytest"],
+        "category": "install",
+        "requires_confirmation": false
+      }
+    ],
+    "inspectionCommands": [
+      {
+        "label": "gov public markets",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/public/markets.py"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "gov phase-aware helper",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/helpers/what-can-i-do.py"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      },
+      {
+        "label": "gov private state",
+        "cwdKind": "skill-root",
+        "argv": ["python3", "scripts/private/state.py"],
+        "category": "inspect",
+        "requires_confirmation": false,
+        "autoRunOnInspect": true
+      }
+    ]
+  },
+  "tmr": {
+    "runtimeName": "tmr-skill",
+    "summary": "Official live TMR skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+    "sourceKeys": ["awp-live-query", "tmr-skill"],
+    "requiredBins": [],
+    "optionalBins": [],
+    "env": [],
+    "inspectionCommands": []
+  },
+  "community": {
+    "runtimeName": "com-skill",
+    "summary": "Official live Community skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+    "sourceKeys": ["awp-live-query", "community-skill", "awp-community"],
+    "requiredBins": [],
+    "optionalBins": [],
+    "env": [],
+    "inspectionCommands": []
+  }
+}

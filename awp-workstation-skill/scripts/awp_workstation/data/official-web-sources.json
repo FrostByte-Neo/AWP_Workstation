@@ -1,0 +1,290 @@
+[
+  {
+    "key": "awp-home",
+    "name": "AWP home",
+    "url": "https://awp.pro/",
+    "kind": "protocol",
+    "trustTier": 1,
+    "summary": "Protocol entry point and quickstart."
+  },
+  {
+    "key": "awp-worknets",
+    "name": "AWP worknet directory",
+    "url": "https://awp.pro/worknet",
+    "kind": "directory",
+    "trustTier": 1,
+    "summary": "Public worknet list and high-level worknet descriptions."
+  },
+  {
+    "key": "awp-aip",
+    "name": "AWP AIP registry",
+    "url": "https://awp.pro/aip",
+    "kind": "directory",
+    "trustTier": 1,
+    "summary": "Public proposal index for worknet specs."
+  },
+  {
+    "key": "awp-whitepaper",
+    "name": "AWP whitepaper",
+    "url": "https://awp.pro/awp-whitepaper.pdf",
+    "kind": "paper",
+    "trustTier": 1,
+    "summary": "Canonical protocol paper for RootNet, WorkNet, emission, staking, and DAO mechanics."
+  },
+  {
+    "key": "awp-whitepaper-page",
+    "name": "AWP whitepaper page",
+    "url": "https://awp.pro/whitepaper",
+    "kind": "docs",
+    "trustTier": 1,
+    "summary": "Official in-browser whitepaper landing page and PDF download surface."
+  },
+  {
+    "key": "awp-skill",
+    "name": "awp-core/awp-skill",
+    "url": "https://github.com/awp-core/awp-skill",
+    "kind": "skill",
+    "trustTier": 1,
+    "summary": "Protocol-official RootNet skill and JSON-RPC reference."
+  },
+  {
+    "key": "awp-skill-readme-raw",
+    "name": "awp-skill README raw",
+    "url": "https://raw.githubusercontent.com/awp-core/awp-skill/main/README.md",
+    "kind": "skill-doc",
+    "trustTier": 1,
+    "summary": "Raw upstream README suitable for workstation diffing and future refresh."
+  },
+  {
+    "key": "aip-001-raw",
+    "name": "AIP-001 Mine raw",
+    "url": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-001.md",
+    "kind": "aip",
+    "trustTier": 1,
+    "worknetKey": "mine",
+    "summary": "Mine WorkNet primary spec."
+  },
+  {
+    "key": "aip-002-raw",
+    "name": "AIP-002 Predict raw",
+    "url": "https://raw.githubusercontent.com/awp-core/AIPs/main/AIPS/aip-002.md",
+    "kind": "aip",
+    "trustTier": 1,
+    "worknetKey": "predict",
+    "summary": "Predict WorkNet primary spec."
+  },
+  {
+    "key": "awp-live-query",
+    "name": "AWP live JSON-RPC",
+    "url": "https://api.awp.sh/v2",
+    "kind": "live-api",
+    "trustTier": 1,
+    "summary": "Official live JSON-RPC used to resolve current worknet IDs, skills URIs, and statuses."
+  },
+  {
+    "key": "minework-home",
+    "name": "Mine home",
+    "url": "https://minework.net/",
+    "kind": "worknet",
+    "trustTier": 1,
+    "worknetKey": "mine",
+    "summary": "Official Mine operator surface and dataset/economic summary."
+  },
+  {
+    "key": "mine-skill-raw",
+    "name": "Mine skill raw",
+    "url": "https://raw.githubusercontent.com/awp-worknet/mine-skill/main/SKILL.md",
+    "kind": "skill-doc",
+    "trustTier": 1,
+    "worknetKey": "mine",
+    "summary": "Raw official Mine skill spec."
+  },
+  {
+    "key": "agentpredict-home",
+    "name": "Predict home",
+    "url": "https://agentpredict.work/",
+    "kind": "worknet",
+    "trustTier": 1,
+    "worknetKey": "predict",
+    "summary": "Official Predict operator surface."
+  },
+  {
+    "key": "predict-skill-raw",
+    "name": "Predict skill raw",
+    "url": "https://raw.githubusercontent.com/awp-worknet/prediction-skill/main/SKILL.md",
+    "kind": "skill-doc",
+    "trustTier": 1,
+    "worknetKey": "predict",
+    "summary": "Raw official Predict skill spec."
+  },
+  {
+    "key": "awp-staking",
+    "name": "AWP staking",
+    "url": "https://awp.pro/staking",
+    "kind": "protocol-surface",
+    "trustTier": 1,
+    "summary": "Official staking surface for veAWP and AWP Power."
+  },
+  {
+    "key": "awp-dao",
+    "name": "AWP DAO",
+    "url": "https://awp.pro/dao",
+    "kind": "protocol-surface",
+    "trustTier": 1,
+    "summary": "Official governance surface for proposals and veAWP voting."
+  },
+  {
+    "key": "awp-testnet",
+    "name": "AWP testnet benchmark",
+    "url": "https://awp.pro/testnet",
+    "kind": "worknet-surface",
+    "trustTier": 1,
+    "summary": "Official Benchmark testnet onboarding and activity checker."
+  },
+  {
+    "key": "awp-blog",
+    "name": "AWP blog",
+    "url": "https://awp.pro/blog",
+    "kind": "docs",
+    "trustTier": 1,
+    "summary": "Official updates, guides, and conceptual deep dives."
+  },
+  {
+    "key": "awp-agents",
+    "name": "AWP agents status",
+    "url": "https://awp.pro/agents",
+    "kind": "protocol-surface",
+    "trustTier": 1,
+    "summary": "Official cross-network agent status lookup surface."
+  },
+  {
+    "key": "awp-blog-01-launch-worknet",
+    "name": "AWP BLOG 01 | How to launch a WorkNet",
+    "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-01-or-how-to-launch-a-worknet",
+    "kind": "docs",
+    "trustTier": 1,
+    "summary": "Official builder-facing guide for designing, registering, activating, and operating a WorkNet."
+  },
+  {
+    "key": "awp-blog-02-what-is-awp",
+    "name": "AWP BLOG 02 | What is Agent Work Protocol?",
+    "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-02-or-what-is-agent-work-protocol",
+    "kind": "docs",
+    "trustTier": 1,
+    "summary": "Official plain-language protocol explainer framing AWP as an open labor market for agents."
+  },
+  {
+    "key": "awp-blog-03-start-earning",
+    "name": "AWP BLOG 03 | How your agent starts earning in 5 minutes",
+    "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-03-or-how-your-agent-starts-earning-in-5-minutes",
+    "kind": "docs",
+    "trustTier": 1,
+    "summary": "Official onboarding guide for installing awp-skill, creating a work wallet, registering, and starting WorkNet work."
+  },
+  {
+    "key": "awp-blog-04-fair-launch",
+    "name": "AWP BLOG 04 | Why AWP fair launch?",
+    "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-04-or-why-awp-fair-launch",
+    "kind": "docs",
+    "trustTier": 1,
+    "summary": "Official explanation of AWP fair-launch token emission, zero premine, and DAO Treasury positioning."
+  },
+  {
+    "key": "awp-blog-05-worknet",
+    "name": "AWP BLOG 05 | What is a WorkNet",
+    "url": "https://paragraph.com/%40awpprotocol%40gmail.com-79b9/awp-blog-05-or-what-is-a-worknet",
+    "kind": "docs",
+    "trustTier": 1,
+    "summary": "Official plain-language explanation of WorkNets as autonomous economic units with payroll, equity, scoring, and market price."
+  },
+  {
+    "key": "awp-community",
+    "name": "AWP community hub",
+    "url": "https://awp.community/",
+    "kind": "docs",
+    "trustTier": 1,
+    "worknetKey": "community",
+    "summary": "Official community hub linked from awp.pro."
+  },
+  {
+    "key": "gov-works",
+    "name": "GovNet",
+    "url": "https://gov.works/",
+    "kind": "worknet",
+    "trustTier": 1,
+    "worknetKey": "gov",
+    "summary": "Official governance market page and gov skill reference."
+  },
+  {
+    "key": "gov-markets-api",
+    "name": "Gov markets API",
+    "url": "https://api.gov.works/v1/markets",
+    "kind": "live-api",
+    "trustTier": 1,
+    "worknetKey": "gov",
+    "summary": "Official live GovNet market feed listing current worknet share symbols and market phases."
+  },
+  {
+    "key": "gov-skill-raw",
+    "name": "Gov skill raw",
+    "url": "https://raw.githubusercontent.com/awp-worknet/gov-skill/main/SKILL.md",
+    "kind": "skill-doc",
+    "trustTier": 1,
+    "worknetKey": "gov",
+    "summary": "Raw official Gov skill spec."
+  },
+  {
+    "key": "ardinals-agents",
+    "name": "Ardi operator page",
+    "url": "https://www.ardinals.com/agents",
+    "kind": "worknet",
+    "trustTier": 1,
+    "worknetKey": "ardi",
+    "summary": "Official Ardi agent onboarding page."
+  },
+  {
+    "key": "ardi-skill-raw",
+    "name": "Ardi skill raw",
+    "url": "https://raw.githubusercontent.com/awp-worknet/ardi-skill/main/SKILL.md",
+    "kind": "skill-doc",
+    "trustTier": 1,
+    "worknetKey": "ardi",
+    "summary": "Raw official Ardi skill spec."
+  },
+  {
+    "key": "kya-human",
+    "name": "KYA verify human",
+    "url": "https://kya.link/verify/human",
+    "kind": "service",
+    "trustTier": 1,
+    "worknetKey": "kya",
+    "summary": "Official KYA human verification and kya-skill reference."
+  },
+  {
+    "key": "kya-skill-raw",
+    "name": "KYA skill raw",
+    "url": "https://raw.githubusercontent.com/awp-worknet/kya-skill/main/SKILL.md",
+    "kind": "skill-doc",
+    "trustTier": 1,
+    "worknetKey": "kya",
+    "summary": "Raw official KYA skill spec."
+  },
+  {
+    "key": "tmr-skill",
+    "name": "TMR skill URI",
+    "url": "https://github.com/awp-worknet/tmr-skill",
+    "kind": "skill",
+    "trustTier": 1,
+    "worknetKey": "tmr",
+    "summary": "Official live skill URI currently returned for the TMR worknet."
+  },
+  {
+    "key": "community-skill",
+    "name": "Community skill URI",
+    "url": "https://github.com/awp-worknet/com-skill",
+    "kind": "skill",
+    "trustTier": 1,
+    "worknetKey": "community",
+    "summary": "Official live skill URI currently returned for the Community worknet."
+  }
+]

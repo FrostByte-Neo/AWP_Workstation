@@ -1,0 +1,400 @@
+{
+  "dossiers": {
+    "protocol-core": {
+      "summary": "AWP coordinates agents through RootNet registration and WorkNet-specific execution routes.",
+      "whyItExists": "It gives agents a common protocol surface for work discovery, runtime checks, and rewards.",
+      "operatorLoop": [
+        "Prepare the agent wallet and workstation state.",
+        "Use RootNet to register or verify the agent.",
+        "Select a WorkNet route based on capability and safety.",
+        "Run only after preflight, source freshness, and confirmation checks pass."
+      ],
+      "economics": [
+        "AWP is the shared asset and accounting unit across the protocol.",
+        "Each WorkNet defines its own earning, staking, or support mechanics.",
+        "AWP Power affects governance and some eligibility paths."
+      ],
+      "risks": [
+        "Live runtime state can diverge from cached workstation data.",
+        "Value-moving actions require explicit confirmation.",
+        "Skill repositories must be inspected before execution."
+      ]
+    },
+    "awp-skill": {
+      "summary": "awp-skill is the official RootNet runtime dependency for agent registration and core protocol operations.",
+      "whyItExists": "It provides the official command surface that Workstation can call after inspection.",
+      "operatorLoop": [
+        "Install or verify the official awp-skill checkout.",
+        "Check awp-wallet readiness before registration.",
+        "Run awp-skill preflight before RootNet actions."
+      ],
+      "economics": [
+        "RootNet and WorkNet actions may require gas or protocol eligibility depending on the route."
+      ],
+      "risks": [
+        "Third-party skill URIs must not be installed without confirmation.",
+        "awp-skill commands should be displayed before execution."
+      ]
+    },
+    "mine": {
+      "summary": "Mine is the low-risk earning WorkNet focused on background worker sessions.",
+      "whyItExists": "It gives an agent a practical long-running earning route with minimal value movement.",
+      "operatorLoop": [
+        "Inspect Mine skill and runtime readiness.",
+        "Start the worker only after dataset or session guidance is clear.",
+        "Register the external Mine session as a managed background process.",
+        "Monitor status and logs through Workstation.",
+        "Pause or stop the session through managed actions."
+      ],
+      "economics": [
+        "$aMine is associated with Mine participation on Base.",
+        "Rewards depend on live worker availability and WorkNet accounting.",
+        "Workstation reports public earning hints when live or cached data is available."
+      ],
+      "risks": [
+        "Background sessions must stay visible in active process state.",
+        "Network or IP environment can affect worker availability.",
+        "Idle sessions should not be reported as running."
+      ]
+    },
+    "predict": {
+      "summary": "Predict runs AI-assisted market reasoning with virtual-chip or stake-backed paths.",
+      "whyItExists": "It lets an agent participate in prediction workflows while enforcing phase and stake checks.",
+      "operatorLoop": [
+        "Run Predict preflight and status checks.",
+        "Confirm stake or KYA eligibility before stake-backed submissions.",
+        "Use virtual chips when available for lower-risk testing.",
+        "Avoid repetitive reasoning and respect market phase timing."
+      ],
+      "economics": [
+        "Predict can operate with virtual chips before stake-backed execution.",
+        "Stake-backed routes may depend on owner participation and market alpha.",
+        "Base and AWP requirements must be checked before capital-bearing actions."
+      ],
+      "risks": [
+        "Duplicated or thin reasoning can degrade outcomes.",
+        "Rate limits and phase windows can block execution.",
+        "Capital-bearing orders require explicit confirmation."
+      ]
+    },
+    "gov": {
+      "summary": "GovNet covers proposal, vote, and governance participation flows.",
+      "whyItExists": "It lets an agent inspect public governance context and only sign when eligible.",
+      "operatorLoop": [
+        "Load public markets and proposal context.",
+        "Check phase-aware helper output.",
+        "Inspect private state locally.",
+        "Confirm every signed vote or allocation."
+      ],
+      "economics": [
+        "Governance outcomes depend on eligible WorkNet share and AWP Power.",
+        "Signed payloads use wallet-backed authorization."
+      ],
+      "risks": [
+        "Voting outside phase windows can fail or be unsafe.",
+        "Missing AWP Power blocks signed actions.",
+        "Unreviewed signed transactions can be irreversible."
+      ]
+    },
+    "ardi": {
+      "summary": "Ardi is an agent-only commit and reveal runtime with explicit gas and stake prerequisites.",
+      "whyItExists": "It supports automated Ardi operations when Base gas and eligibility checks pass.",
+      "operatorLoop": [
+        "Run ardi-agent preflight.",
+        "Follow `_internal.next_command` guidance.",
+        "Check Base gas before commits.",
+        "Confirm stake or KYA eligibility before live execution."
+      ],
+      "economics": [
+        "Base gas is required before Ardi operations can progress.",
+        "Eligibility may depend on ARDI, Ardinals, KYA, or staked AWP paths."
+      ],
+      "risks": [
+        "Auto-mine behavior must be bounded by runtime guidance.",
+        "Shell commands require inspection before execution.",
+        "Gas, commit, and reveal windows can block progress."
+      ]
+    },
+    "kya": {
+      "summary": "KYA handles identity and delegated eligibility handoffs.",
+      "whyItExists": "It helps an agent satisfy identity or sponsored-stake requirements without exposing secrets.",
+      "operatorLoop": [
+        "Request or inspect KYA handoff guidance.",
+        "Use awp-skill where required for gasless or sponsored flows.",
+        "Complete KYC or identity steps outside Workstation when needed.",
+        "Paste only public handoff URLs, never private keys."
+      ],
+      "economics": [
+        "KYA can affect delegated eligibility and AWP-backed participation paths."
+      ],
+      "risks": [
+        "Magic-link URLs must be handled as sensitive handoff material.",
+        "Non-TTY environments need clear copy/paste guidance."
+      ]
+    },
+    "tmr": {
+      "summary": "TMR is a live Base WorkNet with canonical ID 845300000013 and a thin official skill repository.",
+      "whyItExists": "It preserves the canonical live WorkNet route while the runtime surface matures.",
+      "operatorLoop": [
+        "Verify WorkNet ID 845300000013 before use.",
+        "Inspect the official skill checkout.",
+        "Wait for runtime details before auto-running."
+      ],
+      "economics": [
+        "The cached live metadata reports a zero minimum stake hint."
+      ],
+      "risks": [
+        "The previous WorkNet ID 845300000008 may appear in older material.",
+        "The public repository may expose only metadata until runtime docs are published.",
+        "Workstation should discover TMR but should not auto-run it without inspected runtime guidance."
+      ]
+    },
+    "community": {
+      "summary": "Community is a live Base WorkNet with canonical ID 845300000011 and community hub context.",
+      "whyItExists": "It represents the community WorkNet route and its public hub material.",
+      "operatorLoop": [
+        "Verify WorkNet ID 845300000011 before use.",
+        "Inspect the official skill checkout.",
+        "Use community hub context before trusting runtime actions."
+      ],
+      "economics": [
+        "The cached live metadata reports a zero minimum stake hint."
+      ],
+      "risks": [
+        "The previous WorkNet ID 845300000006 may appear in older material.",
+        "Community hub context is not enough to justify auto-running an uninspected runtime.",
+        "Workstation should keep Community in discovery mode until runtime docs are complete."
+      ]
+    },
+    "staking": {
+      "summary": "Staking connects AWP, veAWP, and AWP Power eligibility.",
+      "whyItExists": "It explains how stake-backed paths affect WorkNet and governance participation.",
+      "operatorLoop": [
+        "Check the target WorkNet stake requirement.",
+        "Confirm the wallet and chain context.",
+        "Review lockup and delegation effects.",
+        "Verify veAWP or AWP Power before signing."
+      ],
+      "economics": [
+        "AWP Power can determine governance eligibility.",
+        "Some WorkNets use stake or delegated power as an execution gate."
+      ],
+      "risks": [
+        "Stake and lockup actions can be long-lived or irreversible.",
+        "Delegation must be confirmed before execution."
+      ]
+    },
+    "dao": {
+      "summary": "DAO participation uses AWP Power, proposal timing, and signed governance signals.",
+      "whyItExists": "It explains how veAWP and governance requirements affect agent participation.",
+      "operatorLoop": [
+        "Check quorum and voting windows.",
+        "Confirm gas and signing requirements.",
+        "Review proposal impact before signing."
+      ],
+      "economics": [
+        "DAO parameters can include quorum, duration, and minimum AWP thresholds.",
+        "Economic impact depends on proposal scope and voting power."
+      ],
+      "risks": [
+        "Voting with stale proposal context can be unsafe.",
+        "Quorum and timing assumptions can change."
+      ]
+    },
+    "benchmark-testnet": {
+      "summary": "Benchmark Testnet is a low-risk environment for testing agent onboarding and benchmark flows.",
+      "whyItExists": "It provides a safer route for validating Workstation behavior before live execution.",
+      "operatorLoop": [
+        "Run awp-skill checks.",
+        "Confirm agent and gas readiness.",
+        "Use Benchmark WorkNet actions for test execution."
+      ],
+      "economics": [
+        "$aBench represents benchmark testnet participation context."
+      ],
+      "risks": [
+        "Testnet behavior can differ from live WorkNet execution."
+      ]
+    },
+    "blog": {
+      "summary": "Official blog guidance can support WorkNet onboarding and operator understanding.",
+      "whyItExists": "It captures operator-facing explanations that should be cross-checked against runtime sources.",
+      "operatorLoop": [
+        "Use official blog material as operator guidance, not runtime authority.",
+        "Cross-check blog claims against WorkNet skill and AIP sources."
+      ],
+      "economics": [
+        "Blog posts may describe economics but are not executable protocol state."
+      ],
+      "risks": [
+        "Guides can become stale when runtime behavior changes."
+      ]
+    }
+  },
+  "sourceFacts": {
+    "protocol-core": [
+      "AWP connects agents, RootNet registration, and WorkNet execution.",
+      "Supported surfaces include Base, Ethereum, Arbitrum, and BSC context.",
+      "Protocol endpoints include `POST https://api.awp.sh/v2`, `wss://api.awp.sh/ws/live`, and `GET https://api.awp.sh/api/health`.",
+      "Agents should verify protocol state before execution."
+    ],
+    "awp-skill-ops": [
+      "RootNet skill operations should be inspected before WorkNet execution.",
+      "awp-skill and awp-wallet must be available on PATH for official runtime actions.",
+      "Official skill install actions are generated and displayed before execution."
+    ],
+    "mine-aip": [
+      "Mine is an AWP WorkNet route for background worker participation.",
+      "Mine references Base, $aMine, and UTC-timed operational context.",
+      "Mine sessions should be registered as managed external processes.",
+      "Idle sessions should not be surfaced as active running work."
+    ],
+    "predict-aip": [
+      "Predict uses AI reasoning for market participation.",
+      "Virtual-chip paths can be used before stake-backed execution.",
+      "Predict context includes UTC timing, owner participation, and alpha seeking.",
+      "Reasoning quality and rate limits affect outcomes."
+    ],
+    "predict-skill-facts": [
+      "The 2026-05-20 snapshot identifies Predict on Base with WorkNet ID 845300000003 and the prediction-skill repository.",
+      "Predict exposes a predict-agent runtime surface plus API-backed context.",
+      "Stake-backed Predict participation can require 1000 AWP or KYA eligibility."
+    ],
+    "gov-skill-facts": [
+      "GovNet separates public reads from wallet-backed signed actions.",
+      "Signed governance actions must use awp-wallet discipline.",
+      "Gov public surfaces include REST and WebSocket endpoints such as api.gov.works.",
+      "EIP-712 signing must remain confirmation-gated."
+    ],
+    "ardi-skill-facts": [
+      "Ardi exposes an ardi-agent runtime and calldata-oriented execution path.",
+      "Ardi operations include bounded commit behavior and gas-sensitive steps."
+    ],
+    "kya-skill-facts": [
+      "KYA supports agent identity and AWP eligibility handoffs.",
+      "KYA may use awp-skill and gasless support for onboarding-related flows.",
+      "KYA handoff URLs can appear in non-TTY contexts and should be displayed clearly.",
+      "KYA references kya.link, api.awp.sh, Base, and RPC-backed checks."
+    ],
+    "tmr": [
+      "The 2026-05-20 snapshot identifies TMR on Base with WorkNet ID 845300000013 and the tmr-skill repository.",
+      "TMR is represented as a live Base WorkNet with a thin official skill repository."
+    ],
+    "community": [
+      "The 2026-05-20 snapshot identifies Community on Base with WorkNet ID 845300000011 and the com-skill repository.",
+      "Community is represented as a live Base WorkNet with community hub context."
+    ],
+    "staking-facts": [
+      "AWP staking and veAWP can affect AWP Power.",
+      "AWP Power can gate some WorkNet and governance participation paths."
+    ],
+    "dao-facts": [
+      "The public governance surface has shown 4 percent quorum, 8 hour voting delay, 24 hour voting period, and 200K AWP proposal threshold parameters."
+    ],
+    "testnet-facts": [
+      "Benchmark Testnet uses the $aBench context.",
+      "Benchmark Testnet can exercise awp-skill onboarding and gasless agent flows.",
+      "Benchmark execution is useful for validating agent behavior before live WorkNet work."
+    ],
+    "blog-facts": [
+      "Official blog guidance can support onboarding and WorkNet operator context.",
+      "Blog material should be cross-checked against AIP, skill, and runtime sources before execution."
+    ]
+  },
+  "evidence": {
+    "protocol-two-layer": {
+      "claim": "AWP coordinates RootNet registration with WorkNet-specific execution.",
+      "rationale": "The two-layer model explains why Workstation separates registration from WorkNet runtime actions."
+    },
+    "protocol-endpoints": {
+      "claim": "RootNet skill references `POST https://api.awp.sh/v2`, `wss://api.awp.sh/ws/live`, and `GET https://api.awp.sh/api/health`.",
+      "rationale": "Endpoint evidence anchors workstation probes to official protocol surfaces."
+    },
+    "awp-skill-install-sequence": {
+      "claim": "awp-skill depends on awp-wallet readiness and PATH-visible wallet commands.",
+      "rationale": "Installation evidence explains why Workstation checks both skill and wallet state."
+    },
+    "awp-skill-gasless-ops": {
+      "claim": "RootNet skill operations include gasless onboarding support for suitable WorkNet paths.",
+      "rationale": "Gasless onboarding evidence explains why Workstation prepares awp-skill before WorkNet execution."
+    },
+    "mine-worknet-summary": {
+      "claim": "Mine is an AWP WorkNet route for background worker participation.",
+      "rationale": "The Mine evidence anchors the Mine-first delivery path."
+    },
+    "mine-emission-and-stake": {
+      "claim": "Mine references Base, the $aMine context, and UTC-timed operation.",
+      "rationale": "Mine economics evidence helps Workstation explain rewards without overstating realized earnings."
+    },
+    "predict-worknet-summary": {
+      "claim": "Predict uses AI reasoning for market participation.",
+      "rationale": "Predict evidence explains why the route remains supervised until eligibility and risk checks pass."
+    },
+    "predict-virtual-chips": {
+      "claim": "Predict can expose virtual-chip participation before stake-backed execution.",
+      "rationale": "Virtual-chip evidence supports lower-risk observation and test paths."
+    },
+    "predict-official-runtime": {
+      "claim": "The 2026-05-20 snapshot identifies Predict on Base with WorkNet ID 845300000003 and a predict-agent runtime surface.",
+      "rationale": "Official runtime evidence anchors Predict capability discovery."
+    },
+    "live-canonical-base-worknets": {
+      "claim": "The 2026-05-20 live Base snapshot includes Mine, Predict, Gov, Community, KYA, TMR, and Ardi canonical WorkNet IDs.",
+      "rationale": "Live snapshot evidence lets Workstation compare cached WorkNet IDs against observed protocol state."
+    },
+    "gov-public-vs-signed": {
+      "claim": "GovNet separates public context from awp-wallet-backed signed actions.",
+      "rationale": "This evidence supports safe public reads before private signing."
+    },
+    "gov-auth-discipline": {
+      "claim": "Gov skill signed actions require nonce and wallet discipline.",
+      "rationale": "Signed governance actions must not be auto-run without confirmation."
+    },
+    "ardi-agent-only": {
+      "claim": "Ardi uses an ardi-agent runtime with a guided loop and next-command style execution.",
+      "rationale": "Ardi runtime evidence supports strict command inspection before execution."
+    },
+    "ardi-operational-caps": {
+      "claim": "Ardi exposes bounded commit and gas-related operational limits.",
+      "rationale": "Operational caps affect whether Workstation can safely continue Ardi execution."
+    },
+    "kya-registration-handoff": {
+      "claim": "KYA can support AWP agent identity, registration, and gasless eligibility handoffs.",
+      "rationale": "KYA evidence explains why identity handoffs must remain explicit and inspectable."
+    },
+    "kya-handoff-url-plain-text": {
+      "claim": "KYA handoff may expose a magic-link URL for non-TTY operator handling.",
+      "rationale": "Workstation should show handoff URLs clearly without treating them as private keys."
+    },
+    "staking-awp-power": {
+      "claim": "AWP staking and veAWP can affect AWP Power eligibility.",
+      "rationale": "AWP Power evidence explains governance and eligibility blockers."
+    },
+    "dao-public-params": {
+      "claim": "DAO governance parameters can include 4 percent quorum, 8 hour voting delay, 24 hour voting period, and 200K AWP proposal threshold.",
+      "rationale": "Governance parameter evidence helps Workstation avoid stale or unsafe voting assumptions."
+    },
+    "testnet-gasless-start": {
+      "claim": "Benchmark Testnet can exercise awp-skill gasless onboarding before live WorkNet work.",
+      "rationale": "Testnet evidence supports safer validation of agent-first onboarding."
+    },
+    "tmr-live-skill-uri": {
+      "claim": "The 2026-05-20 snapshot identifies TMR on Base with WorkNet ID 845300000013 and the tmr-skill repository.",
+      "rationale": "TMR evidence supports discovery without auto-running an immature runtime."
+    },
+    "community-live-skill-uri": {
+      "claim": "The 2026-05-20 snapshot identifies Community on Base with WorkNet ID 845300000011 and the com-skill repository.",
+      "rationale": "Community evidence supports discovery and hub context while keeping execution supervised."
+    },
+    "blog-operator-guides": {
+      "claim": "Official blog guidance can support onboarding and WorkNet operator context.",
+      "rationale": "Blog evidence should be cross-checked against AIP and skill sources."
+    }
+  },
+  "textReplacements": [
+    [
+      "grant-delegate",
+      "grant delegate"
+    ]
+  ]
+}

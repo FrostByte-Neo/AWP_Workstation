@@ -25,13 +25,23 @@ def main() -> None:
         action="store_true",
         help="Rebuild the knowledge catalog instead of using the cached copy.",
     )
+    parser.add_argument(
+        "--read-only",
+        action="store_true",
+        help="Do not rebuild or write caches; fail with a JSON error if the catalog is missing.",
+    )
     args = parser.parse_args()
 
-    catalog = (
-        build_knowledge_catalog(rebuild_derived=True)
-        if args.rebuild
-        else (load_cached_knowledge_catalog() or build_knowledge_catalog())
-    )
+    if args.read_only and args.rebuild:
+        parser.error("--read-only cannot be combined with --rebuild")
+    cached_catalog = load_cached_knowledge_catalog()
+    if args.read_only and not cached_catalog:
+        print_json({
+            "status": "cache_missing",
+            "error": "knowledge catalog cache is missing; rerun without --read-only or use --rebuild",
+        })
+        return
+    catalog = build_knowledge_catalog(rebuild_derived=True) if args.rebuild else (cached_catalog or build_knowledge_catalog())
     print_json(build_knowledge_query_result(args.topic.strip().lower(), catalog=catalog))
 
 

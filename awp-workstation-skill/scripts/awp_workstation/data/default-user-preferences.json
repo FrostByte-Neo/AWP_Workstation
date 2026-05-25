@@ -1,0 +1,9 @@
+{
+  "allowAssetActions": false,
+  "allowThirdPartySkills": false,
+  "autopilotMode": "non-financial-only",
+  "preferredWorknet": "mine",
+  "observeBeforePredictHours": 24,
+  "riskProfile": "conservative",
+  "updatedAt": null
+}

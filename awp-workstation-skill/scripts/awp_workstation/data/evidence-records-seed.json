@@ -1,0 +1,322 @@
+[
+  {
+    "key": "protocol-two-layer",
+    "topicKey": "protocol-core",
+    "claim": "AWP uses a two-layer architecture: RootNet coordinates, WorkNets execute task-specific economies.",
+    "sourceKey": "awp-whitepaper",
+    "locator": "whitepaper abstract and definitions",
+    "evidenceType": "normative-overview",
+    "stability": "high",
+    "rationale": "The whitepaper defines RootNet and WorkNet as the protocol's architectural split."
+  },
+  {
+    "key": "whitepaper-public-page",
+    "topicKey": "protocol-core",
+    "claim": "The public AWP whitepaper page mirrors the protocol paper in-browser and links the downloadable PDF, giving the workstation a human-readable official protocol surface in addition to the raw PDF.",
+    "sourceKey": "awp-whitepaper-page",
+    "locator": "whitepaper landing page summary and PDF link",
+    "evidenceType": "docs-surface",
+    "stability": "medium",
+    "rationale": "This is a more diffable public surface than the PDF alone and should be tracked as its own official source."
+  },
+  {
+    "key": "protocol-endpoints",
+    "topicKey": "protocol-core",
+    "claim": "The official RootNet skill documents POST https://api.awp.sh/v2, wss://api.awp.sh/ws/live, and GET https://api.awp.sh/api/health as public protocol endpoints.",
+    "sourceKey": "awp-skill-readme-raw",
+    "locator": "README endpoint section",
+    "evidenceType": "runtime-doc",
+    "stability": "medium",
+    "rationale": "The workstation should use the official skill's published endpoint surface instead of inventing its own."
+  },
+  {
+    "key": "awp-skill-install-sequence",
+    "topicKey": "awp-skill",
+    "claim": "Official onboarding says to install awp-skill, install awp-wallet, ensure awp-wallet is on PATH, then initialize a fresh work wallet.",
+    "sourceKey": "awp-skill-readme-raw",
+    "locator": "README installation and quickstart",
+    "evidenceType": "runtime-doc",
+    "stability": "medium",
+    "rationale": "This sequence governs how the workstation should explain onboarding."
+  },
+  {
+    "key": "awp-skill-gasless-ops",
+    "topicKey": "awp-skill",
+    "claim": "The official RootNet skill documents gasless Bind, Set Recipient, and Worknet Registration relay flows.",
+    "sourceKey": "awp-skill-readme-raw",
+    "locator": "README gasless support table",
+    "evidenceType": "runtime-doc",
+    "stability": "medium",
+    "rationale": "These are the operations the workstation can plan around without requiring native gas."
+  },
+  {
+    "key": "mine-worknet-summary",
+    "topicKey": "mine",
+    "claim": "Mine is the first AWP WorkNet for permissionless web data collection, cleaning, and structured extraction.",
+    "sourceKey": "aip-001-raw",
+    "locator": "AIP-001 abstract and motivation",
+    "evidenceType": "aip",
+    "stability": "high",
+    "rationale": "This is the normative source for the Mine work definition."
+  },
+  {
+    "key": "mine-emission-and-stake",
+    "topicKey": "mine",
+    "claim": "Mine runs on Base with $aMine, daily UTC epochs, no miner stake requirement, and validator stake requirement.",
+    "sourceKey": "aip-001-raw",
+    "locator": "AIP-001 terminology, token, and role sections",
+    "evidenceType": "aip",
+    "stability": "high",
+    "rationale": "These details determine whether the workstation can recommend Mine to a new user."
+  },
+  {
+    "key": "predict-worknet-summary",
+    "topicKey": "predict",
+    "claim": "Predict is an AI-native prediction market WorkNet where agents submit predictions with reasoning on a CLOB.",
+    "sourceKey": "aip-002-raw",
+    "locator": "AIP-002 abstract and worknet page summary",
+    "evidenceType": "aip",
+    "stability": "high",
+    "rationale": "This explains why reasoning quality is a first-class operational dimension."
+  },
+  {
+    "key": "predict-virtual-chips",
+    "topicKey": "predict",
+    "claim": "Predict uses virtual chips and periodic chip feeds, lowering the barrier to starting work without immediately acquiring tokens.",
+    "sourceKey": "aip-002-raw",
+    "locator": "AIP-002 chip economy and participation design",
+    "evidenceType": "aip",
+    "stability": "medium",
+    "rationale": "This informs the workstation default of recommending low-friction entry paths first."
+  },
+  {
+    "key": "predict-official-runtime",
+    "topicKey": "predict",
+    "claim": "As of May 20, 2026, the official live AWP API resolves Predict to Base worknetId 845300000003 with skills URI https://github.com/awp-worknet/prediction-skill, and the official skill says to operate through predict-agent commands.",
+    "sourceKey": "predict-skill-raw",
+    "locator": "SKILL.md quick start, stake requirement, and install sections",
+    "evidenceType": "skill-doc",
+    "stability": "medium",
+    "rationale": "This replaces the earlier assumption that Predict lacked a confirmed official runtime."
+  },
+  {
+    "key": "live-canonical-base-worknets",
+    "topicKey": "protocol-core",
+    "claim": "As of May 20, 2026, official live read-only queries resolve Base Mine to 845300000002, Predict to 845300000003, Gov to 845300000010, Community to 845300000011, KYA to 845300000012, TMR to 845300000013, and Ardi to 845300000014, with pending predecessor entries at 845300000005 through 845300000009.",
+    "sourceKey": "awp-live-query",
+    "locator": "worknets.get + worknets.getSkills live snapshots captured by workstation on 2026-05-20",
+    "evidenceType": "live-api",
+    "stability": "low",
+    "rationale": "This is the current canonical map that the workstation should use when live list/search metadata drifts."
+  },
+  {
+    "key": "gov-public-vs-signed",
+    "topicKey": "gov",
+    "claim": "GovNet public reads work without a wallet, while signed reads and writes resolve the principal through awp-wallet.",
+    "sourceKey": "gov-skill-raw",
+    "locator": "SKILL.md read vs signed section",
+    "evidenceType": "skill-doc",
+    "stability": "medium",
+    "rationale": "This is why the workstation can expose safe inspection before gated signed actions."
+  },
+  {
+    "key": "gov-auth-discipline",
+    "topicKey": "gov",
+    "claim": "Gov skill standardizes retry and failure handling for domain mismatch, nonce drift, and time skew errors.",
+    "sourceKey": "gov-skill-raw",
+    "locator": "SKILL.md error handling discipline",
+    "evidenceType": "skill-doc",
+    "stability": "medium",
+    "rationale": "The workstation should inherit the idea that these failures are operational states, not user mysteries."
+  },
+  {
+    "key": "ardi-agent-only",
+    "topicKey": "ardi",
+    "claim": "Ardi requires all chain actions to go through ardi-agent and explicitly discourages ad hoc loop scripting when auto-mine exists.",
+    "sourceKey": "ardi-skill-raw",
+    "locator": "SKILL.md agent-only and auto-mine guidance",
+    "evidenceType": "skill-doc",
+    "stability": "medium",
+    "rationale": "This justifies the workstation rule that Ardi must follow the official next-command journal."
+  },
+  {
+    "key": "ardi-operational-caps",
+    "topicKey": "ardi",
+    "claim": "Ardi documents strict operational caps such as five commits per epoch and a 21,000 total inscription cap.",
+    "sourceKey": "ardi-skill-raw",
+    "locator": "SKILL.md limits and constraints",
+    "evidenceType": "skill-doc",
+    "stability": "medium",
+    "rationale": "These caps affect safe automation planning."
+  },
+  {
+    "key": "kya-registration-handoff",
+    "topicKey": "kya",
+    "claim": "KYA requires prior AWP registration and says unregistered agents must hand off to awp-skill for gasless onboarding before continuing.",
+    "sourceKey": "kya-skill-raw",
+    "locator": "SKILL.md prerequisites and handoff text",
+    "evidenceType": "skill-doc",
+    "stability": "medium",
+    "rationale": "This is why the workstation treats KYA as a service tool, not a bootstrap replacement."
+  },
+  {
+    "key": "kya-handoff-url-plain-text",
+    "topicKey": "kya",
+    "claim": "KYA magic-link and handoff flows require plain-text URL emission in non-TTY environments.",
+    "sourceKey": "kya-skill-raw",
+    "locator": "SKILL.md messaging and non-TTY guidance",
+    "evidenceType": "skill-doc",
+    "stability": "medium",
+    "rationale": "The workstation must preserve this behavior when translating actions into chat."
+  },
+  {
+    "key": "staking-awp-power",
+    "topicKey": "staking",
+    "claim": "Locking AWP mints veAWP and yields AWP Power that scales with stake size and remaining lock duration.",
+    "sourceKey": "awp-staking",
+    "locator": "staking page main description",
+    "evidenceType": "protocol-surface",
+    "stability": "medium",
+    "rationale": "This is the user-facing summary of staking economics."
+  },
+  {
+    "key": "dao-public-params",
+    "topicKey": "dao",
+    "claim": "The public DAO surface currently shows 4 percent quorum, 8 hour voting delay, 24 hour voting period, and 200K AWP proposal threshold.",
+    "sourceKey": "awp-dao",
+    "locator": "DAO page governance summary line",
+    "evidenceType": "protocol-surface",
+    "stability": "medium",
+    "rationale": "These visible parameters matter when the workstation explains governance timing."
+  },
+  {
+    "key": "testnet-gasless-start",
+    "topicKey": "benchmark-testnet",
+    "claim": "The public Benchmark testnet says awp-skill creates a wallet and registers automatically and gaslessly before discovering the testnet worknet.",
+    "sourceKey": "awp-testnet",
+    "locator": "testnet join section",
+    "evidenceType": "protocol-surface",
+    "stability": "medium",
+    "rationale": "This offers a public example of the intended agent-first onboarding path."
+  },
+  {
+    "key": "tmr-live-skill-uri",
+    "topicKey": "tmr",
+    "claim": "As of May 20, 2026, the live AWP surface resolves TMR to Base worknetId 845300000013 with official skill URI https://github.com/awp-worknet/tmr-skill, but the public operator surface is still too thin for safe unattended execution.",
+    "sourceKey": "tmr-skill",
+    "locator": "official live skill URI returned by AWP plus repository landing page",
+    "evidenceType": "skill-uri",
+    "stability": "medium",
+    "rationale": "This is the core reason the workstation exposes TMR as discoverable but not auto-runnable."
+  },
+  {
+    "key": "tmr-repo-surface-thin",
+    "topicKey": "tmr",
+    "claim": "As of May 22, 2026, the public awp-worknet/tmr-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs, so it is still too thin for a reliable workstation runtime contract.",
+    "sourceKey": "tmr-skill",
+    "locator": "GitHub repository landing page on May 22, 2026",
+    "evidenceType": "skill-uri",
+    "stability": "medium",
+    "rationale": "This explains why TMR remains discoverable but not safely auto-runnable."
+  },
+  {
+    "key": "community-live-skill-uri",
+    "topicKey": "community",
+    "claim": "As of May 20, 2026, the live AWP surface resolves Community to Base worknetId 845300000011 with official skill URI https://github.com/awp-worknet/com-skill, but the public operator surface is still too thin for safe unattended execution.",
+    "sourceKey": "community-skill",
+    "locator": "official live skill URI returned by AWP plus repository landing page",
+    "evidenceType": "skill-uri",
+    "stability": "medium",
+    "rationale": "This is the core reason the workstation exposes Community as discoverable but not auto-runnable."
+  },
+  {
+    "key": "community-repo-surface-thin",
+    "topicKey": "community",
+    "claim": "As of May 22, 2026, the public awp-worknet/com-skill repository surface exposes only a LICENSE file and no README, SKILL.md, or runtime docs, so it is still too thin for a reliable workstation runtime contract.",
+    "sourceKey": "community-skill",
+    "locator": "GitHub repository landing page on May 22, 2026",
+    "evidenceType": "skill-uri",
+    "stability": "medium",
+    "rationale": "This makes the Community skill URI useful for discovery, but still too thin for unattended execution guidance."
+  },
+  {
+    "key": "community-hub-surface",
+    "topicKey": "community",
+    "claim": "The broader AWP site links Community to awp.community as a community hub for guides, tools, translations, memes, and analysis rather than a concrete operator runtime specification.",
+    "sourceKey": "awp-community",
+    "locator": "community hub linked from awp.pro",
+    "evidenceType": "docs-surface",
+    "stability": "low",
+    "rationale": "Useful for ecosystem context, but still not a substitute for runnable skill docs."
+  },
+  {
+    "key": "blog-operator-guides",
+    "topicKey": "blog",
+    "claim": "The official blog is part of the documentation surface and currently includes practical onboarding plus WorkNet concept guides.",
+    "sourceKey": "awp-blog",
+    "locator": "blog index visible article list",
+    "evidenceType": "docs-surface",
+    "stability": "low",
+    "rationale": "Useful for explanation tone, but less normative than AIPs and skill docs."
+  },
+  {
+    "key": "agent-status-lookup",
+    "topicKey": "protocol-core",
+    "claim": "The public AWP agents page accepts an agent wallet address and checks its status across all visible networks.",
+    "sourceKey": "awp-agents",
+    "locator": "agents page lookup prompt",
+    "evidenceType": "protocol-surface",
+    "stability": "low",
+    "rationale": "This is a public protocol-facing status surface the encyclopedia can reference without treating it as an execution runtime."
+  },
+  {
+    "key": "blog-agent-quickstart",
+    "topicKey": "blog",
+    "claim": "The official Apr 24, 2026 onboarding guide reduces the default start path to install awp-skill, auto-create a work wallet, register gaslessly, pick a WorkNet, and start working.",
+    "sourceKey": "awp-blog-03-start-earning",
+    "locator": "steps 2 through 6",
+    "evidenceType": "docs-surface",
+    "stability": "medium",
+    "rationale": "This is the clearest public product-language source for the workstation's onboarding narrative."
+  },
+  {
+    "key": "blog-worknet-company-model",
+    "topicKey": "blog",
+    "claim": "The official Apr 30, 2026 WorkNet explainer models a WorkNet as an autonomous economic unit with payroll, equity, performance reviews, and market price.",
+    "sourceKey": "awp-blog-05-worknet",
+    "locator": "intro and 'A WorkNet is a company' sections",
+    "evidenceType": "docs-surface",
+    "stability": "medium",
+    "rationale": "This is the strongest official plain-language source for translating WorkNet economics into user-facing explanations."
+  },
+  {
+    "key": "blog-fair-launch-emission",
+    "topicKey": "blog",
+    "claim": "The official Apr 29, 2026 fair-launch guide says AWP supply is 10 billion, released entirely through emission with zero premine, and split visibly between WorkNet wages and the DAO Treasury.",
+    "sourceKey": "awp-blog-04-fair-launch",
+    "locator": "fair launch allocation section",
+    "evidenceType": "docs-surface",
+    "stability": "medium",
+    "rationale": "This gives the encyclopedia a more user-readable explanation of token distribution than the whitepaper alone."
+  },
+  {
+    "key": "blog-worknet-launch-sequence",
+    "topicKey": "blog",
+    "claim": "The official Apr 21, 2026 launch guide breaks WorkNet creation into design, gasless registration, Guardian activation review, manager configuration, daily reward distribution, and ongoing emission competition.",
+    "sourceKey": "awp-blog-01-launch-worknet",
+    "locator": "part 3 step-by-step sections",
+    "evidenceType": "docs-surface",
+    "stability": "medium",
+    "rationale": "This is the clearest public builder-facing lifecycle summary for explaining how new WorkNets appear and mature."
+  },
+  {
+    "key": "blog-proof-of-useful-work",
+    "topicKey": "protocol-core",
+    "claim": "The official Apr 23, 2026 protocol explainer explicitly frames AWP around proof of useful work rather than wasteful proof-of-work, and around WorkNets as permissionless labor markets for agents.",
+    "sourceKey": "awp-blog-02-what-is-awp",
+    "locator": "why it is built this way",
+    "evidenceType": "docs-surface",
+    "stability": "medium",
+    "rationale": "This gives the workstation a product-facing source for the protocol's economic and philosophical framing."
+  }
+]

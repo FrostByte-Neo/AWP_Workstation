@@ -1,0 +1,77 @@
+[
+  {
+    "key": "trigger-surface",
+    "title": "Skill Trigger Surface",
+    "intent": "The workstation should be discoverable from English user prompts."
+  },
+  {
+    "key": "protocol-encyclopedia",
+    "title": "Protocol Encyclopedia",
+    "intent": "RootNet, WorkNet, staking, DAO, recipient, and endpoint knowledge should be captured locally."
+  },
+  {
+    "key": "worknet-coverage",
+    "title": "WorkNet Coverage",
+    "intent": "Mine, Predict, KYA, Ardi, Gov, TMR, and Community should all be represented."
+  },
+  {
+    "key": "active-worknet-source-depth",
+    "title": "Active WorkNet Source Depth",
+    "intent": "Active WorkNets should not be treated as fully documented if the public source surface is still only a live ID plus a thin repo landing page."
+  },
+  {
+    "key": "glossary-coverage",
+    "title": "Glossary Coverage",
+    "intent": "Key terms from the goal such as RootNet, WorkNet, skillURI, epoch, CLOB, and staking must be explainable."
+  },
+  {
+    "key": "concept-workflows",
+    "title": "Concept Workflow Layer",
+    "intent": "Cross-worknet concepts such as registration, recipient routing, delegation, qualification, settlement, Gov signing, and Ardi command guidance should be first-class encyclopedia records."
+  },
+  {
+    "key": "official-guide-depth",
+    "title": "Official Guide Depth",
+    "intent": "Official onboarding and plain-language AWP guides should be tracked as first-class sources, facts, and concepts instead of only being implied by top-level indexes."
+  },
+  {
+    "key": "public-status-surfaces",
+    "title": "Public Status Surfaces",
+    "intent": "Official public lookup and status surfaces should be modeled distinctly from execution runtimes so the encyclopedia can explain what is safe to inspect versus what can actually act."
+  },
+  {
+    "key": "source-traceability",
+    "title": "Source Traceability",
+    "intent": "Derived claims should link back to official source keys, locators, and stability labels."
+  },
+  {
+    "key": "registration-flow",
+    "title": "Registration Flow",
+    "intent": "The workstation should understand and eventually execute awp-skill gasless registration."
+  },
+  {
+    "key": "live-rpc-scan",
+    "title": "Live RPC Scan",
+    "intent": "The workstation should know the AWP RPC methods and report when live access is unavailable."
+  },
+  {
+    "key": "skill-inspector",
+    "title": "Skill Inspector",
+    "intent": "Official worknet skills should have install, preflight, and dry-run guidance even before the runtime is locally installed."
+  },
+  {
+    "key": "recovery-state",
+    "title": "Recovery State",
+    "intent": "The workstation should persist and restore playbooks, runs, and pending confirmations."
+  },
+  {
+    "key": "live-canonical-quality",
+    "title": "Live Canonical Quality",
+    "intent": "Live WorkNet entries should resolve to canonical IDs and official skills with clear confidence."
+  },
+  {
+    "key": "upstream-drift-watch",
+    "title": "Upstream Drift Watch",
+    "intent": "Official docs and skill sources should be refreshable and diffable so workstation knowledge can track upstream changes."
+  }
+]

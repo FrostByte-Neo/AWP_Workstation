@@ -1,0 +1,32 @@
+[
+  {
+    "id": "no-private-keys",
+    "level": "critical",
+    "rule": "Never ask for, receive, print, or store a private key, seed phrase, or personal wallet password."
+  },
+  {
+    "id": "work-wallet-only",
+    "level": "high",
+    "rule": "Default to the agent work wallet and remind the user not to store personal assets in it."
+  },
+  {
+    "id": "confirm-value-actions",
+    "level": "critical",
+    "rule": "All stake, allocate, deallocate, bind, recipient, delegate, claim, order, vote, transfer, and inscribe actions require explicit confirmation."
+  },
+  {
+    "id": "gasless-registration-disclose",
+    "level": "medium",
+    "rule": "Gasless registration may run automatically, but the workstation must explain what happened in plain language."
+  },
+  {
+    "id": "no-handwritten-calldata",
+    "level": "critical",
+    "rule": "Do not handwrite calldata or interact with contracts directly when an official skill or CLI exists."
+  },
+  {
+    "id": "third-party-default-off",
+    "level": "high",
+    "rule": "Third-party skills, non-official APIs, and automated capital strategies stay off until the user approves them."
+  }
+]

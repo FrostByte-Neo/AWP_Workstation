@@ -25,7 +25,8 @@ user to understand protocol internals.
 - Use `awp-wallet` as the local work wallet bridge when wallet access is needed.
 - Treat all asset-moving, staking, voting, allocation, and irreversible actions
   as confirmation-gated.
-- Auto-install only official skill URIs under `github.com/awp-worknet/*`.
+- Generate install actions only for official skill URIs under
+  `github.com/awp-worknet/*`, and show the action before execution.
 - If a runnable skill comes from a third-party or unverified source, explain the
   risk and wait for user confirmation before installing or executing it.
 - Browser UI is optional. Core flows must work from terminal and JSON outputs.

@@ -1,0 +1,345 @@
+[
+  {
+    "key": "mine",
+    "aliases": [
+      "mine",
+      "amine",
+      "001",
+      "002",
+      "worknet #001",
+      "worknet #002",
+      "base:001",
+      "base:002",
+      "base:mine",
+      "845300000002",
+      "mine worknet"
+    ],
+    "worknet_id": "845300000002",
+    "name": "Mine WorkNet",
+    "symbol": "aMine",
+    "status": "active",
+    "skills_uri": "https://github.com/awp-worknet/mine-skill",
+    "install_uri": "https://github.com/awp-worknet/mine-skill",
+    "local_source_key": "mine",
+    "source_keys": ["aip-001-raw", "minework-home", "mine-skill-raw", "awp-live-query"],
+    "min_stake": null,
+    "automation_level": "full",
+    "risk_level": "medium",
+    "recommended_role": "operator",
+    "goal": "Earn by contributing high-quality structured web data.",
+    "loop": "discover -> dedupe -> crawl -> clean -> extract -> submit -> heartbeat",
+    "commands": [
+      {
+        "label": "mine readiness",
+        "cwd": "/root/.nanobot/workspace/mine",
+        "argv": ["python3", "scripts/run_tool.py", "agent-status"],
+        "category": "read",
+        "requires_confirmation": false
+      },
+      {
+        "label": "mine status",
+        "cwd": "/root/.nanobot/workspace/mine",
+        "argv": ["python3", "scripts/run_tool.py", "agent-control", "status"],
+        "category": "read",
+        "requires_confirmation": false
+      },
+      {
+        "label": "start mine worker",
+        "cwd": "/root/.nanobot/workspace/mine",
+        "argv": ["python3", "scripts/run_tool.py", "agent-start"],
+        "category": "work",
+        "requires_confirmation": false,
+        "long_running": true
+      },
+      {
+        "label": "pause mine worker",
+        "cwd": "/root/.nanobot/workspace/mine",
+        "argv": ["python3", "scripts/run_tool.py", "agent-control", "pause"],
+        "category": "work",
+        "requires_confirmation": false
+      }
+    ],
+    "success_metrics": [
+      "accepted submissions",
+      "low duplicate rate",
+      "stable heartbeat",
+      "clean worker health"
+    ],
+    "failure_modes": [
+      "platform auth churn",
+      "dataset mismatch",
+      "crawler timeout",
+      "rate limiting or cooldown"
+    ],
+    "human_confirmations": [
+      "Confirm before using a third-party or non-allowlisted Mine skill source."
+    ]
+  },
+  {
+    "key": "predict",
+    "aliases": [
+      "predict",
+      "apred",
+      "002",
+      "003",
+      "worknet #002",
+      "worknet #003",
+      "base:002",
+      "base:003",
+      "base:predict",
+      "845300000003",
+      "prediction"
+    ],
+    "worknet_id": "845300000003",
+    "name": "Predict WorkNet",
+    "symbol": "aPRED",
+    "status": "active",
+    "skills_uri": "https://github.com/awp-worknet/prediction-skill",
+    "install_uri": "https://github.com/awp-worknet/prediction-skill",
+    "local_source_key": null,
+    "source_keys": ["aip-002-raw", "agentpredict-home", "predict-skill-raw", "awp-live-query"],
+    "min_stake": 1000,
+    "automation_level": "supervised",
+    "risk_level": "high",
+    "recommended_role": "strategist",
+    "goal": "Submit original price predictions with disciplined reasoning.",
+    "loop": "context -> signals -> thesis -> order -> monitor -> review",
+    "commands": [],
+    "success_metrics": [
+      "low reasoning repetition",
+      "rate-limit discipline",
+      "positive settlement quality"
+    ],
+    "failure_modes": [
+      "duplicate reasoning",
+      "overtrading",
+      "thin context",
+      "missing verified local runtime",
+      "stake gate still blocks submissions until 1000 AWP or KYA delegated eligibility is satisfied"
+    ],
+    "human_confirmations": [
+      "Confirm every capital-bearing order or ticket action.",
+      "Confirm the stake or KYA-sponsored eligibility path before enabling the autonomous Predict loop."
+    ]
+  },
+  {
+    "key": "kya",
+    "aliases": [
+      "kya",
+      "verify",
+      "attest",
+      "base:kya",
+      "845300000004",
+      "845300000007",
+      "845300000012",
+      "kya worknet",
+      "awp kya network",
+      "awp kya worknet"
+    ],
+    "predecessor_worknet_ids": ["845300000004", "845300000007"],
+    "worknet_id": "845300000012",
+    "name": "KYA",
+    "symbol": "aKYA",
+    "status": "service",
+    "skills_uri": "https://github.com/awp-worknet/kya-skill",
+    "install_uri": "https://github.com/awp-worknet/kya-skill",
+    "local_source_key": "kya",
+    "source_keys": ["kya-human", "kya-skill-raw", "awp-live-query"],
+    "min_stake": 0,
+    "automation_level": "guided",
+    "risk_level": "medium",
+    "recommended_role": "identity",
+    "goal": "Verify or bind the agent identity and delegated staking path.",
+    "loop": "prepare -> sign -> submit -> poll -> review",
+    "commands": [
+      {
+        "label": "run KYA KYC",
+        "cwd": "/root/.nanobot/workspace/kya-skill",
+        "argv": ["python3", "scripts/sign-kyc.py"],
+        "category": "identity",
+        "requires_confirmation": true
+      },
+      {
+        "label": "claim X via KYA",
+        "cwd": "/root/.nanobot/workspace/kya-skill",
+        "argv": ["python3", "scripts/sign-claim.py"],
+        "category": "identity",
+        "requires_confirmation": true
+      },
+      {
+        "label": "set recipient via KYA relay",
+        "cwd": "/root/.nanobot/workspace/kya-skill",
+        "argv": ["python3", "scripts/relay-set-recipient.py", "--worknet", "845300000012"],
+        "category": "staking",
+        "requires_confirmation": true
+      }
+    ],
+    "success_metrics": [
+      "active attestation",
+      "correct recipient routing",
+      "clean signing audit trail"
+    ],
+    "failure_modes": [
+      "wrong address pair",
+      "rejected attestation",
+      "relay denial"
+    ],
+    "human_confirmations": [
+      "Confirm which agent address should be verified.",
+      "Confirm any recipient or delegate change before submission."
+    ]
+  },
+  {
+    "key": "ardi",
+    "aliases": [
+      "ardi",
+      "ardinals",
+      "845300000009",
+      "845300000014",
+      "awp ardi worknet"
+    ],
+    "predecessor_worknet_ids": ["845300000009"],
+    "worknet_id": "845300000014",
+    "name": "Ardi",
+    "symbol": "aARDI",
+    "status": "public",
+    "skills_uri": "https://github.com/awp-worknet/ardi-skill",
+    "install_uri": "https://github.com/awp-worknet/ardi-skill",
+    "local_source_key": null,
+    "source_keys": ["ardinals-agents", "ardi-skill-raw", "awp-live-query"],
+    "min_stake": 10000,
+    "automation_level": "supervised",
+    "risk_level": "high",
+    "recommended_role": "event-operator",
+    "goal": "Solve riddles, commit, reveal, and inscribe within the round window.",
+    "loop": "preflight -> fund gas -> satisfy stake path -> commit -> reveal -> inscribe",
+    "commands": [],
+    "success_metrics": [
+      "valid commits",
+      "successful reveal timing",
+      "mint cap respected"
+    ],
+    "failure_modes": [
+      "insufficient Base gas",
+      "stake ineligible",
+      "missed reveal window"
+    ],
+    "human_confirmations": [
+      "Confirm funding the Base wallet before Ardi execution.",
+      "Confirm the stake path before any buy, swap, or stake action."
+    ]
+  },
+  {
+    "key": "gov",
+    "aliases": [
+      "gov",
+      "govnet",
+      "governance",
+      "government",
+      "845300000005",
+      "845300000010",
+      "awp government network",
+      "awp government worknet"
+    ],
+    "predecessor_worknet_ids": ["845300000005"],
+    "worknet_id": "845300000010",
+    "name": "GovNet",
+    "symbol": "aGOV",
+    "status": "public",
+    "skills_uri": "https://github.com/awp-worknet/gov-skill",
+    "install_uri": "https://github.com/awp-worknet/gov-skill",
+    "local_source_key": null,
+    "source_keys": ["gov-works", "gov-skill-raw", "gov-markets-api", "awp-live-query"],
+    "min_stake": 1,
+    "automation_level": "supervised",
+    "risk_level": "high",
+    "recommended_role": "governor",
+    "goal": "Express weekly worknet value views through stake, allocation, vote, and trade.",
+    "loop": "init -> stake -> allocate -> vote -> monitor -> settle",
+    "commands": [],
+    "success_metrics": [
+      "correct phase timing",
+      "clear rationale",
+      "tracked settlement delta"
+    ],
+    "failure_modes": [
+      "voting or trading outside phase windows",
+      "unreviewed capital movement",
+      "missing market context"
+    ],
+    "human_confirmations": [
+      "Confirm every stake, allocation, vote, and trade action."
+    ]
+  },
+  {
+    "key": "tmr",
+    "aliases": [
+      "tmr",
+      "atmr",
+      "atrm",
+      "845300000008",
+      "845300000013",
+      "awp tmr network",
+      "awp tmr worknet"
+    ],
+    "predecessor_worknet_ids": ["845300000008"],
+    "worknet_id": "845300000013",
+    "name": "TMR",
+    "symbol": "aTMR",
+    "status": "public",
+    "skills_uri": "https://github.com/awp-worknet/tmr-skill",
+    "install_uri": "https://github.com/awp-worknet/tmr-skill",
+    "local_source_key": null,
+    "source_keys": ["awp-live-query", "tmr-skill"],
+    "min_stake": 0,
+    "automation_level": "manual-only",
+    "risk_level": "medium",
+    "recommended_role": "observer",
+    "goal": "Expose the official TMR worknet without pretending the task loop is fully understood yet.",
+    "loop": "confirm canonical ID -> inspect official skill -> document -> wait",
+    "commands": [],
+    "success_metrics": [],
+    "failure_modes": [
+      "public operator docs remain thin",
+      "official skill has not been inspected locally yet"
+    ],
+    "human_confirmations": [
+      "Confirm before auto-installing or executing the official TMR skill."
+    ]
+  },
+  {
+    "key": "community",
+    "aliases": [
+      "community",
+      "acom",
+      "845300000006",
+      "845300000011",
+      "awp community network",
+      "awp community worknet"
+    ],
+    "predecessor_worknet_ids": ["845300000006"],
+    "worknet_id": "845300000011",
+    "name": "Community",
+    "symbol": "aCOM",
+    "status": "public",
+    "skills_uri": "https://github.com/awp-worknet/com-skill",
+    "install_uri": "https://github.com/awp-worknet/com-skill",
+    "local_source_key": null,
+    "source_keys": ["awp-live-query", "awp-community", "community-skill"],
+    "min_stake": 0,
+    "automation_level": "manual-only",
+    "risk_level": "medium",
+    "recommended_role": "observer",
+    "goal": "Expose the official Community worknet while keeping execution conservative until the skill is inspected locally.",
+    "loop": "confirm canonical ID -> inspect official skill -> document -> wait",
+    "commands": [],
+    "success_metrics": [],
+    "failure_modes": [
+      "public operator docs remain thin",
+      "official skill has not been inspected locally yet"
+    ],
+    "human_confirmations": [
+      "Confirm before auto-installing or executing the official Community skill."
+    ]
+  }
+]

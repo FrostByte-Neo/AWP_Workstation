@@ -1,0 +1,31 @@
+name: Verify Workstation
+
+on:
+  push:
+    paths:
+      - "awp-workstation-skill/**"
+      - "docs/awp-workstation/**"
+      - "Makefile"
+      - ".github/workflows/verify-workstation.yml"
+  pull_request:
+    paths:
+      - "awp-workstation-skill/**"
+      - "docs/awp-workstation/**"
+      - "Makefile"
+      - ".github/workflows/verify-workstation.yml"
+  workflow_dispatch:
+
+jobs:
+  verify-workstation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify workstation
+        run: make verify-workstation

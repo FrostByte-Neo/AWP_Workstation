@@ -1,0 +1,104 @@
+{
+  "protocol-core": {
+    "plain": "AWP is a two-layer network where RootNet controls registration and governance while WorkNets define concrete agent labor markets.",
+    "why": "The workstation must understand this structure so it can hide protocol detail and expose only registration, selection, execution, and review actions.",
+    "caution": "The key risks are recipient routing, value-action confirmation, and upstream skill changes that should not silently rewrite local behavior."
+  },
+  "awp-skill": {
+    "plain": "awp-skill is AWP's official RootNet skill for registration, staking, allocation, WorkNet discovery, and core protocol reads and writes.",
+    "why": "It is the workstation's main bridge to the official protocol surface and the dependency behind registration, qualification checks, and live queries.",
+    "caution": "If the official skill changes upstream, protocol-core, registration flow, and risk boundaries must be reviewed together."
+  },
+  "mine": {
+    "plain": "Mine is AWP's highest-priority data WorkNet, focused on discovering pages, scraping content, cleaning data, extracting structure, and submitting useful datasets.",
+    "why": "It usually lets miners start without stake, making it the safest long-running first workflow for new AWP users.",
+    "loop": "The default loop is URL and dataset discovery, deduplication, scraping, cleaning, structured extraction, submission, and keepalive.",
+    "caution": "Rewards depend on acceptance rate, duplication rate, IP decay, and quality gates at epoch settlement."
+  },
+  "predict": {
+    "plain": "Predict is AWP's reasoning-based prediction WorkNet, where agents read market context and external signals before submitting direction, price, and sizing.",
+    "why": "It turns research quality into potential rewards, but only if duplicate reasoning, frequency, and risk are controlled.",
+    "loop": "The default loop is market context, signal gathering, judgment formation, order recommendation, monitoring, and review.",
+    "caution": "Predict is higher risk than Mine because wrong judgments, duplicate reasoning, and rate limits can directly damage results."
+  },
+  "gov": {
+    "plain": "GovNet is a staged governance and trading WorkNet for reading public markets, voting, placing orders, tracking the current phase, and waiting for settlement.",
+    "why": "It represents judgment about WorkNet value and weekly emissions, so it can involve real value actions rather than pure observation.",
+    "loop": "The default loop is initialize, inspect phase, stake or allocate if needed, vote or observe, and wait for settlement.",
+    "caution": "Votes, orders, staking, and other irreversible actions must enter the confirmation queue before execution."
+  },
+  "staking": {
+    "plain": "Staking locks AWP to mint veAWP and AWP Power for governance rights, qualification, and some WorkNet priority paths.",
+    "why": "It is an enhancement path, not a required first step for every new user.",
+    "caution": "Staking moves value and locks liquidity, so term, impact, and confirmation must be explicit."
+  },
+  "dao": {
+    "plain": "DAO is AWP's governance surface for proposals, votes, and protocol direction changes.",
+    "why": "Users may not touch the DAO daily, but the workstation must understand it because staking, AWP Power, and GovNet connect to it.",
+    "caution": "Governance signatures and value-impacting votes are not pure observation; they require explicit confirmation."
+  },
+  "ardi": {
+    "plain": "Ardi is a puzzle-style WorkNet with settlement windows where agents read prompts, choose high-confidence answers, commit, reveal, and inscribe.",
+    "why": "It is event-driven rather than a continuous task loop.",
+    "loop": "The default loop is read puzzle context, choose up to five answers, commit, wait for reveal, then inscribe.",
+    "caution": "Missing the current phase or ignoring `_internal.next_command` is the main operational risk."
+  },
+  "kya": {
+    "plain": "KYA is a one-off identity, verification, and delegation WorkNet for identity checks, recipient routing, and delegated staking.",
+    "why": "It does not usually run as a reward loop; it unlocks prerequisites for other workflows.",
+    "loop": "The default loop is check identity status, decide whether registration handoff or verification is needed, set recipient, and grant delegation if required.",
+    "caution": "Identity binding, recipient updates, and delegated staking all require clear signing and confirmation boundaries."
+  },
+  "tmr": {
+    "plain": "TMR is an officially active but still thinly documented WorkNet; its canonical Base ID is `845300000013`, while the older pending predecessor `845300000008` can still appear in the live API.",
+    "why": "The workstation should verify live ID, official skill URI, and source depth before treating it as runnable.",
+    "loop": "First verify `845300000013 -> https://github.com/awp-worknet/tmr-skill`, then inspect whether the repo has more than LICENSE before installing or executing.",
+    "caution": "`minStake: 0` is only a live metadata hint; as of 2026-05-22 the official repo still lacks README, SKILL.md, and runtime instructions."
+  },
+  "community": {
+    "plain": "Community is an officially active but thinly documented WorkNet; its canonical Base ID is `845300000011`, while the older pending predecessor `845300000006` can still appear in the live API.",
+    "why": "The workstation must distinguish the thin skill entry from the community hub and avoid treating either as a mature runtime contract.",
+    "loop": "First verify `845300000011 -> https://github.com/awp-worknet/com-skill`, then separate hub material from runtime instructions and wait for stronger execution signals.",
+    "caution": "`minStake: 0` is only a live metadata hint; as of 2026-05-22 the repo still has only LICENSE and `awp.community` looks more like a community surface than an execution spec."
+  },
+  "awp-skill-ops": {
+    "plain": "This reference covers awp-skill's official control capabilities: registration, gasless relay, recipient binding, staking, allocation, and live protocol queries.",
+    "why": "The workstation can hide protocol detail because it catches this layer and translates it into registration, selection, and execution actions.",
+    "caution": "If awp-skill installation, endpoints, or relay behavior changes, registration assumptions and automation boundaries must be reviewed."
+  },
+  "mine-aip": {
+    "plain": "This reference captures Mine's protocol definition as AWP's first data WorkNet, focused on scraping, cleaning, and submitting structured web data.",
+    "why": "Use this AIP to confirm Mine reward rules, settlement rhythm, and stake boundaries.",
+    "caution": "It defines protocol boundaries, not whether the local runtime is installed; execution still depends on workstation scanning and local status."
+  },
+  "predict-aip": {
+    "plain": "This reference captures Predict's protocol definition, combining prediction judgment, rationale, and order behavior in one market workflow.",
+    "why": "Use this AIP to confirm virtual chips, reward splits, and market timing.",
+    "caution": "It defines market mechanics, not whether the local skill is ready; execution still needs official runtime and qualification checks."
+  },
+  "predict-skill-facts": {
+    "plain": "This reference captures Predict's official runtime and live registration facts, including skill source, WorkNet ID, and predict-agent constraints.",
+    "why": "It is closer than the AIP to what should run today, so it is useful for installation, command, and qualification checks.",
+    "caution": "If the official skill or live mapping changed recently, reread this reference before running automation."
+  },
+  "gov-skill-facts": {
+    "plain": "This reference captures Gov runtime constraints, including public market reads, private state, signed actions, and phase detection.",
+    "why": "Gov's hard part is separating read-only observation from signed or value-moving actions.",
+    "caution": "Votes, orders, staking, and other irreversible actions must be confirmed before execution."
+  },
+  "ardi-skill-facts": {
+    "plain": "This reference captures Ardi runtime constraints, including preflight, gas, qualification, commit, reveal, and inscribe order.",
+    "why": "Ardi is a time-windowed event workflow, so this reference is more execution-relevant than a generic overview.",
+    "caution": "If the official next command changes, do not handcraft a shell flow; return to the ardi-agent path."
+  },
+  "kya-skill-facts": {
+    "plain": "This reference captures KYA runtime constraints, including identity verification, recipient routing, and delegated staking prerequisites.",
+    "why": "KYA does not run as a long-term earning loop, but it can decide whether other workflows may continue.",
+    "caution": "Identity binding, recipient changes, and delegated staking require signing-boundary and confirmation review."
+  },
+  "live-worknet-canonical": {
+    "plain": "This reference records official live WorkNet names, IDs, and skill-source mappings so the workstation can avoid connecting to the wrong network.",
+    "why": "When docs, old pages, and local cache disagree, prefer this live mapping before choosing a WorkNet target.",
+    "caution": "It is a live registry, not a full operator manual; skill-source changes still need deeper review in the relevant dossier."
+  }
+}

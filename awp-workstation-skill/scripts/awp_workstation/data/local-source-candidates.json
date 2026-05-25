@@ -1,0 +1,51 @@
+[
+  {
+    "key": "awp-wallet",
+    "name": "awp-wallet",
+    "path": "/root/.nanobot/workspace/awp-wallet",
+    "upstream": "https://github.com/awp-core/awp-wallet",
+    "summary": "Local AWP wallet CLI clone.",
+    "important_files": [
+      "SKILL.md",
+      "README.md",
+      "docs/CLAUDE-WEB3-GUIDE.md",
+      "scripts/wallet-cli.js"
+    ]
+  },
+  {
+    "key": "mine",
+    "name": "mine",
+    "path": "/root/.nanobot/workspace/mine",
+    "upstream": "https://minework.net/",
+    "summary": "Local Mine runtime and skill.",
+    "important_files": [
+      "SKILL.md",
+      "README.md",
+      "references/protocol-miner.md",
+      "scripts/run_tool.py"
+    ]
+  },
+  {
+    "key": "kya",
+    "name": "kya-skill",
+    "path": "/root/.nanobot/workspace/kya-skill",
+    "upstream": "https://github.com/awp-worknet/kya-skill",
+    "summary": "Local KYA skill clone.",
+    "important_files": [
+      "SKILL.md",
+      "README.md",
+      "scripts/kya_lib.py",
+      "scripts/relay-set-recipient.py"
+    ]
+  },
+  {
+    "key": "awp-data",
+    "name": "awp-data",
+    "path": "/root/.nanobot/workspace/awp-data",
+    "upstream": "https://git.basevec.com/sp-demand/awp-data.git",
+    "summary": "Local AWP data workspace with limited docs.",
+    "important_files": [
+      "README.md"
+    ]
+  }
+]
