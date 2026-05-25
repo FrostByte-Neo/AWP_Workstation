@@ -32,7 +32,7 @@
     "sourceKeys": ["minework-home", "mine-skill-raw"],
     "requiredBins": ["python3"],
     "optionalBins": [],
-    "env": [],
+    "env": ["PYTHON_BIN"],
     "bootstrapCommands": [
       {
         "label": "bootstrap mine runtime",

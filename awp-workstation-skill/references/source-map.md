@@ -69,18 +69,22 @@ Tier 1 is official public network context.
   Official live skill URI currently returned for Community. As of May 22, 2026
   the public repository surface still only exposes a `LICENSE` file.
 
-Tier 2 is local machine evidence.
+Tier 2 is optional local machine evidence. These paths are legacy Nanobot
+workspace locations from the maintainer's test machine; the workstation ignores
+them by default and uses managed checkouts under `AWP_WORKSTATION_HOME` for
+normal installs. Set `AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1` only when
+you intentionally want to opt into those legacy local clones.
 
-- `/root/.nanobot/workspace/awp-wallet`
-  Local clone of the AWP wallet CLI with `SKILL.md`, `README.md`, docs, tests,
-  and scripts.
-- `/root/.nanobot/workspace/mine`
-  Local clone of the Mine skill and runtime with operational docs, schemas, and
-  agent-facing JSON wrappers.
-- `/root/.nanobot/workspace/kya-skill`
-  Local clone of the KYA skill with stdlib Python scripts and tests.
-- `/root/.nanobot/workspace/awp-data`
-  Local data workspace, currently weakly documented.
+- Legacy Nanobot `awp-wallet` clone
+  Historical local clone of the AWP wallet CLI with `SKILL.md`, `README.md`,
+  docs, tests, and scripts.
+- Legacy Nanobot `mine` clone
+  Historical local clone of the Mine skill and runtime with operational docs,
+  schemas, and agent-facing JSON wrappers.
+- Legacy Nanobot `kya-skill` clone
+  Historical local clone of the KYA skill with stdlib Python scripts and tests.
+- Legacy Nanobot `awp-data` clone
+  Historical local data workspace, currently weakly documented.
 
 Tier 3 is workstation-owned derived knowledge.
 
@@ -112,6 +116,8 @@ Tier 3 is workstation-owned derived knowledge.
 
 ## Gaps to track
 
+- Managed runtime availability depends on the user's `AWP_WORKSTATION_HOME`
+  checkouts, not the maintainer's legacy Nanobot paths.
 - No local Predict runtime is installed in this workstation.
 - No local Gov skill was found in this workstation.
 - No local Ardi skill was found in this workstation.

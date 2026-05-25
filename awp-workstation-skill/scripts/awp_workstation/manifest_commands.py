@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 from typing import Any, Optional
 
@@ -83,10 +84,19 @@ def build_manifest_commands(
     root = skill_root or planned_skill_root(skill_key, state)
     commands: list[dict[str, Any]] = []
     for spec in manifest.get(section, []):
+        argv = list(spec.get("argv", []))
+        if (
+            skill_key == "mine"
+            and section == "bootstrapCommands"
+            and argv == ["bash", "./scripts/bootstrap.sh"]
+        ):
+            python311 = shutil.which("python3.11")
+            if python311:
+                argv = ["env", f"PYTHON_BIN={python311}", *argv]
         command = {
             "label": spec.get("label"),
             "cwd": resolve_manifest_cwd(str(spec.get("cwdKind", "")), skill_root=root, state=state),
-            "argv": list(spec.get("argv", [])),
+            "argv": argv,
             "category": spec.get("category", "inspect"),
             "requires_confirmation": bool(spec.get("requires_confirmation", False)),
         }

@@ -28,7 +28,12 @@ replace upstream specs. It translates them into operator-facing defaults.
   health, stable heartbeat
 - Main risks: auth churn, dataset mismatch, platform throttling, long-running
   crawler cost
-- Local evidence: `/root/.nanobot/workspace/mine`
+- Runtime install: managed checkout under `AWP_WORKSTATION_HOME/skills/checkouts/mine`
+- Bootstrap note: Mine requires Python 3.10+; prefer Python 3.11 and run
+  `env PYTHON_BIN=/usr/bin/python3.11 bash ./scripts/bootstrap.sh` when default
+  `python3` is older.
+- Legacy Nanobot evidence is ignored unless
+  `AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1` is set.
 
 ## Predict
 
@@ -54,7 +59,9 @@ replace upstream specs. It translates them into operator-facing defaults.
 - Primary flow: choose agent address, run attestation or KYC, set recipient or
   delegate only with explicit confirmation
 - Main risks: signing the wrong payload, confusing agent and owner addresses
-- Local evidence: `/root/.nanobot/workspace/kya-skill`
+- Runtime install: managed checkout under `AWP_WORKSTATION_HOME/skills/checkouts/kya`
+- Legacy Nanobot evidence is ignored unless
+  `AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1` is set.
 
 ## Ardi
 

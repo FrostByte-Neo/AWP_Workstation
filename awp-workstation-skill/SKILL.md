@@ -79,6 +79,12 @@ To inspect or execute the best available registration path, run
 To answer one user-facing workstation question in plain-language JSON, run
 `python3 scripts/workstation-status.py --query "<question>"`.
 
+To produce a proactive monitor payload for reminders or external notification
+bridges, run `python3 scripts/workstation-monitor.py`. Use `--read-only` for a
+cheap cached check, `--force` when the caller wants a notification even if the
+status digest has not changed, and `--full` when the caller also needs the full
+status payload.
+
 To inspect or persist workstation defaults such as preferred WorkNet or
 non-financial autopilot mode, run `python3 scripts/workstation-preferences.py`.
 
@@ -87,6 +93,24 @@ To cache the latest official live WorkNet scan, run
 
 To inspect one installed or managed skill runtime, run
 `python3 scripts/inspect-skill.py --skill-key <key>`.
+
+## Mine runtime bootstrap
+
+Mine requires Python 3.10+; Python 3.11 is the preferred runtime. On systems
+where `python3` is older, bootstrap the managed Mine checkout with:
+
+```bash
+env PYTHON_BIN=/usr/bin/python3.11 bash ./scripts/bootstrap.sh
+```
+
+When `python3.11` is available on `PATH`, workstation-generated Mine bootstrap
+commands should set `PYTHON_BIN` automatically. After bootstrap, Mine probes
+should run through the checkout venv, for example:
+
+```bash
+./.venv/bin/python scripts/run_tool.py agent-status
+./.venv/bin/python scripts/run_tool.py agent-control status
+```
 
 ## References
 
@@ -153,6 +177,7 @@ Important state files:
 - `cache/capability-scan.json`
 - `cache/source-inventory.json`
 - `cache/knowledge-catalog.json`
+- `cache/workstation-monitor.json`
 - `skills/install-status.json`
 - `skills/*-dependency-sync.json`
 - `runs/latest-run.json`
