@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-05-25T04:13:37Z",
+  "status": "covered",
+  "summary": {
+    "suiteCount": 4,
+    "coveredSuites": 4,
+    "partialSuites": 0,
+    "missingSuites": 0,
+    "unresolvedCount": 0
+  },
+  "suites": [
+    {
+      "key": "public-contract-audit",
+      "title": "Public contract audit",
+      "status": "covered",
+      "summary": {
+        "covered": 59,
+        "partial": 0,
+        "missing": 0
+      },
+      "generatedAt": "2026-05-25T04:11:55Z"
+    },
+    {
+      "key": "branch-contract-audit",
+      "title": "Branch contract audit",
+      "status": "covered",
+      "summary": {
+        "covered": 44,
+        "partial": 0,
+        "missing": 0
+      },
+      "generatedAt": "2026-05-25T04:13:37Z"
+    },
+    {
+      "key": "query-contract-audit",
+      "title": "Query contract audit",
+      "status": "covered",
+      "summary": {
+        "covered": 19,
+        "partial": 0,
+        "missing": 0
+      },
+      "generatedAt": "2026-05-25T04:13:37Z"
+    },
+    {
+      "key": "display-contract-audit",
+      "title": "Display contract audit",
+      "status": "covered",
+      "summary": {
+        "covered": 14,
+        "partial": 0,
+        "missing": 0
+      },
+      "generatedAt": "2026-05-25T04:13:37Z"
+    }
+  ],
+  "unresolved": []
+}

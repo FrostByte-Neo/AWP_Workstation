@@ -85,7 +85,7 @@ def repository_is_effectively_empty(root: Path) -> bool:
 
 
 def normalize_worknet_token(text: str) -> str:
-    value = text.strip().lower()
+    value = text.strip().lower().replace("-", " ").replace("_", " ")
     for prefix in ("awp ",):
         if value.startswith(prefix):
             value = value[len(prefix):]

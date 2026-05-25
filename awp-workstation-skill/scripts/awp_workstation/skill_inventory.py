@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any, Optional
 
@@ -25,16 +26,24 @@ def looks_official_skill_uri(uri: Optional[str]) -> bool:
 
 def discover_local_sources() -> list[dict[str, Any]]:
     discovered: list[dict[str, Any]] = []
+    allow_legacy = os.environ.get("AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES") == "1"
     for candidate in LOCAL_SOURCE_CANDIDATES:
         root = Path(candidate["path"])
         record = dict(candidate)
-        record["available"] = root.exists()
+        is_legacy_nanobot_path = str(root).startswith("/root/.nanobot/workspace/")
+        record["available"] = root.exists() and (allow_legacy or not is_legacy_nanobot_path)
+        if root.exists() and is_legacy_nanobot_path and not allow_legacy:
+            record["warning"] = (
+                "legacy nanobot workspace path ignored; set "
+                "AWP_WORKSTATION_ALLOW_LEGACY_LOCAL_SOURCES=1 to opt in"
+            )
         record["path"] = str(root)
         important = []
-        for relative in candidate.get("important_files", []):
-            file_path = root / relative
-            if file_path.exists():
-                important.append(str(file_path))
+        if record["available"]:
+            for relative in candidate.get("important_files", []):
+                file_path = root / relative
+                if file_path.exists():
+                    important.append(str(file_path))
         record["present_files"] = important
         discovered.append(record)
     return discovered

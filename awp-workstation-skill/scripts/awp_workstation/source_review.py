@@ -14,6 +14,7 @@ from awp_workstation.knowledge_data import (
     load_derived_evidence_records,
     load_derived_glossary_terms,
     load_derived_source_facts,
+    load_derived_topic_dossiers,
     load_official_web_sources,
 )
 from awp_workstation.reference_exports import write_reference_export
@@ -34,6 +35,7 @@ DERIVED_SOURCE_FACTS: list[dict[str, Any]] = load_derived_source_facts()
 DERIVED_EVIDENCE_RECORDS: list[dict[str, Any]] = load_derived_evidence_records()
 DERIVED_GLOSSARY_TERMS: list[dict[str, Any]] = load_derived_glossary_terms()
 DERIVED_CONCEPT_DIRECTORY: list[dict[str, Any]] = load_derived_concept_directory()
+DERIVED_TOPIC_DOSSIERS: list[dict[str, Any]] = load_derived_topic_dossiers()
 KNOWN_WORKNETS: list[dict[str, Any]] = load_worknet_profiles()
 
 
@@ -103,6 +105,27 @@ def build_concept_catalog() -> dict[str, Any]:
     }
     atomic_write_json(Path(state["cache"]) / "concept-catalog.json", catalog)
     write_reference_export("concept-catalog.json", catalog)
+    return catalog
+
+
+def build_topic_dossier_catalog() -> dict[str, Any]:
+    state = state_context()
+    source_map = {item["key"]: item for item in OFFICIAL_WEB_SOURCES}
+    dossiers: list[dict[str, Any]] = []
+    for item in DERIVED_TOPIC_DOSSIERS:
+        dossier = dict(item)
+        dossier["officialUrls"] = [
+            source_map[key]["url"]
+            for key in item.get("sourceKeys", [])
+            if key in source_map
+        ]
+        dossiers.append(dossier)
+    catalog = {
+        "generatedAt": now_iso(),
+        "dossiers": dossiers,
+    }
+    atomic_write_json(Path(state["cache"]) / "topic-dossiers.json", catalog)
+    write_reference_export("topic-dossiers.json", catalog)
     return catalog
 
 

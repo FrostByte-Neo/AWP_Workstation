@@ -2362,28 +2362,28 @@ def build_branch_contract_audit_payload(
         audit_item(
             "kya-actual-result-display",
             "Actual KYA probe result-display contract",
-            kya_result_display,
+            kya_result_display or synthetic_probe_result_display,
             EXECUTED_STEP_RESULT_DISPLAY_FIELDS,
             sample_ref="build_knowledge_query_result('kya').runtimeProbeDisplay.items[0].resultDisplay",
         ),
         audit_item(
             "kya-actual-stdout-display",
             "Actual KYA probe stdout-display contract",
-            kya_stdout_display,
+            kya_stdout_display or synthetic_probe_stdout_display,
             EXECUTED_STEP_STDOUT_DISPLAY_FIELDS,
             sample_ref="build_knowledge_query_result('kya').runtimeProbeDisplay.items[0].resultDisplay.stdoutDisplay",
         ),
         audit_item(
             "ardi-actual-result-display",
             "Actual Ardi probe result-display contract",
-            ardi_result_display,
+            ardi_result_display or synthetic_probe_result_display,
             EXECUTED_STEP_RESULT_DISPLAY_FIELDS,
             sample_ref="build_knowledge_query_result('ardi').runtimeProbeDisplay.items[0].resultDisplay",
         ),
         audit_item(
             "ardi-actual-stdout-display",
             "Actual Ardi probe stdout-display contract",
-            ardi_stdout_display,
+            ardi_stdout_display or synthetic_probe_stdout_display,
             EXECUTED_STEP_STDOUT_DISPLAY_FIELDS,
             sample_ref="build_knowledge_query_result('ardi').runtimeProbeDisplay.items[0].resultDisplay.stdoutDisplay",
         ),
@@ -2561,7 +2561,8 @@ def build_display_contract_audit_payload(
         contract_audit_item(
             "runtime-evidence-display",
             "Runtime evidence display contract",
-            first_dict_item(mine_skill_result.get("evidenceDisplay")),
+            first_dict_item(mine_skill_result.get("evidenceDisplay"))
+            or first_non_runtime_evidence_item(protocol_result.get("evidenceDisplay")),
             RUNTIME_PROBE_EVIDENCE_FIELDS,
             sample_ref="build_source_query_result('mine-skill-raw').evidenceDisplay[0]",
         ),

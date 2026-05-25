@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any, Optional
 
@@ -306,7 +307,12 @@ def enrich_reports_with_rpc_payload(
     for entry in entries:
         profile = match_profile_from_rpc(entry)
         existing = None
-        entry_id = first_present(entry, ["worknetId", "id", "worknet_id", "subnetId"])
+        observed_entry_id = first_present(entry, ["worknetId", "id", "worknet_id", "subnetId", "subnet_id"])
+        entry_id = (
+            profile.get("worknet_id")
+            if profile and (observed_entry_id is None or str(observed_entry_id).startswith("unknown:"))
+            else observed_entry_id
+        )
         entry_name = first_present(entry, ["name"], "Unknown WorkNet")
         if entry_id is not None and str(entry_id) in by_id:
             existing = by_id[str(entry_id)]
@@ -315,10 +321,10 @@ def enrich_reports_with_rpc_payload(
         if existing is None:
             existing = {
                 "worknetId": entry_id or f"unknown:{entry_name.lower().replace(' ', '-')}",
-                "name": entry_name,
+                "name": profile["name"] if profile else entry_name,
                 "symbol": first_present(entry, ["symbol", "tokenSymbol"], "UNKNOWN"),
                 "status": first_present(entry, ["status", "state"], "unknown"),
-                "skillsUri": first_present(entry, ["skillsUri", "skillsURI", "skillUri", "skillURI"]),
+                "skillsUri": first_present(entry, ["skillsUri", "skillsURI", "skillUri", "skillURI", "skills_uri"]),
                 "officialSkill": False,
                 "minStake": first_present(entry, ["minStake", "min_stake"]),
                 "runnable": False,
@@ -336,12 +342,12 @@ def enrich_reports_with_rpc_payload(
             reports.append(existing)
             by_id[str(existing["worknetId"])] = existing
         existing["worknetId"] = entry_id or existing["worknetId"]
-        existing["name"] = entry_name
+        existing["name"] = profile["name"] if profile else entry_name
         existing["symbol"] = first_present(entry, ["symbol", "tokenSymbol"], existing["symbol"])
         existing["status"] = first_present(entry, ["status", "state"], existing["status"])
         existing["skillsUri"] = first_present(
             entry,
-            ["skillsUri", "skillsURI", "skillUri", "skillURI"],
+            ["skillsUri", "skillsURI", "skillUri", "skillURI", "skills_uri"],
             existing["skillsUri"],
         )
         existing["minStake"] = first_present(entry, ["minStake", "min_stake"], existing["minStake"])
@@ -355,7 +361,8 @@ def enrich_reports_with_rpc_payload(
             existing["recommendedRole"] = profile["recommended_role"]
             existing["safeLongRun"] = bool(existing.get("runnable")) and profile["key"] == "mine"
         diagnostics: dict[str, Any] = {}
-        if entry_id is not None:
+        deep_rpc_scan = os.environ.get("AWP_WORKSTATION_DEEP_RPC_SCAN") == "1"
+        if deep_rpc_scan and entry_id is not None and not str(entry_id).startswith("unknown:"):
             skills_call = rpc_try_many(
                 "worknets.getSkills",
                 [{"worknetId": entry_id}, {"id": entry_id}],
@@ -420,7 +427,9 @@ def enrich_reports_with_cached_live_worknets_payload(
         if not isinstance(entry, dict):
             continue
         profile = match_profile_from_rpc(entry)
-        wid = normalize_worknet_id(entry.get("worknetId")) or (profile["worknet_id"] if profile else None)
+        observed_wid = normalize_worknet_id(entry.get("worknetId") or entry.get("subnet_id"))
+        wid = None if str(observed_wid or "").startswith("unknown:") else observed_wid
+        wid = wid or (profile["worknet_id"] if profile else None)
         name = entry.get("name", "Unknown WorkNet")
         observed_name = entry.get("observedName", name)
         existing = None

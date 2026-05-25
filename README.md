@@ -12,4 +12,4 @@ make verify-workstation
 
 This is the same verification command used by CI. For the full project overview,
 CLI reference, and maintainer runbook, see
-[`docs/awp-workstation/README.md`](docs/awp-workstation/README.md).
+[`awp-workstation-skill/SKILL.md`](awp-workstation-skill/SKILL.md).

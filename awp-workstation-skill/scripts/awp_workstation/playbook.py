@@ -116,10 +116,11 @@ def build_work_playbook_payload(
         commands.extend(manifest_bootstrap_commands)
     commands.extend(manifest_inspection_commands)
     local_root = resolved_root if isinstance(resolved_root, Path) else None
-    commands.extend(
-        rewrite_command_for_skill_root(command, skill_root=local_root)
-        for command in list(profile.get("commands", []))
-    )
+    if local_root is not None:
+        commands.extend(
+            rewrite_command_for_skill_root(command, skill_root=local_root)
+            for command in list(profile.get("commands", []))
+        )
     remediation_commands = inspection.get("remediationCommands", []) if isinstance(inspection, dict) else []
     if inspection_status != "ready" and isinstance(remediation_commands, list):
         commands.extend(remediation_commands)

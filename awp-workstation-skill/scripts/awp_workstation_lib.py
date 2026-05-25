@@ -357,6 +357,7 @@ from awp_workstation.source_review import (
     build_source_drift_impact_report,
     build_source_evidence_catalog,
     build_source_fact_catalog,
+    build_topic_dossier_catalog,
     build_topic_freshness_catalog,
     load_cached_knowledge_review_queue,
     load_cached_source_impact,
@@ -4017,27 +4018,6 @@ def build_verification_audit() -> dict[str, Any]:
     atomic_write_json(Path(state["cache"]) / "verification-audit.json", payload)
     write_reference_export("verification-audit.json", payload)
     return payload
-
-
-def build_topic_dossier_catalog() -> dict[str, Any]:
-    state = state_context()
-    source_map = {item["key"]: item for item in OFFICIAL_WEB_SOURCES}
-    dossiers: list[dict[str, Any]] = []
-    for item in DERIVED_TOPIC_DOSSIERS:
-        dossier = dict(item)
-        dossier["officialUrls"] = [
-            source_map[key]["url"]
-            for key in item.get("sourceKeys", [])
-            if key in source_map
-        ]
-        dossiers.append(dossier)
-    catalog = {
-        "generatedAt": now_iso(),
-        "dossiers": dossiers,
-    }
-    atomic_write_json(Path(state["cache"]) / "topic-dossiers.json", catalog)
-    write_reference_export("topic-dossiers.json", catalog)
-    return catalog
 
 
 def build_knowledge_catalog(*, rebuild_derived: bool = False) -> dict[str, Any]:

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import tempfile
+import time
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +26,20 @@ def atomic_write_json(path: Path, payload: Any) -> None:
         json.dump(payload, handle, ensure_ascii=True, indent=2)
         handle.write("\n")
         temp_name = handle.name
-    Path(temp_name).replace(path)
+    temp_path = Path(temp_name)
+    last_error: OSError | None = None
+    for attempt in range(5):
+        try:
+            temp_path.replace(path)
+            return
+        except PermissionError as exc:
+            last_error = exc
+            time.sleep(0.05 * (attempt + 1))
+    try:
+        temp_path.unlink(missing_ok=True)
+    finally:
+        if last_error is not None:
+            raise last_error
 
 
 def append_jsonl(path: Path, payload: Any) -> None:

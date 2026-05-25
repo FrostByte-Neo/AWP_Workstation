@@ -1,0 +1,628 @@
+{
+  "generatedAt": "2026-05-25T04:11:55Z",
+  "inspections": [
+    {
+      "skillKey": "ardi",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\ardi",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "Official Ardi runtime that owns preflight, stake guidance, context, commit/reveal/inscribe flow, and the Linux auto-mine bootstrap.",
+      "runtimeName": "ardi-agent",
+      "requiredBins": [
+        "ardi-agent",
+        "awp-wallet"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "ardi-agent": false,
+          "awp-wallet": true
+        },
+        "optional": {}
+      },
+      "env": [
+        "ARDI_COORDINATOR_URL",
+        "ARDI_BASE_RPC",
+        "AWP_WALLET_BIN",
+        "ARDI_DEBUG"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "bootstrap ardi-agent runtime",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\ardi",
+          "argv": [
+            "bash",
+            "./scripts/bootstrap.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "ardi status",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "ardi gas check",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "gas"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "ardi preflight",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "preflight"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        },
+        {
+          "label": "ardi stake guidance",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "ardi-agent",
+            "stake"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally",
+        "missing required runtime bins: ardi-agent"
+      ]
+    },
+    {
+      "skillKey": "awp-skill",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\awp-skill",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "Official RootNet runtime for registration, status, staking, allocation, and worknet queries.",
+      "runtimeName": "awp-skill python scripts",
+      "requiredBins": [
+        "python3",
+        "awp-wallet"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "python3": true,
+          "awp-wallet": true
+        },
+        "optional": {}
+      },
+      "env": [
+        "EVM_CHAIN"
+      ],
+      "bootstrapCommands": [],
+      "inspectionCommands": [
+        {
+          "label": "awp-skill preflight",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\awp-skill",
+          "argv": [
+            "python3",
+            "scripts/preflight.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "awp-skill query worknet 2",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\awp-skill",
+          "argv": [
+            "python3",
+            "scripts/query-worknet.py",
+            "--worknet",
+            "2"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        }
+      ],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally"
+      ]
+    },
+    {
+      "skillKey": "awp-wallet",
+      "status": "missing",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\awp-wallet",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": null,
+      "runtimeName": null,
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found"
+      ]
+    },
+    {
+      "skillKey": "community",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\community",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "Official live Community skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+      "runtimeName": "com-skill",
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally"
+      ]
+    },
+    {
+      "skillKey": "gov",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\gov",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "Official GovNet runtime with public readers, signed reads, order entry, voting, and phase-aware helpers.",
+      "runtimeName": "gov-skill python scripts",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [
+        "awp-wallet"
+      ],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {
+          "awp-wallet": true
+        }
+      },
+      "env": [
+        "GOVNET_NONCE_DIR",
+        "GOVNET_API_BASE",
+        "GOVNET_WS_URL",
+        "GOVNET_VOTE_TYPED_DATA_VARIANT"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "create gov skill venv",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\gov",
+          "argv": [
+            "python3",
+            "-m",
+            "venv",
+            ".venv"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        },
+        {
+          "label": "install gov skill deps",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\gov",
+          "argv": [
+            ".venv/bin/pip",
+            "install",
+            "eth-hash",
+            "eth-account",
+            "websockets",
+            "pytest"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "gov public markets",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\gov",
+          "argv": [
+            "python3",
+            "scripts/public/markets.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "gov phase-aware helper",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\gov",
+          "argv": [
+            "python3",
+            "scripts/helpers/what-can-i-do.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "gov private state",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\gov",
+          "argv": [
+            "python3",
+            "scripts/private/state.py"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally"
+      ]
+    },
+    {
+      "skillKey": "kya",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\kya",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "KYA identity and matchmaking runtime for claim, KYC, set-recipient, and grant-delegate signing flows.",
+      "runtimeName": "kya signing scripts",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [
+        "awp-wallet"
+      ],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {
+          "awp-wallet": true
+        }
+      },
+      "env": [
+        "KYA_API_BASE",
+        "KYA_KYC_BASE",
+        "KYA_CHAIN_ID",
+        "AWP_RELAY_BASE",
+        "BASE_RPC_URL"
+      ],
+      "bootstrapCommands": [],
+      "inspectionCommands": [
+        {
+          "label": "kya sign claim help",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\kya",
+          "argv": [
+            "python3",
+            "scripts/sign-claim.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "kya relay recipient help",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\kya",
+          "argv": [
+            "python3",
+            "scripts/relay-set-recipient.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "kya kyc help",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\kya",
+          "argv": [
+            "python3",
+            "scripts/sign-kyc.py",
+            "--help"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        }
+      ],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally"
+      ]
+    },
+    {
+      "skillKey": "mine",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\mine",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "Local Mine runtime with worker status, control, and platform-mediated autonomous crawl/submit loops.",
+      "runtimeName": "mine run_tool runtime",
+      "requiredBins": [
+        "python3"
+      ],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {
+          "python3": true
+        },
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [
+        {
+          "label": "bootstrap mine runtime",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\mine",
+          "argv": [
+            "bash",
+            "./scripts/bootstrap.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "mine agent status",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\mine",
+          "argv": [
+            "python3",
+            "scripts/run_tool.py",
+            "agent-status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "mine control status",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\mine",
+          "argv": [
+            "python3",
+            "scripts/run_tool.py",
+            "agent-control",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally"
+      ]
+    },
+    {
+      "skillKey": "predict",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\predict",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "Official Rust-based Predict runtime that owns preflight, stake checks, context, loop mode, and manual submissions.",
+      "runtimeName": "predict-agent",
+      "requiredBins": [
+        "predict-agent",
+        "awp-wallet"
+      ],
+      "optionalBins": [
+        "openclaw"
+      ],
+      "binStatus": {
+        "required": {
+          "predict-agent": false,
+          "awp-wallet": true
+        },
+        "optional": {
+          "openclaw": true
+        }
+      },
+      "env": [
+        "PREDICT_SERVER_URL"
+      ],
+      "bootstrapCommands": [
+        {
+          "label": "install predict-agent binary",
+          "cwd": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\predict",
+          "argv": [
+            "bash",
+            "install.sh"
+          ],
+          "category": "install",
+          "requires_confirmation": false
+        }
+      ],
+      "inspectionCommands": [
+        {
+          "label": "predict wallet safety",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "wallet"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "predict status",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "status"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        },
+        {
+          "label": "predict preflight",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "preflight"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": false
+        },
+        {
+          "label": "predict stake eligibility",
+          "cwd": "C:\\Users\\22243\\.awp-workstation",
+          "argv": [
+            "predict-agent",
+            "stake"
+          ],
+          "category": "inspect",
+          "requires_confirmation": false,
+          "autoRunOnInspect": true
+        }
+      ],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally",
+        "missing required runtime bins: predict-agent"
+      ]
+    },
+    {
+      "skillKey": "tmr",
+      "status": "remote-profile-only",
+      "origin": "missing",
+      "root": null,
+      "expectedRoot": "C:\\Users\\22243\\.awp-workstation\\skills\\checkouts\\tmr",
+      "skillMdExists": false,
+      "readmeExists": false,
+      "repositoryFileCount": 0,
+      "repositoryFilesSample": [],
+      "substantiveFileCount": 0,
+      "scripts": [],
+      "commandHints": [],
+      "manifestSummary": "Official live TMR skill URI is known, but the workstation still lacks enough upstream runtime detail to auto-run it safely.",
+      "runtimeName": "tmr-skill",
+      "requiredBins": [],
+      "optionalBins": [],
+      "binStatus": {
+        "required": {},
+        "optional": {}
+      },
+      "env": [],
+      "bootstrapCommands": [],
+      "inspectionCommands": [],
+      "probeResults": [],
+      "remediationNotes": [],
+      "remediationCommands": [],
+      "warnings": [
+        "skill root not found",
+        "official remote profile exists, but the skill checkout is not installed locally"
+      ]
+    }
+  ]
+}

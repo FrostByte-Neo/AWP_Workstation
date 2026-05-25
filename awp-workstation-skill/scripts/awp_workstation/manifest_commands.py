@@ -54,6 +54,9 @@ def rewrite_command_for_skill_root(command: dict[str, Any], *, skill_root: Optio
     argv = updated.get("argv")
     if isinstance(argv, list):
         updated["argv"] = rewrite_python_argv(argv, skill_root=skill_root)
+    cwd = str(updated.get("cwd") or "")
+    if skill_root is not None and cwd.startswith("/root/.nanobot/workspace/"):
+        updated["cwd"] = str(skill_root)
     return updated
 
 
