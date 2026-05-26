@@ -1,0 +1,13 @@
+[Unit]
+Description=AWP Workstation monitor evaluation
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Environment=AWP_WORKSTATION_HOME=__STATE_ROOT__
+WorkingDirectory=__REPO_ROOT__
+ExecStart=__PYTHON__ __REPO_ROOT__/scripts/workstation-monitor.py --emit-adapter codex-heartbeat --record-delivery
+
+[Install]
+WantedBy=multi-user.target

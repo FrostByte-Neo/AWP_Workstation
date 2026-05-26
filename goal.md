@@ -10,8 +10,8 @@ AWP Workstation 最终形态是一个 **agent-native meta-skill**，不是浏览
 
 ## Key Changes
 
-- 新建 `awp-workstation-skill`，作为总控 skill。
-- 顶层入口使用 `SKILL.md`，触发词以用户自然语言原文为准，包括：`awp start`、`帮我用 AWP 工作赚钱`、`开始 AWP`、`workstation`、`研究 WorkNet`、`开始工作`；不要用缩写或改写版本（例如 `帮我用 AWP 赚钱`）。
+- 仓库根目录即总控 skill，顶层入口使用 `SKILL.md`。
+- 触发词以用户自然语言原文为准，包括：`awp start`、`帮我用 AWP 工作赚钱`、`开始 AWP`、`workstation`、`研究 WorkNet`、`开始工作`；不要用缩写或改写版本（例如 `帮我用 AWP 赚钱`）。
 - 内部脚本统一放在 `scripts/`，优先 Python 3，所有输出必须是 agent 可读 JSON。
 - 本地状态统一保存在 `~/.awp-workstation/`，包括 worknet 扫描缓存、skill 安装状态、用户风险偏好、playbook、运行记录和 epoch 复盘。
 - 浏览器只作为可选 companion，用于展示图表、日志、audit trail；所有核心流程必须能在纯 agent 对话中完成。
@@ -76,7 +76,7 @@ AWP Workstation 最终形态是一个 **agent-native meta-skill**，不是浏览
 
 ## Assumptions And Defaults
 
-- 默认产品本体是 `awp-workstation-skill`，不是 web app。
+- 默认产品本体是仓库根目录下的 skill 包，不是 web app。
 - 默认依赖 `awp-skill` 处理 AWP 注册、staking、allocation、worknet 查询。
 - 默认只自动安装 `github.com/awp-worknet/`* 官方 skill。
 - 默认先推荐可无 stake 运行的 WorkNet；staking 是增强项，不是入门前置条件。

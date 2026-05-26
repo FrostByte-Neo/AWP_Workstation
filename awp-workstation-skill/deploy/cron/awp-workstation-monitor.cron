@@ -1,7 +1,0 @@
-# Replace __REPO_ROOT__, __PYTHON__, and optional environment values before use.
-# Example:
-# */15 * * * * AWP_WORKSTATION_HOME=/var/lib/awp-workstation \
-#   __PYTHON__ __REPO_ROOT__/awp-workstation-skill/scripts/workstation-monitor.py \
-#   --emit-adapter codex-heartbeat --record-delivery
-
-*/15 * * * * AWP_WORKSTATION_HOME=__STATE_ROOT__ __PYTHON__ __REPO_ROOT__/awp-workstation-skill/scripts/workstation-monitor.py --emit-adapter codex-heartbeat --record-delivery

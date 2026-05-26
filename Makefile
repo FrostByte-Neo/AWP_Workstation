@@ -1,5 +1,4 @@
 PYTHON ?= python3
-SKILL_DIR := awp-workstation-skill
 
 .PHONY: test smoke-workstation verify-workstation verify-workstation-summary
 
@@ -11,8 +10,8 @@ smoke-workstation:
 
 verify-workstation:
 	$(MAKE) test
-	cd $(SKILL_DIR) && $(PYTHON) scripts/verify-workstation.py --strict
+	$(PYTHON) scripts/verify-workstation.py --strict
 
 verify-workstation-summary:
 	$(MAKE) test
-	cd $(SKILL_DIR) && $(PYTHON) scripts/verify-workstation.py --summary
+	$(PYTHON) scripts/verify-workstation.py --summary

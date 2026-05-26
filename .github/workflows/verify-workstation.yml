@@ -3,13 +3,21 @@ name: Verify Workstation
 on:
   push:
     paths:
-      - "awp-workstation-skill/**"
+      - "scripts/**"
+      - "references/**"
+      - "deploy/**"
+      - "SKILL.md"
+      - "agents/**"
       - "docs/awp-workstation/**"
       - "Makefile"
       - ".github/workflows/verify-workstation.yml"
   pull_request:
     paths:
-      - "awp-workstation-skill/**"
+      - "scripts/**"
+      - "references/**"
+      - "deploy/**"
+      - "SKILL.md"
+      - "agents/**"
       - "docs/awp-workstation/**"
       - "Makefile"
       - ".github/workflows/verify-workstation.yml"
