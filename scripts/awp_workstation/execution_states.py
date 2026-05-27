@@ -11,7 +11,14 @@ from awp_workstation.text import join_product_sentences
 def review_status_display(status: Any) -> Optional[str]:
     mapping = {
         "idle": "Idle",
-        "prepared": "Prepared",
+        "not_started": "Not started",
+        "prepared": "Not started",
+        "ready": "Ready",
+        "running": "Running",
+        "paused": "Paused",
+        "failed": "Failed",
+        "completed": "Completed",
+        "bootstrapping": "Bootstrapping",
         "progressed": "Progressed",
         "awaiting_dataset": "Awaiting dataset selection",
         "observe_only": "Observe only",
@@ -51,7 +58,7 @@ def execution_state_display(status: Any) -> Optional[str]:
         "setup_needed": "Setup needed",
         "registration_needed": "Registration needed",
         "registration_blocked": "Registration blocked",
-        "ready_to_choose_worknet": "Ready to choose WorkNet",
+        "ready_to_choose_worknet": "Choose WorkNet",
         "awaiting_confirmation": "Awaiting confirmation",
         "ready_for_follow_up": "Ready for follow-up",
         "background_running": "Background running",
@@ -220,23 +227,23 @@ def derive_runtime_execution_state(
     elif status == "executed" or next_action == "review_epoch":
         execution_state = "executed"
     elif step_statuses and step_statuses.issubset({"planned", "available_manual"}):
-        execution_state = "prepared"
+        execution_state = "not_started"
     elif status == "planned" and (
         response.get("selectedWorknetKey")
         or response.get("selectedBackground")
         or response.get("playbookSource")
     ):
-        execution_state = "prepared"
+        execution_state = "not_started"
     elif status:
         execution_state = status
     selected_name = str(response.get("selectedWorknetName") or response.get("selectedWorknetKey") or "selected WorkNet").strip()
     chosen_headline = str(headline or response.get("headline") or "").strip() or None
-    if execution_state == "prepared":
+    if execution_state == "not_started":
         latest_review_headline = str(recovery.get("latestReviewHeadline") or "").strip()
         if latest_review_headline:
             chosen_headline = latest_review_headline
         elif selected_name:
-            chosen_headline = f"{selected_name} is prepared."
+            chosen_headline = f"{selected_name} is selected but has not started."
     elif execution_state == "awaiting_confirmation":
         first_label = queue[0].get("label") if queue else None
         if isinstance(first_label, str) and first_label.strip():
@@ -279,7 +286,7 @@ def align_run_execution_user_message(
 ) -> Optional[str]:
     state = str(execution_state or "").strip()
     base_message = str(user_message or "").strip()
-    if state != "prepared":
+    if state != "not_started":
         return base_message or None
     detail = str(execution_headline or "").strip()
     if not detail:

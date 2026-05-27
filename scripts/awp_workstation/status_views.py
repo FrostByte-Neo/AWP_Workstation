@@ -7,6 +7,8 @@ from typing import Any
 
 def workstation_status_brief_view(report: dict[str, Any]) -> dict[str, Any]:
     return {
+        "user_message": report.get("user_message"),
+        "user_status": report.get("user_status"),
         "generatedAt": report.get("generatedAt"),
         "headline": report.get("headline"),
         "answer": report.get("answer"),
@@ -25,6 +27,8 @@ def workstation_status_brief_view(report: dict[str, Any]) -> dict[str, Any]:
 
 def workstation_actions_only_view(report: dict[str, Any]) -> dict[str, Any]:
     return {
+        "user_message": report.get("user_message"),
+        "user_status": report.get("user_status"),
         "generatedAt": report.get("generatedAt"),
         "headline": report.get("headline"),
         "status": report.get("status"),
@@ -51,25 +55,14 @@ def workstation_timeline_view(report: dict[str, Any]) -> dict[str, Any]:
 def workstation_monitor_view(report: dict[str, Any]) -> dict[str, Any]:
     return {
         "generatedAt": report.get("generatedAt"),
-        "headline": report.get("headline"),
-        "message": report.get("message"),
+        "shouldNotify": report.get("shouldNotify"),
+        "severity": report.get("severity"),
+        "notificationText": report.get("notificationText"),
+        "user_message": report.get("user_message"),
+        "user_status": report.get("user_status"),
         "status": report.get("status"),
         "reason": report.get("reason"),
-        "digest": report.get("digest"),
-        "shouldNotify": report.get("shouldNotify"),
         "quietHoursSuppressed": report.get("quietHoursSuppressed"),
         "nextCheckAt": report.get("nextCheckAt"),
-        "reminderType": report.get("reminderType"),
-        "currentTask": report.get("currentTask"),
-        "worknetKey": report.get("worknetKey"),
-        "worknetName": report.get("worknetName"),
-        "executionState": report.get("executionState"),
-        "primaryUserAction": report.get("primaryUserAction"),
-        "primaryUserActionCommand": report.get("primaryUserActionCommand"),
-        "activeBackgroundCount": report.get("activeBackgroundCount"),
-        "waitingForConfirmation": report.get("waitingForConfirmation"),
-        "latestSuccess": report.get("latestSuccess"),
-        "latestFailure": report.get("latestFailure"),
-        "stateSummary": report.get("stateSummary"),
-        "supportedAdapters": report.get("supportedAdapters"),
+        "digest": report.get("digest"),
     }

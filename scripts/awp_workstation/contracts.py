@@ -6,6 +6,8 @@ from typing import Any
 
 
 PREFLIGHT_PUBLIC_FIELDS = [
+    "user_message",
+    "user_status",
     "walletReady",
     "registered",
     "agentAddress",
@@ -17,6 +19,8 @@ PREFLIGHT_PUBLIC_FIELDS = [
 ]
 
 CAPABILITY_PUBLIC_FIELDS = [
+    "user_message",
+    "user_status",
     "worknetId",
     "name",
     "symbol",
@@ -32,6 +36,8 @@ CAPABILITY_PUBLIC_FIELDS = [
 ]
 
 PLAYBOOK_PUBLIC_FIELDS = [
+    "user_message",
+    "user_status",
     "goal",
     "role",
     "loop",
@@ -52,6 +58,8 @@ PLAYBOOK_PUBLIC_FIELDS = [
 ]
 
 REVIEW_PUBLIC_FIELDS = [
+    "user_message",
+    "user_status",
     "generatedAt",
     "worknetKey",
     "worknetName",
@@ -155,6 +163,7 @@ START_RESPONSE_FIELDS = [
     "userActionDetails",
     "user_actions",
     "user_message",
+    "user_status",
 ]
 
 RUN_RESPONSE_FIELDS = [
@@ -186,6 +195,8 @@ RUN_RESPONSE_FIELDS = [
     "status",
     "userActionDetails",
     "userMessage",
+    "user_message",
+    "user_status",
     "warnings",
 ]
 
@@ -230,6 +241,8 @@ WORKSTATION_STATUS_INTERNAL_FIELDS = [
     "targetWorknetDisplay",
     "userActionDetails",
     "userActions",
+    "user_message",
+    "user_status",
     "worknetKey",
     "worknetName",
 ]
@@ -514,6 +527,8 @@ RUN_RESPONSE_BRIEFING_FIELDS = [
     "resumeStatusDisplay",
     "userActionDetails",
     "userMessage",
+    "user_message",
+    "user_status",
 ]
 
 RESUME_RECOVERY_BRIEFING_FIELDS = [
@@ -561,6 +576,8 @@ EXECUTED_STEP_STDOUT_DISPLAY_FIELDS = [
 ]
 
 WORKSTATION_STATUS_PUBLIC_FIELDS = [
+    "user_message",
+    "user_status",
     "query",
     "intent",
     "progress",

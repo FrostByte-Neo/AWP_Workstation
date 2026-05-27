@@ -205,7 +205,7 @@ def action_priority_key(
             score = 75
         elif is_source:
             score = 90
-    elif status == "prepared":
+    elif status in {"prepared", "not_started"}:
         if is_continue:
             score = 0
         elif is_restart:
@@ -277,7 +277,7 @@ def action_priority_key(
     elif is_review:
         score = min(score, 30)
     elif is_run_command:
-        score = min(score, 5 if status in {"prepared", "restart_available"} else 15)
+        score = min(score, 5 if status in {"prepared", "not_started", "restart_available"} else 15)
     elif command_text:
         score = min(score, 25)
     return score, lowered

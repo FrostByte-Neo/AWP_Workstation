@@ -416,6 +416,7 @@ from awp_workstation.timeline import (
     timeline_event_from_review_payload,
     timeline_event_from_run_payload,
 )
+from awp_workstation.user_facing import attach_user_fields
 from awp_workstation.workstation_status import build_workstation_status_payload
 from awp_workstation.workstation_state import (
     build_workstation_state_summary_payload,
@@ -1374,6 +1375,19 @@ def resolve_workstation_status_intent(query: Optional[str], explicit_intent: Opt
     text = str(query or "").strip().lower()
     if not text:
         return "status"
+    compact_text = text.replace(" ", "")
+    if compact_text in {"开始工作", "开始", "开工"}:
+        return "continue"
+    if "只跑" in compact_text and "mine" in compact_text:
+        return "switch-worknet"
+    if compact_text in {"暂停", "停一下"}:
+        return "pause"
+    if compact_text in {"继续", "恢复"}:
+        return "continue"
+    if "为什么失败" in compact_text:
+        return "failures"
+    if "今天赚了多少" in compact_text or "赚了多少" in compact_text:
+        return "earnings"
     if any(token in text for token in ("earn", "earning", "reward", "rewards", "payout", "income", "profit")):
         return "earnings"
     if any(token in text for token in ("why failed", "why fail", "failure", "failed", "error", "blocked", "issue")):
@@ -3056,7 +3070,7 @@ def enrich_reports_with_cached_live_worknets(
 
 
 def build_capability_bundle() -> dict[str, Any]:
-    return build_capability_bundle_payload(
+    bundle = build_capability_bundle_payload(
         dependencies={
             "annotate_capability_bundle_payload": annotate_capability_bundle_payload,
             "atomic_write_json": atomic_write_json,
@@ -3078,16 +3092,31 @@ def build_capability_bundle() -> dict[str, Any]:
             "write_reference_export": write_reference_export,
         },
     )
+    if isinstance(bundle.get("reports"), list):
+        bundle["reports"] = [
+            attach_user_fields(item, intent="scan-worknets")
+            for item in bundle["reports"]
+            if isinstance(item, dict)
+        ]
+    return attach_user_fields(bundle, intent="scan-worknets")
 
 
 def load_cached_capability_bundle(state: dict[str, Any]) -> Optional[dict[str, Any]]:
-    return load_cached_capability_bundle_payload(
+    bundle = load_cached_capability_bundle_payload(
         state,
         dependencies={
             "annotate_capability_bundle_payload": annotate_capability_bundle_payload,
             "load_json": load_json,
         },
     )
+    if isinstance(bundle, dict) and isinstance(bundle.get("reports"), list):
+        bundle["reports"] = [
+            attach_user_fields(item, intent="scan-worknets")
+            for item in bundle["reports"]
+            if isinstance(item, dict)
+        ]
+        return attach_user_fields(bundle, intent="scan-worknets")
+    return bundle
 
 
 def probe_registration(bundle: dict[str, Any], agent_address: Optional[str]) -> tuple[Optional[bool], Optional[str], list[str]]:
@@ -3173,7 +3202,7 @@ def load_cached_live_worknets(state: dict[str, Any]) -> Optional[dict[str, Any]]
 
 
 def build_preflight_report() -> dict[str, Any]:
-    return build_preflight_report_payload(
+    report = attach_user_fields(build_preflight_report_payload(
         dependencies={
             "atomic_write_json": atomic_write_json,
             "awp_wallet_snapshot": awp_wallet_snapshot,
@@ -3193,7 +3222,9 @@ def build_preflight_report() -> dict[str, Any]:
             "state_context": state_context,
             "summarize_knowledge_review_queue": summarize_knowledge_review_queue,
         },
-    )
+    ), intent="preflight")
+    atomic_write_json(Path(state_context()["cache"]) / "preflight.json", report)
+    return report
 
 
 def build_start_response_from_preflight(
@@ -3204,7 +3235,7 @@ def build_start_response_from_preflight(
     cached_bundle: Optional[dict[str, Any]] = None,
     persist: bool = False,
 ) -> dict[str, Any]:
-    return build_start_response_from_preflight_payload(
+    return attach_user_fields(build_start_response_from_preflight_payload(
         preflight,
         state=state,
         knowledge_catalog=knowledge_catalog,
@@ -3252,7 +3283,7 @@ def build_start_response_from_preflight(
             "workstation_pause_command": workstation_pause_command,
             "workstation_status_command": workstation_status_command,
         },
-    )
+    ), intent="start")
 
 
 def build_start_response() -> dict[str, Any]:
@@ -3267,6 +3298,7 @@ def build_start_response() -> dict[str, Any]:
         cached_bundle=cached_bundle,
         persist=True,
     )
+    atomic_write_json(Path(state["cache"]) / "start-response.json", payload)
     latest_run = load_json(Path(state["runs"]) / "latest-run.json", {})
     latest_review = load_json(Path(state["reviews"]) / "latest-review.json", {})
     pending_queue = load_json(Path(state["runs"]) / "pending-confirmations.json", [])
@@ -3301,7 +3333,7 @@ def build_start_response() -> dict[str, Any]:
 
 
 def build_work_playbook(worknet_identifier: str) -> dict[str, Any]:
-    return build_work_playbook_payload(
+    return attach_user_fields(build_work_playbook_payload(
         worknet_identifier,
         dependencies={
             "annotate_execution_actions": annotate_execution_actions,
@@ -3345,7 +3377,7 @@ def build_work_playbook(worknet_identifier: str) -> dict[str, Any]:
             "skill_registry_from_inventory": skill_registry_from_inventory,
             "state_context": state_context,
         },
-    )
+    ), intent="build-playbook")
 
 
 def load_playbook(
@@ -3939,7 +3971,7 @@ def finalize_run_response_payload(
         preferences=preferences,
         recovery=recovery,
     )
-    return {
+    payload = {
         **response,
         "headline": briefing.get("headline"),
         "userMessage": briefing.get("userMessage"),
@@ -3957,6 +3989,7 @@ def finalize_run_response_payload(
         "userActionDetails": briefing.get("userActionDetails"),
         "recoveryDecision": humanize_public_recovery_decision(briefing.get("recoveryDecision")),
     }
+    return attach_user_fields(payload, intent="run")
 
 
 def enrich_run_record_for_persistence(run_record: dict[str, Any], final_payload: dict[str, Any]) -> dict[str, Any]:
@@ -4088,7 +4121,7 @@ def build_epoch_review_from_run(
     state: Optional[dict[str, Any]] = None,
     knowledge_catalog: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
-    return build_epoch_review_from_run_payload(
+    return attach_user_fields(build_epoch_review_from_run_payload(
         latest_run,
         pending_queue,
         state=state,
@@ -4140,7 +4173,7 @@ def build_epoch_review_from_run(
             "workstation_follow_up_command": workstation_follow_up_command,
             "workstation_pause_command": workstation_pause_command,
         },
-    )
+    ), intent="review")
 
 
 def build_epoch_review() -> dict[str, Any]:
@@ -4214,7 +4247,7 @@ def build_workstation_monitor(
     read_only: bool = False,
     timeline_limit: int = 12,
 ) -> dict[str, Any]:
-    report = build_workstation_monitor_payload(
+    report = attach_user_fields(build_workstation_monitor_payload(
         read_only=read_only,
         timeline_limit=timeline_limit,
         dependencies={
@@ -4236,7 +4269,7 @@ def build_workstation_monitor(
             "state_context": state_context,
             "summarize_background_record": summarize_background_record,
         },
-    )
+    ), intent="monitor")
     if not read_only and isinstance(report.get("stateSummary"), dict):
         persist_workstation_state_summary(report["stateSummary"])
     return report
@@ -4368,7 +4401,7 @@ def build_workstation_status(
     source_identifier: Optional[str] = None,
     read_only: bool = False,
 ) -> dict[str, Any]:
-    report = build_workstation_status_payload(
+    raw_report = build_workstation_status_payload(
         query=query,
         intent=intent,
         worknet_identifier=worknet_identifier,
@@ -4447,6 +4480,7 @@ def build_workstation_status(
             "workstation_preflight_command": workstation_preflight_command,
         },
     )
+    report = attach_user_fields(raw_report, intent=str(raw_report.get("intent") or "status"))
     if not read_only and isinstance(report.get("stateSummary"), dict):
         persist_workstation_state_summary(report["stateSummary"])
     return report

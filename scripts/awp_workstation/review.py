@@ -309,9 +309,14 @@ def review_line_detail(text: Any) -> str:
 def review_all_steps_prepared(work_done: list[str]) -> bool:
     if not work_done:
         return False
-    markers = ("prepared", "planned", "ready")
-    details = [review_line_detail(item) for item in work_done if str(item).strip()]
-    return bool(details) and all(any(marker in detail for marker in markers) for detail in details)
+    ready_markers = ("ready", "completed", "background task started", "running")
+    blocker_markers = ("planned", "manual action", "waiting", "needs")
+    details = [review_line_detail(item).lower() for item in work_done if str(item).strip()]
+    return bool(details) and all(
+        any(marker in detail for marker in ready_markers)
+        and not any(marker in detail for marker in blocker_markers)
+        for detail in details
+    )
 
 
 def build_review_headline(
@@ -328,14 +333,14 @@ def build_review_headline(
         ):
             return "Mine is waiting for dataset selection."
         if review_all_steps_prepared(work_done):
-            return "Mine is prepared."
+            return "Mine is ready to start."
         if work_done:
             return "Mine made progress."
     if worknet_key == "gov":
         if failures and any("awp power" in item.lower() for item in failures):
             return "Gov needs AWP Power before signed actions."
         if review_all_steps_prepared(work_done):
-            return "Gov is prepared."
+            return "Gov checks are ready."
         if work_done:
             return "Gov made progress."
     if worknet_key == "predict":
@@ -346,7 +351,7 @@ def build_review_headline(
         ):
             return "Predict needs stake or eligibility review."
         if review_all_steps_prepared(work_done):
-            return "Predict is prepared."
+            return "Predict checks are ready."
         if strategy_changes and any("restart" in item.lower() for item in strategy_changes):
             return "Predict loop may need restart."
         if work_done:
@@ -359,7 +364,7 @@ def build_review_headline(
         ):
             return "Ardi needs gas or stake review."
         if review_all_steps_prepared(work_done):
-            return "Ardi is prepared."
+            return "Ardi checks are ready."
         if work_done:
             return "Ardi made progress."
     if failures:
@@ -386,7 +391,7 @@ def review_status_code(
     if failures:
         return "blocked"
     if review_all_steps_prepared(work_done):
-        return "prepared"
+        return "ready"
     if work_done:
         return "progressed"
     return "idle"
@@ -749,21 +754,21 @@ def build_epoch_review_from_run_payload(
     if has_confirmation_actions:
         append_unique_text(strategy_changes, "Pending confirmations require manual review before execution.")
         append_unique_text(strategy_changes, review_runtime_safety_hint(worknet_key))
-    prepared_scene = (
+    ready_scene = (
         bool(worknet_key)
         and review_all_steps_prepared(work_done)
         and not failures
         and not has_confirmation_actions
         and not user_actions
     )
-    if prepared_scene:
+    if ready_scene:
         worknet_name = str(playbook.get("requiredSkill") or worknet_key or "WorkNet").strip()
         continue_label = f"Start {worknet_name}"
         append_unique_text(user_actions, continue_label)
         append_unique_action_detail(
             user_action_details,
             label=continue_label,
-            description="Start the prepared WorkNet route.",
+            description="Start the selected WorkNet route.",
             command=run_worknet_command(worknet_key, execute=True, auto_advance=True),
         )
     if isinstance(knowledge_context, dict) and str(knowledge_context.get("freshnessStatus") or "") == "affected":

@@ -155,8 +155,8 @@ def derive_capability_execution_state(report: Any) -> dict[str, Any]:
         execution_state = "manual_review"
         headline = f"{name} needs manual review before execution."
     elif runnable:
-        execution_state = "prepared"
-        headline = f"{name} is prepared."
+        execution_state = "not_started"
+        headline = f"{name} is available but still needs runtime confirmation before execution."
     else:
         execution_state = "needs_runtime_setup"
         headline = f"{name} needs runtime setup."

@@ -35,6 +35,19 @@ CRITICAL_ALWAYS_NOTIFY_STATUSES = {
     "awaiting_dataset",
 }
 
+INFO_NOTIFICATION_STATUSES = {
+    "background_completed",
+    "ready_to_start",
+}
+
+SEVERITY_BY_REMINDER_TYPE = {
+    "alert": "error",
+    "action_required": "warning",
+    "attention": "warning",
+    "running": "info",
+    "info": "info",
+}
+
 
 def _monitor_cache_path(state: dict[str, Any]) -> Path:
     return Path(state["cache"]) / "workstation-monitor.json"
@@ -495,9 +508,18 @@ def build_workstation_monitor_payload(
                     or _cooldown_elapsed(last_delivered_at, parse_iso_datetime=parse_iso_datetime, cooldown_minutes=cooldown_minutes)
                 )
         elif payload["reminderType"] == "info":
-            if bool(preferences.get("remindOnEarningsChange", True)):
+            if (
+                str(payload.get("status") or "").strip() in INFO_NOTIFICATION_STATUSES
+                and bool(preferences.get("remindOnEarningsChange", True))
+            ):
                 should_notify = payload["digest"] != last_delivered_digest
     payload["shouldNotify"] = should_notify
+    payload["severity"] = SEVERITY_BY_REMINDER_TYPE.get(str(payload.get("reminderType") or ""), "info")
+    payload["notificationText"] = (
+        str(payload.get("message") or payload.get("headline") or "Workstation status changed.").strip()
+        if should_notify
+        else None
+    )
     if isinstance(payload.get("stateSummary"), dict):
         payload["stateSummary"]["needsReminder"] = should_notify
         payload["stateSummary"]["reminderType"] = payload.get("reminderType")
@@ -530,5 +552,6 @@ def record_workstation_monitor_delivery_payload(
     updated["lastDeliveredAt"] = now_iso()
     updated["deliveryCount"] = int(updated.get("deliveryCount") or 0) + 1
     updated["shouldNotify"] = False
+    updated["notificationText"] = None
     atomic_write_json(_monitor_cache_path(state), updated)
     return updated
